@@ -1,5 +1,18 @@
 package top.starrysea.service;
 
-public interface IActivityService {
+import top.starrysea.common.Condition;
+import top.starrysea.common.ServiceResult;
+import top.starrysea.entity.Activity;
 
+public interface IActivityService {
+	ServiceResult queryAllActivityService(Condition condition,Activity activity);
+	
+	ServiceResult queryActivityService(Activity activity);
+
+	ServiceResult addActivityService(Activity activity);
+	
+	ServiceResult modifyActivityService(Activity activity);
+	
+	ServiceResult removeActivityService(Activity activity);
+	
 }

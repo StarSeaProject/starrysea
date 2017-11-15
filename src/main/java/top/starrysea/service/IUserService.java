@@ -1,5 +1,8 @@
 package top.starrysea.service;
 
-public interface IUserService {
+import top.starrysea.common.ServiceResult;
+import top.starrysea.entity.Admin;
 
+public interface IUserService {
+	ServiceResult loginService(Admin admin);
 }

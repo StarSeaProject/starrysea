@@ -23,7 +23,7 @@ public class Common {
 	private static SimpleDateFormat timeSdf = new SimpleDateFormat(
 			"yyyy-MM-dd HH:mm:ss");
 
-	//私有构造器防止外部创建新的Util对象
+	//绉佹湁鏋勯�犲櫒闃叉澶栭儴鍒涘缓鏂扮殑Util瀵硅薄
 	private Common(){}
 	
 	public static String toJson(Object target) {
