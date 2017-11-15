@@ -16,7 +16,7 @@ public class WorkDaoImpl implements IWorkDao {
 
 	@Override
 	//查询所有作品的数量，用于分页
-	public DaoResult getCountWorkDao(Condition condition, Work work) {
+	public DaoResult getWorkCountDao(Condition condition, Work work) {
 		// TODO 自动生成的方法存根
 		return null;
 	}

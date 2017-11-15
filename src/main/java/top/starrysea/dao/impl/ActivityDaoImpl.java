@@ -30,7 +30,7 @@ public class ActivityDaoImpl implements IActivityDao {
 
 	@Override
 	//添加一个众筹活动
-	public DaoResult addActivityDao(Activity activity) {
+	public DaoResult saveActivityDao(Activity activity) {
 		// TODO 自动生成的方法存根
 		return null;
 	}

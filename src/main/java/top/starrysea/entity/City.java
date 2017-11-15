@@ -1,16 +1,17 @@
 package top.starrysea.entity;
 
 public class City extends Entity {
+	
 	private Integer cityId;
-	private Province provinceId;
+	private Province province;
 	private String cityName;
 	
 	public City() {
 	}
 
-	public City(Integer cityId, Province provinceId, String cityName) {
+	public City(Integer cityId, Province province, String cityName) {
 		this.cityId = cityId;
-		this.provinceId = provinceId;
+		this.province = province;
 		this.cityName = cityName;
 	}
 
@@ -23,11 +24,11 @@ public class City extends Entity {
 	}
 
 	public Province getProvinceId() {
-		return provinceId;
+		return province;
 	}
 
-	public void setProvinceId(Province provinceId) {
-		this.provinceId = provinceId;
+	public void setProvinceId(Province province) {
+		this.province = province;
 	}
 
 	public String getCityName() {
@@ -37,6 +38,5 @@ public class City extends Entity {
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
 	}
-	
 	
 }

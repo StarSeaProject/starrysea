@@ -1,6 +1,7 @@
 package top.starrysea.entity;
 
 public class Admin extends Entity {
+	
 	private Integer adminId;
 	private String adminUsername;
 	private String adminPassword;

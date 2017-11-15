@@ -1,16 +1,17 @@
 package top.starrysea.entity;
 
 public class Area extends Entity {
+
 	private Integer areaId;
-	private City cityId;
+	private City city;
 	private String areaName;
-	
+
 	public Area() {
 	}
 
-	public Area(Integer areaId, City cityId, String areaName) {
-		this.areaId = areaId;
-		this.cityId = cityId;
+	public Area(Integer area, City city, String areaName) {
+		this.areaId = area;
+		this.city = city;
 		this.areaName = areaName;
 	}
 
@@ -22,12 +23,12 @@ public class Area extends Entity {
 		this.areaId = areaId;
 	}
 
-	public City getCityId() {
-		return cityId;
+	public City getCity() {
+		return city;
 	}
 
-	public void setCityId(City cityId) {
-		this.cityId = cityId;
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 	public String getAreaName() {
@@ -37,6 +38,5 @@ public class Area extends Entity {
 	public void setAreaName(String areaName) {
 		this.areaName = areaName;
 	}
-	
-	
+
 }

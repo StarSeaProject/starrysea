@@ -1,7 +1,5 @@
 package top.starrysea.service.impl;
 
-import org.springframework.ui.Model;
-
 import top.starrysea.common.ServiceResult;
 import top.starrysea.entity.Order;
 import top.starrysea.service.IOrderService;
@@ -10,7 +8,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	//根据订单号查询一个订单的具体信息以及发货情况
-	public Model getOrderService(Order order) {
+	public ServiceResult getOrderService(Order order) {
 		// TODO 自动生成的方法存根
 		return null;
 	}

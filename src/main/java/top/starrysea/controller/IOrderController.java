@@ -8,8 +8,8 @@ public interface IOrderController {
 	Model getOrderController(Order order);
 
 	Model addOrderController(Order order);
-	
+
 	Model modifyOrderController(Order order);
-	
+
 	Model removeOrderController(Order order);
 }

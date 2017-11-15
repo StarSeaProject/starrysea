@@ -7,5 +7,5 @@ import org.springframework.ui.Model;
 import top.starrysea.entity.Admin;
 
 public interface IUserController {
-	Model loginController(Session sesson,Admin admin);
+	Model loginController(Session sesson, Admin admin);
 }

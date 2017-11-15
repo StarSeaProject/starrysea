@@ -7,7 +7,7 @@ import top.starrysea.entity.Admin;
 public class AdminDaoImpl implements IAdminDao {
 
 	@Override
-	//管理员登陆
+	// 管理员登陆
 	public DaoResult loginDao(Admin admin) {
 		// TODO 自动生成的方法存根
 		return null;

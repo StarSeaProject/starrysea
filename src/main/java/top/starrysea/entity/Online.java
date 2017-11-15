@@ -1,6 +1,7 @@
 package top.starrysea.entity;
 
 public class Online extends Entity {
+	
 	private String onlineId;
 	private String onlineEmail;
 	

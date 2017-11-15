@@ -1,33 +1,42 @@
 package top.starrysea.entity;
 
 public class WorkImage extends Entity {
+	
 	private Integer workImageId;
-	private Work workId;
+	private Work work;
 	private String workImagePath;
+
 	public WorkImage() {
 	}
-	public WorkImage(Integer workImageId, Work workId, String workImagePath) {
+
+	public WorkImage(Integer workImageId, Work work, String workImagePath) {
 		this.workImageId = workImageId;
-		this.workId = workId;
+		this.work = work;
 		this.workImagePath = workImagePath;
 	}
+
 	public Integer getWorkImageId() {
 		return workImageId;
 	}
+
 	public void setWorkImageId(Integer workImageId) {
 		this.workImageId = workImageId;
 	}
-	public Work getWorkId() {
-		return workId;
+
+	public Work getWork() {
+		return work;
 	}
-	public void setWorkId(Work workId) {
-		this.workId = workId;
+
+	public void setWork(Work work) {
+		this.work = work;
 	}
+
 	public String getWorkImagePath() {
 		return workImagePath;
 	}
+
 	public void setWorkImagePath(String workImagePath) {
 		this.workImagePath = workImagePath;
 	}
-	
+
 }

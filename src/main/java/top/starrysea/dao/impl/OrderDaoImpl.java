@@ -1,7 +1,5 @@
 package top.starrysea.dao.impl;
 
-import org.springframework.ui.Model;
-
 import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.entity.Order;
@@ -9,7 +7,7 @@ import top.starrysea.entity.Order;
 public class OrderDaoImpl implements IOrderDao{
 	@Override
 	//根据订单号查询一个订单
-	public Model getOrderDao(Order order) {
+	public DaoResult getOrderDao(Order order) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
@@ -34,8 +32,5 @@ public class OrderDaoImpl implements IOrderDao{
 		// TODO 自动生成的方法存根
 		return null;
 	}
-
-
-
 
 }

@@ -7,7 +7,7 @@ import top.starrysea.entity.Work;
 public interface IWorkDao {
 	DaoResult getAllWorkDao(Condition condition,Work work);
 	
-	DaoResult getCountWorkDao(Condition condition,Work work);
+	DaoResult getWorkCountDao(Condition condition,Work work);
 	
 	DaoResult getWorkDao(Work work);
 	
