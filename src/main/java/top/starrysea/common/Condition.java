@@ -3,8 +3,6 @@ package top.starrysea.common;
 public class Condition {
 
 	private Integer page;
-	private Integer pageStart;
-	private Integer pageLimit;
 	private String timeStart;
 	private String timeEnd;
 	private String tokenString;
@@ -12,25 +10,12 @@ public class Condition {
 	private String orderDir;
 	private String extraInfo;
 
-	public Integer getPageStart() {
-		return pageStart;
-	}
-
 	public Integer getPage() {
 		return page;
 	}
 
 	public void setPage(Integer page) {
 		this.page = page;
-	}
-
-	public Integer getPageLimit() {
-		return pageLimit;
-	}
-
-	public void setPageLimit(Integer pageLimit) {
-		this.pageLimit = pageLimit;
-		this.pageStart = (page - 1) * this.pageLimit;
 	}
 
 	public String getTimeStart() {
