@@ -2,51 +2,100 @@ package top.starrysea.dao.impl;
 
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
+import top.starrysea.common.SqlWithParams;
 import top.starrysea.dao.IWorkDao;
 import top.starrysea.entity.Work;
 
+import static top.starrysea.common.Common.*;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+@Repository("workDao")
 public class WorkDaoImpl implements IWorkDao {
 
+	@Autowired
+	private JdbcTemplate template;
+	// 作品每页显示条数
+	private final static int PAGE_LIMIT = 10;
+
 	@Override
-	//查询所有作品
+	// 查询所有作品
 	public DaoResult getAllWorkDao(Condition condition, Work work) {
-		// TODO 自动生成的方法存根
-		return null;
+		SqlWithParams sqlWithParams = getTheSqlForGetAll(work);
+		String sql = "SELECT work_id,work_name " + "FROM work " + sqlWithParams.getWhere() + "ORDER BY work_uploadtime "
+				+ "LIMIT " + (condition.getPage() - 1) * PAGE_LIMIT + "," + (condition.getPage() * PAGE_LIMIT - 1);
+		Object[] params = sqlWithParams.getParams();
+		List<Work> theResult = template.query(sql, params,
+				(rs, row) -> new Work.Builder().workId(rs.getInt("work_id")).workName("work_name").build());
+		return new DaoResult(true, theResult);
+	}
+
+	private SqlWithParams getTheSqlForGetAll(Work work) {
+		StringBuilder whereBuffer = new StringBuilder();
+		int insertIndex;
+		Object[] preParams = new Object[1];
+		int paramsIndex = 0;
+		whereBuffer.append("WHERE 1=1 ");
+
+		if (isNotNull(work.getWorkName())) {
+			insertIndex = whereBuffer.indexOf("WHERE") + 5;
+			whereBuffer.insert(insertIndex, " work_name LIKE ? AND ");
+			preParams[paramsIndex] = "%" + work.getWorkName() + "%";
+			paramsIndex++;
+		}
+
+		Object[] params = new Object[paramsIndex];
+		System.arraycopy(preParams, 0, params, 0, paramsIndex);
+		return new SqlWithParams(whereBuffer.toString(), params);
 	}
 
 	@Override
-	//查询所有作品的数量，用于分页
+	// 查询所有作品的数量，用于分页
 	public DaoResult getWorkCountDao(Condition condition, Work work) {
-		// TODO 自动生成的方法存根
-		return null;
+		SqlWithParams sqlWithParams = getTheSqlForGetAll(work);
+		String sql = "SELECT COUNT(*) " + "FROM work " + sqlWithParams.getWhere();
+		Object[] params = sqlWithParams.getParams();
+		Integer theResult = template.queryForObject(sql, params, Integer.class);
+		return new DaoResult(true, theResult);
 	}
 
 	@Override
-	//查询一个作品的详情页
+	// 查询一个作品的详情页
 	public DaoResult getWorkDao(Work work) {
-		// TODO 自动生成的方法存根
-		return null;
+		String sql = "SELECT work_name,work_uploadtime,work_pdfpath " + "FROM work " + "WHERE work_id = ?";
+		Work theResult = template.queryForObject(sql, new Object[] { work.getWorkId() },
+				(rs, row) -> new Work.Builder().workName(rs.getString("work_name"))
+						.workUploadTime(date2String(rs.getDate("work_uploadtime")))
+						.workPdfpath(rs.getString("work_pdfpath")).build());
+		return new DaoResult(true, theResult);
 	}
 
 	@Override
-	//添加一个作品
+	// 添加一个作品
 	public DaoResult saveWorkDao(Work work) {
-		// TODO 自动生成的方法存根
-		return null;
+		String sql = "INSERT INTO work(work_name,work_uploadtime,work_pdfpath,work_stock) " + "VALUES(?,?,?,?)";
+		template.update(sql, work.getWorkName(), work.getWorkUploadTime(), work.getWorkPdfpath(), work.getWorkStock());
+		return new DaoResult(true, null);
 	}
 
 	@Override
-	//管理员删除一个作品
+	// 管理员删除一个作品
 	public DaoResult deleteWorkDao(Work work) {
-		// TODO 自动生成的方法存根
-		return null;
+		String sql = "DELETE FROM work " + "WHERE work_id = ?";
+		template.update(sql, work.getWorkId());
+		return new DaoResult(true, null);
 	}
 
 	@Override
-	//减少一个作品的库存
-	public DaoResult updateWorkStockDao(int stock) {
-		// TODO 自动生成的方法存根
-		return null;
+	// 减少一个作品的库存
+	public DaoResult updateWorkStockDao(Work work) {
+		String sql = "UPDATE work " + "SET work_stock = work_stock - ? " + "WHERE work_id = ?";
+		template.update(sql, work.getWorkStock(), work.getWorkId());
+		return new DaoResult(true, null);
 	}
 
 }

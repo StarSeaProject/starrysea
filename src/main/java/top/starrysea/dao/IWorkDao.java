@@ -13,7 +13,7 @@ public interface IWorkDao {
 	
 	DaoResult saveWorkDao(Work work);
 	
-	DaoResult updateWorkStockDao(int stock);
+	DaoResult updateWorkStockDao(Work work);
 	
 	DaoResult deleteWorkDao(Work work);
 	

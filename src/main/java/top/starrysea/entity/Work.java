@@ -8,16 +8,55 @@ public class Work extends Entity {
 	private String workPdfpath;
 	private Integer workStock;
 
-	public Work() {
+	private Work(Builder builder) {
+		this.workId = builder.workId;
+		this.workName = builder.workName;
+		this.workUploadTime = builder.workUploadTime;
+		this.workPdfpath = builder.workPdfpath;
+		this.workStock = builder.workStock;
 	}
 
-	public Work(Integer workId, String workName, String workUploadTime, String workPdfpath, Integer workStock) {
-		super();
-		this.workId = workId;
-		this.workName = workName;
-		this.workUploadTime = workUploadTime;
-		this.workPdfpath = workPdfpath;
-		this.workStock = workStock;
+	public static class Builder implements IBuilder<Work> {
+
+		private Integer workId;
+		private String workName;
+		private String workUploadTime;
+		private String workPdfpath;
+		private Integer workStock;
+
+		public Builder() {
+		}
+
+		public Builder workId(Integer workId) {
+			this.workId = workId;
+			return this;
+		}
+
+		public Builder workName(String workName) {
+			this.workName = workName;
+			return this;
+		}
+
+		public Builder workUploadTime(String workUploadTime) {
+			this.workUploadTime = workUploadTime;
+			return this;
+		}
+
+		public Builder workPdfpath(String workPdfpath) {
+			this.workPdfpath = workPdfpath;
+			return this;
+		}
+
+		public Builder workStock(Integer workStock) {
+			this.workStock = workStock;
+			return this;
+		}
+
+		@Override
+		public Work build() {
+			return new Work(this);
+		}
+
 	}
 
 	public Integer getWorkId() {
