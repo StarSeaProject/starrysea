@@ -1,5 +1,6 @@
 package top.starrysea.service.impl;
 
+import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.entity.Orders;
 import top.starrysea.service.IOrderService;
@@ -31,6 +32,12 @@ public class OrderServiceImpl implements IOrderService {
 	//删除一个订单
 	public ServiceResult removeOrderService(Orders order) {
 		// TODO 自动生成的方法存根
+		return null;
+	}
+
+	@Override
+	public ServiceResult getAllOrderService(Condition condition, Orders order) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

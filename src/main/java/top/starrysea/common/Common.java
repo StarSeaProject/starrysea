@@ -98,6 +98,18 @@ public class Common {
 				result = true;
 			else
 				result = false;
+		} else if(object instanceof Integer) {
+			int num=(int) object;
+			if(num==0)
+				result=false;
+			else
+				result=true;
+		} else if(object instanceof Short) {
+			short num=(short) object;
+			if(num==0)
+				result=false;
+			else
+				result=true;
 		}
 		return result;
 	}

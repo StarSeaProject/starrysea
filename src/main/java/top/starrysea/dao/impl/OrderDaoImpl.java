@@ -5,18 +5,26 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import top.starrysea.common.Common;
+import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
+import top.starrysea.common.SqlWithParams;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.entity.Area;
 import top.starrysea.entity.City;
 import top.starrysea.entity.Orders;
 import top.starrysea.entity.Province;
 
+import static top.starrysea.common.Common.*;
+
+import java.util.List;
+
 @Repository("orderDao")
 public class OrderDaoImpl implements IOrderDao {
 
 	@Autowired
 	private JdbcTemplate template;
+	// 订单每页显示条数
+	private final static int PAGE_LIMIT = 10;
 
 	@Override
 	// 根据订单号查询一个订单
@@ -39,10 +47,10 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	// 对一个作品进行下单
 	public DaoResult saveOrderDao(Orders order) {
-		String sql = "INSERT INTO orders(order_id,order_num,order_name,order_area,order_address,order_status) "
-				+ "VALUES(?,?,?,?,?,?)";
+		String sql = "INSERT INTO orders(order_id,order_num,order_name,order_area,order_address,order_status,order_time) "
+				+ "VALUES(?,?,?,?,?,?,?)";
 		template.update(sql, Common.getCharId("O-", 10), Common.getCharId(30), order.getOrderName(),
-				order.getOrderArea().getAreaId(), order.getOrderAddress(), 1);
+				order.getOrderArea().getAreaId(), order.getOrderAddress(), 1, System.currentTimeMillis());
 		return new DaoResult(true, null);
 	}
 
@@ -66,6 +74,54 @@ public class OrderDaoImpl implements IOrderDao {
 		String sql = "DELETE FROM orders " + "WHERE order_id = ?";
 		template.update(sql, order.getOrderId());
 		return new DaoResult(true, null);
+	}
+
+	@Override
+	public DaoResult getAllOrderDao(Condition condition, Orders order) {
+		SqlWithParams sqlWithParams = getTheSqlForGetAll(order);
+		String sql = "SELECT order_id,order_num,order_name,order_status,order_time " + "FROM orders "
+				+ sqlWithParams.getWhere() + "ORDER BY order_time DESC " + "LIMIT "
+				+ (condition.getPage() - 1) * PAGE_LIMIT + "," + (condition.getPage() * PAGE_LIMIT - 1);
+		List<Orders> theResult = template.query(sql, sqlWithParams.getParams(),
+				(rs, row) -> new Orders.Builder().orderId(rs.getString("order_id")).orderNum(rs.getString("order_num"))
+						.orderName(rs.getString("order_name")).orderStatus(rs.getShort("order_status"))
+						.orderTime(rs.getLong("order_time")).build());
+		return new DaoResult(true, theResult);
+	}
+
+	private SqlWithParams getTheSqlForGetAll(Orders order) {
+		StringBuilder whereBuffer = new StringBuilder();
+		int insertIndex;
+		Object[] preParams = new Object[1];
+		int paramsIndex = 0;
+		whereBuffer.append("WHERE 1=1 ");
+
+		if (isNotNull(order.getOrderNum())) {
+			insertIndex = whereBuffer.indexOf("WHERE") + 5;
+			whereBuffer.insert(insertIndex, " order_num LIKE ? AND ");
+			preParams[paramsIndex] = "%" + order.getOrderNum() + "%";
+			paramsIndex++;
+		}
+
+		if (isNotNull(order.getOrderStatus())) {
+			insertIndex = whereBuffer.indexOf("WHERE") + 5;
+			whereBuffer.insert(insertIndex, " order_status = ? AND ");
+			preParams[paramsIndex] = order.getOrderStatus();
+			paramsIndex++;
+		}
+
+		Object[] params = new Object[paramsIndex];
+		System.arraycopy(preParams, 0, params, 0, paramsIndex);
+		return new SqlWithParams(whereBuffer.toString(), params);
+	}
+
+	@Override
+	public DaoResult getOrderCountDao(Condition condition, Orders order) {
+		SqlWithParams sqlWithParams = getTheSqlForGetAll(order);
+		String sql = "SELECT COUNT(*) " + "FROM orders " + sqlWithParams.getWhere();
+		Object[] params = sqlWithParams.getParams();
+		Integer theResult = template.queryForObject(sql, params, Integer.class);
+		return new DaoResult(true, theResult);
 	}
 
 }

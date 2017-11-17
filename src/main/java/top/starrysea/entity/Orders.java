@@ -9,6 +9,7 @@ public class Orders extends Entity {
 	private String orderAddress;
 	private short orderStatus;
 	private String orderExpressnum;
+	private long orderTime;
 
 	private Orders(Builder builder) {
 		this.orderId = builder.orderId;
@@ -18,6 +19,7 @@ public class Orders extends Entity {
 		this.orderAddress = builder.orderAddress;
 		this.orderStatus = builder.orderStatus;
 		this.orderExpressnum = builder.orderExpressnum;
+		this.orderTime=builder.orderTime;
 	}
 
 	public static class Builder implements IBuilder<Orders> {
@@ -29,6 +31,7 @@ public class Orders extends Entity {
 		private String orderAddress;
 		private short orderStatus;
 		private String orderExpressnum;
+		private long orderTime;
 
 		public Builder orderId(String orderId) {
 			this.orderId = orderId;
@@ -62,6 +65,11 @@ public class Orders extends Entity {
 
 		public Builder orderExpressnum(String orderExpressnum) {
 			this.orderExpressnum = orderExpressnum;
+			return this;
+		}
+		
+		public Builder orderTime(long orderTime) {
+			this.orderTime=orderTime;
 			return this;
 		}
 

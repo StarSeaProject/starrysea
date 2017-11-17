@@ -2,6 +2,7 @@ package top.starrysea.controller.impl;
 
 import org.springframework.ui.Model;
 
+import top.starrysea.common.Condition;
 import top.starrysea.controller.IOrderController;
 import top.starrysea.entity.Orders;
 
@@ -32,6 +33,12 @@ public class OrderControllerImpl implements IOrderController {
 	// 删除一个订单
 	public Model removeOrderController(Orders order) {
 		// TODO 自动生成的方法存根
+		return null;
+	}
+
+	@Override
+	public Model getAllOrderController(Condition condition, Orders order) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

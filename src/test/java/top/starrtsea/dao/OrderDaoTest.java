@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import top.starrysea.StarrtseaApplication;
+import top.starrysea.common.Condition;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.entity.Area;
 import top.starrysea.entity.Orders;
@@ -37,5 +38,19 @@ public class OrderDaoTest {
 	@Test
 	public void deleteOrderDao() {
 		orderDao.deleteOrderDao(new Orders.Builder().orderId("O-b70AiZDc").build());
+	}
+	
+	@Test
+	public void getAllOrderDao() {
+		Condition condition=new Condition();
+		condition.setPage(1);
+		System.out.println(orderDao.getAllOrderDao(condition, new Orders.Builder().orderStatus((short)1).build()).getResult());
+	}
+	
+	@Test
+	public void getOrderCountDao() {
+		Condition condition=new Condition();
+		condition.setPage(1);
+		System.out.println(orderDao.getOrderCountDao(condition, new Orders.Builder().orderStatus((short)1).build()).getResult());
 	}
 }
