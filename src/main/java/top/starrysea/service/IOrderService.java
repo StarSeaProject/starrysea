@@ -1,14 +1,14 @@
 package top.starrysea.service;
 
 import top.starrysea.common.ServiceResult;
-import top.starrysea.entity.Order;
+import top.starrysea.entity.Orders;
 
 public interface IOrderService {
-	ServiceResult getOrderService(Order order);
+	ServiceResult getOrderService(Orders order);
 
-	ServiceResult addOrderService(Order order);
+	ServiceResult addOrderService(Orders order);
 
-	ServiceResult modifyOrderService(Order order);
+	ServiceResult modifyOrderService(Orders order);
 
-	ServiceResult removeOrderService(Order order);
+	ServiceResult removeOrderService(Orders order);
 }

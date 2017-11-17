@@ -1,15 +1,15 @@
 package top.starrysea.dao;
 
 import top.starrysea.common.DaoResult;
-import top.starrysea.entity.Order;
+import top.starrysea.entity.Orders;
 
 public interface IOrderDao {
-	DaoResult getOrderDao(Order order);
+	DaoResult getOrderDao(Orders order);
 
-	DaoResult addOrderDao(Order order);
+	DaoResult saveOrderDao(Orders order);
 
-	DaoResult modifyOrderDao(Order order);
+	DaoResult updateOrderDao(Orders order);
 
-	DaoResult removeOrderDao(Order order);
+	DaoResult deleteOrderDao(Orders order);
 
 }
