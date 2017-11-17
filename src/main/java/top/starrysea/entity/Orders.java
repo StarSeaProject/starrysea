@@ -136,4 +136,12 @@ public class Orders extends Entity {
 		this.orderExpressnum = orderExpressnum;
 	}
 
+	public long getOrderTime() {
+		return orderTime;
+	}
+
+	public void setOrderTime(long orderTime) {
+		this.orderTime = orderTime;
+	}
+
 }
