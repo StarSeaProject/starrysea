@@ -40,7 +40,7 @@ public class WorkDaoTest {
 
 	@Test
 	public void saveWorkDao() {
-		System.out.println(workDao.saveWorkDao(new Work.Builder().workName("dd").workPdfpath("dd").workStock(4)
+		System.out.println(workDao.saveWorkDao(new Work.Builder().workName("啊啊啊").workPdfpath("dd").workStock(4)
 				.workUploadTime(Common.getNowDate()).build()));
 	}
 

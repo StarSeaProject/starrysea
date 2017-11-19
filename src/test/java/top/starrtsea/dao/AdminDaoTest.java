@@ -20,7 +20,7 @@ public class AdminDaoTest {
 	@Test
 	public void loginDao() {
 		DaoResult result = adminDao
-				.loginDao(new Admin.Builder().adminUseraccount("liuyang").adminPassword("132258").build());
+				.loginDao(new Admin.Builder().adminUseraccount("kuma").adminPassword("kuma").build());
 		System.out.println(result.getErrInfo());
 	}
 }

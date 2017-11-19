@@ -11,7 +11,7 @@ public interface IActivityDao {
 
 	DaoResult getActivityDao(Activity activity);
 
-	DaoResult addActivityDao(Activity activity);
+	DaoResult saveActivityDao(Activity activity);
 
 	DaoResult updateActivityDao(Activity activity);
 

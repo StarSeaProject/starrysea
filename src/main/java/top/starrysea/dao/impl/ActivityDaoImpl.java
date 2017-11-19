@@ -72,7 +72,7 @@ public class ActivityDaoImpl implements IActivityDao {
 
 	@Override
 	// 添加一个众筹活动
-	public DaoResult addActivityDao(Activity activity) {
+	public DaoResult saveActivityDao(Activity activity) {
 		String sql = "INSERT INTO activity(activity_name,activity_content,activity_status,activity_qrcode) "
 				+ "VALUES(?,?,?,?)";
 		try {
