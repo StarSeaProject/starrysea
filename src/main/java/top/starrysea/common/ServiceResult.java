@@ -16,6 +16,10 @@ public class ServiceResult {
 	public ServiceResult() {
 	}
 
+	public ServiceResult(String errInfo) {
+		this.errInfo = errInfo;
+	}
+
 	public ServiceResult(DaoResult daoResult) {
 		this.successed = daoResult.isSuccessed();
 		this.result = daoResult.getResult();
@@ -73,22 +77,18 @@ public class ServiceResult {
 	public String toString() {
 		if (this.successed) {
 			if (this.result instanceof List) {
-				String result = "successed : " + this.successed + "\n"
-						+ "result : \n";
+				String result = "successed : " + this.successed + "\n" + "result : \n";
 				List list = (List) this.result;
 				for (Object object : list) {
 					result += "\t" + object.toString() + "\n";
 				}
 				result += "\n";
-				return result + "nowPage : " + this.nowPage + "\n"
-						+ "totalPage : " + this.totalPage;
+				return result + "nowPage : " + this.nowPage + "\n" + "totalPage : " + this.totalPage;
 			} else {
-				return "successed : " + this.successed + "\n" + "result : "
-						+ this.result;
+				return "successed : " + this.successed + "\n" + "result : " + this.result;
 			}
 		} else {
-			return "successed : " + this.successed + "\n" + "errInfo : "
-					+ this.errInfo;
+			return "successed : " + this.successed + "\n" + "errInfo : " + this.errInfo;
 		}
 	}
 
