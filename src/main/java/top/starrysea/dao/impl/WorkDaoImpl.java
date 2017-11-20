@@ -27,7 +27,7 @@ public class WorkDaoImpl implements IWorkDao {
 	public DaoResult getAllWorkDao(Condition condition, Work work) {
 		SqlWithParams sqlWithParams = getTheSqlForGetAll(work);
 		String sql = "SELECT work_id,work_name " + "FROM work " + sqlWithParams.getWhere() + "ORDER BY work_uploadtime "
-				+ "LIMIT " + (condition.getPage() - 1) * PAGE_LIMIT + "," + (condition.getPage() * PAGE_LIMIT - 1);
+				+ "LIMIT " + (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
 		Object[] params = sqlWithParams.getParams();
 		List<Work> theResult = template.query(sql, params,
 				(rs, row) -> new Work.Builder().workId(rs.getInt("work_id")).workName("work_name").build());

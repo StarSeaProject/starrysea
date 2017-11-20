@@ -81,7 +81,7 @@ public class OrderDaoImpl implements IOrderDao {
 		SqlWithParams sqlWithParams = getTheSqlForGetAll(order);
 		String sql = "SELECT order_id,order_num,order_name,order_status,order_time " + "FROM orders "
 				+ sqlWithParams.getWhere() + "ORDER BY order_time DESC " + "LIMIT "
-				+ (condition.getPage() - 1) * PAGE_LIMIT + "," + (condition.getPage() * PAGE_LIMIT - 1);
+				+ (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
 		List<Orders> theResult = template.query(sql, sqlWithParams.getParams(),
 				(rs, row) -> new Orders.Builder().orderId(rs.getString("order_id")).orderNum(rs.getString("order_num"))
 						.orderName(rs.getString("order_name")).orderStatus(rs.getShort("order_status"))

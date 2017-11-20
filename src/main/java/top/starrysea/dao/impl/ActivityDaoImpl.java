@@ -19,14 +19,14 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Autowired
 	private JdbcTemplate template;
 	// 众筹每页显示条数
-	private final static int PAGE_LIMIT = 10;
+	public final static int PAGE_LIMIT = 10;
 
 	@Override
 	// 查询所有众筹活动
 	public DaoResult getAllActivityDao(Condition condition, Activity activity) {
 		SqlWithParams sqlWithParams = getTheSqlForGetAll(activity);
 		String sql = "SELECT activity_id,activity_name " + "FROM activity " + sqlWithParams.getWhere() + "LIMIT "
-				+ (condition.getPage() - 1) * PAGE_LIMIT + "," + (condition.getPage() * PAGE_LIMIT - 1);
+				+ (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
 		Object[] params = sqlWithParams.getParams();
 		try {
 			List<Activity> theResult = template.query(sql, params, (rs, row) -> new Activity.Builder()
