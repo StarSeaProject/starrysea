@@ -1,4 +1,4 @@
-package top.starry.service;
+package top.starrysea.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
