@@ -1,5 +1,7 @@
 package top.starrysea.controller.impl;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.ui.Model;
 
 import top.starrysea.common.Condition;
@@ -24,21 +26,21 @@ public class ActivityControllerImpl implements IActivityController {
 
 	@Override
 	// 添加一个众筹活动
-	public Model addActivityController(Activity activity) {
+	public Model addActivityController(HttpSession session, Activity activity) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
 
 	@Override
 	// 修改一个众筹活动的状态
-	public Model modifyActivityController(Activity activity) {
+	public Model modifyActivityController(HttpSession session, Activity activity) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
 
 	@Override
 	// 删除一个众筹活动
-	public Model removeActivityController(Activity activity) {
+	public Model removeActivityController(HttpSession session, Activity activity) {
 		// TODO 自动生成的方法存根
 		return null;
 	}

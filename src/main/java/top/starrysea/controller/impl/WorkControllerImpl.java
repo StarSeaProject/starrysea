@@ -1,5 +1,7 @@
 package top.starrysea.controller.impl;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -25,14 +27,14 @@ public class WorkControllerImpl implements IWorkController {
 
 	@Override
 	// 添加一个作品
-	public Model addWorkController(CommonsMultipartFile file, Work work) {
+	public Model addWorkController(HttpSession session, CommonsMultipartFile file, Work work) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
 
 	@Override
 	// 删除一个作品
-	public Model removeWorkController(Work work) {
+	public Model removeWorkController(HttpSession session, Work work) {
 		// TODO 自动生成的方法存根
 		return null;
 	}

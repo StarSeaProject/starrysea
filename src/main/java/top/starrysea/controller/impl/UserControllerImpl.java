@@ -1,6 +1,6 @@
 package top.starrysea.controller.impl;
 
-import javax.websocket.Session;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
@@ -11,7 +11,7 @@ public class UserControllerImpl implements IUserController {
 
 	@Override
 	// 管理员登陆
-	public Model loginController(Session sesson, Admin admin) {
+	public Model loginController(HttpSession session, Admin admin) {
 		// TODO 自动生成的方法存根
 		return null;
 	}

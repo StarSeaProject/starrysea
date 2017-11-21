@@ -1,5 +1,7 @@
 package top.starrysea.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.ui.Model;
 
 import top.starrysea.common.Condition;
@@ -10,9 +12,9 @@ public interface IActivityController {
 
 	Model queryActivityController(Activity activity);
 
-	Model addActivityController(Activity activity);
+	Model addActivityController(HttpSession session, Activity activity);
 
-	Model modifyActivityController(Activity activity);
+	Model modifyActivityController(HttpSession session, Activity activity);
 
-	Model removeActivityController(Activity activity);
+	Model removeActivityController(HttpSession session, Activity activity);
 }

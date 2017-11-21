@@ -1,5 +1,7 @@
 package top.starrysea.controller.impl;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.ui.Model;
 
 import top.starrysea.common.Condition;
@@ -24,14 +26,14 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 修改一个订单的状态
-	public Model modifyOrderController(Orders order) {
+	public Model modifyOrderController(HttpSession session, Orders order) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
 
 	@Override
 	// 删除一个订单
-	public Model removeOrderController(Orders order) {
+	public Model removeOrderController(HttpSession session, Orders order) {
 		// TODO 自动生成的方法存根
 		return null;
 	}
