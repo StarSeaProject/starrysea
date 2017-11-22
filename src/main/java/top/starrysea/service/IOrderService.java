@@ -3,14 +3,15 @@ package top.starrysea.service;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.entity.Orders;
+import top.starrysea.entity.Work;
 
 public interface IOrderService {
-	
-	ServiceResult getAllOrderService(Condition condition,Orders order);
-	
-	ServiceResult getOrderService(Orders order);
 
-	ServiceResult addOrderService(Orders order);
+	ServiceResult queryAllOrderService(Condition condition, Orders order);
+
+	ServiceResult queryOrderService(Orders order);
+
+	ServiceResult addOrderService(Orders order, Work work);
 
 	ServiceResult modifyOrderService(Orders order);
 
