@@ -20,7 +20,7 @@ public class WorkDaoImpl implements IWorkDao {
 	@Autowired
 	private JdbcTemplate template;
 	// 作品每页显示条数
-	private final static int PAGE_LIMIT = 10;
+	public final static int PAGE_LIMIT = 10;
 
 	@Override
 	// 查询所有作品
@@ -96,6 +96,13 @@ public class WorkDaoImpl implements IWorkDao {
 		String sql = "UPDATE work " + "SET work_stock = work_stock - ? " + "WHERE work_id = ?";
 		template.update(sql, work.getWorkStock(), work.getWorkId());
 		return new DaoResult(true, null);
+	}
+
+	@Override
+	public DaoResult getStockDao(Work work) {
+		String sql="SELECT work_stock " + "FROM work "+"WHERE work_id = ?";
+		Integer theResult=template.queryForObject(sql, new Object[]{work.getWorkId()},Integer.class);
+		return new DaoResult(true, theResult);
 	}
 
 }
