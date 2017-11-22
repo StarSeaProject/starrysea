@@ -5,16 +5,17 @@ import top.starrysea.common.DaoResult;
 import top.starrysea.entity.Work;
 
 public interface IWorkDao {
-	DaoResult getAllWorkDao(Condition condition,Work work);
-	
-	DaoResult getWorkCountDao(Condition condition,Work work);
-	
+	DaoResult getAllWorkDao(Condition condition, Work work);
+
+	DaoResult getWorkCountDao(Condition condition, Work work);
+
 	DaoResult getWorkDao(Work work);
-	
+
 	DaoResult saveWorkDao(Work work);
-	
+
 	DaoResult updateWorkStockDao(Work work);
-	
+
 	DaoResult deleteWorkDao(Work work);
-	
+
+	DaoResult getStockDao(Work work);
 }
