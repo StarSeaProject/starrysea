@@ -1,8 +1,6 @@
 package top.starrysea.service.impl;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +17,6 @@ import top.starrysea.dao.IWorkDao;
 import top.starrysea.entity.Work;
 import top.starrysea.service.IWorkService;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
 
 @Service("workService")
@@ -46,7 +43,6 @@ public class WorkServiceImpl implements IWorkService {
 			totalPage = count / PAGE_LIMIT;
 		} else {
 			totalPage = (count / PAGE_LIMIT) + 1;
-
 		}
 		result.setSuccessed(true);
 		result.setResult(workList);
@@ -93,7 +89,6 @@ public class WorkServiceImpl implements IWorkService {
 		} else {
 			return new ServiceResult("文件为空文件");
 		}
-
 	}
 
 	@Override

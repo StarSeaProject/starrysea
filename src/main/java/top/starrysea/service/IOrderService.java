@@ -3,7 +3,6 @@ package top.starrysea.service;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.entity.Orders;
-import top.starrysea.entity.Work;
 
 public interface IOrderService {
 
@@ -11,7 +10,7 @@ public interface IOrderService {
 
 	ServiceResult queryOrderService(Orders order);
 
-	ServiceResult addOrderService(Orders order, Work work);
+	ServiceResult addOrderService(Orders order);
 
 	ServiceResult modifyOrderService(Orders order);
 

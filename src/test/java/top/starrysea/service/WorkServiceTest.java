@@ -1,4 +1,4 @@
-package top.starry.service;
+package top.starrysea.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,13 +20,13 @@ public class WorkServiceTest {
 	@Test
 	public void queryAllWorkService() {
 		Condition condition = new Condition();
-		condition.setPage(2);
+		condition.setPage(1);
 		System.out
-				.println(workService.queryAllWorkService(condition, new Work.Builder().workId(13).build()).getResult());
+				.println(workService.queryAllWorkService(condition, new Work.Builder().build()));
 	}
 
 	@Test
 	public void queryWorkService() {
-		System.out.println(workService.queryWorkService(new Work.Builder().workId(13).build()).getResult());
+		System.out.println(workService.queryWorkService(new Work.Builder().workId(6).build()));
 	}
 }

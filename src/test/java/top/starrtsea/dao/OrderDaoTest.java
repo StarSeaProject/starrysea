@@ -11,6 +11,7 @@ import top.starrysea.common.Condition;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.entity.Area;
 import top.starrysea.entity.Orders;
+import top.starrysea.entity.Work;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)
@@ -27,7 +28,7 @@ public class OrderDaoTest {
 	@Test
 	public void saveOrderDao() {
 		orderDao.saveOrderDao(new Orders.Builder().orderName("xjl").orderArea(new Area.Builder().areaId(1).build())
-				.orderAddress("asdasdasd").build());
+				.orderAddress("asdasdasd").work(new Work.Builder().workId(6).build()).build());
 	}
 
 	@Test

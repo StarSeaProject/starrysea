@@ -67,8 +67,10 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	// 用户对一个作品进行下单，同时减少该作品的库存
 	@Transactional
-	public ServiceResult addOrderService(Orders order, Work work) {
+	public ServiceResult addOrderService(Orders order) {
 		ServiceResult result = new ServiceResult();
+		Work work=order.getWork();
+		work.setWorkStock(1);
 		DaoResult daoResult = workDao.getStockDao(work);
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult("该作品不存在");

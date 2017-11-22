@@ -1,4 +1,4 @@
-package top.starry.service;
+package top.starrysea.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,20 +23,18 @@ public class OrderServiceTest {
 	public void queryAllOrderSerivce() {
 		Condition condition = new Condition();
 		condition.setPage(1);
-		System.out.println(orderService.queryAllOrderService(condition, new Orders.Builder().orderName("啊啊啊").build())
-				.getResult());
+		System.out.println(orderService.queryAllOrderService(condition, new Orders.Builder().orderName("啊啊啊").build()));
 	}
 
 	@Test
 	public void queryOrderService() {
-		System.out.print(orderService
-				.queryOrderService(new Orders.Builder().orderNum("7pQVf9IZzRGzbGnxE2QlnVqoJm6CCo").build()));
+		System.out.println(orderService
+				.queryOrderService(new Orders.Builder().orderNum("Xx5vxUQJkZCDJsUksyMBjympMyRj84").build()));
 	}
 
 	@Test
 	public void addOrderService() {
-		System.out.println(orderService.addOrderService(new Orders.Builder().orderName("liuyang")
-				.orderArea(new Area.Builder().areaId(1).build()).orderAddress("asdasdasd").build(),
-				new Work.Builder().workStock(1).workId(13).build()).getErrInfo());
+		System.out.println(orderService.addOrderService(new Orders.Builder().work(new Work.Builder().workId(6).build()).orderName("liuyang")
+				.orderArea(new Area.Builder().areaId(1).build()).orderAddress("asdasdasd").build()));
 	}
 }

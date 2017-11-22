@@ -47,9 +47,9 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	// 对一个作品进行下单
 	public DaoResult saveOrderDao(Orders order) {
-		String sql = "INSERT INTO orders(order_id,order_num,order_name,order_area,order_address,order_status,order_time) "
-				+ "VALUES(?,?,?,?,?,?,?)";
-		template.update(sql, Common.getCharId("O-", 10), Common.getCharId(30), order.getOrderName(),
+		String sql = "INSERT INTO orders(order_id,work_id,order_num,order_name,order_area,order_address,order_status,order_time) "
+				+ "VALUES(?,?,?,?,?,?,?,?)";
+		template.update(sql, Common.getCharId("O-", 10),order.getWork().getWorkId(), Common.getCharId(30), order.getOrderName(),
 				order.getOrderArea().getAreaId(), order.getOrderAddress(), 1, System.currentTimeMillis());
 		return new DaoResult(true, null);
 	}

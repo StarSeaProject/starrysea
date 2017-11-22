@@ -3,6 +3,7 @@ package top.starrysea.entity;
 public class Orders extends Entity {
 
 	private String orderId;
+	private Work work;
 	private String orderNum;
 	private String orderName;
 	private Area orderArea;
@@ -13,6 +14,7 @@ public class Orders extends Entity {
 
 	private Orders(Builder builder) {
 		this.orderId = builder.orderId;
+		this.work=builder.work;
 		this.orderNum = builder.orderNum;
 		this.orderName = builder.orderName;
 		this.orderArea = builder.orderArea;
@@ -25,6 +27,7 @@ public class Orders extends Entity {
 	public static class Builder implements IBuilder<Orders> {
 
 		private String orderId;
+		private Work work;
 		private String orderNum;
 		private String orderName;
 		private Area orderArea;
@@ -35,6 +38,11 @@ public class Orders extends Entity {
 
 		public Builder orderId(String orderId) {
 			this.orderId = orderId;
+			return this;
+		}
+		
+		public Builder work(Work work) {
+			this.work=work;
 			return this;
 		}
 
@@ -142,6 +150,14 @@ public class Orders extends Entity {
 
 	public void setOrderTime(long orderTime) {
 		this.orderTime = orderTime;
+	}
+
+	public Work getWork() {
+		return work;
+	}
+
+	public void setWork(Work work) {
+		this.work = work;
 	}
 
 }
