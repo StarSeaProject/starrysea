@@ -1,15 +1,13 @@
 package top.starrysea.service.impl;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
@@ -23,6 +21,7 @@ import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
 public class WorkServiceImpl implements IWorkService {
 	@Autowired
 	private IWorkDao workDao;
+	private static final String FILE_ROOT = "D:" + File.separator + "starrysea" + File.separator;
 
 	@Override
 	// 查询所有作品
@@ -67,24 +66,27 @@ public class WorkServiceImpl implements IWorkService {
 
 	@Override
 	// 添加一个作品
-	public ServiceResult addWorkService(CommonsMultipartFile file, Work work) {
+	public ServiceResult addWorkService(MultipartFile file, Work work) {
 		if (!file.isEmpty()) {
-			try {
-				String filePath = "D:" + File.pathSeparator + "starrysea" + File.pathSeparator
-						+ file.getOriginalFilename();
-				FileOutputStream outputStream = new FileOutputStream(filePath);
-				InputStream inputStream = file.getInputStream();
-				int b = 0;
-				while ((b = inputStream.read()) != -1) {
-					outputStream.write(b);
+			if ((file.getName().substring(file.getName().lastIndexOf(".") + 1)).equalsIgnoreCase("pdf")) {
+				double fileSize = (double) file.getSize() / (double) (1024 * 1024);
+				System.out.println(fileSize);
+				if (!(fileSize > 10)) {
+
+					String filePath = FILE_ROOT + work.getWorkName() + Common.getCharId(5) + ".pdf";
+					try {
+						file.transferTo(new File(filePath));
+
+						work.setWorkPdfpath(filePath);
+						return new ServiceResult(workDao.saveWorkDao(work));
+					} catch (Exception e) {
+						return new ServiceResult("文件上传失败");
+					}
+				} else {
+					return new ServiceResult("文件不得超过10M!");
 				}
-				outputStream.flush();
-				inputStream.close();
-				outputStream.close();
-				work.setWorkPdfpath(filePath);
-				return new ServiceResult(workDao.saveWorkDao(work));
-			} catch (IOException e) {
-				return new ServiceResult("文件上传失败");
+			} else {
+				return new ServiceResult("文件格式不合法");
 			}
 		} else {
 			return new ServiceResult("文件为空文件");
