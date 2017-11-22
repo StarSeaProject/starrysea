@@ -53,4 +53,9 @@ public class WorkDaoTest {
 	public void updateWorkStockDao() {
 		System.out.println(workDao.updateWorkStockDao(new Work.Builder().workId(3).workStock(1).build()));
 	}
+
+	@Test
+	public void getStockDao() {
+		System.out.println(workDao.getStockDao(new Work.Builder().workId(1).build()).getResult());
+	}
 }
