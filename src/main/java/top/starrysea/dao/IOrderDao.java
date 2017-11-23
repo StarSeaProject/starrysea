@@ -2,7 +2,7 @@ package top.starrysea.dao;
 
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
-import top.starrysea.entity.Orders;
+import top.starrysea.object.dto.Orders;
 
 public interface IOrderDao {
 	

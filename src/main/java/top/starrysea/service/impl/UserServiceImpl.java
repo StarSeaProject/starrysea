@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IAdminDao;
-import top.starrysea.entity.Admin;
+import top.starrysea.object.dto.Admin;
 import top.starrysea.service.IUserService;
 
 @Service("userService")

@@ -10,11 +10,12 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
-import top.starrysea.entity.Entity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import top.starrysea.object.dto.Entity;
 
 public class Common {
 
@@ -93,7 +94,7 @@ public class Common {
 		} else if (object instanceof Entity) {
 			result = (object != null ? true : false);
 		} else if (object instanceof List) {
-			List list = (List) object;
+			List<?> list = List.class.cast(object);
 			if (list.size() > 0)
 				result = true;
 			else
@@ -141,6 +142,6 @@ public class Common {
 		} catch (IOException e) {
 			logger.error(e.getMessage(),e);
 		}
-		return (T) new Object();
+		return clazz.cast(new Object());
 	}
 }

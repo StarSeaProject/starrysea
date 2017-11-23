@@ -12,7 +12,7 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IWorkDao;
-import top.starrysea.entity.Work;
+import top.starrysea.object.dto.Work;
 import top.starrysea.service.IWorkService;
 
 import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
@@ -80,6 +80,7 @@ public class WorkServiceImpl implements IWorkService {
 						work.setWorkPdfpath(filePath);
 						return new ServiceResult(workDao.saveWorkDao(work));
 					} catch (Exception e) {
+						e.printStackTrace();
 						return new ServiceResult("文件上传失败");
 					}
 				} else {

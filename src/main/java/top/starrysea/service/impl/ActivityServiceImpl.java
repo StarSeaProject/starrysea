@@ -9,7 +9,7 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IActivityDao;
-import top.starrysea.entity.Activity;
+import top.starrysea.object.dto.Activity;
 import top.starrysea.service.IActivityService;
 
 import static top.starrysea.dao.impl.ActivityDaoImpl.PAGE_LIMIT;
@@ -64,6 +64,7 @@ public class ActivityServiceImpl implements IActivityService {
 	@Override
 	// 添加一个众筹活动
 	public ServiceResult addActivityService(Activity activity) {
+		activity.setActivityStatus((short) 1);
 		return new ServiceResult(activityDao.saveActivityDao(activity));
 	}
 

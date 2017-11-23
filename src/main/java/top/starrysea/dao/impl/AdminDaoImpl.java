@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IAdminDao;
-import top.starrysea.entity.Admin;
+import top.starrysea.object.dto.Admin;
 
 import static top.starrysea.common.Common.isNotNull;
 import static top.starrysea.common.Common.md5;

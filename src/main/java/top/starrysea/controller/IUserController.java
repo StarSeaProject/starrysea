@@ -2,12 +2,11 @@ package top.starrysea.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.entity.Admin;
+import top.starrysea.object.dto.Admin;
 
 public interface IUserController {
 	
-	Model loginController(HttpSession sesson, Admin admin);
-	
+	ModelAndView loginController(HttpSession sesson, Admin admin);
 }

@@ -2,19 +2,23 @@ package top.starrysea.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Condition;
-import top.starrysea.entity.Activity;
+import top.starrysea.object.view.in.ActivityForAdd;
+import top.starrysea.object.view.in.ActivityForAll;
+import top.starrysea.object.view.in.ActivityForModify;
+import top.starrysea.object.view.in.ActivityForOne;
 
 public interface IActivityController {
-	Model queryAllActivityController(Condition condition, Activity activity);
+	ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity, BindingResult bindingResult);
 
-	Model queryActivityController(Activity activity);
+	ModelAndView queryActivityController(ActivityForOne activity, BindingResult bindingResult);
 
-	Model addActivityController(HttpSession session, Activity activity);
+	ModelAndView addActivityController(HttpSession session, ActivityForAdd activity, BindingResult bindingResult);
 
-	Model modifyActivityController(HttpSession session, Activity activity);
+	ModelAndView modifyActivityController(HttpSession session, ActivityForModify activity, BindingResult bindingResult);
 
-	Model removeActivityController(HttpSession session, Activity activity);
+	ModelAndView removeActivityController(HttpSession session, ActivityForOne activity, BindingResult bindingResult);
 }

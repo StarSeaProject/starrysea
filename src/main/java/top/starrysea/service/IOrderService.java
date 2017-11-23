@@ -2,7 +2,7 @@ package top.starrysea.service;
 
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
-import top.starrysea.entity.Orders;
+import top.starrysea.object.dto.Orders;
 
 public interface IOrderService {
 

@@ -11,8 +11,8 @@ import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.dao.IWorkDao;
-import top.starrysea.entity.Orders;
-import top.starrysea.entity.Work;
+import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.Work;
 import top.starrysea.service.IOrderService;
 
 import static top.starrysea.dao.impl.OrderDaoImpl.PAGE_LIMIT;

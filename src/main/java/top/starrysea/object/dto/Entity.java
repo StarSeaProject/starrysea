@@ -1,4 +1,4 @@
-package top.starrysea.entity;
+package top.starrysea.object.dto;
 
 import static top.starrysea.common.Common.toJson;
 

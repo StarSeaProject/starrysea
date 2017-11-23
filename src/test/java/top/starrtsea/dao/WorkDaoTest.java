@@ -10,7 +10,7 @@ import top.starrysea.StarrtseaApplication;
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.dao.IWorkDao;
-import top.starrysea.entity.Work;
+import top.starrysea.object.dto.Work;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)

@@ -9,10 +9,10 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.SqlWithParams;
 import top.starrysea.dao.IOrderDao;
-import top.starrysea.entity.Area;
-import top.starrysea.entity.City;
-import top.starrysea.entity.Orders;
-import top.starrysea.entity.Province;
+import top.starrysea.object.dto.Area;
+import top.starrysea.object.dto.City;
+import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.Province;
 
 import static top.starrysea.common.Common.*;
 

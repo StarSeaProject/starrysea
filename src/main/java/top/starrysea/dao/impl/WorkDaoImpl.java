@@ -4,7 +4,7 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.SqlWithParams;
 import top.starrysea.dao.IWorkDao;
-import top.starrysea.entity.Work;
+import top.starrysea.object.dto.Work;
 
 import static top.starrysea.common.Common.*;
 

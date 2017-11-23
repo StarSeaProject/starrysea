@@ -2,7 +2,7 @@ package top.starrysea.dao;
 
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
-import top.starrysea.entity.Activity;
+import top.starrysea.object.dto.Activity;
 
 public interface IActivityDao {
 	DaoResult getAllActivityDao(Condition condition, Activity activity);

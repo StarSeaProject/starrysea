@@ -5,7 +5,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
-import top.starrysea.entity.Work;
+import top.starrysea.object.dto.Work;
 
 public interface IWorkService {
 	ServiceResult queryAllWorkService(Condition condition, Work work);

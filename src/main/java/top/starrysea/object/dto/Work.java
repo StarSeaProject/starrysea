@@ -1,4 +1,4 @@
-package top.starrysea.entity;
+package top.starrysea.object.dto;
 
 public class Work extends Entity {
 

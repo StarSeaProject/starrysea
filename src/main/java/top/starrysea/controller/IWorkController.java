@@ -2,19 +2,19 @@ package top.starrysea.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.ui.Model;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Condition;
-import top.starrysea.entity.Work;
+import top.starrysea.object.dto.Work;
 
 public interface IWorkController {
 
-	Model queryAllWorkController(Condition condition, Work work);
+	ModelAndView queryAllWorkController(Condition condition, Work work);
 
-	Model queryWorkController(Work work);
+	ModelAndView queryWorkController(Work work);
 
-	Model addWorkController(HttpSession session, CommonsMultipartFile file, Work work);
+	ModelAndView addWorkController(HttpSession session, MultipartFile file, Work work);
 
-	Model removeWorkController(HttpSession session, Work work);
+	ModelAndView removeWorkController(HttpSession session, Work work);
 }

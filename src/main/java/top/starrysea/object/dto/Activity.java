@@ -1,4 +1,7 @@
-package top.starrysea.entity;
+package top.starrysea.object.dto;
+
+import top.starrysea.object.view.out.ActivityForAll;
+import top.starrysea.object.view.out.ActivityForOne;
 
 public class Activity extends Entity {
 
@@ -99,4 +102,11 @@ public class Activity extends Entity {
 		this.activityQrcode = activityQcode;
 	}
 
+	public ActivityForAll toVoForAll() {
+		return new ActivityForAll(activityId, activityName);
+	}
+	
+	public ActivityForOne toVoForOne() {
+		return new ActivityForOne(activityName, activityContent, activityStatus);
+	}
 }

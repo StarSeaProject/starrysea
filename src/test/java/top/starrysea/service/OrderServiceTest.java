@@ -8,9 +8,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import top.starrysea.StarrtseaApplication;
 import top.starrysea.common.Condition;
-import top.starrysea.entity.Area;
-import top.starrysea.entity.Orders;
-import top.starrysea.entity.Work;
+import top.starrysea.object.dto.Area;
+import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.Work;
 import top.starrysea.service.IOrderService;
 
 @RunWith(SpringRunner.class)

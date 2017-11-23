@@ -12,7 +12,7 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.SqlWithParams;
 import top.starrysea.dao.IActivityDao;
-import top.starrysea.entity.Activity;
+import top.starrysea.object.dto.Activity;
 
 @Repository("activityDao")
 public class ActivityDaoImpl implements IActivityDao {
@@ -33,7 +33,6 @@ public class ActivityDaoImpl implements IActivityDao {
 					.activityId(rs.getInt("activity_id")).activityName(rs.getString("activity_name")).build());
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return new DaoResult(false, "查询失败,原因是:" + e.getStackTrace());
 		}
 	}
@@ -48,7 +47,6 @@ public class ActivityDaoImpl implements IActivityDao {
 			Integer theResult = template.queryForObject(sql, params, Integer.class);
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return new DaoResult(false, "查询失败,原因是:" + e.getStackTrace());
 		}
 	}
@@ -65,8 +63,7 @@ public class ActivityDaoImpl implements IActivityDao {
 							.activityStatus(rs.getShort("activity_status")).activityQrcode("activity_qrcode").build());
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
-			// TODO: handle exception
-			return new DaoResult(false, "查询失败,原因是:" + e.getStackTrace());
+			return new DaoResult(false, "查询失败,原因是:" + e.getMessage());
 		}
 	}
 
@@ -80,7 +77,6 @@ public class ActivityDaoImpl implements IActivityDao {
 					activity.getActivityStatus(), activity.getActivityQcode());
 			return new DaoResult(true, null);
 		} catch (Exception e) {
-			// TODO: handle exception
 			return new DaoResult(false, "添加失败,原因是:" + e.getStackTrace());
 		}
 

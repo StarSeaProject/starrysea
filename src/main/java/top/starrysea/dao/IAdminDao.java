@@ -1,7 +1,7 @@
 package top.starrysea.dao;
 
 import top.starrysea.common.DaoResult;
-import top.starrysea.entity.Admin;
+import top.starrysea.object.dto.Admin;
 
 public interface IAdminDao {
 	DaoResult loginDao(Admin admin);
