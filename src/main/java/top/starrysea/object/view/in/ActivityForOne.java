@@ -1,12 +1,12 @@
 package top.starrysea.object.view.in;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import top.starrysea.object.dto.Activity;
 
 public class ActivityForOne {
 
-	@NotEmpty(message = "活动id不能为空")
+	@NotNull(message = "活动id不能为空")
 	private Integer activityId;
 
 	public Integer getActivityId() {

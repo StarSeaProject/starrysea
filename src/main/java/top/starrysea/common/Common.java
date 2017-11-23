@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -143,5 +146,14 @@ public class Common {
 			logger.error(e.getMessage(),e);
 		}
 		return clazz.cast(new Object());
+	}
+	
+	public static ModelAndView handleVaildError(BindingResult bindingResult) {
+		ModelAndView modelAndView = new ModelAndView();
+		List<String> errInfo = bindingResult.getAllErrors().stream()
+				.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+		modelAndView.addObject("errInfo", errInfo);
+		modelAndView.setViewName("error");
+		return modelAndView;
 	}
 }

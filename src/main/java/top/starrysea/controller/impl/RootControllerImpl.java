@@ -28,7 +28,7 @@ import top.starrysea.controller.IRootController;
 public class RootControllerImpl implements IRootController {
 
 	private final static String UPLOAD_PATH = "D:/develop/nginx-1.12.1/img/";
-	
+
 	@Override
 	@RequestMapping("/")
 	public ModelAndView index() {
@@ -37,31 +37,33 @@ public class RootControllerImpl implements IRootController {
 
 	@Override
 	@RequestMapping("/uploads")
-    public void upload(HttpServletRequest request,HttpServletResponse response, @RequestParam("myFileName") MultipartFile file){
-        String fileType=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+	public void upload(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam("myFileName") MultipartFile file) {
+		String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 		File target = new File(UPLOAD_PATH);
-        if (!target.exists())
-        	target.mkdirs();
-        try {
-			FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(UPLOAD_PATH+Common.getCharId(5)+fileType));
+		if (!target.exists())
+			target.mkdirs();
+		try {
+			FileCopyUtils.copy(file.getInputStream(),
+					new FileOutputStream(UPLOAD_PATH + Common.getCharId(5) + fileType));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        Map<String,Object> result=new HashMap<>();
-        List<String> data=new ArrayList<>();
-        data.add("result.png");
-        result.put("errno", 0);
-        result.put("data", data);
-        ObjectMapper mapper=new ObjectMapper();
-        try {
-        	String theResult=mapper.writeValueAsString(result);
+		Map<String, Object> result = new HashMap<>();
+		List<String> data = new ArrayList<>();
+		data.add("result.png");
+		result.put("errno", 0);
+		result.put("data", data);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String theResult = mapper.writeValueAsString(result);
 			response.getWriter().write(theResult);
 			response.getWriter().flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    }
+	}
 
 }

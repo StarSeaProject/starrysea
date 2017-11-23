@@ -1,15 +1,15 @@
 package top.starrysea.object.view.in;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import top.starrysea.object.dto.Activity;
 
 public class ActivityForModify {
 
-	@NotEmpty(message="活动id不能为空")
+	@NotNull(message="活动id不能为空")
 	private Integer activityId;
-	@NotEmpty(message="活动状态不能为空")
-	private short activityStatus;
+	@NotNull(message="活动状态不能为空")
+	private Short activityStatus;
 
 	public Integer getActivityId() {
 		return activityId;
@@ -19,11 +19,11 @@ public class ActivityForModify {
 		this.activityId = activityId;
 	}
 
-	public short getActivityStatus() {
+	public Short getActivityStatus() {
 		return activityStatus;
 	}
 
-	public void setActivityStatus(short activityStatus) {
+	public void setActivityStatus(Short activityStatus) {
 		this.activityStatus = activityStatus;
 	}
 

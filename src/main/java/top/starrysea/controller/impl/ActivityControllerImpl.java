@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IActivityController;
 import top.starrysea.object.dto.Activity;
 import top.starrysea.object.view.in.ActivityForAdd;
-import top.starrysea.object.view.in.ActivityForAll;
+import top.starrysea.object.view.out.ActivityForAll;
 import top.starrysea.object.view.in.ActivityForModify;
 import top.starrysea.object.view.in.ActivityForOne;
 import top.starrysea.service.IActivityService;
@@ -33,9 +34,9 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 查询所有众筹活动
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView queryAllActivityController(Condition condition, @Valid ActivityForAll activity,BindingResult bindingResult) {
+	public ModelAndView queryAllActivityController(Condition condition, Activity activity) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
+		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity);
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
 			// 查询失败则返回错误页面
@@ -43,7 +44,7 @@ public class ActivityControllerImpl implements IActivityController {
 			return modelAndView;
 		}
 		List<Activity> result = (List<Activity>) serviceResult.getResult();
-		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll).collect(Collectors.toList());
+		List<ActivityForAll> voResult = result.stream().map(Activity::toVoForAll).collect(Collectors.toList());
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
@@ -55,7 +56,10 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 查询一个众筹活动的详情页
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public ModelAndView queryActivityController(@Valid ActivityForOne activity,BindingResult bindingResult) {
+	public ModelAndView queryActivityController(@Valid ActivityForOne activity, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -74,12 +78,16 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 添加一个众筹活动
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView addActivityController(HttpSession session, @Valid ActivityForAdd activity,BindingResult bindingResult) {
+	public ModelAndView addActivityController(HttpSession session, @Valid ActivityForAdd activity,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
+		ModelAndView modelAndView = new ModelAndView();
 		if (session.getAttribute("adminId") == null) {
 			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
 			return new ModelAndView("login");
 		}
-		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.addActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
@@ -95,12 +103,16 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 修改一个众筹活动的状态
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public ModelAndView modifyActivityController(HttpSession session, @Valid ActivityForModify activity,BindingResult bindingResult) {
+	public ModelAndView modifyActivityController(HttpSession session, @Valid ActivityForModify activity,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
+		ModelAndView modelAndView = new ModelAndView();
 		if (session.getAttribute("adminId") == null) {
 			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
 			return new ModelAndView("login");
 		}
-		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.modifyActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
@@ -116,12 +128,16 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 删除一个众筹活动
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeActivityController(HttpSession session, @Valid ActivityForOne activity,BindingResult bindingResult) {
+	public ModelAndView removeActivityController(HttpSession session, @Valid ActivityForOne activity,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
+		ModelAndView modelAndView = new ModelAndView();
 		if (session.getAttribute("adminId") == null) {
 			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
 			return new ModelAndView("login");
 		}
-		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.removeActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());

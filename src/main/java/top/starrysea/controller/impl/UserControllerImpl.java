@@ -4,12 +4,15 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IUserController;
 import top.starrysea.object.dto.Admin;
+import top.starrysea.object.view.in.AdminForLogin;
 import top.starrysea.service.IUserService;
 
 @Controller
@@ -22,9 +25,12 @@ public class UserControllerImpl implements IUserController {
 	@Override
 	// 管理员登陆
 	@RequestMapping("/login")
-	public ModelAndView loginController(HttpSession session, Admin admin) {
+	public ModelAndView loginController(HttpSession session, AdminForLogin admin,BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = userService.loginService(admin);
+		ServiceResult serviceResult = userService.loginService(admin.toDTO());
 		if (serviceResult.isSuccessed()) {
 			Admin admin1 = (Admin) serviceResult.getResult();
 			session.setAttribute("adminId", admin1.getAdminId());

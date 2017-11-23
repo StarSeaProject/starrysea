@@ -12,8 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.StarrtseaApplication;
 import top.starrysea.common.Condition;
+import top.starrysea.object.dto.Activity;
 import top.starrysea.object.view.in.ActivityForAdd;
-import top.starrysea.object.view.in.ActivityForAll;
 import top.starrysea.object.view.in.ActivityForModify;
 import top.starrysea.object.view.in.ActivityForOne;
 
@@ -28,8 +28,7 @@ public class ActivityControllerTest {
 	public void queryAllActivityController() {
 		Condition condition=new Condition();
 		condition.setPage(1);
-		ActivityForAll activity=new ActivityForAll();
-		ModelAndView modelAndView=controller.queryAllActivityController(condition, activity,null);
+		ModelAndView modelAndView=controller.queryAllActivityController(condition, new Activity.Builder().build());
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}

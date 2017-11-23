@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.StarrtseaApplication;
 import top.starrysea.object.dto.Admin;
+import top.starrysea.object.view.in.AdminForLogin;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)
@@ -17,10 +18,13 @@ public class UserControllerTest {
 
 	@Autowired
 	private IUserController controller;
-	
+
 	@Test
 	public void loginController() {
-		ModelAndView modelAndView=controller.loginController(new MockHttpSession(), new Admin.Builder().adminUseraccount("kuma").adminPassword("kuma1").build());
+		AdminForLogin admin = new AdminForLogin();
+		admin.setAdminPassword("kuma");
+		admin.setAdminUseraccount("kuma");
+		ModelAndView modelAndView = controller.loginController(new MockHttpSession(), admin, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
