@@ -1,5 +1,8 @@
 package top.starrysea.object.dto;
 
+import top.starrysea.object.view.out.OrderForAll;
+import top.starrysea.object.view.out.OrderForOne;
+
 public class Orders extends Entity {
 
 	private String orderId;
@@ -14,14 +17,14 @@ public class Orders extends Entity {
 
 	private Orders(Builder builder) {
 		this.orderId = builder.orderId;
-		this.work=builder.work;
+		this.work = builder.work;
 		this.orderNum = builder.orderNum;
 		this.orderName = builder.orderName;
 		this.orderArea = builder.orderArea;
 		this.orderAddress = builder.orderAddress;
 		this.orderStatus = builder.orderStatus;
 		this.orderExpressnum = builder.orderExpressnum;
-		this.orderTime=builder.orderTime;
+		this.orderTime = builder.orderTime;
 	}
 
 	public static class Builder implements IBuilder<Orders> {
@@ -40,9 +43,9 @@ public class Orders extends Entity {
 			this.orderId = orderId;
 			return this;
 		}
-		
+
 		public Builder work(Work work) {
-			this.work=work;
+			this.work = work;
 			return this;
 		}
 
@@ -75,9 +78,9 @@ public class Orders extends Entity {
 			this.orderExpressnum = orderExpressnum;
 			return this;
 		}
-		
+
 		public Builder orderTime(long orderTime) {
-			this.orderTime=orderTime;
+			this.orderTime = orderTime;
 			return this;
 		}
 
@@ -160,4 +163,12 @@ public class Orders extends Entity {
 		this.work = work;
 	}
 
+	public OrderForAll toVoForAll() {
+		return new OrderForAll(orderId, orderNum, orderName, orderStatus, orderTime);
+	}
+
+	public OrderForOne toVoForOne() {
+		return new OrderForOne(work.getWorkName(), orderName, orderArea.getCity().getProvince().getProvinceName()
+					,orderArea.getCity().getCityName(),orderArea.getAreaName(), orderAddress, orderStatus, orderExpressnum, orderTime);
+	}
 }

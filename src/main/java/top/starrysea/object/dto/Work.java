@@ -1,5 +1,8 @@
 package top.starrysea.object.dto;
 
+import top.starrysea.object.view.out.WorkForAll;
+import top.starrysea.object.view.out.WorkForOne;
+
 public class Work extends Entity {
 
 	private Integer workId;
@@ -98,5 +101,11 @@ public class Work extends Entity {
 	public void setWorkStock(Integer workStock) {
 		this.workStock = workStock;
 	}
+	public WorkForAll toVoForAll(){
+		return new WorkForAll(workId, workName);
+	}
 
+	public Object toVoForOne() {
+		return new WorkForOne(workName, workUploadTime, workPdfpath);
+	}
 }

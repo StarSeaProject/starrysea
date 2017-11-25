@@ -48,11 +48,11 @@ public class City extends Entity {
 		this.cityId = cityId;
 	}
 
-	public Province getProvinceId() {
+	public Province getProvince() {
 		return province;
 	}
 
-	public void setProvinceId(Province province) {
+	public void setProvince(Province province) {
 		this.province = province;
 	}
 
@@ -61,7 +61,8 @@ public class City extends Entity {
 	}
 
 	public void setCityName(String cityName) {
-		this.cityName = cityName;
 	}
+
+
 
 }

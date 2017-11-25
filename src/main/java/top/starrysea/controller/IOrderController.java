@@ -2,20 +2,25 @@ package top.starrysea.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Condition;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.view.in.OrderForAdd;
+import top.starrysea.object.view.in.OrderForAll;
+import top.starrysea.object.view.in.OrderForModify;
+import top.starrysea.object.view.in.OrderForOne;
 
 public interface IOrderController {
 
-	ModelAndView getAllOrderController(Condition condition, Orders order);
+	ModelAndView queryAllOrderController(HttpSession session,Condition condition, OrderForAll order);
 
-	ModelAndView getOrderController(Orders order);
+	ModelAndView queryOrderController(OrderForOne order,BindingResult bindingResult);
 
-	ModelAndView addOrderController(Orders order);
+	ModelAndView addOrderController(OrderForAdd order,BindingResult bindingResult);
 
-	ModelAndView modifyOrderController(HttpSession session, Orders order);
+	ModelAndView modifyOrderController(HttpSession session, OrderForModify order,BindingResult bindingResult);
 
-	ModelAndView removeOrderController(HttpSession session, Orders order);
+	ModelAndView removeOrderController(HttpSession session,OrderForModify order,BindingResult bindingResult);
 }

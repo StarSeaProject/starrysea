@@ -13,6 +13,7 @@ import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.City;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.Province;
+import top.starrysea.object.dto.Work;
 
 import static top.starrysea.common.Common.*;
 
@@ -29,12 +30,13 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	// 根据订单号查询一个订单
 	public DaoResult getOrderDao(Orders order) {
-		String sql = "SELECT order_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum "
+		String sql = "SELECT order_name,w.work_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum "
 				+ "FROM orders AS o " + "LEFT JOIN area AS a " + "ON o.order_area = a.area_id " + "LEFT JOIN city AS c "
 				+ "ON a.city_id=c.city_id " + "LEFT JOIN province AS p " + "ON c.province_id = p.province_id "
-				+ "WHERE order_num = ?";
+				+ "LEFT JOIN work AS w " + " ON o.work_id = w.work_id " + "WHERE order_num = ?";
 		Orders theResult = template.queryForObject(sql, new Object[] { order.getOrderNum() },
 				(rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
+						.work(new Work.Builder().workName(rs.getString("work_name")).build())
 						.orderArea(new Area.Builder().areaName("area_name")
 								.city(new City.Builder().cityName(rs.getString("city_name"))
 										.province(new Province(null, rs.getString("province_name"))).build())
@@ -49,8 +51,9 @@ public class OrderDaoImpl implements IOrderDao {
 	public DaoResult saveOrderDao(Orders order) {
 		String sql = "INSERT INTO orders(order_id,work_id,order_num,order_name,order_area,order_address,order_status,order_time) "
 				+ "VALUES(?,?,?,?,?,?,?,?)";
-		template.update(sql, Common.getCharId("O-", 10),order.getWork().getWorkId(), Common.getCharId(30), order.getOrderName(),
-				order.getOrderArea().getAreaId(), order.getOrderAddress(), 1, System.currentTimeMillis());
+		template.update(sql, Common.getCharId("O-", 10), order.getWork().getWorkId(), Common.getCharId(30),
+				order.getOrderName(), order.getOrderArea().getAreaId(), order.getOrderAddress(), 1,
+				System.currentTimeMillis());
 		return new DaoResult(true, null);
 	}
 
