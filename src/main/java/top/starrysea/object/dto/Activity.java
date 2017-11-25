@@ -56,7 +56,6 @@ public class Activity extends Entity {
 
 		@Override
 		public Activity build() {
-			// TODO 自动生成的方法存根
 			return new Activity(this);
 		}
 

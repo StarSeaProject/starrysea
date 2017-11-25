@@ -2,7 +2,7 @@ package top.starrysea.common;
 
 public class Condition {
 
-	private Integer page;
+	private Integer page = 1;
 	private String timeStart;
 	private String timeEnd;
 	private String tokenString;

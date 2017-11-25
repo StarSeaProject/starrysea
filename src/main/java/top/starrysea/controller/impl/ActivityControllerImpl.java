@@ -19,7 +19,7 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IActivityController;
 import top.starrysea.object.dto.Activity;
 import top.starrysea.object.view.in.ActivityForAdd;
-import top.starrysea.object.view.out.ActivityForAll;
+import top.starrysea.object.view.in.ActivityForAll;
 import top.starrysea.object.view.in.ActivityForModify;
 import top.starrysea.object.view.in.ActivityForOne;
 import top.starrysea.service.IActivityService;
@@ -34,9 +34,9 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 查询所有众筹活动
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView queryAllActivityController(Condition condition, Activity activity) {
+	public ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity);
+		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
 			// 查询失败则返回错误页面
@@ -44,7 +44,7 @@ public class ActivityControllerImpl implements IActivityController {
 			return modelAndView;
 		}
 		List<Activity> result = (List<Activity>) serviceResult.getResult();
-		List<ActivityForAll> voResult = result.stream().map(Activity::toVoForAll).collect(Collectors.toList());
+		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll).collect(Collectors.toList());
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());

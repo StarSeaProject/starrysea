@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Common;
@@ -24,7 +25,7 @@ public class UserControllerImpl implements IUserController {
 
 	@Override
 	// 管理员登陆
-	@RequestMapping("/login")
+	@RequestMapping(value="/login", method = RequestMethod.POST)
 	public ModelAndView loginController(HttpSession session, AdminForLogin admin,BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
