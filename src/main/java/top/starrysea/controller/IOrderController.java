@@ -14,13 +14,13 @@ import top.starrysea.object.view.in.OrderForOne;
 
 public interface IOrderController {
 
-	ModelAndView queryAllOrderController(HttpSession session,Condition condition, OrderForAll order);
+	ModelAndView queryAllOrderController(HttpSession session, Condition condition, OrderForAll order);
 
-	ModelAndView queryOrderController(OrderForOne order,BindingResult bindingResult);
+	ModelAndView queryOrderController(OrderForOne order, BindingResult bindingResult);
 
-	ModelAndView addOrderController(OrderForAdd order,BindingResult bindingResult);
+	ModelAndView addOrderController(OrderForAdd order, BindingResult bindingResult);
 
-	ModelAndView modifyOrderController(HttpSession session, OrderForModify order,BindingResult bindingResult);
+	ModelAndView modifyOrderController(HttpSession session, OrderForModify order, BindingResult bindingResult);
 
-	ModelAndView removeOrderController(HttpSession session,OrderForModify order,BindingResult bindingResult);
+	ModelAndView removeOrderController(HttpSession session, OrderForModify order, BindingResult bindingResult);
 }

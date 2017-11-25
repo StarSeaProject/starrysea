@@ -19,7 +19,8 @@ public interface IWorkController {
 
 	ModelAndView queryWorkController(WorkForOne work, BindingResult bindingResult);
 
-	ModelAndView addWorkController(HttpSession session, MultipartFile file, WorkForAdd work,BindingResult bindingResult);
+	ModelAndView addWorkController(HttpSession session, MultipartFile file, WorkForAdd work,
+			BindingResult bindingResult);
 
 	ModelAndView removeWorkController(HttpSession session, WorkForModify work, BindingResult bindingResult);
 }
