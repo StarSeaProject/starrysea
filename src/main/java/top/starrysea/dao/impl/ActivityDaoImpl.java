@@ -60,7 +60,7 @@ public class ActivityDaoImpl implements IActivityDao {
 			Activity theResult = template.queryForObject(sql, new Object[] { activity.getActivityId() },
 					(rs, row) -> new Activity.Builder().activityName(rs.getString("activity_name"))
 							.activityContent(rs.getString("activity_content"))
-							.activityStatus(rs.getShort("activity_status")).activityQrcode("activity_qrcode").build());
+							.activityStatus(rs.getShort("activity_status")).build());
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
 			return new DaoResult(false, "查询失败,原因是:" + e.getMessage());
@@ -71,10 +71,10 @@ public class ActivityDaoImpl implements IActivityDao {
 	// 添加一个众筹活动
 	public DaoResult saveActivityDao(Activity activity) {
 		String sql = "INSERT INTO activity(activity_name,activity_content,activity_status,activity_qrcode) "
-				+ "VALUES(?,?,?,?)";
+				+ "VALUES(?,?,?)";
 		try {
 			template.update(sql, activity.getActivityName(), activity.getActivityContent(),
-					activity.getActivityStatus(), activity.getActivityQcode());
+					activity.getActivityStatus());
 			return new DaoResult(true, null);
 		} catch (Exception e) {
 			return new DaoResult(false, "添加失败,原因是:" + e.getStackTrace());

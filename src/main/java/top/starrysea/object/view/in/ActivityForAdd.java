@@ -12,9 +12,6 @@ public class ActivityForAdd {
 	private String activityName;
 	@NotEmpty(message = "活动内容不能为空")
 	private String activityContent;
-	@NotEmpty(message = "二维码不能为空")
-	@Length(max = 50, message = "二维码字符串长度不能超过50")
-	private String activityQrcode;
 
 	public String getActivityName() {
 		return activityName;
@@ -32,17 +29,8 @@ public class ActivityForAdd {
 		this.activityContent = activityContent;
 	}
 
-	public String getActivityQrcode() {
-		return activityQrcode;
-	}
-
-	public void setActivityQrcode(String activityQrcode) {
-		this.activityQrcode = activityQrcode;
-	}
-
 	public Activity toDTO() {
-		return new Activity.Builder().activityName(activityName).activityContent(activityContent)
-				.activityQrcode(activityQrcode).build();
+		return new Activity.Builder().activityName(activityName).activityContent(activityContent).build();
 	}
 
 }

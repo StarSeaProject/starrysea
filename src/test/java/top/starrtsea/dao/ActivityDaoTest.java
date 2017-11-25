@@ -22,7 +22,7 @@ public class ActivityDaoTest {
 	@Test
 	public void addActivityDao() {
 		DaoResult result = activityDao.saveActivityDao(new Activity.Builder().activityName("一起退会1")
-				.activityContent("鱼死网破今晚就走").activityStatus((short) 0).activityQrcode("/starrysea").build());
+				.activityContent("鱼死网破今晚就走").activityStatus((short) 0).build());
 		System.out.println(result.getErrInfo());
 	}
 
