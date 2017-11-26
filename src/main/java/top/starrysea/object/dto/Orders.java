@@ -1,5 +1,8 @@
 package top.starrysea.object.dto;
 
+import java.util.Date;
+
+import top.starrysea.common.Common;
 import top.starrysea.object.view.out.OrderForAll;
 import top.starrysea.object.view.out.OrderForOne;
 
@@ -169,6 +172,6 @@ public class Orders extends Entity {
 
 	public OrderForOne toVoForOne() {
 		return new OrderForOne(work.getWorkName(), orderName, orderArea.getCity().getProvince().getProvinceName()
-					,orderArea.getCity().getCityName(),orderArea.getAreaName(), orderAddress, orderStatus, orderExpressnum, orderTime);
+					,orderArea.getCity().getCityName(),orderArea.getAreaName(), orderAddress, orderStatus, orderExpressnum, Common.time2String(new Date(orderTime)));
 	}
 }

@@ -105,7 +105,7 @@ public class Work extends Entity {
 		return new WorkForAll(workId, workName);
 	}
 
-	public Object toVoForOne() {
+	public WorkForOne toVoForOne() {
 		return new WorkForOne(workName, workUploadTime, workPdfpath);
 	}
 }

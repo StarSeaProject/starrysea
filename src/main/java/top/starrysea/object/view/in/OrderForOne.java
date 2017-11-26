@@ -16,7 +16,7 @@ public class OrderForOne {
 		this.orderNum = orderNum;
 	}
 
-	public Orders toDto() {
+	public Orders toDTO() {
 		return new Orders.Builder().orderNum(orderNum).build();
 	}
 }

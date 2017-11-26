@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,7 +22,6 @@ import top.starrysea.controller.IWorkController;
 import top.starrysea.object.dto.Work;
 import top.starrysea.object.view.in.WorkForAdd;
 import top.starrysea.object.view.in.WorkForAll;
-import top.starrysea.object.view.in.WorkForModify;
 import top.starrysea.object.view.in.WorkForOne;
 import top.starrysea.service.IWorkService;
 
@@ -75,7 +75,7 @@ public class WorkControllerImpl implements IWorkController {
 	@Override
 	// 添加一个作品
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView addWorkController(HttpSession session, MultipartFile file, @Valid WorkForAdd work,
+	public ModelAndView addWorkController(HttpSession session, @RequestParam("file") MultipartFile file, @Valid WorkForAdd work,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
@@ -97,7 +97,7 @@ public class WorkControllerImpl implements IWorkController {
 	@Override
 	// 删除一个作品
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeWorkController(HttpSession session, @Valid WorkForModify work,
+	public ModelAndView removeWorkController(HttpSession session, @Valid WorkForOne work,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);

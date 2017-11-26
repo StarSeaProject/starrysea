@@ -23,7 +23,6 @@ import top.starrysea.StarrtseaApplication;
 import top.starrysea.common.Condition;
 import top.starrysea.object.view.in.WorkForAdd;
 import top.starrysea.object.view.in.WorkForAll;
-import top.starrysea.object.view.in.WorkForModify;
 import top.starrysea.object.view.in.WorkForOne;
 
 @RunWith(SpringRunner.class)
@@ -70,10 +69,11 @@ public class WorkControllerTest {
 		
 	}
 	@Test
-	public void modifyWorkController(){
+	public void removeWorkController(){
 		HttpSession session=new MockHttpSession();
 		session.setAttribute("adminId", 1);
-		WorkForModify work=new WorkForModify();
+		WorkForOne work=new WorkForOne();
+		work.setWorkId(1);
 		ModelAndView modelAndView=workController.removeWorkController(session, work, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());

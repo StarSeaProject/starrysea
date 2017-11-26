@@ -16,6 +16,7 @@ import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
+import top.starrysea.object.view.in.OrderForRemove;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)
@@ -62,7 +63,8 @@ public class OrderControllerTest {
 	public void removeOrderController(){
 		HttpSession session=new MockHttpSession();
 		session.setAttribute("adminId", 1);
-		OrderForModify order=new OrderForModify();
+		OrderForRemove order=new OrderForRemove();
+		order.setOrderId("1");
 		ModelAndView modelAndView=orderController.removeOrderController(session, order, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());

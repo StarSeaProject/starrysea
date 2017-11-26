@@ -3,8 +3,6 @@ package top.starrysea.object.view.in;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.jayway.jsonpath.internal.function.numeric.Max;
-
 import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.Work;

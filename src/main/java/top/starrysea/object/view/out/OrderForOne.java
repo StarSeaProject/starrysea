@@ -1,8 +1,5 @@
 package top.starrysea.object.view.out;
 
-import top.starrysea.object.dto.Area;
-import top.starrysea.object.dto.Work;
-
 public class OrderForOne {
 	private String workName;
 	private String orderName;
@@ -12,10 +9,10 @@ public class OrderForOne {
 	private String orderAddress;
 	private short orderStatus;
 	private String orderExpressnum;
-	private long orderTime;
+	private String orderTime;
 
 	public OrderForOne(String workName, String orderName, String province, String city, String area,
-			String orderAddress, short orderStatus, String orderExpressnum, long orderTime) {
+			String orderAddress, short orderStatus, String orderExpressnum, String orderTime) {
 		super();
 		this.workName = workName;
 		this.orderName = orderName;
@@ -60,7 +57,7 @@ public class OrderForOne {
 		return orderExpressnum;
 	}
 
-	public long getOrderTime() {
+	public String getOrderTime() {
 		return orderTime;
 	}
 

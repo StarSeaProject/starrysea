@@ -7,10 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Condition;
-import top.starrysea.object.dto.Work;
 import top.starrysea.object.view.in.WorkForAdd;
 import top.starrysea.object.view.in.WorkForAll;
-import top.starrysea.object.view.in.WorkForModify;
 import top.starrysea.object.view.in.WorkForOne;
 
 public interface IWorkController {
@@ -22,5 +20,5 @@ public interface IWorkController {
 	ModelAndView addWorkController(HttpSession session, MultipartFile file, WorkForAdd work,
 			BindingResult bindingResult);
 
-	ModelAndView removeWorkController(HttpSession session, WorkForModify work, BindingResult bindingResult);
+	ModelAndView removeWorkController(HttpSession session, WorkForOne work, BindingResult bindingResult);
 }

@@ -12,7 +12,8 @@ public class WorkForAll {
 	public void setWorkName(String workName) {
 		this.workName = workName;
 	}
-	public Work toDTO(){
+
+	public Work toDTO() {
 		return new Work.Builder().workName(workName).build();
 	}
 }

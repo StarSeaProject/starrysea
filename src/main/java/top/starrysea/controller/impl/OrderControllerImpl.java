@@ -21,6 +21,7 @@ import top.starrysea.object.dto.Orders;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
+import top.starrysea.object.view.in.OrderForRemove;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.service.IOrderService;
 
@@ -58,12 +59,11 @@ public class OrderControllerImpl implements IOrderController {
 	// 根据订单号查询一个订单的具体信息以及发货情况
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public ModelAndView queryOrderController(@Valid OrderForOne order, BindingResult bindingResult) {
-
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = orderService.queryOrderService(order.toDto());
+		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
 			modelAndView.setViewName("error");
@@ -78,7 +78,7 @@ public class OrderControllerImpl implements IOrderController {
 	@Override
 	// 对一个作品进行下单
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView addOrderController(OrderForAdd order, BindingResult bindingResult) {
+	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -118,7 +118,7 @@ public class OrderControllerImpl implements IOrderController {
 	@Override
 	// 删除一个订单
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeOrderController(HttpSession session, @Valid OrderForModify order,
+	public ModelAndView removeOrderController(HttpSession session, @Valid OrderForRemove order,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);

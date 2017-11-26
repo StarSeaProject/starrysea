@@ -76,7 +76,7 @@ public class WorkServiceImpl implements IWorkService {
 					String filePath = FILE_ROOT + work.getWorkName() + Common.getCharId(5) + ".pdf";
 					try {
 						file.transferTo(new File(filePath));
-
+						work.setWorkUploadTime(Common.getNowDate());
 						work.setWorkPdfpath(filePath);
 						return new ServiceResult(workDao.saveWorkDao(work));
 					} catch (Exception e) {
