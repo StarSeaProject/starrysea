@@ -15,6 +15,7 @@ import static top.starrysea.common.Common.md5;
 
 @Repository("adminDao")
 public class AdminDaoImpl implements IAdminDao {
+	
 	@Autowired
 	private JdbcTemplate template;
 

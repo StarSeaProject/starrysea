@@ -13,6 +13,7 @@ import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IWorkDao;
 import top.starrysea.object.dto.Work;
+import top.starrysea.service.IMailService;
 import top.starrysea.service.IWorkService;
 
 import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
@@ -21,6 +22,9 @@ import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
 public class WorkServiceImpl implements IWorkService {
 	@Autowired
 	private IWorkDao workDao;
+	@Autowired
+	private IMailService mailService;
+	
 	private static final String FILE_ROOT = "D:" + File.separator + "starrysea" + File.separator;
 
 	@Override
@@ -70,15 +74,15 @@ public class WorkServiceImpl implements IWorkService {
 		if (!file.isEmpty()) {
 			if ((file.getName().substring(file.getName().lastIndexOf(".") + 1)).equalsIgnoreCase("pdf")) {
 				double fileSize = (double) file.getSize() / (double) (1024 * 1024);
-				System.out.println(fileSize);
 				if (!(fileSize > 10)) {
-
 					String filePath = FILE_ROOT + work.getWorkName() + Common.getCharId(5) + ".pdf";
 					try {
 						file.transferTo(new File(filePath));
 						work.setWorkUploadTime(Common.getNowDate());
 						work.setWorkPdfpath(filePath);
-						return new ServiceResult(workDao.saveWorkDao(work));
+						ServiceResult serviceResult = new ServiceResult(workDao.saveWorkDao(work));
+						mailService.sendMailService(work);
+						return serviceResult;
 					} catch (Exception e) {
 						e.printStackTrace();
 						return new ServiceResult("文件上传失败");
