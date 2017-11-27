@@ -1,7 +1,6 @@
 package top.starrysea.service;
 
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;

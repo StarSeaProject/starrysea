@@ -1,6 +1,7 @@
 package top.starrysea.controller.impl;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,9 +26,9 @@ public class UserControllerImpl implements IUserController {
 
 	@Override
 	// 管理员登陆
-	@RequestMapping(value="/login", method = RequestMethod.POST)
-	public ModelAndView loginController(HttpSession session, AdminForLogin admin,BindingResult bindingResult) {
-		if(bindingResult.hasErrors()) {
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ModelAndView loginController(HttpSession session, @Valid AdminForLogin admin, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
