@@ -47,7 +47,6 @@ public class MailServiceImpl implements IMailService, InitializingBean {
 		for (String receiver : receivers) {
 			threadPool.execute(new MailTask(receiver, work));
 		}
-		while(true) {}
 	}
 
 	private ThreadPoolTaskExecutor threadPool;
