@@ -20,7 +20,7 @@ public class OnlineDaoImpl implements IOnlineDao {
 	public DaoResult saveOnlineDao(Online online) {
 		String sql = "INSERT INTO online(online_id,online_email) " + "VALUES(?,?)";
 		template.update(sql, online.getOnlineId(), online.getOnlineEmail());
-		return new DaoResult(true, null);
+		return new DaoResult(true);
 	}
 
 	@Override

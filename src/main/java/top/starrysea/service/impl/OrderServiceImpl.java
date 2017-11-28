@@ -31,20 +31,20 @@ public class OrderServiceImpl implements IOrderService {
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult(daoResult);
 		}
-		List<Orders> ordersList = (List<Orders>) daoResult.getResult();
+		List<Orders> ordersList = daoResult.getResult(List.class);
 		if (ordersList.size() == 0) {
 			return new ServiceResult("查询结果为空");
 		}
 		int totalPage = 0;
 		daoResult = orderDao.getOrderCountDao(condition, order);
-		int count = (int) daoResult.getResult();
+		int count = daoResult.getResult(Integer.class);
 		if (count % PAGE_LIMIT == 0) {
 			totalPage = count / PAGE_LIMIT;
 		} else {
 			totalPage = (count / PAGE_LIMIT) + 1;
 		}
 		result.setSuccessed(true);
-		result.setResult(ordersList);
+		result.setResult(List.class, ordersList);
 		result.setNowPage(condition.getPage());
 		result.setTotalPage(totalPage);
 		return result;
@@ -58,9 +58,9 @@ public class OrderServiceImpl implements IOrderService {
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult(daoResult);
 		}
-		Orders o = (Orders) daoResult.getResult();
+		Orders o = daoResult.getResult(Orders.class);
 		result.setSuccessed(true);
-		result.setResult(o);
+		result.setResult(Orders.class, o);
 		return result;
 	}
 
@@ -69,13 +69,13 @@ public class OrderServiceImpl implements IOrderService {
 	@Transactional
 	public ServiceResult addOrderService(Orders order) {
 		ServiceResult result = new ServiceResult();
-		Work work=order.getWork();
+		Work work = order.getWork();
 		work.setWorkStock(1);
 		DaoResult daoResult = workDao.getStockDao(work);
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult("该作品不存在");
 		}
-		int stock = (int) daoResult.getResult();
+		int stock = daoResult.getResult(Integer.class);
 		if (stock == 0) {
 			return new ServiceResult("该作品已售空");
 		} else if (stock - work.getWorkStock() < 0) {
@@ -83,8 +83,7 @@ public class OrderServiceImpl implements IOrderService {
 		}
 		if (workDao.updateWorkStockDao(work).isSuccessed()
 				&& (daoResult = orderDao.saveOrderDao(order)).isSuccessed()) {
-			result.setSuccessed(true);
-			result.setResult(daoResult);
+			result = new ServiceResult(daoResult);
 		}
 		return result;
 	}

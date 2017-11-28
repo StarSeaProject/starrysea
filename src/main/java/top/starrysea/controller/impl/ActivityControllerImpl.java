@@ -43,7 +43,7 @@ public class ActivityControllerImpl implements IActivityController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		List<Activity> result = (List<Activity>) serviceResult.getResult();
+		List<Activity> result = serviceResult.getResult(List.class);
 		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll).collect(Collectors.toList());
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
@@ -68,7 +68,7 @@ public class ActivityControllerImpl implements IActivityController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		Activity a = (Activity) serviceResult.getResult();
+		Activity a = serviceResult.getResult(Activity.class);
 		modelAndView.addObject("activity", a.toVoForOne());
 		// 返回众筹活动的详细页
 		modelAndView.setViewName("activity_detail");

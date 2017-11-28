@@ -45,7 +45,7 @@ public class OrderControllerImpl implements IOrderController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		List<Orders> result = (List<Orders>) serviceResult.getResult();
+		List<Orders> result = serviceResult.getResult(List.class);
 		List<top.starrysea.object.view.out.OrderForAll> voResult = result.stream().map(Orders::toVoForAll)
 				.collect(Collectors.toList());
 		modelAndView.addObject("result", voResult);
@@ -69,7 +69,7 @@ public class OrderControllerImpl implements IOrderController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		Orders o = (Orders) serviceResult.getResult();
+		Orders o = serviceResult.getResult(Orders.class);
 		modelAndView.addObject("orders", o.toVoForOne());
 		modelAndView.setViewName("orders_details");
 		return modelAndView;

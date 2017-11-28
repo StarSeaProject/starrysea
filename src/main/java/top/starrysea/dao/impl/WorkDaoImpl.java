@@ -1,5 +1,6 @@
 package top.starrysea.dao.impl;
 
+import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.SqlWithParams;
@@ -8,10 +9,18 @@ import top.starrysea.object.dto.Work;
 
 import static top.starrysea.common.Common.*;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository("workDao")
@@ -78,8 +87,22 @@ public class WorkDaoImpl implements IWorkDao {
 	// 添加一个作品
 	public DaoResult saveWorkDao(Work work) {
 		String sql = "INSERT INTO work(work_name,work_uploadtime,work_pdfpath,work_stock) " + "VALUES(?,?,?,?)";
-		template.update(sql, work.getWorkName(), work.getWorkUploadTime(), work.getWorkPdfpath(), work.getWorkStock());
-		return new DaoResult(true, null);
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		template.update(new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, work.getWorkName());
+				ps.setString(2, work.getWorkUploadTime());
+				ps.setString(3, work.getWorkPdfpath());
+				ps.setInt(4, work.getWorkStock());
+				return ps;
+			}
+		}, keyHolder);
+		// template.update(sql, work.getWorkName(), work.getWorkUploadTime(),
+		// work.getWorkPdfpath(), work.getWorkStock());
+		return new DaoResult(true, keyHolder.getKey().intValue());
 	}
 
 	@Override
@@ -87,7 +110,7 @@ public class WorkDaoImpl implements IWorkDao {
 	public DaoResult deleteWorkDao(Work work) {
 		String sql = "DELETE FROM work " + "WHERE work_id = ?";
 		template.update(sql, work.getWorkId());
-		return new DaoResult(true, null);
+		return new DaoResult(true);
 	}
 
 	@Override
@@ -95,13 +118,13 @@ public class WorkDaoImpl implements IWorkDao {
 	public DaoResult updateWorkStockDao(Work work) {
 		String sql = "UPDATE work " + "SET work_stock = work_stock - ? " + "WHERE work_id = ?";
 		template.update(sql, work.getWorkStock(), work.getWorkId());
-		return new DaoResult(true, null);
+		return new DaoResult(true);
 	}
 
 	@Override
 	public DaoResult getStockDao(Work work) {
-		String sql="SELECT work_stock " + "FROM work "+"WHERE work_id = ?";
-		Integer theResult=template.queryForObject(sql, new Object[]{work.getWorkId()},Integer.class);
+		String sql = "SELECT work_stock " + "FROM work " + "WHERE work_id = ?";
+		Integer theResult = template.queryForObject(sql, new Object[] { work.getWorkId() }, Integer.class);
 		return new DaoResult(true, theResult);
 	}
 

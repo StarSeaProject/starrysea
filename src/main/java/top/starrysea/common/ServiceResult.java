@@ -7,22 +7,24 @@ import java.util.Map;
 public class ServiceResult {
 
 	private boolean successed = false;
-	private Object result;
+	private Map<Class<?>, Object> theResult;
 	private Integer nowPage;
 	private Integer totalPage;
 	private String errInfo;
 	private Map<String, Object> extraInfo;
 
 	public ServiceResult() {
+		theResult = new HashMap<>();
 	}
 
 	public ServiceResult(String errInfo) {
+		theResult = new HashMap<>();
 		this.errInfo = errInfo;
 	}
 
 	public ServiceResult(DaoResult daoResult) {
 		this.successed = daoResult.isSuccessed();
-		this.result = daoResult.getResult();
+		this.theResult = daoResult.getTheResult();
 		this.errInfo = daoResult.getErrInfo();
 	}
 
@@ -34,12 +36,8 @@ public class ServiceResult {
 		this.successed = successed;
 	}
 
-	public Object getResult() {
-		return result;
-	}
-
-	public void setResult(Object result) {
-		this.result = result;
+	public Object getTheResult() {
+		return theResult;
 	}
 
 	public String getErrInfo() {
@@ -74,43 +72,34 @@ public class ServiceResult {
 		this.extraInfo = extraInfo;
 	}
 
+	public <T> T getResult(Class<T> type) {
+		return type.cast(theResult.get(type));
+	}
+
+	public <T> void setResult(Class<T> type, T result) {
+		if (type == null)
+			throw new NullPointerException("类型不能为空");
+		theResult.put(type, result);
+	}
+
 	public String toString() {
 		if (this.successed) {
-			if (this.result instanceof List) {
+			if (this.theResult == null) {
+				return "successed : " + this.successed;
+			}
+			if (this.theResult.get(List.class) != null) {
 				String result = "successed : " + this.successed + "\n" + "result : \n";
-				List list = (List) this.result;
+				List<?> list = this.getResult(List.class);
 				for (Object object : list) {
 					result += "\t" + object.toString() + "\n";
 				}
 				result += "\n";
 				return result + "nowPage : " + this.nowPage + "\n" + "totalPage : " + this.totalPage;
 			} else {
-				return "successed : " + this.successed + "\n" + "result : " + this.result;
+				return "successed : " + this.successed + "\n" + "result : " + this.theResult;
 			}
 		} else {
 			return "successed : " + this.successed + "\n" + "errInfo : " + this.errInfo;
 		}
-	}
-
-	public Map<String, Object> toMap() {
-		Map<String, Object> theResult = new HashMap<String, Object>();
-		if (this.successed) {
-			if (this.result instanceof Map) {
-				theResult = (Map<String, Object>) this.result;
-				theResult.put("successed", this.successed);
-			} else if (this.result instanceof List) {
-				theResult.put("successed", this.successed);
-				theResult.put("resultList", this.result);
-				theResult.put("nowPage", this.nowPage);
-				theResult.put("totalPage", this.totalPage);
-			} else {
-				theResult.put("successed", this.successed);
-				theResult.put("result", this.result);
-			}
-		} else {
-			theResult.put("successed", this.successed);
-			theResult.put("errInfo", this.errInfo);
-		}
-		return theResult;
 	}
 }

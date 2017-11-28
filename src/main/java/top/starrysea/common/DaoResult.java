@@ -1,14 +1,37 @@
 package top.starrysea.common;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import top.starrysea.object.dto.Entity;
+
 public class DaoResult {
 
 	private boolean successed;
-	private Object result;
+	private Map<Class<?>,Object> theResult;
 	private String errInfo;
-
-	public DaoResult(boolean successed, Object result) {
+	
+	public DaoResult(boolean successed) {
 		this.successed = successed;
-		this.result = result;
+	}
+	
+	public DaoResult(boolean successed, List<?> result) {
+		theResult=new HashMap<>();
+		this.successed = successed;
+		this.theResult.put(List.class, result);
+	}
+	
+	public DaoResult(boolean successed, Entity result) {
+		theResult=new HashMap<>();
+		this.successed = successed;
+		this.theResult.put(result.getClass(), result);
+	}
+	
+	public DaoResult(boolean successed, Integer result) {
+		theResult=new HashMap<>();
+		this.successed = successed;
+		this.theResult.put(Integer.class, result);
 	}
 
 	public DaoResult(boolean result, String errInfo) {
@@ -32,12 +55,12 @@ public class DaoResult {
 		this.errInfo = errInfo;
 	}
 
-	public Object getResult() {
-		return result;
+	public Map<Class<?>,Object> getTheResult() {
+		return theResult;
 	}
-
-	public void setResult(Object result) {
-		this.result = result;
+	
+	public <T> T getResult(Class<T> type) {
+		return type.cast(theResult.get(type));
 	}
 
 }

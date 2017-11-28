@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import groovyjarjarantlr.collections.List;
 import top.starrysea.StarrtseaApplication;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
@@ -15,7 +16,7 @@ import top.starrysea.object.dto.Activity;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)
 public class ActivityDaoTest {
-	
+
 	@Autowired
 	private IActivityDao activityDao;
 
@@ -38,20 +39,22 @@ public class ActivityDaoTest {
 		Condition condition = new Condition();
 		condition.setPage(1);
 		DaoResult result = activityDao.getAllActivityDao(condition, new Activity.Builder().activityName("一起").build());
-		System.out.println(result.getResult());
+		System.out.println(result.getResult(List.class));
 	}
 
 	@Test
 	public void getActivityCountDao() {
 		Condition condition = new Condition();
 		condition.setPage(1);
-		DaoResult result = activityDao.getActivityCountDao(condition, new Activity.Builder().activityName("一起").build());
-		System.out.println(result.getResult());
+		DaoResult result = activityDao.getActivityCountDao(condition,
+				new Activity.Builder().activityName("一起").build());
+		System.out.println(result.getResult(Integer.class));
 	}
 
 	@Test
 	public void getActivityDao() {
-		System.out.println(activityDao.getActivityDao(new Activity.Builder().activityId(2).build()).getResult());
+		System.out.println(
+				activityDao.getActivityDao(new Activity.Builder().activityId(2).build()).getResult(Activity.class));
 	}
 
 	@Test

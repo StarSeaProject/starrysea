@@ -42,7 +42,7 @@ public class WorkControllerImpl implements IWorkController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		List<Work> result = (List<Work>) serviceResult.getResult();
+		List<Work> result = serviceResult.getResult(List.class);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());
 		modelAndView.addObject("result", voResult);
@@ -66,7 +66,7 @@ public class WorkControllerImpl implements IWorkController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		Work w = (Work) serviceResult.getResult();
+		Work w = serviceResult.getResult(Work.class);
 		modelAndView.addObject("work", w.toVoForOne());
 		modelAndView.setViewName("work_detail");
 		return modelAndView;
@@ -84,7 +84,7 @@ public class WorkControllerImpl implements IWorkController {
 		if (session.getAttribute("adminId") == null) {
 			return new ModelAndView("login");
 		}
-		ServiceResult serviceResult = workService.addWorkService(file, work.toDTO());
+		ServiceResult serviceResult = workService.addWorkService(file, work.toDTO_work() ,work.toDTO_workImage());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
 			modelAndView.setViewName("error");

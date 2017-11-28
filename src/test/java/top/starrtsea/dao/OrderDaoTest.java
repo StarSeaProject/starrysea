@@ -4,8 +4,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import groovyjarjarantlr.collections.List;
 import top.starrysea.StarrtseaApplication;
 import top.starrysea.common.Condition;
 import top.starrysea.dao.IOrderDao;
@@ -22,7 +24,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void getOrderDao() {
-		System.out.println(orderDao.getOrderDao(new Orders.Builder().orderNum("111").build()).getResult());
+		System.out.println(orderDao.getOrderDao(new Orders.Builder().orderNum("111").build()).getResult(Orders.class));
 	}
 
 	@Test
@@ -45,13 +47,13 @@ public class OrderDaoTest {
 	public void getAllOrderDao() {
 		Condition condition=new Condition();
 		condition.setPage(1);
-		System.out.println(orderDao.getAllOrderDao(condition, new Orders.Builder().orderStatus((short)1).build()).getResult());
+		System.out.println(orderDao.getAllOrderDao(condition, new Orders.Builder().orderStatus((short)1).build()).getResult(List.class));
 	}
 	
 	@Test
 	public void getOrderCountDao() {
 		Condition condition=new Condition();
 		condition.setPage(1);
-		System.out.println(orderDao.getOrderCountDao(condition, new Orders.Builder().orderStatus((short)1).build()).getResult());
+		System.out.println(orderDao.getOrderCountDao(condition, new Orders.Builder().orderStatus((short)1).build()).getResult(Integer.class));
 	}
 }

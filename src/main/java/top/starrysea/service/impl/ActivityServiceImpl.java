@@ -28,20 +28,20 @@ public class ActivityServiceImpl implements IActivityService {
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult(daoResult);
 		}
-		List<Activity> activitylist = (List<Activity>) daoResult.getResult();
+		List<Activity> activitylist = daoResult.getResult(List.class);
 		if (activitylist.size() == 0) {
 			return new ServiceResult("查询结果为空");
 		}
 		int totalPage = 0;
 		daoResult = activityDao.getActivityCountDao(condition, activity);
-		int count = (int) daoResult.getResult();
+		int count = daoResult.getResult(Integer.class);
 		if (count % PAGE_LIMIT == 0)
 			totalPage = count / PAGE_LIMIT;
 		else
 			totalPage = (count / PAGE_LIMIT) + 1;
 
 		result.setSuccessed(true);
-		result.setResult(activitylist);
+		result.setResult(List.class, activitylist);
 		result.setNowPage(condition.getPage());
 		result.setTotalPage(totalPage);
 		return result;
@@ -55,9 +55,9 @@ public class ActivityServiceImpl implements IActivityService {
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult(daoResult);
 		}
-		Activity a = (Activity) daoResult.getResult();
+		Activity a = daoResult.getResult(Activity.class);
 		result.setSuccessed(true);
-		result.setResult(a);
+		result.setResult(Activity.class, a);
 		return result;
 	}
 

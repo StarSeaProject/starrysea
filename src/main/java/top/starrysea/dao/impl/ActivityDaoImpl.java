@@ -75,7 +75,7 @@ public class ActivityDaoImpl implements IActivityDao {
 		try {
 			template.update(sql, activity.getActivityName(), activity.getActivityContent(),
 					activity.getActivityStatus());
-			return new DaoResult(true, null);
+			return new DaoResult(true);
 		} catch (Exception e) {
 			return new DaoResult(false, "添加失败,原因是:" + e.getStackTrace());
 		}
@@ -88,7 +88,7 @@ public class ActivityDaoImpl implements IActivityDao {
 		String sql = "UPDATE activity " + "SET activity_status = ? " + "WHERE activity_id = ?";
 		try {
 			template.update(sql, activity.getActivityStatus(), activity.getActivityId());
-			return new DaoResult(true, null);
+			return new DaoResult(true);
 		} catch (Exception e) {
 			return new DaoResult(false, "修改失败,原因是" + e.getStackTrace());
 		}
@@ -100,7 +100,7 @@ public class ActivityDaoImpl implements IActivityDao {
 		String sql = "DELETE FROM activity " + "WHERE activity_id = ?";
 		try {
 			template.update(sql, activity.getActivityId());
-			return new DaoResult(true, null);
+			return new DaoResult(true);
 		} catch (Exception e) {
 			return new DaoResult(false, "删除失败，原因是：" + e.getStackTrace());
 		}

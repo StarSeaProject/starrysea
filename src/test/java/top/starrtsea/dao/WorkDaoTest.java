@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import groovyjarjarantlr.collections.List;
 import top.starrysea.StarrtseaApplication;
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
@@ -23,19 +24,19 @@ public class WorkDaoTest {
 	public void getAllWorkDao() {
 		Condition condition = new Condition();
 		condition.setPage(1);
-		System.out.println(workDao.getAllWorkDao(condition, new Work.Builder().build()).getResult());
+		System.out.println(workDao.getAllWorkDao(condition, new Work.Builder().build()).getResult(List.class));
 	}
 
 	@Test
 	public void getWorkCountDao() {
 		Condition condition = new Condition();
 		condition.setPage(1);
-		System.out.println(workDao.getWorkCountDao(condition, new Work.Builder().build()).getResult());
+		System.out.println(workDao.getWorkCountDao(condition, new Work.Builder().build()).getResult(Work.class));
 	}
 
 	@Test
 	public void getWorkDao() {
-		System.out.println(workDao.getWorkDao(new Work.Builder().workId(1).build()).getResult());
+		System.out.println(workDao.getWorkDao(new Work.Builder().workId(1).build()).getResult(Integer.class));
 	}
 
 	@Test
@@ -56,6 +57,6 @@ public class WorkDaoTest {
 
 	@Test
 	public void getStockDao() {
-		System.out.println(workDao.getStockDao(new Work.Builder().workId(1).build()).getResult());
+		System.out.println(workDao.getStockDao(new Work.Builder().workId(1).build()).getResult(Integer.class));
 	}
 }

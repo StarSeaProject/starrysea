@@ -54,7 +54,7 @@ public class OrderDaoImpl implements IOrderDao {
 		template.update(sql, Common.getCharId("O-", 10), order.getWork().getWorkId(), Common.getCharId(30),
 				order.getOrderName(), order.getOrderArea().getAreaId(), order.getOrderAddress(), 1,
 				System.currentTimeMillis());
-		return new DaoResult(true, null);
+		return new DaoResult(true);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class OrderDaoImpl implements IOrderDao {
 			sql = "UPDATE orders " + "SET order_status = ? " + "WHERE order_id = ?";
 			template.update(sql, order.getOrderStatus(), order.getOrderId());
 		}
-		return new DaoResult(true, null);
+		return new DaoResult(true);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class OrderDaoImpl implements IOrderDao {
 	public DaoResult deleteOrderDao(Orders order) {
 		String sql = "DELETE FROM orders " + "WHERE order_id = ?";
 		template.update(sql, order.getOrderId());
-		return new DaoResult(true, null);
+		return new DaoResult(true);
 	}
 
 	@Override

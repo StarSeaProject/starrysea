@@ -3,6 +3,7 @@ package top.starrysea.common;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +47,24 @@ public class Common {
 
 	public static String time2String(Date date) {
 		return timeSdf.format(date);
+	}
+	
+	public static Date string2Date(String str) {
+		try {
+			return dateSdf.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static Date string2Time(String str) {
+		try {
+			return timeSdf.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public static String getNowDate() {
