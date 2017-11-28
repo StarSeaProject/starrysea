@@ -6,6 +6,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class MailServiceImpl implements IMailService, InitializingBean {
 		for (String receiver : receivers) {
 			threadPool.execute(new MailTask(receiver, work));
 		}
+		while(true) {}
 	}
 
 	private ThreadPoolTaskExecutor threadPool;
@@ -76,8 +78,8 @@ public class MailServiceImpl implements IMailService, InitializingBean {
 			try {
 				mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 				mimeMessageHelper.setTo(to);
-				String nick = javax.mail.internet.MimeUtility.encodeText("星之海志愿者公会");
-				mimeMessageHelper.setFrom(new InternetAddress(nick + "<kuma_loveliver@163.com>"));
+				String nick = MimeUtility.encodeText("星之海志愿者公会");
+				mimeMessageHelper.setFrom(new InternetAddress(nick + "<mumuzhizhi@starrysea.top>"));
 				mimeMessageHelper.setSubject("星之海志愿者公会推送:" + work.getWorkName());
 				mimeMessageHelper.setText(work.getWorkPdfpath());
 				mailSender.send(mimeMessage);
