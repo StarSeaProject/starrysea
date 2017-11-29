@@ -2,7 +2,6 @@ package top.starrysea.service;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -17,7 +16,6 @@ import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.Work;
-import top.starrysea.object.dto.WorkImage;
 import top.starrysea.service.IWorkService;
 
 @RunWith(SpringRunner.class)
@@ -43,14 +41,10 @@ public class WorkServiceTest {
 	@Test
 	public void addWorkService() {
 		Work work = new Work.Builder().workName("a").workStock(5).workUploadTime(Common.getNowDate()).build();
-		List<WorkImage> workImages = new ArrayList<>();
-		workImages.add(new WorkImage.Builder().work(work).workImagePath("aa").build());
-		workImages.add(new WorkImage.Builder().work(work).workImagePath("bb").build());
-		workImages.add(new WorkImage.Builder().work(work).workImagePath("cc").build());
 		try {
 			MockMultipartFile file = new MockMultipartFile("5.pdf",
 					new FileInputStream(new File("D:/Lovelive/call表/自制call表/Aqours/“MY LIST” to you!.pdf")));
-			System.out.println(workService.addWorkService(file, work, workImages));
+			System.out.println(workService.addWorkService(file, work));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("错错错");

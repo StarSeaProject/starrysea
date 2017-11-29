@@ -84,7 +84,7 @@ public class WorkControllerImpl implements IWorkController {
 		if (session.getAttribute("adminId") == null) {
 			return new ModelAndView("login");
 		}
-		ServiceResult serviceResult = workService.addWorkService(file, work.toDTO_work() ,work.toDTO_workImage());
+		ServiceResult serviceResult = workService.addWorkService(file, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
 			modelAndView.setViewName("error");

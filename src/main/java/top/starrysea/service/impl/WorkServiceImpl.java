@@ -3,8 +3,6 @@ package top.starrysea.service.impl;
 import java.io.File;
 import java.util.List;
 
-import javax.swing.text.html.parser.Entity;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +13,8 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IWorkDao;
-import top.starrysea.dao.IWorkImageDao;
+import top.starrysea.dao.IActivityImageDao;
 import top.starrysea.object.dto.Work;
-import top.starrysea.object.dto.WorkImage;
 import top.starrysea.service.IMailService;
 import top.starrysea.service.IWorkService;
 
@@ -27,8 +24,6 @@ import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
 public class WorkServiceImpl implements IWorkService {
 	@Autowired
 	private IWorkDao workDao;
-	@Autowired
-	private IWorkImageDao workImageDao;
 	@Autowired
 	private IMailService mailService;
 
@@ -70,21 +65,14 @@ public class WorkServiceImpl implements IWorkService {
 			return new ServiceResult(daoResult);
 		}
 		Work w = daoResult.getResult(Work.class);
-		daoResult = workImageDao.getAllWorkImageDao(work);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
-		List<WorkImage> workImages = daoResult.getResult(List.class);
 		result.setSuccessed(true);
 		result.setResult(Work.class, w);
-		result.setResult(List.class, workImages);
 		return result;
 	}
 
 	@Override
 	// 添加一个作品
-	@Transactional
-	public ServiceResult addWorkService(MultipartFile file, Work work, List<WorkImage> workImages) {
+	public ServiceResult addWorkService(MultipartFile file, Work work) {
 		if (!file.isEmpty()) {
 			if ((file.getName().substring(file.getName().lastIndexOf(".") + 1)).equalsIgnoreCase("pdf")) {
 				double fileSize = (double) file.getSize() / (double) (1024 * 1024);
@@ -98,15 +86,7 @@ public class WorkServiceImpl implements IWorkService {
 						if (!daoResult.isSuccessed()) {
 							throw new RuntimeException("插入作品失败");
 						}
-						work.setWorkId(daoResult.getResult(Integer.class));
-						for(WorkImage workImage:workImages) {
-							workImage.setWork(work);
-						}
-						daoResult = workImageDao.saveWorkImageDao(workImages);
-						if (!daoResult.isSuccessed()) {
-							throw new RuntimeException("插入作品图片失败");
-						}
-						//mailService.sendMailService(work);
+						mailService.sendMailService(work);
 						return new ServiceResult(daoResult);
 					} catch (Exception e) {
 						e.printStackTrace();

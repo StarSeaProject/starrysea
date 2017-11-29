@@ -87,22 +87,8 @@ public class WorkDaoImpl implements IWorkDao {
 	// 添加一个作品
 	public DaoResult saveWorkDao(Work work) {
 		String sql = "INSERT INTO work(work_name,work_uploadtime,work_pdfpath,work_stock) " + "VALUES(?,?,?,?)";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		template.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-				ps.setString(1, work.getWorkName());
-				ps.setString(2, work.getWorkUploadTime());
-				ps.setString(3, work.getWorkPdfpath());
-				ps.setInt(4, work.getWorkStock());
-				return ps;
-			}
-		}, keyHolder);
-		// template.update(sql, work.getWorkName(), work.getWorkUploadTime(),
-		// work.getWorkPdfpath(), work.getWorkStock());
-		return new DaoResult(true, keyHolder.getKey().intValue());
+		template.update(sql, work.getWorkName(), work.getWorkUploadTime(), work.getWorkPdfpath(), work.getWorkStock());
+		return new DaoResult(true);
 	}
 
 	@Override

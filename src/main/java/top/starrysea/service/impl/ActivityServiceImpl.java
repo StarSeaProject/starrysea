@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IActivityDao;
+import top.starrysea.dao.IActivityImageDao;
 import top.starrysea.object.dto.Activity;
+import top.starrysea.object.dto.ActivityImage;
 import top.starrysea.service.IActivityService;
 
 import static top.starrysea.dao.impl.ActivityDaoImpl.PAGE_LIMIT;
@@ -19,6 +22,8 @@ public class ActivityServiceImpl implements IActivityService {
 
 	@Autowired
 	private IActivityDao activityDao;
+	@Autowired
+	private IActivityImageDao activityImageDao;
 
 	@Override
 	// 查询所有众筹活动
@@ -63,9 +68,18 @@ public class ActivityServiceImpl implements IActivityService {
 
 	@Override
 	// 添加一个众筹活动
-	public ServiceResult addActivityService(Activity activity) {
+	@Transactional
+	public ServiceResult addActivityService(Activity activity, List<ActivityImage> activityImages) {
 		activity.setActivityStatus((short) 1);
-		return new ServiceResult(activityDao.saveActivityDao(activity));
+		DaoResult daoResult = activityDao.saveActivityDao(activity);
+		if (!daoResult.isSuccessed()) {
+			return new ServiceResult(daoResult);
+		}
+		activity.setActivityId(daoResult.getResult(Integer.class));
+		for (ActivityImage activityImage : activityImages) {
+			activityImage.setActivity(activity);
+		}
+		return new ServiceResult(activityImageDao.saveActivityImageDao(activityImages));
 	}
 
 	@Override

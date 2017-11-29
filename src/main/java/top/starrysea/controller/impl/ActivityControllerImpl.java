@@ -44,7 +44,8 @@ public class ActivityControllerImpl implements IActivityController {
 			return modelAndView;
 		}
 		List<Activity> result = serviceResult.getResult(List.class);
-		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll).collect(Collectors.toList());
+		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
+				.collect(Collectors.toList());
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
@@ -88,7 +89,7 @@ public class ActivityControllerImpl implements IActivityController {
 			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
 			return new ModelAndView("login");
 		}
-		ServiceResult serviceResult = activityService.addActivityService(activity.toDTO());
+		ServiceResult serviceResult = activityService.addActivityService(activity.toDTO(), activity.toDTO_image());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
 			// 查询失败则返回错误页面
