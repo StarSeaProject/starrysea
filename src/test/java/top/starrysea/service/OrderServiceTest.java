@@ -29,7 +29,7 @@ public class OrderServiceTest {
 	@Test
 	public void queryOrderService() {
 		System.out.println(orderService
-				.queryOrderService(new Orders.Builder().orderNum("Xx5vxUQJkZCDJsUksyMBjympMyRj84").build()));
+				.queryOrderService(new Orders.Builder().orderNum("MWsW8VnJZSWLX7WdzXJDYpVKMsKzZD").build()));
 	}
 
 	@Test

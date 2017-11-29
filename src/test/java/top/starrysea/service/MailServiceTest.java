@@ -19,7 +19,7 @@ public class MailServiceTest {
 	
 	@Test
 	public void addMailService() {
-		service.addMailService(new Online.Builder().onlineEmail("709782571@qq.com").build());
+		System.out.println(service.addMailService(new Online.Builder().onlineEmail("7097825711@qq.com").build()));
 	}
 	
 	@Test

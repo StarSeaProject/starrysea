@@ -21,7 +21,7 @@ public class ActivityDaoTest {
 	private IActivityDao activityDao;
 
 	@Test
-	public void addActivityDao() {
+	public void saveActivityDao() {
 		DaoResult result = activityDao.saveActivityDao(new Activity.Builder().activityName("一起退会1")
 				.activityContent("鱼死网破今晚就走").activityStatus((short) 0).build());
 		System.out.println(result.getErrInfo());
@@ -30,7 +30,7 @@ public class ActivityDaoTest {
 	@Test
 	public void updateActivityDao() {
 		DaoResult result = activityDao
-				.updateActivityDao(new Activity.Builder().activityStatus((short) 2).activityId(1).build());
+				.updateActivityDao(new Activity.Builder().activityStatus((short) 2).activityId(187).build());
 		System.out.println(result.getErrInfo());
 	}
 

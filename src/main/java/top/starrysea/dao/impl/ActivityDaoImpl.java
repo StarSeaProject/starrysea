@@ -70,14 +70,15 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	// 添加一个众筹活动
 	public DaoResult saveActivityDao(Activity activity) {
-		String sql = "INSERT INTO activity(activity_name,activity_content,activity_status,activity_qrcode) "
+		String sql = "INSERT INTO activity(activity_name,activity_content,activity_status) "
 				+ "VALUES(?,?,?)";
 		try {
 			template.update(sql, activity.getActivityName(), activity.getActivityContent(),
 					activity.getActivityStatus());
 			return new DaoResult(true);
 		} catch (Exception e) {
-			return new DaoResult(false, "添加失败,原因是:" + e.getStackTrace());
+			e.printStackTrace();
+			return new DaoResult(false, "添加失败,原因是:" + e.getMessage());
 		}
 
 	}

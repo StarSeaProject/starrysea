@@ -3,6 +3,7 @@ package top.starrysea.dao.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +20,11 @@ public class OnlineDaoImpl implements IOnlineDao {
 	@Override
 	public DaoResult saveOnlineDao(Online online) {
 		String sql = "INSERT INTO online(online_id,online_email) " + "VALUES(?,?)";
-		template.update(sql, online.getOnlineId(), online.getOnlineEmail());
+		try {
+			template.update(sql, online.getOnlineId(), online.getOnlineEmail());
+		} catch (DuplicateKeyException e) {
+			return new DaoResult(false, "重复的email!");
+		}
 		return new DaoResult(true);
 	}
 
