@@ -22,8 +22,8 @@ import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
 
 @Service("workService")
 public class WorkServiceImpl implements IWorkService {
-	
-	private final Logger logger=LoggerFactory.getLogger(this.getClass());
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IWorkDao workDao;
 	@Autowired

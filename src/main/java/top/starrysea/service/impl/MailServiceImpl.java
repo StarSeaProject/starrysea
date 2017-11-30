@@ -28,7 +28,7 @@ import top.starrysea.service.IMailService;
 @Service("mailService")
 public class MailServiceImpl implements IMailService, InitializingBean {
 
-	private final Logger logger=LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IOnlineDao onlineDao;
 	@Autowired

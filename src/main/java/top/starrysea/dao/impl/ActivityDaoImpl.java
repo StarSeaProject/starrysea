@@ -25,8 +25,8 @@ import top.starrysea.object.dto.Activity;
 
 @Repository("activityDao")
 public class ActivityDaoImpl implements IActivityDao {
-	
-	private final Logger logger=LoggerFactory.getLogger(this.getClass());
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private JdbcTemplate template;
 	// 众筹每页显示条数

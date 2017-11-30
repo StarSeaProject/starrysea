@@ -13,7 +13,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private IAdminDao adminDao;
-	
+
 	@Override
 	// 管理员登陆
 	public ServiceResult loginService(Admin admin) {
