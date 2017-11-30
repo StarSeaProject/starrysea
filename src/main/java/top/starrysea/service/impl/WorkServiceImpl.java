@@ -3,9 +3,10 @@ package top.starrysea.service.impl;
 import java.io.File;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import top.starrysea.common.Common;
@@ -13,7 +14,6 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IWorkDao;
-import top.starrysea.dao.IActivityImageDao;
 import top.starrysea.object.dto.Work;
 import top.starrysea.service.IMailService;
 import top.starrysea.service.IWorkService;
@@ -22,6 +22,8 @@ import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
 
 @Service("workService")
 public class WorkServiceImpl implements IWorkService {
+	
+	private final Logger logger=LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IWorkDao workDao;
 	@Autowired
@@ -89,7 +91,7 @@ public class WorkServiceImpl implements IWorkService {
 						mailService.sendMailService(work);
 						return new ServiceResult(daoResult);
 					} catch (Exception e) {
-						e.printStackTrace();
+						logger.error(e.getMessage(), e);
 						return new ServiceResult("文件上传失败");
 					}
 				} else {

@@ -1,6 +1,5 @@
 package top.starrysea.dao.impl;
 
-import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.SqlWithParams;
@@ -9,18 +8,10 @@ import top.starrysea.object.dto.Work;
 
 import static top.starrysea.common.Common.*;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository("workDao")

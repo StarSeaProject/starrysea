@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -23,20 +24,20 @@ import top.starrysea.object.dto.Entity;
 
 public class Common {
 
-	private static Logger logger = Logger.getLogger(Common.class);
+	private final static Logger logger = LoggerFactory.getLogger(Common.class);
 	private static SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
-	private static SimpleDateFormat timeSdf = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss");
+	private static SimpleDateFormat timeSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-	//私有构造器防止外部创建新的Util对象
-	private Common(){}
-	
+	// 私有构造器防止外部创建新的Util对象
+	private Common() {
+	}
+
 	public static String toJson(Object target) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			return mapper.writeValueAsString(target);
 		} catch (Exception ex) {
-			logger.error(ex.getMessage(),ex);
+			logger.error(ex.getMessage(), ex);
 		}
 		return "";
 	}
@@ -48,21 +49,21 @@ public class Common {
 	public static String time2String(Date date) {
 		return timeSdf.format(date);
 	}
-	
+
 	public static Date string2Date(String str) {
 		try {
 			return dateSdf.parse(str);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 		return null;
 	}
-	
+
 	public static Date string2Time(String str) {
 		try {
 			return timeSdf.parse(str);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -121,18 +122,18 @@ public class Common {
 				result = true;
 			else
 				result = false;
-		} else if(object instanceof Integer) {
-			int num=(int) object;
-			if(num==0)
-				result=false;
+		} else if (object instanceof Integer) {
+			int num = (int) object;
+			if (num == 0)
+				result = false;
 			else
-				result=true;
-		} else if(object instanceof Short) {
-			short num=(short) object;
-			if(num==0)
-				result=false;
+				result = true;
+		} else if (object instanceof Short) {
+			short num = (short) object;
+			if (num == 0)
+				result = false;
 			else
-				result=true;
+				result = true;
 		}
 		return result;
 	}
@@ -143,7 +144,7 @@ public class Common {
 			md.update(str.getBytes());
 			return new BigInteger(1, md.digest()).toString(16);
 		} catch (Exception ex) {
-			logger.error(ex.getMessage(),ex);
+			logger.error(ex.getMessage(), ex);
 			return "";
 		}
 	}
@@ -162,11 +163,11 @@ public class Common {
 		try {
 			return mapper.readValue(json, clazz);
 		} catch (IOException e) {
-			logger.error(e.getMessage(),e);
+			logger.error(e.getMessage(), e);
 		}
 		return clazz.cast(new Object());
 	}
-	
+
 	public static ModelAndView handleVaildError(BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
 		List<String> errInfo = bindingResult.getAllErrors().stream()

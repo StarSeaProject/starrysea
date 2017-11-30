@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -23,6 +25,8 @@ import top.starrysea.object.dto.Activity;
 
 @Repository("activityDao")
 public class ActivityDaoImpl implements IActivityDao {
+	
+	private final Logger logger=LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private JdbcTemplate template;
 	// 众筹每页显示条数
@@ -40,6 +44,7 @@ public class ActivityDaoImpl implements IActivityDao {
 					.activityId(rs.getInt("activity_id")).activityName(rs.getString("activity_name")).build());
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			return new DaoResult(false, "查询失败,原因是:" + e.getStackTrace());
 		}
 	}
@@ -54,6 +59,7 @@ public class ActivityDaoImpl implements IActivityDao {
 			Integer theResult = template.queryForObject(sql, params, Integer.class);
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			return new DaoResult(false, "查询失败,原因是:" + e.getStackTrace());
 		}
 	}
@@ -70,6 +76,7 @@ public class ActivityDaoImpl implements IActivityDao {
 							.activityStatus(rs.getShort("activity_status")).build());
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			return new DaoResult(false, "查询失败,原因是:" + e.getMessage());
 		}
 	}
@@ -93,7 +100,7 @@ public class ActivityDaoImpl implements IActivityDao {
 			}, keyHolder);
 			return new DaoResult(true, keyHolder.getKey().intValue());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return new DaoResult(false, "添加失败,原因是:" + e.getMessage());
 		}
 
@@ -107,6 +114,7 @@ public class ActivityDaoImpl implements IActivityDao {
 			template.update(sql, activity.getActivityStatus(), activity.getActivityId());
 			return new DaoResult(true);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			return new DaoResult(false, "修改失败,原因是" + e.getStackTrace());
 		}
 	}
@@ -119,6 +127,7 @@ public class ActivityDaoImpl implements IActivityDao {
 			template.update(sql, activity.getActivityId());
 			return new DaoResult(true);
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			return new DaoResult(false, "删除失败，原因是：" + e.getStackTrace());
 		}
 	}

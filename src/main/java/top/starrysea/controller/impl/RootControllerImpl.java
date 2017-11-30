@@ -12,6 +12,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ import top.starrysea.controller.IRootController;
 @Controller
 public class RootControllerImpl implements IRootController {
 
+	private final Logger logger=LoggerFactory.getLogger(this.getClass());
 	private final static String UPLOAD_PATH = "D:/develop/nginx-1.12.1/img/";
 
 	@Override
@@ -62,7 +65,7 @@ public class RootControllerImpl implements IRootController {
 			response.getWriter().write(theResult);
 			response.getWriter().flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 	}
 

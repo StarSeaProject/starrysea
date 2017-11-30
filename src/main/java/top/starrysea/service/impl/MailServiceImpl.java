@@ -8,6 +8,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -26,6 +28,7 @@ import top.starrysea.service.IMailService;
 @Service("mailService")
 public class MailServiceImpl implements IMailService, InitializingBean {
 
+	private final Logger logger=LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IOnlineDao onlineDao;
 	@Autowired
@@ -83,9 +86,9 @@ public class MailServiceImpl implements IMailService, InitializingBean {
 				mimeMessageHelper.setText(work.getWorkPdfpath());
 				mailSender.send(mimeMessage);
 			} catch (MessagingException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e);
 			}
 		}
 

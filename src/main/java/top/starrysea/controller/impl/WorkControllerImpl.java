@@ -28,6 +28,7 @@ import top.starrysea.service.IWorkService;
 @Controller
 @RequestMapping(value = "/work")
 public class WorkControllerImpl implements IWorkController {
+	
 	@Autowired
 	private IWorkService workService;
 
