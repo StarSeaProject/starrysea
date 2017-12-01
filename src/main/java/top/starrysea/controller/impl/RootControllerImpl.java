@@ -29,13 +29,18 @@ import top.starrysea.controller.IRootController;
 @Controller
 public class RootControllerImpl implements IRootController {
 
-	private final Logger logger=LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final static String UPLOAD_PATH = "D:/develop/nginx-1.12.1/img/";
 
 	@Override
 	@RequestMapping("/")
 	public ModelAndView index() {
 		return new ModelAndView("index");
+	}
+	
+	@RequestMapping("/intro")
+	public ModelAndView intro() {
+		return new ModelAndView("intro");
 	}
 
 	@Override

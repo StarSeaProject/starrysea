@@ -18,19 +18,69 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IOrderController;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.Work;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
+import top.starrysea.object.view.in.WorkForAll;
+import top.starrysea.object.view.in.WorkForOne;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.service.IOrderService;
+import top.starrysea.service.IWorkService;
 
 @Controller
 @RequestMapping(value = "/order")
 public class OrderControllerImpl implements IOrderController {
+	
 	@Autowired
 	private IOrderService orderService;
-
+	@Autowired
+	private IWorkService workService;
+	
+	@Override
+	// 查询所有的作品
+	@RequestMapping(value = "/getWorks", method = RequestMethod.GET)
+	public ModelAndView queryAllWorkForOrderController(Condition condition,WorkForAll work) {
+		ModelAndView modelAndView = new ModelAndView();
+		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.setViewName("error");
+			return modelAndView;
+		}
+		List<Work> result = serviceResult.getResult(List.class);
+		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
+				.collect(Collectors.toList());
+		modelAndView.addObject("result", voResult);
+		modelAndView.addObject("nowPage", serviceResult.getNowPage());
+		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
+		modelAndView.setViewName("work_orders");
+		return modelAndView;
+	}
+	
+	@Override
+	// 查询所有的作品
+	@RequestMapping(value = "/getWork", method = RequestMethod.GET)
+	public ModelAndView queryWorkForOrderController(@Valid WorkForOne work, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.setViewName("error");
+			return modelAndView;
+		}
+		Work w = serviceResult.getResult(Work.class);
+		modelAndView.addObject("work", w.toVoForOne());
+		modelAndView.addObject("workId", work.getWorkId());
+		modelAndView.setViewName("work_detail_orders");
+		return modelAndView;
+	}
+	
+	
 	@Override
 	// 查询所有的订单
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -75,6 +125,14 @@ public class OrderControllerImpl implements IOrderController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "/toAddOrder", method = RequestMethod.GET)
+	public ModelAndView gotoAddOrder(@Valid WorkForOne work) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("workId", work.getWorkId());
+		modelAndView.setViewName("add_order");
+		return modelAndView;
+	}
+	
 	@Override
 	// 对一个作品进行下单
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -89,7 +147,8 @@ public class OrderControllerImpl implements IOrderController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		modelAndView.setViewName("add_success");
+		modelAndView.addObject("info", "下单成功!");
+		modelAndView.setViewName("success");
 		return modelAndView;
 	}
 

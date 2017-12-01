@@ -30,7 +30,7 @@ public class WorkDaoImpl implements IWorkDao {
 				+ "LIMIT " + (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
 		Object[] params = sqlWithParams.getParams();
 		List<Work> theResult = template.query(sql, params,
-				(rs, row) -> new Work.Builder().workId(rs.getInt("work_id")).workName("work_name").build());
+				(rs, row) -> new Work.Builder().workId(rs.getInt("work_id")).workName(rs.getString("work_name")).build());
 		return new DaoResult(true, theResult);
 	}
 

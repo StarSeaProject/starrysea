@@ -171,7 +171,8 @@ public class Orders extends Entity {
 	}
 
 	public OrderForOne toVoForOne() {
-		return new OrderForOne(work.getWorkName(), orderName, orderArea.getCity().getProvince().getProvinceName()
-					,orderArea.getCity().getCityName(),orderArea.getAreaName(), orderAddress, orderStatus, orderExpressnum, Common.time2String(new Date(orderTime)));
+		return new OrderForOne(work.getWorkName(), orderName, orderArea.getCity().getProvince().getProvinceName(),
+				orderArea.getCity().getCityName(), orderArea.getAreaName(), orderAddress, orderStatus, orderExpressnum,
+				Common.time2String(new Date(orderTime)));
 	}
 }

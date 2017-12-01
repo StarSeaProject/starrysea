@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+
+    <title>Title</title>
+
+</head>
+<body>
+<div class="container">
+    <div class="row container form">
+    <form class="form" action="work/" method="get" id="mainquery">
+        <input type="text" name="workName" id="text">
+        <button id="workquery" class="btn btn-info btn-lg text-right">作品查询</button>
+    </form>
+
+    </div>
+    <br>                        <br>                        <br>
+    <div class="row container" id="findresult" style="height: 500px;">
+                <table class="table">
+                    <tr>
+                        <th>作品ID</th>
+                        <th>作品名称</th>
+                        <th><button id="addfun" class="btn btn-info btn-lg text-right">添加作品</button></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <script>
+                                document.write("作品的ID号");
+                            </script>
+                        </td>
+                        <td>
+                            <script>
+                                document.write("从服务器拿到的作品名");
+                            </script>
+                        </td>
+
+                        <td>
+                            <button id="workdetail"class="btn btn-primary btn-lg text-right">作品信息</button>
+                            <button id="delwork" class="btn btn-danger btn-lg text-right">删除作品</button>
+                        </td>
+                    </tr>
+        </table>
+    </div>
+    <div class="row container form" id="addwork" >
+        <form class="form" action="work/add" method="post">
+            <input type="text" class="" name="workName">
+            <input type="number" name="workStock">
+            <input type="file" accept="application/pdf" name="file">
+            <input type="submit" class="btn btn-info btn-lg" value="确认添加">
+        </form>
+    </div>
+    <div id="showdetail">
+
+    </div>
+</div>
+<script>
+    //设置添加和详情的隐藏
+    $("#addwork").hide();
+    $("#showdetail").hide();
+</script>
+
+<script>
+    //添加菜单展开
+    $("#addfun").click(function () {
+        if(document.getElementById("addwork").style.display=="none")
+        {$("#addwork").show();}
+        else {$("#addwork").hide();}
+
+    })
+</script>
+<script>
+    //查询全表
+    $("workquery").click(function () {
+        $.ajax({
+            type:"get",
+            url:"work/",
+            async: false,
+            data:$("mainquery").serialize(),
+            success:function (result) {
+                //将result处理函数，后续交接
+            },
+        })
+    })
+
+</script>
+<script>
+    //获取详细信息
+    $("#workdetail").click(function () {
+        //等表格写好后获取其ID号
+        var id=0;
+        $.ajax({
+            url: activity/detail,
+            type: "GET",
+            data: {workId:id},
+            success: function (result) {
+                $("#showdetail").show();
+                $("#showdetail").append(result);
+            }
+        })
+    })
+</script>
+<script>
+    //删除功能
+    var id=1;
+    $("#delwork").click(function () {
+        $.post("work/remove", {
+            workId:id
+        })
+    })
+</script>
+
+</body>
+</html>

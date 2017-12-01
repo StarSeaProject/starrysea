@@ -17,14 +17,15 @@ public class ActivityServiceTest {
 
 	@Autowired
 	private IActivityService service;
-	
+
 	@Test
 	public void queryAllActivityService() {
 		Condition condition = new Condition();
 		condition.setPage(1);
-		System.out.println(service.queryAllActivityService(condition, new Activity.Builder().activityName("一起").build()));
+		System.out
+				.println(service.queryAllActivityService(condition, new Activity.Builder().activityName("一起").build()));
 	}
-	
+
 	@Test
 	public void queryActivityService() {
 		System.out.println(service.queryActivityService(new Activity.Builder().activityId(15).build()));

@@ -28,7 +28,7 @@ import top.starrysea.service.IWorkService;
 @Controller
 @RequestMapping(value = "/work")
 public class WorkControllerImpl implements IWorkController {
-	
+
 	@Autowired
 	private IWorkService workService;
 
@@ -49,7 +49,7 @@ public class WorkControllerImpl implements IWorkController {
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName("all_work");
+		modelAndView.setViewName("work");
 		return modelAndView;
 	}
 
@@ -76,8 +76,8 @@ public class WorkControllerImpl implements IWorkController {
 	@Override
 	// 添加一个作品
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView addWorkController(HttpSession session, @RequestParam("file") MultipartFile file, @Valid WorkForAdd work,
-			BindingResult bindingResult) {
+	public ModelAndView addWorkController(HttpSession session, @RequestParam("file") MultipartFile file,
+			@Valid WorkForAdd work, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -98,8 +98,7 @@ public class WorkControllerImpl implements IWorkController {
 	@Override
 	// 删除一个作品
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeWorkController(HttpSession session, @Valid WorkForOne work,
-			BindingResult bindingResult) {
+	public ModelAndView removeWorkController(HttpSession session, @Valid WorkForOne work, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}

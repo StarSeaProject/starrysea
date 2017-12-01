@@ -9,6 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 public interface IRootController {
 
 	ModelAndView index();
-	
-	void upload(HttpServletRequest request,HttpServletResponse response, MultipartFile file);
+
+	void upload(HttpServletRequest request, HttpServletResponse response, MultipartFile file);
 }

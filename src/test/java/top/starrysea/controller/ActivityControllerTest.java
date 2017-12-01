@@ -27,61 +27,61 @@ public class ActivityControllerTest {
 
 	@Autowired
 	private IActivityController controller;
-	
+
 	@Test
 	public void queryAllActivityController() {
-		Condition condition=new Condition();
+		Condition condition = new Condition();
 		condition.setPage(1);
-		ActivityForAll activity=new ActivityForAll();
-		ModelAndView modelAndView=controller.queryAllActivityController(condition, activity);
+		ActivityForAll activity = new ActivityForAll();
+		ModelAndView modelAndView = controller.queryAllActivityController(condition, activity);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
-	
+
 	@Test
 	public void queryActivityController() {
-		ActivityForOne activity=new ActivityForOne();
-		ModelAndView modelAndView=controller.queryActivityController(activity,null);
+		ActivityForOne activity = new ActivityForOne();
+		ModelAndView modelAndView = controller.queryActivityController(activity, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
-	
+
 	@Test
 	public void addActivityController() {
-		HttpSession session=new MockHttpSession();
+		HttpSession session = new MockHttpSession();
 		session.setAttribute("adminId", 1);
-		ActivityForAdd activity=new ActivityForAdd();
+		ActivityForAdd activity = new ActivityForAdd();
 		activity.setActivityName("asdfasdf");
 		activity.setActivityContent("qweasdqaweqweasd");
-		List<ActivityImageForAdd> activityImages=new ArrayList<>();
-		ActivityImageForAdd activityImage=new ActivityImageForAdd();
+		List<ActivityImageForAdd> activityImages = new ArrayList<>();
+		ActivityImageForAdd activityImage = new ActivityImageForAdd();
 		activityImage.setActivityImagePath("aa");
 		activityImages.add(activityImage);
-		activityImage=new ActivityImageForAdd();
+		activityImage = new ActivityImageForAdd();
 		activityImage.setActivityImagePath("bb");
 		activityImages.add(activityImage);
 		activity.setActivityImages(activityImages);
-		ModelAndView modelAndView=controller.addActivityController(session, activity,null);
+		ModelAndView modelAndView = controller.addActivityController(session, activity, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
 
 	@Test
 	public void modifyActivityController() {
-		HttpSession session=new MockHttpSession();
+		HttpSession session = new MockHttpSession();
 		session.setAttribute("adminId", 1);
-		ActivityForModify activity=new ActivityForModify();
-		ModelAndView modelAndView=controller.modifyActivityController(session, activity,null);
+		ActivityForModify activity = new ActivityForModify();
+		ModelAndView modelAndView = controller.modifyActivityController(session, activity, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
-	
+
 	@Test
 	public void removeActivityController() {
-		HttpSession session=new MockHttpSession();
+		HttpSession session = new MockHttpSession();
 		session.setAttribute("adminId", 1);
-		ActivityForOne activity=new ActivityForOne();
-		ModelAndView modelAndView=controller.removeActivityController(session, activity,null);
+		ActivityForOne activity = new ActivityForOne();
+		ModelAndView modelAndView = controller.removeActivityController(session, activity, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}

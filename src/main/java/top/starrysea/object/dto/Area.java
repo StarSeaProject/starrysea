@@ -19,7 +19,7 @@ public class Area extends Entity {
 
 		public Builder() {
 		}
-		
+
 		public Builder areaId(Integer areaId) {
 			this.areaId = areaId;
 			return this;

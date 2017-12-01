@@ -1,7 +1,7 @@
 package top.starrysea.object.dto;
 
 public class Province extends Entity {
-	
+
 	private Integer provinceId;
 	private String provinceName;
 

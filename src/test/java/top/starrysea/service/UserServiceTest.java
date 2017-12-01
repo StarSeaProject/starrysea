@@ -15,10 +15,11 @@ public class UserServiceTest {
 
 	@Autowired
 	private IUserService service;
-	
+
 	@Test
 	public void loginService() {
-		System.out.println(service.loginService(new Admin.Builder().adminUseraccount("kuma").adminPassword("kuma").build()));
+		System.out.println(
+				service.loginService(new Admin.Builder().adminUseraccount("kuma").adminPassword("kuma").build()));
 	}
 
 }

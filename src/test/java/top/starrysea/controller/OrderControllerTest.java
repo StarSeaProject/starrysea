@@ -23,49 +23,54 @@ import top.starrysea.object.view.in.OrderForRemove;
 public class OrderControllerTest {
 	@Autowired
 	private IOrderController orderController;
+
 	@Test
-	public void queryAllOrderController(){
-		Condition condition=new Condition();
+	public void queryAllOrderController() {
+		Condition condition = new Condition();
 		condition.setPage(1);
-		HttpSession session=new MockHttpSession();
+		HttpSession session = new MockHttpSession();
 		session.setAttribute("adminId", 1);
-		OrderForAll order=new OrderForAll();
-		ModelAndView modelAndView=orderController.queryAllOrderController(session, condition, order);
+		OrderForAll order = new OrderForAll();
+		ModelAndView modelAndView = orderController.queryAllOrderController(session, condition, order);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
+
 	@Test
-	public void queryOrderController(){
-		OrderForOne order=new OrderForOne();
-		ModelAndView modelAndView=orderController.queryOrderController(order, null);
+	public void queryOrderController() {
+		OrderForOne order = new OrderForOne();
+		ModelAndView modelAndView = orderController.queryOrderController(order, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
+
 	@Test
-	public void addOrderController(){
-		HttpSession session=new MockHttpSession();
+	public void addOrderController() {
+		HttpSession session = new MockHttpSession();
 		session.setAttribute("adminId", 1);
-		OrderForAdd order=new OrderForAdd();
+		OrderForAdd order = new OrderForAdd();
 		ModelAndView modelAndView = orderController.addOrderController(order, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
+
 	@Test
-	public void modifyOrderController(){
-		HttpSession session=new MockHttpSession();
+	public void modifyOrderController() {
+		HttpSession session = new MockHttpSession();
 		session.setAttribute("adminId", 1);
-		OrderForModify order=new OrderForModify();
-		ModelAndView modelAndView=orderController.modifyOrderController(session, order, null);
+		OrderForModify order = new OrderForModify();
+		ModelAndView modelAndView = orderController.modifyOrderController(session, order, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
+
 	@Test
-	public void removeOrderController(){
-		HttpSession session=new MockHttpSession();
+	public void removeOrderController() {
+		HttpSession session = new MockHttpSession();
 		session.setAttribute("adminId", 1);
-		OrderForRemove order=new OrderForRemove();
+		OrderForRemove order = new OrderForRemove();
 		order.setOrderId("1");
-		ModelAndView modelAndView=orderController.removeOrderController(session, order, null);
+		ModelAndView modelAndView = orderController.removeOrderController(session, order, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}

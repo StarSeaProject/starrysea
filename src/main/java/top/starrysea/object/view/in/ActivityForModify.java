@@ -6,9 +6,9 @@ import top.starrysea.object.dto.Activity;
 
 public class ActivityForModify {
 
-	@NotNull(message="活动id不能为空")
+	@NotNull(message = "活动id不能为空")
 	private Integer activityId;
-	@NotNull(message="活动状态不能为空")
+	@NotNull(message = "活动状态不能为空")
 	private Short activityStatus;
 
 	public Integer getActivityId() {

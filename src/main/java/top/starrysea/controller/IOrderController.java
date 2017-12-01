@@ -11,9 +11,15 @@ import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
+import top.starrysea.object.view.in.WorkForAll;
+import top.starrysea.object.view.in.WorkForOne;
 
 public interface IOrderController {
 
+	ModelAndView queryAllWorkForOrderController(Condition condition,WorkForAll work);
+	
+	ModelAndView queryWorkForOrderController(WorkForOne work, BindingResult bindingResult);
+	
 	ModelAndView queryAllOrderController(HttpSession session, Condition condition, OrderForAll order);
 
 	ModelAndView queryOrderController(OrderForOne order, BindingResult bindingResult);

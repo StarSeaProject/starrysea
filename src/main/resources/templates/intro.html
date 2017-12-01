@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+        <meta charset="utf-8"></meta>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+        <title></title>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+        <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+        <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="css/mycss.css"></link>
+
+        <style>
+            .heading{
+                background-image: url("img/navbar.png");
+            }
+            #btnnav{
+                float: right;
+            }
+            #shownav{
+                float: right;
+
+            }
+            .abnav{
+                color: #FFFFFF;
+                font-size: 1.5em;
+            }
+            a:hover{
+                color: rgb(7, 251, 251);
+
+            }
+
+        </style>
+</head>
+
+<body>
+<div class="container" style="width: 100%;padding: 0;%">
+    <nav class="navbar navbar-brand navbar-static-top heading" role="navigation" id="mybar" style="background-size:100% 100%">
+
+        <div class="navbar-header" >
+
+            <img src="img/starsea.png" style="height: 70px;width:70px;" class="col-sms-4">
+
+            <button class="navbar-toggle col-sm-4" data-toggle="collapse" data-target="#shownav" id="btnnav">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+
+            </button>
+        </div>
+        <div class="collapse navbar-collapse navbar-right" id="shownav">
+            <ul class="nav navbar-nav mynavul">
+                <li><a href="index.html" class="abnav">首页</a></li>
+                <li><a href="read.html" class="abnav">作品阅览</a></li>
+                <li><a href="funding.html" class="abnav">活动众筹</a></li>
+                <li><a href="oldshop.html" class="abnav">旧货处理</a></li>
+                <li><a href="intro.html" class="abnav">组织介绍</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="container">
+    <h1 class="text-center h1" id="jieshaoh1">我们的成员</h1>
+    <p></p>
+    <p class="text-right " id="jieshaoh2">这里扔成员们，需要主要成员头像及名字<br><br>
+</div>
+<div class="container weibo">
+<div class="text-center">
+    <h1 class="text-center h1" id="jieshao">我们的微博</h1>
+    <iframe id="weibo" style="width:80%; height:500px;" frameborder="0" scrolling="no"></iframe>
+</div>
+
+
+</div>
+
+<script>
+    (function() {
+        var widthget = 0;
+        if (window.innerWidth) {
+            widthget = window.innerWidth;
+        }
+        else ((document.body) && (document.body.clientWidth))
+        {
+            widthget = document.body.clientWidth;
+        }
+        // window.alert(widthget);
+        if (document.getElementById("mybar")){
+            if(widthget<768)
+            {
+                document.getElementById("shownav").style ="background-color:rgba(0, 73, 198, 0.55)";
+                document.getElementById("jieshaoh1").style = "padding-top: 2em; font-size:2em;"
+                document.getElementById("jieshaoh2").style = "padding-bottom: 2em;font-size: large;"
+                document.getElementById("weibo").src = "https://m.weibo.cn/p/1005056241874149";
+
+            }
+            if(widthget>=500 && widthget<1100)
+            {
+
+                document.getElementById("jieshaoh1").style = "padding-top: 3em;font-size:xx-large"
+                document.getElementById("jieshaoh2").style = "padding-bottom: 3em; font-size:x-large;"
+                document.getElementById("weibo").src = "https://m.weibo.cn/p/1005056241874149";
+            }
+            if(widthget>=1100)
+            {
+                document.getElementById("jieshaoh1").style = "padding-top: 4em;font-size:xx-large;"
+                document.getElementById("jieshaoh2").style = "padding-bottom: 4em;font-size: x-large;"
+                document.getElementById("weibo").src = "http://v.t.sina.com.cn/widget/widget_blog.php?uid=6241874149";
+            }
+        }
+    }
+    )();
+</script>
+</body>
+</html>

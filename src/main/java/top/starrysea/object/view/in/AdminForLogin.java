@@ -6,9 +6,9 @@ import top.starrysea.object.dto.Admin;
 
 public class AdminForLogin {
 
-	@NotEmpty(message="账号不能为空!")
+	@NotEmpty(message = "账号不能为空!")
 	private String adminUseraccount;
-	@NotEmpty(message="密码不能为空!")
+	@NotEmpty(message = "密码不能为空!")
 	private String adminPassword;
 
 	public String getAdminUseraccount() {

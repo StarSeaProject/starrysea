@@ -101,7 +101,8 @@ public class Work extends Entity {
 	public void setWorkStock(Integer workStock) {
 		this.workStock = workStock;
 	}
-	public WorkForAll toVoForAll(){
+
+	public WorkForAll toVoForAll() {
 		return new WorkForAll(workId, workName);
 	}
 

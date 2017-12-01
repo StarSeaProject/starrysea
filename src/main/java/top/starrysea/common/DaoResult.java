@@ -9,27 +9,27 @@ import top.starrysea.object.dto.Entity;
 public class DaoResult {
 
 	private boolean successed;
-	private Map<Class<?>,Object> theResult;
+	private Map<Class<?>, Object> theResult;
 	private String errInfo;
-	
+
 	public DaoResult(boolean successed) {
 		this.successed = successed;
 	}
-	
+
 	public DaoResult(boolean successed, List<?> result) {
-		theResult=new HashMap<>();
+		theResult = new HashMap<>();
 		this.successed = successed;
 		this.theResult.put(List.class, result);
 	}
-	
+
 	public DaoResult(boolean successed, Entity result) {
-		theResult=new HashMap<>();
+		theResult = new HashMap<>();
 		this.successed = successed;
 		this.theResult.put(result.getClass(), result);
 	}
-	
+
 	public DaoResult(boolean successed, Integer result) {
-		theResult=new HashMap<>();
+		theResult = new HashMap<>();
 		this.successed = successed;
 		this.theResult.put(Integer.class, result);
 	}
@@ -55,10 +55,10 @@ public class DaoResult {
 		this.errInfo = errInfo;
 	}
 
-	public Map<Class<?>,Object> getTheResult() {
+	public Map<Class<?>, Object> getTheResult() {
 		return theResult;
 	}
-	
+
 	public <T> T getResult(Class<T> type) {
 		return type.cast(theResult.get(type));
 	}

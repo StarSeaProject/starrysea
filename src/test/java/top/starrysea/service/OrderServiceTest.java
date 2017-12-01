@@ -34,7 +34,8 @@ public class OrderServiceTest {
 
 	@Test
 	public void addOrderService() {
-		System.out.println(orderService.addOrderService(new Orders.Builder().work(new Work.Builder().workId(6).build()).orderName("liuyang")
-				.orderArea(new Area.Builder().areaId(1).build()).orderAddress("asdasdasd").build()));
+		System.out.println(orderService
+				.addOrderService(new Orders.Builder().work(new Work.Builder().workId(6).build()).orderName("liuyang")
+						.orderArea(new Area.Builder().areaId(1).build()).orderAddress("asdasdasd").build()));
 	}
 }

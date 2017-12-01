@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/mycss.css">
+    <title>你妈的星之海</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <form class="form">
+                <fieldset>
+                    <legend>登录</legend>
+                    <label>用户名</label>
+                    <input type="text" id="uname">
+                    <span class="help-block">请输入用户名.</span>
+                    <label>密码</label>
+                    <input type="password" id="pwd">
+                    <span class="help-block">请输入密码.</span>
+                    <button type="submit" class="btn btn-success btn-lg text-right" id="login">登录</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#login").click(function () {
+        var user=document.getElementById("uname").value;
+        var pwd =document.getElementById("pwd").value;
+        $.ajax({
+            type:"post",
+            data:{adminUseraccount:user,adminPassword:pwd},
+            url:"user/login",
+            success:function () {
+                //判断服务器返回值正误然后跳转，等服务器给方法
+                window.navigator("boss.html");
+            }
+
+        })
+
+    })
+</script>
+</body>
+</html>
+
+
+
+
+
