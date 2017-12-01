@@ -42,6 +42,11 @@ public class RootControllerImpl implements IRootController {
 	public ModelAndView intro() {
 		return new ModelAndView("intro");
 	}
+	
+	@RequestMapping("/admin")
+	public ModelAndView admin() {
+		return new ModelAndView("admin_login");
+	}
 
 	@Override
 	@RequestMapping("/uploads")

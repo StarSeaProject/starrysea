@@ -37,7 +37,7 @@ public class UserControllerImpl implements IUserController {
 			Admin admin1 = serviceResult.getResult(Admin.class);
 			session.setAttribute("adminId", admin1.getAdminId());
 			// 登陆成功,返回管理员的主页
-			modelAndView.setViewName("admin_index");
+			modelAndView.setViewName("boss");
 		} else {
 			// 登陆失败,返回登陆页面
 			modelAndView.setViewName("login");

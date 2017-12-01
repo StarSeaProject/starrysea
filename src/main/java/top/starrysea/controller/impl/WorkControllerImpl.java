@@ -1,6 +1,8 @@
 package top.starrysea.controller.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
@@ -9,9 +11,11 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,6 +55,26 @@ public class WorkControllerImpl implements IWorkController {
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
 		modelAndView.setViewName("work");
 		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/ajax", method = RequestMethod.GET)
+	@ResponseBody
+	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
+	public Map<String,Object> queryAllWorkControllerAjax(Condition condition, WorkForAll work) {
+		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
+		Map<String,Object> theResult=new HashMap<>();
+		if (!serviceResult.isSuccessed()) {
+			theResult.put("errInfo", serviceResult.getErrInfo());
+			return theResult;
+		}
+		List<Work> result = serviceResult.getResult(List.class);
+		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
+				.collect(Collectors.toList());
+		theResult.put("workName", work.getWorkName());
+		theResult.put("result", voResult);
+		theResult.put("nowPage", serviceResult.getNowPage());
+		theResult.put("totalPage", serviceResult.getTotalPage());
+		return theResult;
 	}
 
 	@Override

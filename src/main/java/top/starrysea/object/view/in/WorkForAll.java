@@ -3,6 +3,7 @@ package top.starrysea.object.view.in;
 import top.starrysea.object.dto.Work;
 
 public class WorkForAll {
+
 	private String workName;
 
 	public String getWorkName() {
