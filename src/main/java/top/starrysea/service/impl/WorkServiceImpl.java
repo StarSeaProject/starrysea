@@ -1,12 +1,14 @@
 package top.starrysea.service.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import top.starrysea.common.Common;
@@ -75,33 +77,31 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	// 添加一个作品
 	public ServiceResult addWorkService(MultipartFile file, Work work) {
-		if (!file.isEmpty()) {
-			if ((file.getName().substring(file.getName().lastIndexOf(".") + 1)).equalsIgnoreCase("pdf")) {
-				double fileSize = (double) file.getSize() / (double) (1024 * 1024);
-				if (!(fileSize > 10)) {
-					String filePath = FILE_ROOT + work.getWorkName() + Common.getCharId(5) + ".pdf";
-					try {
-						file.transferTo(new File(filePath));
-						work.setWorkUploadTime(Common.getNowDate());
-						work.setWorkPdfpath(filePath);
-						DaoResult daoResult = workDao.saveWorkDao(work);
-						if (!daoResult.isSuccessed()) {
-							throw new RuntimeException("插入作品失败");
-						}
-						mailService.sendMailService(work);
-						return new ServiceResult(daoResult);
-					} catch (Exception e) {
-						logger.error(e.getMessage(), e);
-						return new ServiceResult("文件上传失败");
-					}
-				} else {
-					return new ServiceResult("文件不得超过10M!");
-				}
-			} else {
-				return new ServiceResult("文件格式不合法");
-			}
-		} else {
+		if (file.isEmpty()) {
 			return new ServiceResult("文件为空文件");
+		}
+		if (!(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1))
+				.equalsIgnoreCase("pdf")) {
+			return new ServiceResult("文件格式不合法");
+		}
+		double fileSize = (double) file.getSize() / (double) (1024 * 1024);
+		if (fileSize > 10) {
+			return new ServiceResult("文件不得超过10M!");
+		}
+		String filePath = FILE_ROOT + work.getWorkName() + Common.getCharId(5) + ".pdf";
+		try {
+			FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(filePath));
+			work.setWorkUploadTime(Common.getNowDate());
+			work.setWorkPdfpath(filePath);
+			DaoResult daoResult = workDao.saveWorkDao(work);
+			if (!daoResult.isSuccessed()) {
+				throw new RuntimeException("插入作品失败");
+			}
+			mailService.sendMailService(work);
+			return new ServiceResult(daoResult);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new ServiceResult("文件上传失败");
 		}
 	}
 

@@ -25,6 +25,12 @@
                     <button type="submit" class="btn btn-success btn-lg text-right" id="login">登录</button>
                 </fieldset>
             </form>
+            <form method="post" enctype="multipart/form-data" class="form" action="/work/add">
+				作品名称:<input type="text" name="workName" value="asd" /><br/>
+				作品库存:<input type="number" name="workStock" value="1" /><br/>
+				作品pdf文件:<input type="file" accept="application/pdf" name="file" /><br/>
+				<input type="submit" class="btn btn-info btn-lg" value="确认添加" />
+			</form>
         </div>
     </div>
 </div>

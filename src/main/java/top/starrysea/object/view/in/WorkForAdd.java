@@ -1,5 +1,7 @@
 package top.starrysea.object.view.in;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -9,7 +11,7 @@ public class WorkForAdd {
 	@NotEmpty(message = "作品名称不能为空")
 	@Length(max = 30, message = "作品名称长度不能超过30")
 	private String workName;
-	@NotEmpty(message = "作品库存不能为空")
+	@NotNull(message = "作品库存不能为空")
 	private Integer workStock;
 
 	public String getWorkName() {

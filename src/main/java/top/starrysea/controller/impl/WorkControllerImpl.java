@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,13 +57,13 @@ public class WorkControllerImpl implements IWorkController {
 		modelAndView.setViewName("work");
 		return modelAndView;
 	}
-	
-	@RequestMapping(value = "/ajax", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/ajax", method = RequestMethod.POST)
 	@ResponseBody
 	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
-	public Map<String,Object> queryAllWorkControllerAjax(Condition condition, WorkForAll work) {
+	public Map<String, Object> queryAllWorkControllerAjax(Condition condition, @RequestBody WorkForAll work) {
 		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
-		Map<String,Object> theResult=new HashMap<>();
+		Map<String, Object> theResult = new HashMap<>();
 		if (!serviceResult.isSuccessed()) {
 			theResult.put("errInfo", serviceResult.getErrInfo());
 			return theResult;
@@ -97,7 +98,28 @@ public class WorkControllerImpl implements IWorkController {
 		return modelAndView;
 	}
 
-	@Override
+	// 查询一个作品的详情页，此方法可用于作品管理，也可用于查看旧货
+	@RequestMapping(value = "/detail/ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> queryWorkControllerAjax(@RequestBody @Valid WorkForOne work,
+			BindingResult bindingResult) {
+		Map<String, Object> theResult = new HashMap<>();
+		if (bindingResult.hasErrors()) {
+			List<String> errInfo = bindingResult.getAllErrors().stream()
+					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+			theResult.put("errInfo", errInfo);
+			return theResult;
+		}
+		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			theResult.put("errInfo", serviceResult.getErrInfo());
+			return theResult;
+		}
+		Work w = serviceResult.getResult(Work.class);
+		theResult.put("work", w.toVoForOne());
+		return theResult;
+	}
+
 	// 添加一个作品
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView addWorkController(HttpSession session, @RequestParam("file") MultipartFile file,
@@ -107,7 +129,7 @@ public class WorkControllerImpl implements IWorkController {
 		}
 		ModelAndView modelAndView = new ModelAndView();
 		if (session.getAttribute("adminId") == null) {
-			return new ModelAndView("login");
+			return new ModelAndView("admin_login");
 		}
 		ServiceResult serviceResult = workService.addWorkService(file, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -115,29 +137,34 @@ public class WorkControllerImpl implements IWorkController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		modelAndView.setViewName("add_success");
+		modelAndView.addObject("info", "添加成功!");
+		modelAndView.setViewName("success");
 		return modelAndView;
 	}
-
+	
 	@Override
 	// 删除一个作品
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeWorkController(HttpSession session, @Valid WorkForOne work, BindingResult bindingResult) {
+	@ResponseBody
+	public Map<String, Object> removeWorkController(HttpSession session, @RequestBody @Valid WorkForOne work,
+			BindingResult bindingResult) {
+		Map<String, Object> theResult = new HashMap<>();
 		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
+			List<String> errInfo = bindingResult.getAllErrors().stream()
+					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+			theResult.put("errInfo", errInfo);
+			return theResult;
 		}
-		ModelAndView modelAndView = new ModelAndView();
 		if (session.getAttribute("adminId") == null) {
-			return new ModelAndView("login");
+			theResult.put("errInfo", "重新登陆!");
+			return theResult;
 		}
 		ServiceResult serviceResult = workService.removeWorkService(work.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
-			return modelAndView;
+			theResult.put("errInfo", serviceResult.getErrInfo());
+			return theResult;
 		}
-		modelAndView.setViewName("remove_success");
-		return modelAndView;
+		return theResult;
 	}
 
 }
