@@ -32,6 +32,7 @@ public class WorkServiceImpl implements IWorkService {
 	private IMailService mailService;
 
 	private static final String FILE_ROOT = "D:" + File.separator + "starrysea" + File.separator;
+	private static final String PDF_PATH_PREFIX = "http://120.79.24.63/";
 
 	@Override
 	// 查询所有作品
@@ -88,11 +89,12 @@ public class WorkServiceImpl implements IWorkService {
 		if (fileSize > 10) {
 			return new ServiceResult("文件不得超过10M!");
 		}
-		String filePath = FILE_ROOT + work.getWorkName() + Common.getCharId(5) + ".pdf";
+		String originFileName = work.getWorkName() + Common.getCharId(5) + ".pdf";
+		String filePath = FILE_ROOT + originFileName;
 		try {
 			FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(filePath));
 			work.setWorkUploadTime(Common.getNowDate());
-			work.setWorkPdfpath(filePath);
+			work.setWorkPdfpath(PDF_PATH_PREFIX + filePath);
 			DaoResult daoResult = workDao.saveWorkDao(work);
 			if (!daoResult.isSuccessed()) {
 				throw new RuntimeException("插入作品失败");
