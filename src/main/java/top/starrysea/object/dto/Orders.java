@@ -167,12 +167,24 @@ public class Orders extends Entity {
 	}
 
 	public OrderForAll toVoForAll() {
-		return new OrderForAll(orderId, orderNum, orderName, orderStatus, orderTime);
+		String status = "";
+		if (this.orderStatus == (short) 1) {
+			status = "未发货";
+		} else if (this.orderStatus == (short) 2) {
+			status = "已发货";
+		}
+		return new OrderForAll(orderId, orderNum, orderName, status, orderTime);
 	}
 
 	public OrderForOne toVoForOne() {
+		String status = "";
+		if (this.orderStatus == (short) 1) {
+			status = "未发货";
+		} else if (this.orderStatus == (short) 2) {
+			status = "已发货";
+		}
 		return new OrderForOne(work.getWorkName(), orderName, orderArea.getCity().getProvince().getProvinceName(),
-				orderArea.getCity().getCityName(), orderArea.getAreaName(), orderAddress, orderStatus, orderExpressnum,
+				orderArea.getCity().getCityName(), orderArea.getAreaName(), orderAddress, status, orderExpressnum,
 				Common.time2String(new Date(orderTime)));
 	}
 }

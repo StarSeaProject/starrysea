@@ -30,20 +30,40 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	// 根据订单号查询一个订单
 	public DaoResult getOrderDao(Orders order) {
-		String sql = "SELECT order_name,w.work_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum "
-				+ "FROM orders AS o " + "LEFT JOIN area AS a " + "ON o.order_area = a.area_id " + "LEFT JOIN city AS c "
-				+ "ON a.city_id=c.city_id " + "LEFT JOIN province AS p " + "ON c.province_id = p.province_id "
-				+ "LEFT JOIN work AS w " + " ON o.work_id = w.work_id " + "WHERE order_num = ?";
-		Orders theResult = template.queryForObject(sql, new Object[] { order.getOrderNum() },
-				(rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
-						.work(new Work.Builder().workName(rs.getString("work_name")).build())
-						.orderArea(new Area.Builder().areaName("area_name")
-								.city(new City.Builder().cityName(rs.getString("city_name"))
-										.province(new Province(null, rs.getString("province_name"))).build())
-								.build())
-						.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
-						.orderExpressnum(rs.getString("order_expressnum")).build());
-		return new DaoResult(true, theResult);
+		if (isNotNull(order.getOrderNum())) {
+			String sql = "SELECT order_name,w.work_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum "
+					+ "FROM orders AS o " + "LEFT JOIN area AS a " + "ON o.order_area = a.area_id "
+					+ "LEFT JOIN city AS c " + "ON a.city_id=c.city_id " + "LEFT JOIN province AS p "
+					+ "ON c.province_id = p.province_id " + "LEFT JOIN work AS w " + " ON o.work_id = w.work_id "
+					+ "WHERE order_num = ?";
+			Orders theResult = template.queryForObject(sql, new Object[] { order.getOrderNum() },
+					(rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
+							.work(new Work.Builder().workName(rs.getString("work_name")).build())
+							.orderArea(new Area.Builder().areaName(rs.getString("area_name"))
+									.city(new City.Builder().cityName(rs.getString("city_name"))
+											.province(new Province(null, rs.getString("province_name"))).build())
+									.build())
+							.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
+							.orderExpressnum(rs.getString("order_expressnum")).build());
+			return new DaoResult(true, theResult);
+		} else if (isNotNull(order.getOrderId())) {
+			String sql = "SELECT order_name,w.work_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum "
+					+ "FROM orders AS o " + "LEFT JOIN area AS a " + "ON o.order_area = a.area_id "
+					+ "LEFT JOIN city AS c " + "ON a.city_id=c.city_id " + "LEFT JOIN province AS p "
+					+ "ON c.province_id = p.province_id " + "LEFT JOIN work AS w " + " ON o.work_id = w.work_id "
+					+ "WHERE order_id = ?";
+			Orders theResult = template.queryForObject(sql, new Object[] { order.getOrderId() },
+					(rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
+							.work(new Work.Builder().workName(rs.getString("work_name")).build())
+							.orderArea(new Area.Builder().areaName(rs.getString("area_name"))
+									.city(new City.Builder().cityName(rs.getString("city_name"))
+											.province(new Province(null, rs.getString("province_name"))).build())
+									.build())
+							.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
+							.orderExpressnum(rs.getString("order_expressnum")).build());
+			return new DaoResult(true, theResult);
+		}
+		return new DaoResult(false, "订单号和订单id不能同时为空");
 	}
 
 	@Override
@@ -110,6 +130,13 @@ public class OrderDaoImpl implements IOrderDao {
 			insertIndex = whereBuffer.indexOf("WHERE") + 5;
 			whereBuffer.insert(insertIndex, " order_status = ? AND ");
 			preParams[paramsIndex] = order.getOrderStatus();
+			paramsIndex++;
+		}
+
+		if (isNotNull(order.getOrderName())) {
+			insertIndex = whereBuffer.indexOf("WHERE") + 5;
+			whereBuffer.insert(insertIndex, " order_name LIKE ? AND ");
+			preParams[paramsIndex] = "%" + order.getOrderName() + "%";
 			paramsIndex++;
 		}
 

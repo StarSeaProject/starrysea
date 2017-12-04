@@ -1,5 +1,7 @@
 package top.starrysea.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.validation.BindingResult;
@@ -16,11 +18,11 @@ import top.starrysea.object.view.in.WorkForOne;
 
 public interface IOrderController {
 
-	ModelAndView queryAllWorkForOrderController(Condition condition,WorkForAll work);
-	
+	ModelAndView queryAllWorkForOrderController(Condition condition, WorkForAll work);
+
 	ModelAndView queryWorkForOrderController(WorkForOne work, BindingResult bindingResult);
-	
-	ModelAndView queryAllOrderController(HttpSession session, Condition condition, OrderForAll order);
+
+	Map<String, Object> queryAllOrderController(HttpSession session, Condition condition, OrderForAll order);
 
 	ModelAndView queryOrderController(OrderForOne order, BindingResult bindingResult);
 

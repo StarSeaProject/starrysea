@@ -145,26 +145,23 @@ public class WorkControllerImpl implements IWorkController {
 	@Override
 	// 删除一个作品
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> removeWorkController(HttpSession session, @RequestBody @Valid WorkForOne work,
-			BindingResult bindingResult) {
-		Map<String, Object> theResult = new HashMap<>();
+	public ModelAndView removeWorkController(HttpSession session, @Valid WorkForOne work, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			List<String> errInfo = bindingResult.getAllErrors().stream()
-					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put("errInfo", errInfo);
-			return theResult;
+			return Common.handleVaildError(bindingResult);
 		}
+		ModelAndView modelAndView = new ModelAndView();
 		if (session.getAttribute("adminId") == null) {
-			theResult.put("errInfo", "重新登陆!");
-			return theResult;
+			return new ModelAndView("login");
 		}
 		ServiceResult serviceResult = workService.removeWorkService(work.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			theResult.put("errInfo", serviceResult.getErrInfo());
-			return theResult;
+			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.setViewName("error");
+			return modelAndView;
 		}
-		return theResult;
+		modelAndView.addObject("info", "删除成功！");
+		modelAndView.setViewName("success");
+		return modelAndView;
 	}
 
 }

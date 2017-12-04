@@ -1,16 +1,21 @@
 package top.starrysea.controller.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Common;
@@ -32,16 +37,16 @@ import top.starrysea.service.IWorkService;
 @Controller
 @RequestMapping(value = "/order")
 public class OrderControllerImpl implements IOrderController {
-	
+
 	@Autowired
 	private IOrderService orderService;
 	@Autowired
 	private IWorkService workService;
-	
+
 	@Override
 	// 查询所有的作品
 	@RequestMapping(value = "/getWorks", method = RequestMethod.GET)
-	public ModelAndView queryAllWorkForOrderController(Condition condition,WorkForAll work) {
+	public ModelAndView queryAllWorkForOrderController(Condition condition, WorkForAll work) {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -58,9 +63,9 @@ public class OrderControllerImpl implements IOrderController {
 		modelAndView.setViewName("work_orders");
 		return modelAndView;
 	}
-	
+
 	@Override
-	// 查询所有的作品
+	// 查询作品详情
 	@RequestMapping(value = "/getWork", method = RequestMethod.GET)
 	public ModelAndView queryWorkForOrderController(@Valid WorkForOne work, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
@@ -79,30 +84,31 @@ public class OrderControllerImpl implements IOrderController {
 		modelAndView.setViewName("work_detail_orders");
 		return modelAndView;
 	}
-	
-	
+
 	@Override
 	// 查询所有的订单
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView queryAllOrderController(HttpSession session, Condition condition, OrderForAll order) {
-		ModelAndView modelAndView = new ModelAndView();
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> queryAllOrderController(HttpSession session, Condition condition,
+			@RequestBody OrderForAll order) {
+		Map<String, Object> theResult = new HashMap<>();
 		if (session.getAttribute("adminId") == null) {
-			return new ModelAndView("login");
+			theResult.put("errInfo", "重新登陆!");
+			return theResult;
 		}
 		ServiceResult serviceResult = orderService.queryAllOrderService(condition, order.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
-			return modelAndView;
+			theResult.put("errInfo", serviceResult.getErrInfo());
+			return theResult;
 		}
 		List<Orders> result = serviceResult.getResult(List.class);
 		List<top.starrysea.object.view.out.OrderForAll> voResult = result.stream().map(Orders::toVoForAll)
 				.collect(Collectors.toList());
-		modelAndView.addObject("result", voResult);
-		modelAndView.addObject("nowPage", serviceResult.getNowPage());
-		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName("all_orders");
-		return modelAndView;
+		theResult.put("orderName", order.getOrderName());
+		theResult.put("result", voResult);
+		theResult.put("nowPage", serviceResult.getNowPage());
+		theResult.put("totalPage", serviceResult.getTotalPage());
+		return theResult;
 	}
 
 	@Override
@@ -125,6 +131,29 @@ public class OrderControllerImpl implements IOrderController {
 		return modelAndView;
 	}
 
+	// 根据订单号查询一个订单的具体信息以及发货情况
+	@RequestMapping(value = "/detail/ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> queryOrderControllerAjax(@RequestBody @Valid OrderForRemove order,
+			BindingResult bindingResult) {
+		Map<String, Object> theResult = new HashMap<>();
+		if (bindingResult.hasErrors()) {
+			List<String> errInfo = bindingResult.getAllErrors().stream()
+					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+			theResult.put("errInfo", errInfo);
+			return theResult;
+		}
+		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			theResult.put("errInfo", serviceResult.getErrInfo());
+			return theResult;
+		}
+		Orders o = serviceResult.getResult(Orders.class);
+		theResult.put("orders", o.toVoForOne());
+		theResult.put("orderId", order.getOrderId());
+		return theResult;
+	}
+
 	@RequestMapping(value = "/toAddOrder", method = RequestMethod.GET)
 	public ModelAndView gotoAddOrder(@Valid WorkForOne work) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -132,7 +161,7 @@ public class OrderControllerImpl implements IOrderController {
 		modelAndView.setViewName("add_order");
 		return modelAndView;
 	}
-	
+
 	@Override
 	// 对一个作品进行下单
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -162,7 +191,7 @@ public class OrderControllerImpl implements IOrderController {
 		}
 		ModelAndView modelAndView = new ModelAndView();
 		if (session.getAttribute("adminId") == null) {
-			return new ModelAndView("login");
+			return new ModelAndView("admin_login");
 		}
 		ServiceResult serviceResult = orderService.modifyOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -170,7 +199,8 @@ public class OrderControllerImpl implements IOrderController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		modelAndView.setViewName("modify_success");
+		modelAndView.addObject("info", "修改成功！");
+		modelAndView.setViewName("success");
 		return modelAndView;
 	}
 
@@ -192,7 +222,8 @@ public class OrderControllerImpl implements IOrderController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		modelAndView.setViewName("remove_success");
+		modelAndView.addObject("info", "删除成功!");
+		modelAndView.setViewName("success");
 		return modelAndView;
 	}
 

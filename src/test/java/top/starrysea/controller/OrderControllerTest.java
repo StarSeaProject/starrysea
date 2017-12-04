@@ -31,17 +31,13 @@ public class OrderControllerTest {
 		HttpSession session = new MockHttpSession();
 		session.setAttribute("adminId", 1);
 		OrderForAll order = new OrderForAll();
-		ModelAndView modelAndView = orderController.queryAllOrderController(session, condition, order);
-		System.out.println(modelAndView.getViewName());
-		System.out.println(modelAndView.getModel());
+		System.out.println(orderController.queryAllOrderController(session, condition,order));
 	}
 
 	@Test
 	public void queryOrderController() {
 		OrderForOne order = new OrderForOne();
-		ModelAndView modelAndView = orderController.queryOrderController(order, null);
-		System.out.println(modelAndView.getViewName());
-		System.out.println(modelAndView.getModel());
+		System.out.println(orderController.queryOrderController(order, null));
 	}
 
 	@Test

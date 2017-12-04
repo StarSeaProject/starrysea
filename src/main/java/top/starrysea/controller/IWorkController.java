@@ -1,7 +1,5 @@
 package top.starrysea.controller;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.validation.BindingResult;
@@ -22,5 +20,5 @@ public interface IWorkController {
 	ModelAndView addWorkController(HttpSession session, MultipartFile file, WorkForAdd work,
 			BindingResult bindingResult);
 
-	Map<String,Object> removeWorkController(HttpSession session, WorkForOne work, BindingResult bindingResult);
+	ModelAndView removeWorkController(HttpSession session, WorkForOne work, BindingResult bindingResult);
 }

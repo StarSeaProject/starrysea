@@ -7,12 +7,12 @@ public class OrderForOne {
 	private String city;
 	private String area;
 	private String orderAddress;
-	private short orderStatus;
+	private String orderStatus;
 	private String orderExpressnum;
 	private String orderTime;
 
 	public OrderForOne(String workName, String orderName, String province, String city, String area,
-			String orderAddress, short orderStatus, String orderExpressnum, String orderTime) {
+			String orderAddress, String orderStatus, String orderExpressnum, String orderTime) {
 		super();
 		this.workName = workName;
 		this.orderName = orderName;
@@ -49,7 +49,7 @@ public class OrderForOne {
 		return orderAddress;
 	}
 
-	public short getOrderStatus() {
+	public String getOrderStatus() {
 		return orderStatus;
 	}
 

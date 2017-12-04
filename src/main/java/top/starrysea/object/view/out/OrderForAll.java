@@ -4,10 +4,10 @@ public class OrderForAll {
 	private String orderId;
 	private String orderNum;
 	private String orderName;
-	private short orderStatus;
+	private String orderStatus;
 	private long orderTime;
 
-	public OrderForAll(String orderId, String orderNum, String orderName, short orderStatus, long orderTime) {
+	public OrderForAll(String orderId, String orderNum, String orderName, String orderStatus, long orderTime) {
 		super();
 		this.orderId = orderId;
 		this.orderNum = orderNum;
@@ -28,7 +28,7 @@ public class OrderForAll {
 		return orderName;
 	}
 
-	public short getOrderStatus() {
+	public String getOrderStatus() {
 		return orderStatus;
 	}
 
