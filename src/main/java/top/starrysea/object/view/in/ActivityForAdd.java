@@ -48,6 +48,8 @@ public class ActivityForAdd {
 
 	public List<ActivityImage> toDTO_image() {
 		List<ActivityImage> list = new ArrayList<>();
+		if (activityImages == null || activityImages.size() == 0)
+			return list;
 		for (ActivityImageForAdd activityImage : activityImages) {
 			ActivityImage ai = new ActivityImage.Builder().activityImagePath(activityImage.getActivityImagePath())
 					.build();

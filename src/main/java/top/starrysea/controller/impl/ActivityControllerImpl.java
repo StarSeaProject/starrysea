@@ -1,16 +1,21 @@
 package top.starrysea.controller.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Common;
@@ -53,6 +58,26 @@ public class ActivityControllerImpl implements IActivityController {
 		modelAndView.setViewName("all_activity");
 		return modelAndView;
 	}
+	
+	// 查询所有众筹活动
+	@RequestMapping(value = "/ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> queryAllActivityControllerAjax(Condition condition,@RequestBody ActivityForAll activity) {
+		Map<String, Object> theResult = new HashMap<>();
+		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			theResult.put("errInfo", serviceResult.getErrInfo());
+			return theResult;
+		}
+		List<Activity> result = serviceResult.getResult(List.class);
+		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
+				.collect(Collectors.toList());
+		theResult.put("activityName", activity.getActivityName());
+		theResult.put("result", voResult);
+		theResult.put("nowPage", serviceResult.getNowPage());
+		theResult.put("totalPage", serviceResult.getTotalPage());
+		return theResult;
+	}
 
 	@Override
 	// 查询一个众筹活动的详情页
@@ -75,6 +100,30 @@ public class ActivityControllerImpl implements IActivityController {
 		modelAndView.setViewName("activity_detail");
 		return modelAndView;
 	}
+	
+	// 查询一个众筹活动的详情页
+	@RequestMapping(value = "/detail/ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> queryActivityControllerAjax(@RequestBody @Valid ActivityForOne activity, BindingResult bindingResult) {
+		Map<String, Object> theResult = new HashMap<>();
+		if (bindingResult.hasErrors()) {
+			List<String> errInfo = bindingResult.getAllErrors().stream()
+					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+			theResult.put("errInfo", errInfo);
+			return theResult;
+		}
+		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			theResult.put("errInfo", serviceResult.getErrInfo());
+			// 查询失败则返回错误页面
+			return theResult;
+		}
+		Activity a = serviceResult.getResult(Activity.class);
+		theResult.put("activityId", activity.getActivityId());
+		theResult.put("activity", a.toVoForOne());
+		// 返回众筹活动的详细页
+		return theResult;
+	}
 
 	@Override
 	// 添加一个众筹活动
@@ -96,8 +145,9 @@ public class ActivityControllerImpl implements IActivityController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
+		modelAndView.addObject("info", "添加成功！");
 		// 添加成功则返回成功页面
-		modelAndView.setViewName("add_success");
+		modelAndView.setViewName("success");
 		return modelAndView;
 	}
 
@@ -121,8 +171,9 @@ public class ActivityControllerImpl implements IActivityController {
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
+		modelAndView.addObject("info", "修改成功!");
 		// 修改成功则返回成功页面
-		modelAndView.setViewName("modify_success");
+		modelAndView.setViewName("success");
 		return modelAndView;
 	}
 
@@ -147,7 +198,8 @@ public class ActivityControllerImpl implements IActivityController {
 			return modelAndView;
 		}
 		// 修改成功则返回成功页面
-		modelAndView.setViewName("remove_success");
+		modelAndView.addObject("info", "删除成功!");
+		modelAndView.setViewName("success");
 		return modelAndView;
 	}
 
