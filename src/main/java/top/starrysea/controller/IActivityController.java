@@ -1,5 +1,7 @@
 package top.starrysea.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.validation.BindingResult;
@@ -14,7 +16,11 @@ import top.starrysea.object.view.in.ActivityForOne;
 public interface IActivityController {
 	ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity);
 
+	Map<String, Object> queryAllActivityControllerAjax(Condition condition, ActivityForAll activity);
+
 	ModelAndView queryActivityController(ActivityForOne activity, BindingResult bindingResult);
+
+	Map<String, Object> queryActivityControllerAjax(ActivityForOne activity, BindingResult bindingResult);
 
 	ModelAndView addActivityController(HttpSession session, ActivityForAdd activity, BindingResult bindingResult);
 

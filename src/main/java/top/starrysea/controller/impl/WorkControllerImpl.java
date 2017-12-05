@@ -58,6 +58,7 @@ public class WorkControllerImpl implements IWorkController {
 		return modelAndView;
 	}
 
+	@Override
 	@RequestMapping(value = "/ajax", method = RequestMethod.POST)
 	@ResponseBody
 	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
@@ -98,6 +99,7 @@ public class WorkControllerImpl implements IWorkController {
 		return modelAndView;
 	}
 
+	@Override
 	// 查询一个作品的详情页，此方法可用于作品管理，也可用于查看旧货
 	@RequestMapping(value = "/detail/ajax", method = RequestMethod.POST)
 	@ResponseBody
@@ -141,7 +143,7 @@ public class WorkControllerImpl implements IWorkController {
 		modelAndView.setViewName("success");
 		return modelAndView;
 	}
-	
+
 	@Override
 	// 删除一个作品
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)

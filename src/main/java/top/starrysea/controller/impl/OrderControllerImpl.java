@@ -131,6 +131,7 @@ public class OrderControllerImpl implements IOrderController {
 		return modelAndView;
 	}
 
+	@Override
 	// 根据订单号查询一个订单的具体信息以及发货情况
 	@RequestMapping(value = "/detail/ajax", method = RequestMethod.POST)
 	@ResponseBody

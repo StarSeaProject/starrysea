@@ -1,5 +1,7 @@
 package top.starrysea.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.validation.BindingResult;
@@ -15,7 +17,11 @@ public interface IWorkController {
 
 	ModelAndView queryAllWorkController(Condition condition, WorkForAll work);
 
+	Map<String, Object> queryAllWorkControllerAjax(Condition condition, WorkForAll work);
+
 	ModelAndView queryWorkController(WorkForOne work, BindingResult bindingResult);
+
+	Map<String, Object> queryWorkControllerAjax(WorkForOne work, BindingResult bindingResult);
 
 	ModelAndView addWorkController(HttpSession session, MultipartFile file, WorkForAdd work,
 			BindingResult bindingResult);

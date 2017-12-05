@@ -58,11 +58,13 @@ public class ActivityControllerImpl implements IActivityController {
 		modelAndView.setViewName("all_activity");
 		return modelAndView;
 	}
-	
+
+	@Override
 	// 查询所有众筹活动
 	@RequestMapping(value = "/ajax", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> queryAllActivityControllerAjax(Condition condition,@RequestBody ActivityForAll activity) {
+	public Map<String, Object> queryAllActivityControllerAjax(Condition condition,
+			@RequestBody ActivityForAll activity) {
 		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -100,11 +102,13 @@ public class ActivityControllerImpl implements IActivityController {
 		modelAndView.setViewName("activity_detail");
 		return modelAndView;
 	}
-	
+
+	@Override
 	// 查询一个众筹活动的详情页
 	@RequestMapping(value = "/detail/ajax", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> queryActivityControllerAjax(@RequestBody @Valid ActivityForOne activity, BindingResult bindingResult) {
+	public Map<String, Object> queryActivityControllerAjax(@RequestBody @Valid ActivityForOne activity,
+			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
 		if (bindingResult.hasErrors()) {
 			List<String> errInfo = bindingResult.getAllErrors().stream()

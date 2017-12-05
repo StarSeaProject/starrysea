@@ -37,12 +37,12 @@ public class RootControllerImpl implements IRootController {
 	public ModelAndView index() {
 		return new ModelAndView("index");
 	}
-	
+
 	@RequestMapping("/intro")
 	public ModelAndView intro() {
 		return new ModelAndView("intro");
 	}
-	
+
 	@RequestMapping("/admin")
 	public ModelAndView admin() {
 		return new ModelAndView("admin_login");

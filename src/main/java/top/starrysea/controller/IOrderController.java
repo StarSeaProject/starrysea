@@ -26,6 +26,8 @@ public interface IOrderController {
 
 	ModelAndView queryOrderController(OrderForOne order, BindingResult bindingResult);
 
+	Map<String, Object> queryOrderControllerAjax(OrderForRemove order, BindingResult bindingResult);
+
 	ModelAndView addOrderController(OrderForAdd order, BindingResult bindingResult);
 
 	ModelAndView modifyOrderController(HttpSession session, OrderForModify order, BindingResult bindingResult);
