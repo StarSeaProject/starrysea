@@ -26,12 +26,11 @@ public class OrderControllerTest {
 
 	@Test
 	public void queryAllOrderController() {
-		Condition condition = new Condition();
-		condition.setPage(1);
 		HttpSession session = new MockHttpSession();
 		session.setAttribute("adminId", 1);
 		OrderForAll order = new OrderForAll();
-		System.out.println(orderController.queryAllOrderController(session, condition,order));
+		order.setPage(1);
+		System.out.println(orderController.queryAllOrderController(session, order));
 	}
 
 	@Test

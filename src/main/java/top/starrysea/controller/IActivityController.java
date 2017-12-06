@@ -16,7 +16,7 @@ import top.starrysea.object.view.in.ActivityForOne;
 public interface IActivityController {
 	ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity);
 
-	Map<String, Object> queryAllActivityControllerAjax(Condition condition, ActivityForAll activity);
+	Map<String, Object> queryAllActivityControllerAjax(ActivityForAll activity);
 
 	ModelAndView queryActivityController(ActivityForOne activity, BindingResult bindingResult);
 

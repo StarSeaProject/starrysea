@@ -62,8 +62,8 @@ public class WorkControllerImpl implements IWorkController {
 	@RequestMapping(value = "/ajax", method = RequestMethod.POST)
 	@ResponseBody
 	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
-	public Map<String, Object> queryAllWorkControllerAjax(Condition condition, @RequestBody WorkForAll work) {
-		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
+	public Map<String, Object> queryAllWorkControllerAjax(@RequestBody WorkForAll work) {
+		ServiceResult serviceResult = workService.queryAllWorkService(work.getCondition(), work.toDTO());
 		Map<String, Object> theResult = new HashMap<>();
 		if (!serviceResult.isSuccessed()) {
 			theResult.put("errInfo", serviceResult.getErrInfo());

@@ -17,7 +17,7 @@ public interface IWorkController {
 
 	ModelAndView queryAllWorkController(Condition condition, WorkForAll work);
 
-	Map<String, Object> queryAllWorkControllerAjax(Condition condition, WorkForAll work);
+	Map<String, Object> queryAllWorkControllerAjax(WorkForAll work);
 
 	ModelAndView queryWorkController(WorkForOne work, BindingResult bindingResult);
 

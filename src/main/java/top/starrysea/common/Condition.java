@@ -10,6 +10,12 @@ public class Condition {
 	private String orderDir;
 	private String extraInfo;
 
+	public Condition() {}
+	
+	public Condition(Integer page) {
+		this.page=page;
+	}
+	
 	public Integer getPage() {
 		return page;
 	}

@@ -22,7 +22,7 @@ public interface IOrderController {
 
 	ModelAndView queryWorkForOrderController(WorkForOne work, BindingResult bindingResult);
 
-	Map<String, Object> queryAllOrderController(HttpSession session, Condition condition, OrderForAll order);
+	Map<String, Object> queryAllOrderController(HttpSession session, OrderForAll order);
 
 	ModelAndView queryOrderController(OrderForOne order, BindingResult bindingResult);
 

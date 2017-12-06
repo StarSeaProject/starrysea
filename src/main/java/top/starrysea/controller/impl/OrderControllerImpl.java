@@ -89,14 +89,13 @@ public class OrderControllerImpl implements IOrderController {
 	// 查询所有的订单
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> queryAllOrderController(HttpSession session, Condition condition,
-			@RequestBody OrderForAll order) {
+	public Map<String, Object> queryAllOrderController(HttpSession session, @RequestBody OrderForAll order) {
 		Map<String, Object> theResult = new HashMap<>();
 		if (session.getAttribute("adminId") == null) {
 			theResult.put("errInfo", "重新登陆!");
 			return theResult;
 		}
-		ServiceResult serviceResult = orderService.queryAllOrderService(condition, order.toDTO());
+		ServiceResult serviceResult = orderService.queryAllOrderService(order.getCondition(), order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			theResult.put("errInfo", serviceResult.getErrInfo());
 			return theResult;
