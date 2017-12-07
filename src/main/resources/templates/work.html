@@ -32,13 +32,62 @@
             color: rgb(7, 251, 251);
 
         }
-
+        .pagetitle{
+            background-color: #eeeeee;
+            color: #23b1f7;
+            padding-top: 35px ;
+            padding-bottom: 35px;
+            margin-top:0px;
+            margin-bottom:10px;
+        }
+		.pagetitleh1{
+            padding-left: 100px;
+            margin:0px;
+        }
+        .pagetitleh2{
+        	padding-left: 100px;
+            margin:0px;
+            color:#999999;
+        }
+        .worktitle{
+        color: #23b1f7;
+        
+        }
+        .workdetail{
+        margin-top:15px;
+        margin-bottom:15px;
+        padding-bottom:5px;
+        }
+        a.detailhref{
+        padding:9px;
+        border:1px solid;
+        border-radius:12px;
+        border-color:#23b1f7;
+        text-decoration: none;
+        color:#23b1f7;
+        
+        }
+        a.detailhref:hover{
+        
+        text-decoration: none;
+        color:#23b1f7;
+        }
+        a.detailhref:visited{
+        
+        text-decoration: none;
+        color:#23b1f7;
+        }
+        a.detailhref:link{
+        
+        text-decoration: none;
+        color:#23b1f7;
+        }
     </style>
 </head>
 
 <body>
-<div class="container" style="width: 100%;padding: 0%;">
-    <nav class="navbar navbar-brand navbar-static-top heading" role="navigation" id="mybar" style="background-size:100% 100%">
+<div class="container" style="width: 100%;padding: 0%;margin:0%;border:0%;">
+    <nav class="navbar navbar-brand navbar-static-top heading" role="navigation" id="mybar" style="background-size:100% 100%;margin:0%;padding:0%;">
 
         <div class="navbar-header" >
 
@@ -60,34 +109,64 @@
         </div>
     </nav>
 </div>
+<div class="pagetitle">
+    <h1 class="h1 pagetitleh1" >作品展示</h1>
+    <h2 class="h2 pagetitleh2">Works Gallery</h2>
+    </div>
+<div class="container pagecontain">
+    
+    <div class="worktable col-md-9">
+       
+        <table >
+            <tbody>
+            <tr>
+                <div class="row workbox">
+                    <div class="col-xs-3 workimage">
+                        <img src="/bstarsea.jpg" class="workimg img-reponsive"></img>
+                    </div>
+                    <div class="col-xs-9 workdetail">
+                        <p class="h3 worktitle">作品标题</p>
+                        <p class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
+                        <a class="h4 detailhref" href="#">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
+                  
+                        
+                    </div>
+                    
+                </div>
+                <hr></hr>
+            </tr>
+            </tbody>
+        </table>
 
-<div class="container" >
-	<table>
-		<thead>
-			<tr>
-				<td>作品名称</td>
-				<td>作品名称</td>
-				<td>作品概要</td>
-			</tr>
-		</thead>
-		<tbody id="works">
-			<tr th:each="work:${result}">
-				<td><img th:attr="src='/'+${work.workCover}"/></td>
-				<td><a th:attr="data-workid=${work.workId}" href="javascript:void(0)" th:text="${work.workName}"></a></td>
-				<td th:text="${work.workSummary}"></td>
-			</tr>
-		</tbody>
-	</table><br/>
-	<div id="pages">
-		<a href="javascript:void(0)" th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"></a>
-		<span th:text="${nowPage}"></span>
-		<a href="javascript:void(0)" th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"></a>
-	</div>
+
+
+
+        
+            <table>
+                <thead>
+                    <tr>
+                        <td>作品名称</td>
+                    </tr>
+                </thead>
+                <tbody id="works">
+                    <tr th:each="work:${result}">
+                        <td><a th:attr="data-workid=${work.workId}" href="javascript:void(0)" th:text="${work.workName}"></a></td>
+                    </tr>
+                </tbody>
+            </table><br/>
+
+            <div id="pages">
+                <a href="javascript:void(0)" th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"></a>
+                <span th:text="${nowPage}"></span>
+                <a href="javascript:void(0)" th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"></a>
+            </div>
+
+        <form id="workDetail" action="/work/detail" method="get">
+            <input id="workId" type="hidden" name="workId"/>
+        </form>
+    </div>
+    <div class="weibo col-md-3"><iframe id="weibo" style="width:80%; height:500px;" frameborder="0" scrolling="no" src="http://v.t.sina.com.cn/widget/widget_blog.php?uid=6241874149"></iframe></div>
 </div>
-<form id="workDetail" action="/work/detail" method="get">
-	<input id="workId" type="hidden" name="workId"/>
-</form>
-
 
 
 
