@@ -13,6 +13,9 @@ public class WorkForAdd {
 	private String workName;
 	@NotNull(message = "作品库存不能为空")
 	private Integer workStock;
+	@NotEmpty(message = "作品概要不能为空")
+	@Length(max = 50, message = "作品概要长度不能超过50")
+	private String workSummary;
 
 	public String getWorkName() {
 		return workName;
@@ -30,7 +33,15 @@ public class WorkForAdd {
 		this.workStock = workStock;
 	}
 
+	public String getWorkSummary() {
+		return workSummary;
+	}
+
+	public void setWorkSummary(String workSummary) {
+		this.workSummary = workSummary;
+	}
+
 	public Work toDTO() {
-		return new Work.Builder().workName(workName).workStock(workStock).build();
+		return new Work.Builder().workName(workName).workStock(workStock).workSummary(workSummary).build();
 	}
 }

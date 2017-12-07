@@ -23,7 +23,7 @@ public interface IWorkController {
 
 	Map<String, Object> queryWorkControllerAjax(WorkForOne work, BindingResult bindingResult);
 
-	ModelAndView addWorkController(HttpSession session, MultipartFile file, WorkForAdd work,
+	ModelAndView addWorkController(HttpSession session, MultipartFile pdfFile, MultipartFile coverFile, WorkForAdd work,
 			BindingResult bindingResult);
 
 	ModelAndView removeWorkController(HttpSession session, WorkForOne work, BindingResult bindingResult);

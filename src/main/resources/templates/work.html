@@ -66,11 +66,15 @@
 		<thead>
 			<tr>
 				<td>作品名称</td>
+				<td>作品名称</td>
+				<td>作品概要</td>
 			</tr>
 		</thead>
 		<tbody id="works">
 			<tr th:each="work:${result}">
+				<td><img th:attr="src='/'+${work.workCover}"/></td>
 				<td><a th:attr="data-workid=${work.workId}" href="javascript:void(0)" th:text="${work.workName}"></a></td>
+				<td th:text="${work.workSummary}"></td>
 			</tr>
 		</tbody>
 	</table><br/>

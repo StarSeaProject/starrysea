@@ -77,24 +77,42 @@ public class WorkServiceImpl implements IWorkService {
 
 	@Override
 	// 添加一个作品
-	public ServiceResult addWorkService(MultipartFile file, Work work) {
-		if (file.isEmpty()) {
-			return new ServiceResult("文件为空文件");
+	public ServiceResult addWorkService(MultipartFile pdfFile, MultipartFile coverFile, Work work) {
+		if (pdfFile.isEmpty()) {
+			return new ServiceResult("pdf文件为空文件");
 		}
-		if (!(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1))
-				.equalsIgnoreCase("pdf")) {
-			return new ServiceResult("文件格式不合法");
+		if (coverFile.isEmpty()) {
+			return new ServiceResult("封面文件为空文件");
 		}
-		double fileSize = (double) file.getSize() / (double) (1024 * 1024);
+		String pdfFileType = pdfFile.getOriginalFilename().substring(pdfFile.getOriginalFilename().lastIndexOf(".") + 1);
+		if (!pdfFileType.equalsIgnoreCase("pdf")) {
+			return new ServiceResult("pdf文件格式不合法");
+		}
+		String coverFileType = coverFile.getOriginalFilename().substring(coverFile.getOriginalFilename().lastIndexOf(".") + 1);
+		if (!coverFileType.equalsIgnoreCase("jpg") && !coverFileType.equalsIgnoreCase("jpeg")
+				&& !coverFileType.equalsIgnoreCase("png")) {
+			return new ServiceResult("封面文件格式不合法,仅支持jpg/jpeg/png格式");
+		}
+
+		double fileSize = (double) pdfFile.getSize() / (double) (1024 * 1024);
 		if (fileSize > 10) {
-			return new ServiceResult("文件不得超过10M!");
+			return new ServiceResult("pdf文件不得超过10M!");
 		}
-		String originFileName = work.getWorkName() + Common.getCharId(5) + ".pdf";
-		String filePath = FILE_ROOT + originFileName;
+		fileSize = (double) coverFile.getSize() / (double) (1024 * 1024);
+		if (fileSize > 1) {
+			return new ServiceResult("封面文件不得超过1M!");
+		}
+
+		String originPdfFileName = work.getWorkName() + Common.getCharId(5) + ".pdf";
+		String pdfFilePath = FILE_ROOT + originPdfFileName;
+		String originCoverFileName = work.getWorkName() + Common.getCharId(5) + "." + coverFileType;
+		String coverFilePath = FILE_ROOT + originCoverFileName;
 		try {
-			FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(filePath));
+			FileCopyUtils.copy(pdfFile.getInputStream(), new FileOutputStream(pdfFilePath));
+			FileCopyUtils.copy(coverFile.getInputStream(), new FileOutputStream(coverFilePath));
 			work.setWorkUploadTime(Common.getNowDate());
-			work.setWorkPdfpath(PDF_PATH_PREFIX + filePath);
+			work.setWorkPdfpath("/" + originPdfFileName);
+			work.setWorkCover("/" + originCoverFileName);
 			DaoResult daoResult = workDao.saveWorkDao(work);
 			if (!daoResult.isSuccessed()) {
 				throw new RuntimeException("插入作品失败");

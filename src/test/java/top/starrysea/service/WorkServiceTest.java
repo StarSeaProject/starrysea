@@ -35,16 +35,18 @@ public class WorkServiceTest {
 	public void queryWorkService() {
 		ServiceResult serviceResult = workService.queryWorkService(new Work.Builder().workId(6).build());
 		System.out.println(serviceResult.getResult(Work.class));
-		System.out.println(serviceResult.getResult(List.class));
 	}
 
 	@Test
 	public void addWorkService() {
-		Work work = new Work.Builder().workName("a").workStock(5).workUploadTime(Common.getNowDate()).build();
+		Work work = new Work.Builder().workName("a").workStock(5).workUploadTime(Common.getNowDate()).workCover("aaa")
+				.workSummary("asdasdasd").build();
 		try {
-			MockMultipartFile file = new MockMultipartFile("5.pdf",
-					new FileInputStream(new File("D:/Lovelive/call表/自制call表/Aqours/“MY LIST” to you!.pdf")));
-			System.out.println(workService.addWorkService(file, work));
+			MockMultipartFile pdfFile = new MockMultipartFile("5.pdf", new FileInputStream(
+					new File("D:/Lovelive/call表/自制call表/Lovelive!Sunshine!!/Aqours/“MY LIST” to you!.pdf")));
+			MockMultipartFile coverFile = new MockMultipartFile("1.jpg",
+					new FileInputStream(new File("D:/develop/nginx-1.12.1/img/starsea.png")));
+			System.out.println(workService.addWorkService(pdfFile, coverFile, work));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("错错错");

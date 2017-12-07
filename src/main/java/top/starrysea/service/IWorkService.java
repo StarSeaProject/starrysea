@@ -11,7 +11,7 @@ public interface IWorkService {
 
 	ServiceResult queryWorkService(Work work);
 
-	ServiceResult addWorkService(MultipartFile file, Work work);
+	ServiceResult addWorkService(MultipartFile pdfFile, MultipartFile CoverFile, Work work);
 
 	ServiceResult removeWorkService(Work work);
 }

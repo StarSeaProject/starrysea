@@ -124,8 +124,8 @@ public class WorkControllerImpl implements IWorkController {
 
 	// 添加一个作品
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView addWorkController(HttpSession session, @RequestParam("file") MultipartFile file,
-			@Valid WorkForAdd work, BindingResult bindingResult) {
+	public ModelAndView addWorkController(HttpSession session, @RequestParam("pdfFile") MultipartFile pdfFile,
+			@RequestParam("coverFile") MultipartFile coverFile, @Valid WorkForAdd work, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -133,7 +133,7 @@ public class WorkControllerImpl implements IWorkController {
 		if (session.getAttribute("adminId") == null) {
 			return new ModelAndView("admin_login");
 		}
-		ServiceResult serviceResult = workService.addWorkService(file, work.toDTO());
+		ServiceResult serviceResult = workService.addWorkService(pdfFile, coverFile, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
 			modelAndView.setViewName("error");

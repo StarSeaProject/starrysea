@@ -10,6 +10,9 @@ public class Work extends Entity {
 	private String workUploadTime;
 	private String workPdfpath;
 	private Integer workStock;
+	private String workCover;
+	private String workSummary;
+	private Integer workClick;
 
 	private Work(Builder builder) {
 		this.workId = builder.workId;
@@ -17,6 +20,9 @@ public class Work extends Entity {
 		this.workUploadTime = builder.workUploadTime;
 		this.workPdfpath = builder.workPdfpath;
 		this.workStock = builder.workStock;
+		this.workCover = builder.workCover;
+		this.workSummary = builder.workSummary;
+		this.workClick = builder.workClick;
 	}
 
 	public static class Builder implements IBuilder<Work> {
@@ -26,6 +32,9 @@ public class Work extends Entity {
 		private String workUploadTime;
 		private String workPdfpath;
 		private Integer workStock;
+		private String workCover;
+		private String workSummary;
+		private Integer workClick;
 
 		public Builder() {
 		}
@@ -52,6 +61,21 @@ public class Work extends Entity {
 
 		public Builder workStock(Integer workStock) {
 			this.workStock = workStock;
+			return this;
+		}
+
+		public Builder workCover(String workCover) {
+			this.workCover = workCover;
+			return this;
+		}
+
+		public Builder workSummary(String workSummary) {
+			this.workSummary = workSummary;
+			return this;
+		}
+
+		public Builder workClick(Integer workClick) {
+			this.workClick = workClick;
 			return this;
 		}
 
@@ -102,11 +126,35 @@ public class Work extends Entity {
 		this.workStock = workStock;
 	}
 
+	public String getWorkCover() {
+		return workCover;
+	}
+
+	public void setWorkCover(String workCover) {
+		this.workCover = workCover;
+	}
+
+	public String getWorkSummary() {
+		return workSummary;
+	}
+
+	public void setWorkSummary(String workSummary) {
+		this.workSummary = workSummary;
+	}
+
+	public Integer getWorkClick() {
+		return workClick;
+	}
+
+	public void setWorkClick(Integer workClick) {
+		this.workClick = workClick;
+	}
+
 	public WorkForAll toVoForAll() {
-		return new WorkForAll(workId, workName);
+		return new WorkForAll(workId, workName, workCover, workSummary);
 	}
 
 	public WorkForOne toVoForOne() {
-		return new WorkForOne(workName, workUploadTime, workPdfpath);
+		return new WorkForOne(workName, workUploadTime, workPdfpath, workClick);
 	}
 }
