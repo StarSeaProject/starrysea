@@ -2,72 +2,80 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8"></meta>
+<meta charset="utf-8"></meta>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-    <title></title>
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/mycss.css"></link>
+<title></title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/mycss.css"></link>
 
-    <style>
-        .heading{
-            background-image: url("/navbar.png");
-        }
-        #btnnav{
-            float: right;
-        }
-        #shownav{
-            float: right;
+<style>
+.heading {
+	background-image: url("/navbar.png");
+}
 
-        }
-        .abnav{
-            color: #FFFFFF;
-            font-size: 1.5em;
-        }
-        a:hover{
-            color: rgb(7, 251, 251);
+#btnnav {
+	float: right;
+}
 
-        }
+#shownav {
+	float: right;
+}
 
-    </style>
+.abnav {
+	color: #FFFFFF;
+	font-size: 1.5em;
+}
+
+a:hover {
+	color: rgb(7, 251, 251);
+}
+</style>
 </head>
 <body>
 <body>
-<div class="container" style="width: 100%;padding: 0%;">
-    <nav class="navbar navbar-brand navbar-static-top heading" role="navigation" id="mybar" style="background-size:100% 100%">
+	<div class="container" style="width: 100%; padding: 0%;">
+		<nav class="navbar navbar-brand navbar-static-top heading"
+			role="navigation" id="mybar" style="background-size: 100% 100%">
 
-        <div class="navbar-header" >
+			<div class="navbar-header">
 
-            <img src="/starsea.png" style="height: 70px;width:70px;" class="col-sms-4"></img>
+				<img src="/starsea.png" style="height: 70px; width: 70px;"
+					class="col-sms-4"></img>
 
-            <button class="navbar-toggle col-sm-4" data-toggle="collapse" data-target="#shownav" id="btnnav">
-                <span class="glyphicon glyphicon-menu-hamburger"></span>
+				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
+					data-target="#shownav" id="btnnav">
+					<span class="glyphicon glyphicon-menu-hamburger"></span>
 
-            </button>
-        </div>
-        <div class="collapse navbar-collapse navbar-right" id="shownav">
-            <ul class="nav navbar-nav mynavul">
-                <li><a href="/" class="abnav">首页</a></li>
-                <li><a href="read.html" class="abnav">作品阅览</a></li>
-                <li><a href="funding.html" class="abnav">活动众筹</a></li>
-                <li><a href="oldshop.html" class="abnav">旧货处理</a></li>
-                <li><a href="intro.html" class="abnav">组织介绍</a></li>
-            </ul>
-        </div>
-    </nav>
-</div>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse navbar-right" id="shownav">
+				<ul class="nav navbar-nav mynavul">
+					<li><a href="/work/" class="anav">作品阅览</a></li>
+					<li><a href="/activity/" class="anav">活动众筹</a></li>
+					<li><a href="/order/getWorks" class="anav">旧货处理</a></li>
+					<li><a href="/intro.html" class="anav">组织介绍</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 
-<div class="container" >
-	活动名称：<div th:text="${activity.activityName}"></div>
-	活动内容：<div th:text="${activity.activityContent}"></div>
-	活动状态:<div th:if="${activity.activityStatus == 1}">未开始</div>
-	<div th:if="${activity.activityStatus == 2}">进行中</div>
-	<div th:if="${activity.activityStatus == 3}">已结束</div>
-</div>
+	<div class="container">
+		活动名称：
+		<div th:text="${activity.activityName}"></div>
+		活动内容：
+		<div th:text="${activity.activityContent}"></div>
+		活动状态:
+		<div th:if="${activity.activityStatus == 1}">未开始</div>
+		<div th:if="${activity.activityStatus == 2}">进行中</div>
+		<div th:if="${activity.activityStatus == 3}">已结束</div>
+	</div>
 
 </body>
 </body>
