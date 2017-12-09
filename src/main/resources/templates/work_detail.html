@@ -45,6 +45,15 @@ a:hover {
 	margin-top: 0px;
 	margin-bottom: 10px;
 }
+.pdfiframe{
+	width:100%;
+	height:100%;
+	border:0px;
+	
+}
+.uploadtime{
+color: #999999;
+}
 </style>
 </head>
 <body>
@@ -78,12 +87,17 @@ a:hover {
 	</div>
 	<div class="pagetitle">
 		<h1 th:text="${work.workName}" class="h1 workname text-center"></h1>
-		<h6 th:text="'上传时间:'+${work.workUploadTime}"
-			class="h6 uploadtime text-center"></h6>
-		<h6 th:text="'点击量:'+${work.workClick}"
-			class="h6 uploadtime text-center"></h6>
+		<h4 th:text="'上传时间:'+${work.workUploadTime}+'&nbsp;&nbsp;点击量:'+${work.workClick}"
+			class=" uploadtime text-center" ></h4>
+		
 	</div>
-	<div th:text="${work.workPdfpath}" class="pdfcontainer"></div>
+	<hr></hr>
+	<div class="pdfcontainer">
+	<iframe th:attr="src='/generic/web/viewer.html?file='+${work.workPdfpath}" class="pdfiframe"></iframe>
+	<p th:text="${work.workPdfpath}"></p>
+	
+	</div>
+	
 </body>
 </body>
 </html>
