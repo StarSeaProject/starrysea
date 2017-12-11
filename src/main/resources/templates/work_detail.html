@@ -47,7 +47,7 @@ a:hover {
 }
 .pdfiframe{
 	width:100%;
-	height:100%;
+	height:700px;;
 	border:0px;
 	
 }
@@ -93,9 +93,11 @@ color: #999999;
 	</div>
 	<hr></hr>
 	<div class="pdfcontainer">
-	<iframe th:attr="src='/generic/web/viewer.html?file='${work.workPdfpath}" class="pdfiframe"></iframe>
-	<p th:text="${work.workPdfpath}"></p>
+	 
+	<iframe th:attr="src='http://www.starrysea.top'+${work.workPdfpath}" class="pdfiframe"></iframe>
 	
+	<!--<p th:text="${work.workPdfpath}"></p>
+	-->
 	</div>
 	
 </body>
