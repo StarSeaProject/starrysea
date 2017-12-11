@@ -17,6 +17,8 @@ public class ActivityForAdd {
 	@NotEmpty(message = "活动内容不能为空")
 	private String activityContent;
 	private List<ActivityImageForAdd> activityImages;
+	@NotEmpty(message = "活动概要不能为空")
+	private String activitySummary;
 
 	public String getActivityName() {
 		return activityName;
@@ -42,8 +44,16 @@ public class ActivityForAdd {
 		this.activityImages = activityImages;
 	}
 
+	public String getActivitySummary() {
+		return activitySummary;
+	}
+
+	public void setActivitySummary(String activitySummary) {
+		this.activitySummary = activitySummary;
+	}
+
 	public Activity toDTO() {
-		return new Activity.Builder().activityName(activityName).activityContent(activityContent).build();
+		return new Activity.Builder().activityName(activityName).activityContent(activityContent).activitySummary(activitySummary).build();
 	}
 
 	public List<ActivityImage> toDTO_image() {

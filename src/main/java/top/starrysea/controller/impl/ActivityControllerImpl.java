@@ -15,7 +15,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Common;
@@ -27,6 +29,9 @@ import top.starrysea.object.view.in.ActivityForAdd;
 import top.starrysea.object.view.in.ActivityForAll;
 import top.starrysea.object.view.in.ActivityForModify;
 import top.starrysea.object.view.in.ActivityForOne;
+import top.starrysea.object.view.in.FundingForAdd;
+import top.starrysea.object.view.in.FundingForAddList;
+import top.starrysea.object.view.in.FundingForRemove;
 import top.starrysea.service.IActivityService;
 
 @Controller
@@ -65,7 +70,8 @@ public class ActivityControllerImpl implements IActivityController {
 	@ResponseBody
 	public Map<String, Object> queryAllActivityControllerAjax(@RequestBody ActivityForAll activity) {
 		Map<String, Object> theResult = new HashMap<>();
-		ServiceResult serviceResult = activityService.queryAllActivityService(activity.getCondition(), activity.toDTO());
+		ServiceResult serviceResult = activityService.queryAllActivityService(activity.getCondition(),
+				activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			theResult.put("errInfo", serviceResult.getErrInfo());
 			return theResult;
@@ -97,6 +103,7 @@ public class ActivityControllerImpl implements IActivityController {
 		}
 		Activity a = serviceResult.getResult(Activity.class);
 		modelAndView.addObject("activity", a.toVoForOne());
+		modelAndView.addObject("fundings", serviceResult.getResult(List.class));
 		// 返回众筹活动的详细页
 		modelAndView.setViewName("activity_detail");
 		return modelAndView;
@@ -124,6 +131,7 @@ public class ActivityControllerImpl implements IActivityController {
 		Activity a = serviceResult.getResult(Activity.class);
 		theResult.put("activityId", activity.getActivityId());
 		theResult.put("activity", a.toVoForOne());
+		theResult.put("fundings", serviceResult.getResult(List.class));
 		// 返回众筹活动的详细页
 		return theResult;
 	}
@@ -131,8 +139,8 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 添加一个众筹活动
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView addActivityController(HttpSession session, @Valid ActivityForAdd activity,
-			BindingResult bindingResult) {
+	public ModelAndView addActivityController(HttpSession session, @RequestParam("coverFile") MultipartFile coverFile,
+			@Valid ActivityForAdd activity, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -141,10 +149,11 @@ public class ActivityControllerImpl implements IActivityController {
 			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
 			return new ModelAndView("login");
 		}
-		ServiceResult serviceResult = activityService.addActivityService(activity.toDTO(), activity.toDTO_image());
+		ServiceResult serviceResult = activityService.addActivityService(coverFile, activity.toDTO(),
+				activity.toDTO_image());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			// 查询失败则返回错误页面
+			// 添加失败则返回错误页面
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
@@ -170,7 +179,7 @@ public class ActivityControllerImpl implements IActivityController {
 		ServiceResult serviceResult = activityService.modifyActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			// 查询失败则返回错误页面
+			// 修改失败则返回错误页面
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
@@ -196,11 +205,65 @@ public class ActivityControllerImpl implements IActivityController {
 		ServiceResult serviceResult = activityService.removeActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			// 查询失败则返回错误页面
+			// 删除失败则返回错误页面
 			modelAndView.setViewName("error");
 			return modelAndView;
 		}
-		// 修改成功则返回成功页面
+		// 删除成功则返回成功页面
+		modelAndView.addObject("info", "删除成功!");
+		modelAndView.setViewName("success");
+		return modelAndView;
+	}
+
+	@Override
+	@RequestMapping(value = "/funding/add", method = RequestMethod.POST)
+	public ModelAndView addFundingController(HttpSession session, @Valid FundingForAddList fundings,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		if (session.getAttribute("adminId") == null) {
+			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
+			return new ModelAndView("login");
+		}
+		for (FundingForAdd funding : fundings.getFundings()) {
+			funding.setActivityId(fundings.getActivityId());
+		}
+		ServiceResult serviceResult = activityService.addFundingService(
+				fundings.getFundings().stream().map(FundingForAdd::toDTO).collect(Collectors.toList()));
+		if (!serviceResult.isSuccessed()) {
+			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			// 添加失败则返回错误页面
+			modelAndView.setViewName("error");
+			return modelAndView;
+		}
+		// 添加成功则返回成功页面
+		modelAndView.addObject("info", "添加成功!");
+		modelAndView.setViewName("success");
+		return modelAndView;
+	}
+
+	@Override
+	@RequestMapping(value = "/funding/remove", method = RequestMethod.POST)
+	public ModelAndView removeFundingController(HttpSession session, @Valid FundingForRemove funding,
+			BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		if (session.getAttribute("adminId") == null) {
+			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
+			return new ModelAndView("login");
+		}
+		ServiceResult serviceResult = activityService.removeFundingService(funding.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			// 添加失败则返回错误页面
+			modelAndView.setViewName("error");
+			return modelAndView;
+		}
+		// 添加成功则返回成功页面
 		modelAndView.addObject("info", "删除成功!");
 		modelAndView.setViewName("success");
 		return modelAndView;

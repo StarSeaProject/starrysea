@@ -75,12 +75,16 @@ a:hover {
 			<thead>
 				<tr>
 					<td>活动名称</td>
+					<td>活动封面</td>
+					<td>活动概要</td>
 				</tr>
 			</thead>
 			<tbody id="activitys">
 				<tr th:each="activity:${result}">
 					<td><a th:attr="data-activityid=${activity.activityId}"
 						href="javascript:void(0)" th:text="${activity.activityName}"></a></td>
+					<td><img th:attr="src=${activity.activityCover}"></img></td>
+					<td th:text="${activity.activitySummary}"></td>
 				</tr>
 			</tbody>
 		</table>

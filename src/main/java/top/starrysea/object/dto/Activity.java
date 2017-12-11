@@ -9,12 +9,16 @@ public class Activity extends Entity {
 	private String activityName;
 	private String activityContent;
 	private short activityStatus;
+	private String activityCover;
+	private String activitySummary;
 
 	public Activity(Builder builder) {
 		this.activityId = builder.activityId;
 		this.activityName = builder.activityName;
 		this.activityContent = builder.activityContent;
 		this.activityStatus = builder.activityStatus;
+		this.activityCover = builder.activityCover;
+		this.activitySummary = builder.activitySummary;
 	}
 
 	public static class Builder implements IBuilder<Activity> {
@@ -22,6 +26,8 @@ public class Activity extends Entity {
 		private String activityName;
 		private String activityContent;
 		private short activityStatus;
+		private String activityCover;
+		private String activitySummary;
 
 		public Builder() {
 		}
@@ -43,6 +49,16 @@ public class Activity extends Entity {
 
 		public Builder activityStatus(short activityStatus) {
 			this.activityStatus = activityStatus;
+			return this;
+		}
+
+		public Builder activityCover(String activityCover) {
+			this.activityCover = activityCover;
+			return this;
+		}
+
+		public Builder activitySummary(String activitySummary) {
+			this.activitySummary = activitySummary;
 			return this;
 		}
 
@@ -85,8 +101,24 @@ public class Activity extends Entity {
 		this.activityStatus = activityStatus;
 	}
 
+	public String getActivityCover() {
+		return activityCover;
+	}
+
+	public void setActivityCover(String activityCover) {
+		this.activityCover = activityCover;
+	}
+
+	public String getActivitySummary() {
+		return activitySummary;
+	}
+
+	public void setActivitySummary(String activitySummary) {
+		this.activitySummary = activitySummary;
+	}
+
 	public ActivityForAll toVoForAll() {
-		return new ActivityForAll(activityId, activityName);
+		return new ActivityForAll(activityId, activityName, activityCover, activitySummary);
 	}
 
 	public ActivityForOne toVoForOne() {

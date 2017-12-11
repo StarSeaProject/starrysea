@@ -1,5 +1,6 @@
 package top.starrysea.common;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -27,6 +28,8 @@ public class Common {
 	private final static Logger logger = LoggerFactory.getLogger(Common.class);
 	private static SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat timeSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	public static final String FILE_ROOT = "D:" + File.separator + "starrysea" + File.separator;
 
 	// 私有构造器防止外部创建新的Util对象
 	private Common() {

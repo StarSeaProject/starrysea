@@ -36,12 +36,14 @@ public class ActivityDaoImpl implements IActivityDao {
 	// 查询所有众筹活动
 	public DaoResult getAllActivityDao(Condition condition, Activity activity) {
 		SqlWithParams sqlWithParams = getTheSqlForGetAll(activity);
-		String sql = "SELECT activity_id,activity_name " + "FROM activity " + sqlWithParams.getWhere() + "LIMIT "
-				+ (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
+		String sql = "SELECT activity_id,activity_name,activity_cover,activity_summary " + "FROM activity "
+				+ sqlWithParams.getWhere() + "LIMIT " + (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
 		Object[] params = sqlWithParams.getParams();
 		try {
-			List<Activity> theResult = template.query(sql, params, (rs, row) -> new Activity.Builder()
-					.activityId(rs.getInt("activity_id")).activityName(rs.getString("activity_name")).build());
+			List<Activity> theResult = template.query(sql, params,
+					(rs, row) -> new Activity.Builder().activityId(rs.getInt("activity_id"))
+							.activityName(rs.getString("activity_name")).activityCover(rs.getString("activity_cover"))
+							.activitySummary(rs.getString("activity_summary")).build());
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -84,7 +86,8 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	// 添加一个众筹活动
 	public DaoResult saveActivityDao(Activity activity) {
-		String sql = "INSERT INTO activity(activity_name,activity_content,activity_status) " + "VALUES(?,?,?)";
+		String sql = "INSERT INTO activity(activity_name,activity_content,activity_status,activity_cover,activity_summary) "
+				+ "VALUES(?,?,?,?,?)";
 		try {
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			template.update(new PreparedStatementCreator() {
@@ -95,6 +98,8 @@ public class ActivityDaoImpl implements IActivityDao {
 					ps.setString(1, activity.getActivityName());
 					ps.setString(2, activity.getActivityContent());
 					ps.setShort(3, activity.getActivityStatus());
+					ps.setString(4, activity.getActivityCover());
+					ps.setString(5, activity.getActivitySummary());
 					return ps;
 				}
 			}, keyHolder);

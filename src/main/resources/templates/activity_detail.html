@@ -75,6 +75,22 @@ a:hover {
 		<div th:if="${activity.activityStatus == 1}">未开始</div>
 		<div th:if="${activity.activityStatus == 2}">进行中</div>
 		<div th:if="${activity.activityStatus == 3}">已结束</div>
+		<table>
+			<thead>
+				<tr>
+					<td>众筹者id</td>
+					<td>众筹金额</td>
+					<td>留言</td>
+				</tr>
+			</thead>
+			<tbody th:each="funding:${fundings}">
+				<tr>
+					<td th:text="${funding.fundingName}"></td>
+					<td th:text="${funding.fundingMoney}"></td>
+					<td th:text="${funding.fundingMessage}"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 
 </body>

@@ -1,6 +1,5 @@
 package top.starrysea.service.impl;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
@@ -21,6 +20,7 @@ import top.starrysea.service.IMailService;
 import top.starrysea.service.IWorkService;
 
 import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
+import static top.starrysea.common.Common.FILE_ROOT;
 
 @Service("workService")
 public class WorkServiceImpl implements IWorkService {
@@ -30,9 +30,6 @@ public class WorkServiceImpl implements IWorkService {
 	private IWorkDao workDao;
 	@Autowired
 	private IMailService mailService;
-
-	private static final String FILE_ROOT = "D:" + File.separator + "starrysea" + File.separator;
-	private static final String PDF_PATH_PREFIX = "http://120.79.24.63/";
 
 	@Override
 	// 查询所有作品

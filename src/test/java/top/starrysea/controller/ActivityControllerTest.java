@@ -61,7 +61,7 @@ public class ActivityControllerTest {
 		activityImage.setActivityImagePath("bb");
 		activityImages.add(activityImage);
 		activity.setActivityImages(activityImages);
-		ModelAndView modelAndView = controller.addActivityController(session, activity, null);
+		ModelAndView modelAndView = controller.addActivityController(session, null, activity, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
