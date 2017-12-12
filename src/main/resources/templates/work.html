@@ -144,12 +144,6 @@ a.detailhref:link {
 					<hr />
 				</div>
 			</div>
-			<div id="pages">
-				<a href="javascript:void(0)"
-					th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"></a> <span
-					th:text="${nowPage}"></span> <a href="javascript:void(0)"
-					th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"></a>
-			</div>
 		</div>
 		<form id="workDetail" action="/work/detail" method="get">
 			<input id="workId" type="hidden" name="workId" />
