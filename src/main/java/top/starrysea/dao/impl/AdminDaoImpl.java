@@ -24,7 +24,7 @@ public class AdminDaoImpl implements IAdminDao {
 	public DaoResult loginDao(Admin admin) {
 		String sql = "SELECT 1 " + "FROM admin " + "WHERE admin_useraccount = ?";
 		List<String> list = template.queryForList(sql, new Object[] { admin.getAdminUseraccount() }, String.class);
-		if (list.size() == 0) {
+		if (list.isEmpty()) {
 			return new DaoResult(false, "管理员账号不存在");
 		}
 		sql = "SELECT admin_id " + "FROM admin " + "WHERE admin_useraccount = ? " + "AND admin_password = ?";

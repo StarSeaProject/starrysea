@@ -32,9 +32,6 @@ public class Activity extends Entity {
 		private String activitySummary;
 		private String activityEndtime;
 
-		public Builder() {
-		}
-
 		public Builder activityId(Integer activityId) {
 			this.activityId = activityId;
 			return this;

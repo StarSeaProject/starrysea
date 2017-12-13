@@ -36,9 +36,6 @@ public class Work extends Entity {
 		private String workSummary;
 		private Integer workClick;
 
-		public Builder() {
-		}
-
 		public Builder workId(Integer workId) {
 			this.workId = workId;
 			return this;

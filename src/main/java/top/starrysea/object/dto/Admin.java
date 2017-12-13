@@ -17,9 +17,6 @@ public class Admin extends Entity {
 		private String adminUseraccount;
 		private String adminPassword;
 
-		public Builder() {
-		}
-
 		public Builder adminId(Integer adminId) {
 			this.adminId = adminId;
 			return this;
@@ -37,7 +34,6 @@ public class Admin extends Entity {
 
 		@Override
 		public Admin build() {
-			// TODO 自动生成的方法存根
 			return new Admin(this);
 		}
 

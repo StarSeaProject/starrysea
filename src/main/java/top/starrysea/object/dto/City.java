@@ -61,6 +61,7 @@ public class City extends Entity {
 	}
 
 	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 
 }

@@ -1,6 +1,5 @@
 package top.starrysea.common;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -25,11 +24,9 @@ import top.starrysea.object.dto.Entity;
 
 public class Common {
 
-	private final static Logger logger = LoggerFactory.getLogger(Common.class);
+	private static final Logger logger = LoggerFactory.getLogger(Common.class);
 	private static SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat timeSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	// 文件保存的路径
-	public static final String FILE_ROOT = "D:" + File.separator + "starrysea" + File.separator;
 
 	// 私有构造器防止外部创建新的Util对象
 	private Common() {
@@ -96,11 +93,12 @@ public class Common {
 	}
 
 	public static String getCharId(String pre, int size) {
-		StringBuffer theResult = new StringBuffer();
+		StringBuilder theResult = new StringBuilder();
 		theResult.append(pre);
 		String a = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		Random random = new Random();
 		for (int i = 0; i < size - pre.length(); i++) {
-			int rand = (int) (Math.random() * a.length());
+			int rand = random.nextInt() * a.length();
 			theResult.append(a.charAt(rand));
 		}
 		return theResult.toString();
@@ -117,15 +115,15 @@ public class Common {
 			return result;
 		if (object instanceof String) {
 			String temp = (String) object;
-			if (temp != null && !temp.equals(""))
+			if (!temp.equals(""))
 				result = true;
 			else
 				result = false;
 		} else if (object instanceof Entity) {
-			result = (object != null ? true : false);
+			result = true;
 		} else if (object instanceof List) {
 			List<?> list = List.class.cast(object);
-			if (list.size() > 0)
+			if (!list.isEmpty())
 				result = true;
 			else
 				result = false;
@@ -157,7 +155,7 @@ public class Common {
 	}
 
 	public static String getFieldErrors(BindingResult bindingResult) {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 		for (FieldError fieldError : fieldErrors) {
 			list.add(fieldError.getDefaultMessage());

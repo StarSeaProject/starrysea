@@ -56,9 +56,9 @@ public class ActivityForAdd {
 		return new Activity.Builder().activityName(activityName).activityContent(activityContent).activitySummary(activitySummary).build();
 	}
 
-	public List<ActivityImage> toDTO_image() {
+	public List<ActivityImage> toDTOImage() {
 		List<ActivityImage> list = new ArrayList<>();
-		if (activityImages == null || activityImages.size() == 0)
+		if (activityImages == null || activityImages.isEmpty())
 			return list;
 		for (ActivityImageForAdd activityImage : activityImages) {
 			ActivityImage ai = new ActivityImage.Builder().activityImagePath(activityImage.getActivityImagePath())

@@ -48,7 +48,7 @@ public class ActivityServiceImpl implements IActivityService {
 			return new ServiceResult(daoResult);
 		}
 		List<Activity> activitylist = daoResult.getResult(List.class);
-		if (activitylist.size() == 0) {
+		if (activitylist.isEmpty()) {
 			return new ServiceResult("查询结果为空");
 		}
 		int totalPage = 0;

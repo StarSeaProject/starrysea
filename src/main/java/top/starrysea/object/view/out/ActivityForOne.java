@@ -19,6 +19,8 @@ public class ActivityForOne {
 		case 3:
 			this.activityStatus = "已结束";
 			break;
+		default:
+			this.activityStatus="";
 		}
 	}
 

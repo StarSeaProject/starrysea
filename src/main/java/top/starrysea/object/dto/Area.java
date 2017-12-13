@@ -17,9 +17,6 @@ public class Area extends Entity {
 		private City city;
 		private String areaName;
 
-		public Builder() {
-		}
-
 		public Builder areaId(Integer areaId) {
 			this.areaId = areaId;
 			return this;

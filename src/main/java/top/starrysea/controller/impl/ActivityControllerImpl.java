@@ -34,6 +34,8 @@ import top.starrysea.object.view.in.FundingForAddList;
 import top.starrysea.object.view.in.FundingForRemove;
 import top.starrysea.service.IActivityService;
 
+import static top.starrysea.common.Const.*;
+
 @Controller
 @RequestMapping("/activity")
 public class ActivityControllerImpl implements IActivityController {
@@ -48,9 +50,9 @@ public class ActivityControllerImpl implements IActivityController {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 查询失败则返回错误页面
-			modelAndView.setViewName("error");
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		List<Activity> result = serviceResult.getResult(List.class);
@@ -74,7 +76,7 @@ public class ActivityControllerImpl implements IActivityController {
 		ServiceResult serviceResult = activityService.queryAllActivityService(activity.getCondition(),
 				activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			theResult.put("errInfo", serviceResult.getErrInfo());
+			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
 		List<Activity> result = serviceResult.getResult(List.class);
@@ -97,9 +99,9 @@ public class ActivityControllerImpl implements IActivityController {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 查询失败则返回错误页面
-			modelAndView.setViewName("error");
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		Activity a = serviceResult.getResult(Activity.class);
@@ -120,12 +122,12 @@ public class ActivityControllerImpl implements IActivityController {
 		if (bindingResult.hasErrors()) {
 			List<String> errInfo = bindingResult.getAllErrors().stream()
 					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put("errInfo", errInfo);
+			theResult.put(ERRINFO, errInfo);
 			return theResult;
 		}
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			theResult.put("errInfo", serviceResult.getErrInfo());
+			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			// 查询失败则返回错误页面
 			return theResult;
 		}
@@ -146,21 +148,21 @@ public class ActivityControllerImpl implements IActivityController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute("adminId") == null) {
+		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
 			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
-			return new ModelAndView("login");
+			return new ModelAndView(LOGIN_VIEW);
 		}
 		ServiceResult serviceResult = activityService.addActivityService(coverFile, activity.toDTO(),
-				activity.toDTO_image());
+				activity.toDTOImage());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 添加失败则返回错误页面
-			modelAndView.setViewName("error");
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "添加成功！");
 		// 添加成功则返回成功页面
-		modelAndView.setViewName("success");
+		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -173,20 +175,20 @@ public class ActivityControllerImpl implements IActivityController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute("adminId") == null) {
+		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
 			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
-			return new ModelAndView("login");
+			return new ModelAndView(LOGIN_VIEW);
 		}
 		ServiceResult serviceResult = activityService.modifyActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 修改失败则返回错误页面
-			modelAndView.setViewName("error");
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "修改成功!");
 		// 修改成功则返回成功页面
-		modelAndView.setViewName("success");
+		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -199,20 +201,20 @@ public class ActivityControllerImpl implements IActivityController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute("adminId") == null) {
+		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
 			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
-			return new ModelAndView("login");
+			return new ModelAndView(LOGIN_VIEW);
 		}
 		ServiceResult serviceResult = activityService.removeActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 删除失败则返回错误页面
-			modelAndView.setViewName("error");
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		// 删除成功则返回成功页面
 		modelAndView.addObject("info", "删除成功!");
-		modelAndView.setViewName("success");
+		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -224,9 +226,9 @@ public class ActivityControllerImpl implements IActivityController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute("adminId") == null) {
+		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
 			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
-			return new ModelAndView("login");
+			return new ModelAndView(LOGIN_VIEW);
 		}
 		for (FundingForAdd funding : fundings.getFundings()) {
 			funding.setActivityId(fundings.getActivityId());
@@ -234,14 +236,14 @@ public class ActivityControllerImpl implements IActivityController {
 		ServiceResult serviceResult = activityService.addFundingService(
 				fundings.getFundings().stream().map(FundingForAdd::toDTO).collect(Collectors.toList()));
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 添加失败则返回错误页面
-			modelAndView.setViewName("error");
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		// 添加成功则返回成功页面
 		modelAndView.addObject("info", "添加成功!");
-		modelAndView.setViewName("success");
+		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -253,20 +255,20 @@ public class ActivityControllerImpl implements IActivityController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute("adminId") == null) {
+		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
 			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
-			return new ModelAndView("login");
+			return new ModelAndView(LOGIN_VIEW);
 		}
 		ServiceResult serviceResult = activityService.removeFundingService(funding.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 添加失败则返回错误页面
-			modelAndView.setViewName("error");
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		// 添加成功则返回成功页面
 		modelAndView.addObject("info", "删除成功!");
-		modelAndView.setViewName("success");
+		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 
