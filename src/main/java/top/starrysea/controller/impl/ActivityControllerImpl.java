@@ -56,7 +56,8 @@ public class ActivityControllerImpl implements IActivityController {
 		List<Activity> result = serviceResult.getResult(List.class);
 		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
 				.collect(Collectors.toList());
-		modelAndView.addObject("result", voResult);
+		modelAndView.addObject("newResult", voResult.get(0));
+		modelAndView.addObject("result", voResult.subList(1, voResult.size()));
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
 		// 返回众筹活动的列表页

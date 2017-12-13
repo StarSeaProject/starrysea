@@ -28,7 +28,7 @@ public class Common {
 	private final static Logger logger = LoggerFactory.getLogger(Common.class);
 	private static SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat timeSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	
+	// 文件保存的路径
 	public static final String FILE_ROOT = "D:" + File.separator + "starrysea" + File.separator;
 
 	// 私有构造器防止外部创建新的Util对象
@@ -46,10 +46,14 @@ public class Common {
 	}
 
 	public static String date2String(Date date) {
+		if (date == null)
+			return "";
 		return dateSdf.format(date);
 	}
 
 	public static String time2String(Date date) {
+		if (date == null)
+			return "";
 		return timeSdf.format(date);
 	}
 

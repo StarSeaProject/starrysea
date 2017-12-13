@@ -17,6 +17,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.SqlWithParams;
@@ -36,18 +37,20 @@ public class ActivityDaoImpl implements IActivityDao {
 	// 查询所有众筹活动
 	public DaoResult getAllActivityDao(Condition condition, Activity activity) {
 		SqlWithParams sqlWithParams = getTheSqlForGetAll(activity);
-		String sql = "SELECT activity_id,activity_name,activity_cover,activity_summary " + "FROM activity "
-				+ sqlWithParams.getWhere() + "LIMIT " + (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
+		String sql = "SELECT activity_id,activity_name,activity_cover,activity_summary,activity_endtime "
+				+ "FROM activity " + sqlWithParams.getWhere() + "ORDER BY activity_id DESC " + "LIMIT "
+				+ (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
 		Object[] params = sqlWithParams.getParams();
 		try {
 			List<Activity> theResult = template.query(sql, params,
 					(rs, row) -> new Activity.Builder().activityId(rs.getInt("activity_id"))
 							.activityName(rs.getString("activity_name")).activityCover(rs.getString("activity_cover"))
-							.activitySummary(rs.getString("activity_summary")).build());
+							.activitySummary(rs.getString("activity_summary"))
+							.activityEndtime(Common.date2String(rs.getDate("activity_endtime"))).build());
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new DaoResult(false, "查询失败,原因是:" + e.getStackTrace());
+			return new DaoResult(false, "查询失败,原因是:" + e.getMessage());
 		}
 	}
 
@@ -62,7 +65,7 @@ public class ActivityDaoImpl implements IActivityDao {
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new DaoResult(false, "查询失败,原因是:" + e.getStackTrace());
+			return new DaoResult(false, "查询失败,原因是:" + e.getMessage());
 		}
 	}
 
@@ -114,13 +117,20 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	// 修改一个众筹活动的状态
 	public DaoResult updateActivityDao(Activity activity) {
-		String sql = "UPDATE activity " + "SET activity_status = ? " + "WHERE activity_id = ?";
 		try {
-			template.update(sql, activity.getActivityStatus(), activity.getActivityId());
+			String sql = "";
+			// 如果该活动已经结束,则记录结束的时间
+			if (activity.getActivityStatus() == 3) {
+				sql = "UPDATE activity " + "SET activity_status = ? , activity_endtime = ?" + "WHERE activity_id = ?";
+				template.update(sql, activity.getActivityStatus(), Common.getNowDate(), activity.getActivityId());
+			} else {
+				sql = "UPDATE activity " + "SET activity_status = ? " + "WHERE activity_id = ?";
+				template.update(sql, activity.getActivityStatus(), activity.getActivityId());
+			}
 			return new DaoResult(true);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new DaoResult(false, "修改失败,原因是" + e.getStackTrace());
+			return new DaoResult(false, "修改失败,原因是" + e.getMessage());
 		}
 	}
 
@@ -133,7 +143,7 @@ public class ActivityDaoImpl implements IActivityDao {
 			return new DaoResult(true);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new DaoResult(false, "删除失败，原因是：" + e.getStackTrace());
+			return new DaoResult(false, "删除失败，原因是：" + e.getMessage());
 		}
 	}
 
