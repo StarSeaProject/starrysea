@@ -1,7 +1,10 @@
 package top.starrysea.file;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,6 +18,7 @@ public class FileUtil {
 
 	@Value("${ss.fileroot}")
 	private String fileRoot;
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 
 	private FileUtil() {
 	}
@@ -29,13 +33,17 @@ public class FileUtil {
 		if (fileSize.compareTo(fileCondition.getFileSize()) > 0)
 			throw new IllegalArgumentException("文件太大");
 		String originFileName = fileCondition.getFileNamePrefix() + Common.getCharId(5) + "." + fileType;
-		String filePath = fileRoot + originFileName;
+		String nowDate = sdf.format(new Date());
+		String returnFilePath = nowDate + "/" + originFileName;
+		String filePath = fileRoot + returnFilePath;
+		if (!new File(fileRoot + nowDate + "/").exists())
+			new File(fileRoot + nowDate + "/").mkdirs();
 		try {
 			FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(filePath));
 		} catch (IOException e) {
 			throw e;
 		}
-		return "/" + originFileName;
+		return returnFilePath;
 	}
 
 	private boolean isRightFileType(String sourceFileType, FileType fileType) {
