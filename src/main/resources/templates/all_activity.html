@@ -40,6 +40,55 @@ a:hover {
 .imagerow {
 	margin: 15px;
 }
+.nowacttitle{
+	
+}
+.nowactbutton{
+	padding: 9px;
+	border: 1px solid;
+	border-radius: 12px;
+	border-color: #23b1f7;
+	text-decoration: none;
+	color: #23b1f7;
+	}
+a.nowactbutton:hover{
+	text-decoration: none;
+	color: #23b1f7;
+}
+a.nowactbutton:visited {
+	text-decoration: none;
+	color: #23b1f7;
+}
+
+a.nowactbutton:link {
+	text-decoration: none;
+	color: #23b1f7;
+}
+.acttitle{
+	background-color: #eeeeee;
+	color: #23b1f7;
+	height:70px;
+	clear: both;
+	
+}
+.acttitleh3{
+ 	padding-top:10px;
+}
+
+.page{
+	font-size:1.2em;
+	
+}
+.nowpage{
+	font-size:1.2em;
+}
+.pagebutton{
+		border: 1px solid;
+		border-radius: 2px;
+		border-color: #23b1f7;
+		margin-left:10px;
+		height:40px;
+}
 </style>
 </head>
 
@@ -71,38 +120,97 @@ a:hover {
 	</div>
 
 	<div class="container">
-		<table>
-			<thead>
-				<tr>
-					<td>活动名称</td>
-					<td>活动封面</td>
-					<td>活动概要</td>
-				</tr>
-			</thead>
-			<tbody id="activitys">
-				<tr th:each="activity:${result}">
-					<td><a th:attr="data-activityid=${activity.activityId}"
-						href="javascript:void(0)" th:text="${activity.activityName}"></a></td>
-					<td><img th:attr="src=${activity.activityCover}"></img></td>
-					<td th:text="${activity.activitySummary}"></td>
-				</tr>
-			</tbody>
-		</table>
-		<br />
-		<div id="pages">
-			<a href="javascript:void(0)"
-				th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"></a> <span
-				th:text="${nowPage}"></span> <a href="javascript:void(0)"
-				th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"></a>
+		<div class="nowactbox">
+			<div class="nowactimg  col-xs-3">
+				<img src="" class="img-reponsive"></img>
+			</div>
+			<div class="nowactdetail col-xs-9">
+			<h3 class="h3 nowacttitle">当前活动名</h3>
+			<br></br><br></br><br></br>
+			<p class="p nowactdetail">几句话来介绍当前的活动</p>
+			<br></br><br></br><br></br>
+			<a class="a nowactbutton" href="#">点击打开详情页面</a>
+			</div>
+			<br />
+			<br />
+			<br />
 		</div>
+		</div>
+		<br />
+		<br />
+		<div class="acttitle text-ceter">
+				<h3 class="h3 acttitleh3 text-center">往期活动</h3>
+			</div>
+		<br />
+		<br />
+		<div class="container">
+		<div class="activityclass">
+			
+			<div class="actlist" id="activitys row" th:each="activity:${result}">
+				<div class="actbox row">
+					<div class="col-xs-3 actimg">
+						<img class="img-reponsive"></img>
+					
+					</div>
+					<div class="col-xs-3 actname">
+						<p th:text="${activity.activityName}" class="lead"></p>
+					</div>
+					<div class="col-xs-3 endtime">
+						<p>活动结束日期</p>
+					</div>
+					<div class="col-xs-3 actdetail">
+					<a class="detailbutton btn-lg"><span class="glyphicon glyphicon-circle-arrow-right"></span></a>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	
+		<br />
+		<div class="pagebox col-md-4"></div>
+		<div id="pages" class="pagebox row col-md-4 ">
+			<div class="col-xs-3 pagebutton" id="frontbox">
+			<a href="javascript:void(0)" class="page" id="front"
+				th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null">
+			</a> 
+			<script type="text/javascript">
+                var x = document.getElementById("front");
+                if( x.innerHTML == "")
+                {
+                    $("#frontbox").hide();
+                    
+                }
+            </script>
+			</div>
+			<div class="col-xs-3 pagebutton">
+			<span class="nowpage"
+				th:text="${nowPage}">
+			</span> 
+			</div>
+			<div class="col-xs-3 pagebutton" id="backbox">
+			<a href="javascript:void(0)" class="page" id="back"
+				th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null">
+			</a>
+			</div>
+			<script type="text/javascript">
+                var x = document.getElementById("back");
+                if( x.innerHTML == "")
+                {
+                    $("#backbox").hide();
+                    
+                }
+            </script>
+		</div>
+		<div class="pagebox col-md-4"></div>
 	</div>
+	<br /><br /><br /><br /><br />
 	<form id="activityDetail" action="/activity/detail" method="get">
 		<input id="activityId" type="hidden" name="activityId" />
 	</form>
 
 
 
-
+	
 	<script src="/common.js"></script>
 	<script src="/activity.js"></script>
 
