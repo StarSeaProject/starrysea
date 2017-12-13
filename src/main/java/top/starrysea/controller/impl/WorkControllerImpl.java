@@ -30,6 +30,8 @@ import top.starrysea.object.view.in.WorkForAll;
 import top.starrysea.object.view.in.WorkForOne;
 import top.starrysea.service.IWorkService;
 
+import static top.starrysea.common.Const.*;
+
 @Controller
 @RequestMapping(value = "/work")
 public class WorkControllerImpl implements IWorkController {
@@ -44,8 +46,8 @@ public class WorkControllerImpl implements IWorkController {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		List<Work> result = serviceResult.getResult(List.class);
@@ -66,7 +68,7 @@ public class WorkControllerImpl implements IWorkController {
 		ServiceResult serviceResult = workService.queryAllWorkService(work.getCondition(), work.toDTO());
 		Map<String, Object> theResult = new HashMap<>();
 		if (!serviceResult.isSuccessed()) {
-			theResult.put("errInfo", serviceResult.getErrInfo());
+			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
 		List<Work> result = serviceResult.getResult(List.class);
@@ -89,8 +91,8 @@ public class WorkControllerImpl implements IWorkController {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		Work w = serviceResult.getResult(Work.class);
@@ -109,12 +111,12 @@ public class WorkControllerImpl implements IWorkController {
 		if (bindingResult.hasErrors()) {
 			List<String> errInfo = bindingResult.getAllErrors().stream()
 					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put("errInfo", errInfo);
+			theResult.put(ERRINFO, errInfo);
 			return theResult;
 		}
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			theResult.put("errInfo", serviceResult.getErrInfo());
+			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
 		Work w = serviceResult.getResult(Work.class);
@@ -130,17 +132,17 @@ public class WorkControllerImpl implements IWorkController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute("adminId") == null) {
+		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
 			return new ModelAndView("admin_login");
 		}
 		ServiceResult serviceResult = workService.addWorkService(pdfFile, coverFile, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "添加成功!");
-		modelAndView.setViewName("success");
+		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -152,17 +154,17 @@ public class WorkControllerImpl implements IWorkController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute("adminId") == null) {
-			return new ModelAndView("login");
+		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
+			return new ModelAndView(LOGIN_VIEW);
 		}
 		ServiceResult serviceResult = workService.removeWorkService(work.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "删除成功！");
-		modelAndView.setViewName("success");
+		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 

@@ -1,8 +1,5 @@
 package top.starrysea.controller.impl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,14 +20,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import top.starrysea.common.Common;
 import top.starrysea.controller.IRootController;
+import top.starrysea.file.FileCondition;
+import top.starrysea.file.FileType;
+import top.starrysea.file.FileUtil;
 
 @Controller
 public class RootControllerImpl implements IRootController {
 
+	@Autowired
+	private FileUtil fileUtil;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	private final static String UPLOAD_PATH = "D:/develop/nginx-1.12.1/img/";
 
 	@Override
 	@RequestMapping("/")
@@ -52,17 +52,10 @@ public class RootControllerImpl implements IRootController {
 	@RequestMapping("/uploads")
 	public void upload(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("myFileName") MultipartFile file) {
-		String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-		File target = new File(UPLOAD_PATH);
-		if (!target.exists())
-			target.mkdirs();
 		try {
-			FileCopyUtils.copy(file.getInputStream(),
-					new FileOutputStream(UPLOAD_PATH + Common.getCharId(5) + fileType));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			fileUtil.saveFile(file, FileCondition.of(FileType.IMG, ""));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 		Map<String, Object> result = new HashMap<>();
 		List<String> data = new ArrayList<>();

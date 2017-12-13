@@ -25,7 +25,7 @@ public class OrderDaoImpl implements IOrderDao {
 	@Autowired
 	private JdbcTemplate template;
 	// 订单每页显示条数
-	public final static int PAGE_LIMIT = 10;
+	public static final int PAGE_LIMIT = 10;
 
 	@Override
 	// 根据订单号查询一个订单

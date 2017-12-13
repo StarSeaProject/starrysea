@@ -32,7 +32,7 @@ public class OrderServiceImpl implements IOrderService {
 			return new ServiceResult(daoResult);
 		}
 		List<Orders> ordersList = daoResult.getResult(List.class);
-		if (ordersList.size() == 0) {
+		if (ordersList.isEmpty()) {
 			return new ServiceResult("查询结果为空");
 		}
 		int totalPage = 0;
@@ -81,9 +81,13 @@ public class OrderServiceImpl implements IOrderService {
 		} else if (stock - work.getWorkStock() < 0) {
 			return new ServiceResult("作品库存不足");
 		}
-		if (workDao.updateWorkStockDao(work).isSuccessed()
-				&& (daoResult = orderDao.saveOrderDao(order)).isSuccessed()) {
-			result = new ServiceResult(daoResult);
+		daoResult=workDao.updateWorkStockDao(work);
+		if (!daoResult.isSuccessed()) {
+			return new ServiceResult("减少库存失败");
+		}
+		daoResult=orderDao.saveOrderDao(order);
+		if (!daoResult.isSuccessed()) {
+			return new ServiceResult("下单失败");
 		}
 		return result;
 	}

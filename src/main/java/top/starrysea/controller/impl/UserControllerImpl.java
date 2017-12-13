@@ -17,6 +17,8 @@ import top.starrysea.object.dto.Admin;
 import top.starrysea.object.view.in.AdminForLogin;
 import top.starrysea.service.IUserService;
 
+import static top.starrysea.common.Const.*;
+
 @Controller
 @RequestMapping("/user")
 public class UserControllerImpl implements IUserController {
@@ -35,13 +37,13 @@ public class UserControllerImpl implements IUserController {
 		ServiceResult serviceResult = userService.loginService(admin.toDTO());
 		if (serviceResult.isSuccessed()) {
 			Admin admin1 = serviceResult.getResult(Admin.class);
-			session.setAttribute("adminId", admin1.getAdminId());
+			session.setAttribute(ADMIN_SESSION_KEY, admin1.getAdminId());
 			// 登陆成功,返回管理员的主页
 			modelAndView.setViewName("boss");
 		} else {
 			// 登陆失败,返回登陆页面
-			modelAndView.setViewName("login");
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
+			modelAndView.setViewName(LOGIN_VIEW);
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 		}
 		return modelAndView;
 	}

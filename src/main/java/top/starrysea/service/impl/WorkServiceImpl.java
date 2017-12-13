@@ -42,7 +42,7 @@ public class WorkServiceImpl implements IWorkService {
 			return new ServiceResult(daoResult);
 		}
 		List<Work> workList = daoResult.getResult(List.class);
-		if (workList.size() == 0) {
+		if (workList.isEmpty()) {
 			return new ServiceResult("查询结果为空");
 		}
 		int totalPage = 0;

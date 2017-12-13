@@ -88,13 +88,13 @@ public class ServiceResult {
 				return "successed : " + this.successed;
 			}
 			if (this.theResult.get(List.class) != null) {
-				String result = "successed : " + this.successed + "\n" + "result : \n";
+				StringBuilder result = new StringBuilder("successed : " + this.successed + "\n" + "result : \n");
 				List<?> list = this.getResult(List.class);
 				for (Object object : list) {
-					result += "\t" + object.toString() + "\n";
+					result.append("\t" + object.toString() + "\n");
 				}
-				result += "\n";
-				return result + "nowPage : " + this.nowPage + "\n" + "totalPage : " + this.totalPage;
+				result.append("\n");
+				return result.append("nowPage : " + this.nowPage + "\n" + "totalPage : " + this.totalPage).toString();
 			} else {
 				return "successed : " + this.successed + "\n" + "result : " + this.theResult;
 			}

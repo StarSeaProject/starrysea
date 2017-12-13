@@ -85,9 +85,7 @@ public class MailServiceImpl implements IMailService, InitializingBean {
 				mimeMessageHelper.setSubject("星之海志愿者公会推送:" + work.getWorkName());
 				mimeMessageHelper.setText(work.getWorkPdfpath());
 				mailSender.send(mimeMessage);
-			} catch (MessagingException e) {
-				logger.error(e.getMessage(), e);
-			} catch (UnsupportedEncodingException e) {
+			} catch (MessagingException | UnsupportedEncodingException e) {
 				logger.error(e.getMessage(), e);
 			}
 		}

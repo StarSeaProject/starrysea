@@ -34,6 +34,8 @@ import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.service.IOrderService;
 import top.starrysea.service.IWorkService;
 
+import static top.starrysea.common.Const.*;
+
 @Controller
 @RequestMapping(value = "/order")
 public class OrderControllerImpl implements IOrderController {
@@ -50,8 +52,8 @@ public class OrderControllerImpl implements IOrderController {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		List<Work> result = serviceResult.getResult(List.class);
@@ -74,8 +76,8 @@ public class OrderControllerImpl implements IOrderController {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		Work w = serviceResult.getResult(Work.class);
@@ -91,13 +93,13 @@ public class OrderControllerImpl implements IOrderController {
 	@ResponseBody
 	public Map<String, Object> queryAllOrderController(HttpSession session, @RequestBody OrderForAll order) {
 		Map<String, Object> theResult = new HashMap<>();
-		if (session.getAttribute("adminId") == null) {
-			theResult.put("errInfo", "重新登陆!");
+		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
+			theResult.put(ERRINFO, "重新登陆!");
 			return theResult;
 		}
 		ServiceResult serviceResult = orderService.queryAllOrderService(order.getCondition(), order.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			theResult.put("errInfo", serviceResult.getErrInfo());
+			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
 		List<Orders> result = serviceResult.getResult(List.class);
@@ -120,8 +122,8 @@ public class OrderControllerImpl implements IOrderController {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		Orders o = serviceResult.getResult(Orders.class);
@@ -140,12 +142,12 @@ public class OrderControllerImpl implements IOrderController {
 		if (bindingResult.hasErrors()) {
 			List<String> errInfo = bindingResult.getAllErrors().stream()
 					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put("errInfo", errInfo);
+			theResult.put(ERRINFO, errInfo);
 			return theResult;
 		}
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			theResult.put("errInfo", serviceResult.getErrInfo());
+			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
 		Orders o = serviceResult.getResult(Orders.class);
@@ -172,12 +174,12 @@ public class OrderControllerImpl implements IOrderController {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = orderService.addOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "下单成功!");
-		modelAndView.setViewName("success");
+		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -190,17 +192,17 @@ public class OrderControllerImpl implements IOrderController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute("adminId") == null) {
+		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
 			return new ModelAndView("admin_login");
 		}
 		ServiceResult serviceResult = orderService.modifyOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "修改成功！");
-		modelAndView.setViewName("success");
+		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -212,18 +214,18 @@ public class OrderControllerImpl implements IOrderController {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
-		if (session.getAttribute("adminId") == null) {
-			return new ModelAndView("login");
+		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
+			return new ModelAndView(LOGIN_VIEW);
 		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = orderService.removeOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject("errInfo", serviceResult.getErrInfo());
-			modelAndView.setViewName("error");
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "删除成功!");
-		modelAndView.setViewName("success");
+		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 

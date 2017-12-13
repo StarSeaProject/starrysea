@@ -2,6 +2,7 @@ package top.starrysea.common;
 
 public class Const {
 
+	private Const() {}
 	public static final String ADMIN_SESSION_KEY = "adminId";
 	public static final String ERRINFO = "errInfo";
 	public static final String ERROR_VIEW = "error";

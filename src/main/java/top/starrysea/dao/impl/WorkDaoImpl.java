@@ -20,7 +20,7 @@ public class WorkDaoImpl implements IWorkDao {
 	@Autowired
 	private JdbcTemplate template;
 	// 作品每页显示条数
-	public final static int PAGE_LIMIT = 10;
+	public static final int PAGE_LIMIT = 10;
 
 	@Override
 	// 查询所有作品

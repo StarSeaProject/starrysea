@@ -85,11 +85,11 @@ public class Common {
 	}
 
 	public static String getCharId() {
-		return getCharId(new String(), 10);
+		return getCharId("", 10);
 	}
 
 	public static String getCharId(int size) {
-		return getCharId(new String(), size);
+		return getCharId("", size);
 	}
 
 	public static String getCharId(String pre, int size) {
@@ -98,15 +98,10 @@ public class Common {
 		String a = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		Random random = new Random();
 		for (int i = 0; i < size - pre.length(); i++) {
-			int rand = random.nextInt() * a.length();
+			int rand = random.nextInt(a.length());
 			theResult.append(a.charAt(rand));
 		}
 		return theResult.toString();
-	}
-
-	public static short getRandom(int randomRange) {
-		Random random = new Random();
-		return (short) random.nextInt(randomRange);
 	}
 
 	public static boolean isNotNull(Object object) {

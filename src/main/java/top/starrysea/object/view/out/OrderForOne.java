@@ -13,7 +13,6 @@ public class OrderForOne {
 
 	public OrderForOne(String workName, String orderName, String province, String city, String area,
 			String orderAddress, String orderStatus, String orderExpressnum, String orderTime) {
-		super();
 		this.workName = workName;
 		this.orderName = orderName;
 		this.province = province;
