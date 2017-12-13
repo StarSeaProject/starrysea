@@ -1,13 +1,11 @@
 package top.starrysea.service.impl;
 
-import java.io.FileOutputStream;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import top.starrysea.common.Common;
@@ -15,12 +13,14 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IWorkDao;
+import top.starrysea.file.FileCondition;
+import top.starrysea.file.FileType;
+import top.starrysea.file.FileUtil;
 import top.starrysea.object.dto.Work;
 import top.starrysea.service.IMailService;
 import top.starrysea.service.IWorkService;
 
 import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
-import static top.starrysea.common.Common.FILE_ROOT;
 
 @Service("workService")
 public class WorkServiceImpl implements IWorkService {
@@ -30,6 +30,8 @@ public class WorkServiceImpl implements IWorkService {
 	private IWorkDao workDao;
 	@Autowired
 	private IMailService mailService;
+	@Autowired
+	private FileUtil fileUtil;
 
 	@Override
 	// 查询所有作品
@@ -75,41 +77,14 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	// 添加一个作品
 	public ServiceResult addWorkService(MultipartFile pdfFile, MultipartFile coverFile, Work work) {
-		if (pdfFile.isEmpty()) {
-			return new ServiceResult("pdf文件为空文件");
-		}
-		if (coverFile.isEmpty()) {
-			return new ServiceResult("封面文件为空文件");
-		}
-		String pdfFileType = pdfFile.getOriginalFilename().substring(pdfFile.getOriginalFilename().lastIndexOf(".") + 1);
-		if (!pdfFileType.equalsIgnoreCase("pdf")) {
-			return new ServiceResult("pdf文件格式不合法");
-		}
-		String coverFileType = coverFile.getOriginalFilename().substring(coverFile.getOriginalFilename().lastIndexOf(".") + 1);
-		if (!coverFileType.equalsIgnoreCase("jpg") && !coverFileType.equalsIgnoreCase("jpeg")
-				&& !coverFileType.equalsIgnoreCase("png")) {
-			return new ServiceResult("封面文件格式不合法,仅支持jpg/jpeg/png格式");
-		}
-
-		double fileSize = (double) pdfFile.getSize() / (double) (1024 * 1024);
-		if (fileSize > 10) {
-			return new ServiceResult("pdf文件不得超过10M!");
-		}
-		fileSize = (double) coverFile.getSize() / (double) (1024 * 1024);
-		if (fileSize > 1) {
-			return new ServiceResult("封面文件不得超过1M!");
-		}
-
-		String originPdfFileName = work.getWorkName() + Common.getCharId(5) + ".pdf";
-		String pdfFilePath = FILE_ROOT + originPdfFileName;
-		String originCoverFileName = work.getWorkName() + Common.getCharId(5) + "." + coverFileType;
-		String coverFilePath = FILE_ROOT + originCoverFileName;
 		try {
-			FileCopyUtils.copy(pdfFile.getInputStream(), new FileOutputStream(pdfFilePath));
-			FileCopyUtils.copy(coverFile.getInputStream(), new FileOutputStream(coverFilePath));
+			String originPdfFileName = fileUtil.saveFile(pdfFile,
+					FileCondition.of(FileType.PDF, 10, work.getWorkName()));
+			String originCoverFileName = fileUtil.saveFile(coverFile,
+					FileCondition.of(FileType.IMG, 1, work.getWorkName()));
 			work.setWorkUploadTime(Common.getNowDate());
-			work.setWorkPdfpath("/" + originPdfFileName);
-			work.setWorkCover("/" + originCoverFileName);
+			work.setWorkPdfpath(originPdfFileName);
+			work.setWorkCover(originCoverFileName);
 			DaoResult daoResult = workDao.saveWorkDao(work);
 			if (!daoResult.isSuccessed()) {
 				throw new RuntimeException("插入作品失败");
@@ -118,7 +93,7 @@ public class WorkServiceImpl implements IWorkService {
 			return new ServiceResult(daoResult);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new ServiceResult("文件上传失败");
+			return new ServiceResult("文件上传失败,原因为" + e.getMessage());
 		}
 	}
 
