@@ -32,18 +32,6 @@ public class WorkControllerTest {
 	private IWorkController workController;
 
 	@Test
-	public void queryAllWorkController() {
-		Condition condition = new Condition();
-		condition.setPage(1);
-		HttpSession session = new MockHttpSession();
-		session.setAttribute("adminId", 1);
-		WorkForAll work = new WorkForAll();
-		ModelAndView modelAndView = workController.queryAllWorkController(condition, work);
-		System.out.println(modelAndView.getViewName());
-		System.out.println(modelAndView.getModel());
-	}
-
-	@Test
 	public void queryWorkController() {
 		WorkForOne work = new WorkForOne();
 		ModelAndView modelAndView = workController.queryWorkController(work, null);
@@ -67,7 +55,6 @@ public class WorkControllerTest {
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
-//
 //	}
 
 	@Test

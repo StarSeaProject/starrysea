@@ -88,31 +88,6 @@ public class OrderControllerImpl implements IOrderController {
 	}
 
 	@Override
-	// 查询所有的订单
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> queryAllOrderController(HttpSession session, @RequestBody OrderForAll order) {
-		Map<String, Object> theResult = new HashMap<>();
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			theResult.put(ERRINFO, "重新登陆!");
-			return theResult;
-		}
-		ServiceResult serviceResult = orderService.queryAllOrderService(order.getCondition(), order.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			return theResult;
-		}
-		List<Orders> result = serviceResult.getResult(List.class);
-		List<top.starrysea.object.view.out.OrderForAll> voResult = result.stream().map(Orders::toVoForAll)
-				.collect(Collectors.toList());
-		theResult.put("orderName", order.getOrderName());
-		theResult.put("result", voResult);
-		theResult.put("nowPage", serviceResult.getNowPage());
-		theResult.put("totalPage", serviceResult.getTotalPage());
-		return theResult;
-	}
-
-	@Override
 	// 根据订单号查询一个订单的具体信息以及发货情况
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public ModelAndView queryOrderController(@Valid OrderForOne order, BindingResult bindingResult) {

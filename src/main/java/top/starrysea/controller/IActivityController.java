@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.common.Condition;
 import top.starrysea.object.view.in.ActivityForAdd;
 import top.starrysea.object.view.in.ActivityForAll;
 import top.starrysea.object.view.in.ActivityForModify;
@@ -17,7 +16,6 @@ import top.starrysea.object.view.in.FundingForAddList;
 import top.starrysea.object.view.in.FundingForRemove;
 
 public interface IActivityController {
-	ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity);
 
 	Map<String, Object> queryAllActivityControllerAjax(ActivityForAll activity);
 

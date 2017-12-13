@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Common;
-import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IActivityController;
 import top.starrysea.object.dto.Activity;
@@ -42,30 +41,6 @@ public class ActivityControllerImpl implements IActivityController {
 
 	@Autowired
 	private IActivityService activityService;
-
-	@Override
-	// 查询所有众筹活动
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity) {
-		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			// 查询失败则返回错误页面
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
-		List<Activity> result = serviceResult.getResult(List.class);
-		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
-				.collect(Collectors.toList());
-		modelAndView.addObject("newResult", voResult.get(0));
-		modelAndView.addObject("result", voResult.subList(1, voResult.size()));
-		modelAndView.addObject("nowPage", serviceResult.getNowPage());
-		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		// 返回众筹活动的列表页
-		modelAndView.setViewName("all_activity");
-		return modelAndView;
-	}
 
 	@Override
 	// 查询所有众筹活动

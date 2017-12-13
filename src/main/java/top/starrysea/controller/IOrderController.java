@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Condition;
 import top.starrysea.object.view.in.OrderForAdd;
-import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
@@ -21,8 +20,6 @@ public interface IOrderController {
 	ModelAndView queryAllWorkForOrderController(Condition condition, WorkForAll work);
 
 	ModelAndView queryWorkForOrderController(WorkForOne work, BindingResult bindingResult);
-
-	Map<String, Object> queryAllOrderController(HttpSession session, OrderForAll order);
 
 	ModelAndView queryOrderController(OrderForOne order, BindingResult bindingResult);
 

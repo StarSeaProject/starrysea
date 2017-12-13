@@ -21,17 +21,9 @@ import top.starrysea.object.view.in.OrderForRemove;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)
 public class OrderControllerTest {
+	
 	@Autowired
 	private IOrderController orderController;
-
-	@Test
-	public void queryAllOrderController() {
-		HttpSession session = new MockHttpSession();
-		session.setAttribute("adminId", 1);
-		OrderForAll order = new OrderForAll();
-		order.setPage(1);
-		System.out.println(orderController.queryAllOrderController(session, order));
-	}
 
 	@Test
 	public void queryOrderController() {

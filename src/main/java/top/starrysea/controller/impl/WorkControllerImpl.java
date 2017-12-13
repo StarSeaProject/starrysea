@@ -40,27 +40,6 @@ public class WorkControllerImpl implements IWorkController {
 	private IWorkService workService;
 
 	@Override
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
-	public ModelAndView queryAllWorkController(Condition condition, WorkForAll work) {
-		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
-		List<Work> result = serviceResult.getResult(List.class);
-		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
-				.collect(Collectors.toList());
-		modelAndView.addObject("result", voResult);
-		modelAndView.addObject("nowPage", serviceResult.getNowPage());
-		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName("work");
-		return modelAndView;
-	}
-
-	@Override
 	@RequestMapping(value = "/ajax", method = RequestMethod.POST)
 	@ResponseBody
 	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
