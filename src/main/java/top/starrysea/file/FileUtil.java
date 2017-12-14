@@ -33,13 +33,12 @@ public class FileUtil {
 		if (!isRightFileType(fileType, fileCondition.getFileType()))
 			throw new IllegalArgumentException("文件类型不正确");
 		Double fileSize = (double) file.getSize() / (double) (1024 * 1024);
-		if (fileSize.compareTo(fileCondition.getFileSize()) > 0)
+		if (fileCondition.getFileSize() != null && fileSize.compareTo(fileCondition.getFileSize()) > 0)
 			throw new IllegalArgumentException("文件太大");
 		String originFileName = fileCondition.getFileNamePrefix() + Common.getCharId(5) + "." + fileType;
 		String nowDate = sdf.format(new Date());
 		String filePathName = getFilePathName(fileCondition.getFileType());
-		String returnFilePath = filePathName + File.separator + nowDate + File.separator + originFileName;
-		String filePath = fileRoot + returnFilePath;
+		String filePath = fileRoot + filePathName + File.separator + nowDate + File.separator + originFileName;
 		String targetFileName = fileRoot + filePathName + File.separator + nowDate + File.separator;
 		if (!new File(targetFileName).exists())
 			new File(targetFileName).mkdirs();
@@ -49,7 +48,7 @@ public class FileUtil {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
-		return returnFilePath;
+		return File.separator+nowDate + File.separator + originFileName;
 	}
 
 	private boolean isRightFileType(String sourceFileType, FileType fileType) {

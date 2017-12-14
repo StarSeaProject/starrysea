@@ -77,15 +77,16 @@ public class RootControllerImpl implements IRootController {
 	@Override
 	@RequestMapping("/uploads")
 	public void upload(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("myFileName") MultipartFile file) {
+			@RequestParam("file") MultipartFile file) {
+		String filePath = null;
 		try {
-			fileUtil.saveFile(file, FileCondition.of(FileType.IMG, ""));
+			filePath=fileUtil.saveFile(file, FileCondition.of(FileType.IMG, ""));
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
 		Map<String, Object> result = new HashMap<>();
 		List<String> data = new ArrayList<>();
-		data.add("result.png");
+		data.add(filePath);
 		result.put("errno", 0);
 		result.put("data", data);
 		ObjectMapper mapper = new ObjectMapper();
