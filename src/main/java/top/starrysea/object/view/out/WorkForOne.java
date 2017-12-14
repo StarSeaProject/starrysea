@@ -1,16 +1,19 @@
 package top.starrysea.object.view.out;
 
 public class WorkForOne {
+
 	private String workName;
 	private String workUploadTime;
 	private String workPdfpath;
 	private Integer workClick;
+	private String workCover;
 
-	public WorkForOne(String workName, String workUploadTime, String workPdfpath, Integer workClick) {
+	public WorkForOne(String workName, String workUploadTime, String workPdfpath, Integer workClick, String workCover) {
 		this.workName = workName;
 		this.workUploadTime = workUploadTime;
 		this.workPdfpath = workPdfpath;
 		this.workClick = workClick;
+		this.workCover = workCover;
 	}
 
 	public String getWorkName() {
@@ -27,6 +30,10 @@ public class WorkForOne {
 
 	public Integer getWorkClick() {
 		return workClick;
+	}
+
+	public String getWorkCover() {
+		return workCover;
 	}
 
 }

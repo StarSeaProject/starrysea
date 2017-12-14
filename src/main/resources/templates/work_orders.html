@@ -36,6 +36,58 @@
 a:hover {
 	color: rgb(7, 251, 251);
 }
+.pagetitle {
+	background-color: #eeeeee;
+	color: #23b1f7;
+	padding-top: 35px;
+	padding-bottom: 35px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+.pagetitleh1 {
+	padding-left: 100px;
+	margin: 0px;
+}
+
+.pagetitleh2 {
+	padding-left: 100px;
+	margin: 0px;
+	color: #999999;
+}
+
+.worktitle {
+	color: #23b1f7;
+}
+
+.workdetail {
+	margin-top: 15px;
+	margin-bottom: 15px;
+	padding-bottom: 5px;
+}
+a.detailhref {
+	padding: 9px;
+	border: 1px solid;
+	border-radius: 12px;
+	border-color: #23b1f7;
+	text-decoration: none;
+	color: #23b1f7;
+}
+
+a.detailhref:hover {
+	text-decoration: none;
+	color: #23b1f7;
+}
+
+a.detailhref:visited {
+	text-decoration: none;
+	color: #23b1f7;
+}
+
+a.detailhref:link {
+	text-decoration: none;
+	color: #23b1f7;
+}
 </style>
 </head>
 
@@ -66,26 +118,30 @@ a:hover {
 		</nav>
 	</div>
 
-	<div class="container">
-		<table>
-			<thead>
-				<tr>
-					<td>作品名称</td>
-				</tr>
-			</thead>
-			<tbody id="work_orders">
-				<tr th:each="work:${result}">
-					<td><a th:attr="data-workid=${work.workId}"
-						href="javascript:void(0)" th:text="${work.workName}"></a></td>
-				</tr>
-			</tbody>
-		</table>
-		<br />
-		<div id="pages">
-			<a href="javascript:void(0)"
-				th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"></a> <span
-				th:text="${nowPage}"></span> <a href="javascript:void(0)"
-				th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"></a>
+	<div class="container pagecontain">
+		<div class="worktable col-md-9">
+			<div id="work_orders">
+				<div th:each="work:${result}">
+					<div class="row workbox">
+						<div class="col-xs-3 workimage">
+							<img th:attr="src=${work.workCover}"
+								class="workimg img-reponsive"></img>
+						</div>
+						<div class="col-xs-9 workdetail">
+							<p th:text="${work.workName}" class="h3 worktitle"></p>
+							<p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
+							<a th:attr="data-workid=${work.workId}" class="h4 detailhref"
+								href="javascript:void(0)">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
+						</div>
+					</div>
+					<hr />
+				</div>
+			</div>
+		</div>
+		<div class="weibo col-md-3">
+			<iframe id="weibo" style="width: 80%; height: 500px;" frameborder="0"
+				scrolling="no"
+				src="http://v.t.sina.com.cn/widget/widget_blog.php?uid=6241874149"></iframe>
 		</div>
 	</div>
 	<form id="workDetail" action="/order/getWork" method="get">

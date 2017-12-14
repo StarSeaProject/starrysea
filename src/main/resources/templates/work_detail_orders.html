@@ -73,15 +73,14 @@ a:hover {
 
 		<div class="row">
 			<div class="col-xs-4">
-				<img src="/logo.png" class="img-reponsive"></img>
+				<img th:attr="src=${work.workCover}" class="img-reponsive"></img>
 			</div>
 			<div class="col-xs-1"></div>
 			<div class="col-xs-6">
-
 				<div class="h1">
 					<h1 th:text="${work.workName}"></h1>
 				</div>
-				<div class="h2" th:text="${work.workUploadTime}"></div>
+				<div class="h2" th:text="'上架时间:'+${work.workUploadTime}"></div>
 				<button th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
 					class="btn btn-default">确认购买</button>
 			</div>
@@ -90,9 +89,7 @@ a:hover {
 	</div>
 	<div class="container">
 		<h3>作品介绍</h3>
-		<p th:text="${work.workPdfpath}">
-			<img src="/bstarsea.jpg"></img>
-		</p>
+		<iframe th:attr="src=${work.workPdfpath}" class="pdfiframe"></iframe>
 	</div>
 	<script src="/work_orders_detail.js"></script>
 </body>

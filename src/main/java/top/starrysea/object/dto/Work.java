@@ -152,6 +152,6 @@ public class Work extends Entity {
 	}
 
 	public WorkForOne toVoForOne() {
-		return new WorkForOne(workName, workUploadTime, workPdfpath, workClick);
+		return new WorkForOne(workName, workUploadTime, workPdfpath, workClick, workCover);
 	}
 }

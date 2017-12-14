@@ -69,11 +69,13 @@ public class WorkDaoImpl implements IWorkDao {
 	public DaoResult getWorkDao(Work work) {
 		String sql = "UPDATE work " + "SET work_click = work_click + 1 " + "WHERE work_id = ?";
 		template.update(sql, work.getWorkId());
-		sql = "SELECT work_name,work_uploadtime,work_pdfpath,work_click " + "FROM work " + "WHERE work_id = ?";
+		sql = "SELECT work_name,work_uploadtime,work_pdfpath,work_click,work_cover " + "FROM work "
+				+ "WHERE work_id = ?";
 		Work theResult = template.queryForObject(sql, new Object[] { work.getWorkId() },
 				(rs, row) -> new Work.Builder().workName(rs.getString("work_name"))
 						.workUploadTime(date2String(rs.getDate("work_uploadtime")))
-						.workPdfpath(rs.getString("work_pdfpath")).workClick(rs.getInt("work_click")).build());
+						.workPdfpath(rs.getString("work_pdfpath")).workClick(rs.getInt("work_click"))
+						.workCover(rs.getString("work_cover")).build());
 		return new DaoResult(true, theResult);
 	}
 
