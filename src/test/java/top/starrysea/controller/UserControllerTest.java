@@ -9,7 +9,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.StarrtseaApplication;
-import top.starrysea.object.dto.Admin;
 import top.starrysea.object.view.in.AdminForLogin;
 
 @RunWith(SpringRunner.class)

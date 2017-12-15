@@ -1,28 +1,16 @@
 package top.starrysea.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import javax.servlet.http.HttpSession;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.StarrtseaApplication;
-import top.starrysea.common.Condition;
-import top.starrysea.object.view.in.WorkForAdd;
-import top.starrysea.object.view.in.WorkForAll;
 import top.starrysea.object.view.in.WorkForOne;
 
 @RunWith(SpringRunner.class)

@@ -1,17 +1,12 @@
 package top.starrysea.object.view.in;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
-import top.starrysea.object.dto.ActivityImage;
 import top.starrysea.object.dto.Work;
-import top.starrysea.object.dto.WorkImage;
 
 public class WorkForAdd {
 	@NotEmpty(message = "作品名称不能为空")
