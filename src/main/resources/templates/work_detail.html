@@ -45,14 +45,15 @@ a:hover {
 	margin-top: 0px;
 	margin-bottom: 10px;
 }
-.pdfiframe{
-	width:100%;
-	height:700px;;
-	border:0px;
-	
+
+.pdfiframe {
+	width: 100%;
+	height: 700px;;
+	border: 0px;
 }
-.uploadtime{
-color: #999999;
+
+.uploadtime {
+	color: #999999;
 }
 </style>
 </head>
@@ -87,19 +88,19 @@ color: #999999;
 	</div>
 	<div class="pagetitle">
 		<h1 th:text="${work.workName}" class="h1 workname text-center"></h1>
-		<h4 th:text="'上传时间:'+${work.workUploadTime}+'&nbsp;&nbsp;点击量:'+${work.workClick}"
-			class=" uploadtime text-center" ></h4>
-		
+		<h4
+			th:text="'上传时间:'+${work.workUploadTime}+'&nbsp;&nbsp;点击量:'+${work.workClick}"
+			class=" uploadtime text-center"></h4>
+		<h4>
+			<a th:href="@{${work.workPdfpath}}"
+				th:attr="download=${work.workName}">下载链接</a>
+		</h4>
 	</div>
 	<hr></hr>
-	<div class="pdfcontainer">
-	 
-	<iframe th:attr="src=${work.workPdfpath}" class="pdfiframe"></iframe>
-	
-	<!--<p th:text="${work.workPdfpath}"></p>
-	-->
+	<div th:each="workImage:${workImages}" class="pdfcontainer">
+		<img th:attr="src=${workImage.workImagePath}" />
 	</div>
-	
+
 </body>
 </body>
 </html>

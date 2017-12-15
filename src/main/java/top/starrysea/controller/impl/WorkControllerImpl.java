@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Common;
-import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IWorkController;
 import top.starrysea.object.dto.Work;
@@ -76,6 +75,7 @@ public class WorkControllerImpl implements IWorkController {
 		}
 		Work w = serviceResult.getResult(Work.class);
 		modelAndView.addObject("work", w.toVoForOne());
+		modelAndView.addObject("workImages", serviceResult.getResult(List.class));
 		modelAndView.setViewName("work_detail");
 		return modelAndView;
 	}
@@ -105,8 +105,9 @@ public class WorkControllerImpl implements IWorkController {
 
 	// 添加一个作品
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView addWorkController(HttpSession session, @RequestParam("pdfFile") MultipartFile pdfFile,
-			@RequestParam("coverFile") MultipartFile coverFile, @Valid WorkForAdd work, BindingResult bindingResult) {
+	public ModelAndView addWorkController(HttpSession session, @RequestParam("coverFile") MultipartFile coverFile,
+			@RequestParam("imageFiles") MultipartFile[] imageFiles, @Valid WorkForAdd work,
+			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -114,7 +115,7 @@ public class WorkControllerImpl implements IWorkController {
 		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
 			return new ModelAndView("admin_login");
 		}
-		ServiceResult serviceResult = workService.addWorkService(pdfFile, coverFile, work.toDTO());
+		ServiceResult serviceResult = workService.addWorkService(coverFile, imageFiles, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			modelAndView.setViewName(ERROR_VIEW);

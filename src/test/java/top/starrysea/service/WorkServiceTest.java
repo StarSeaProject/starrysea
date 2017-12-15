@@ -2,6 +2,8 @@ package top.starrysea.service;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -11,11 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.mysql.fabric.xmlrpc.base.Array;
+
 import top.starrysea.StarrtseaApplication;
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.Work;
+import top.starrysea.object.dto.WorkImage;
 import top.starrysea.service.IWorkService;
 
 @RunWith(SpringRunner.class)
@@ -42,14 +47,12 @@ public class WorkServiceTest {
 		Work work = new Work.Builder().workName("a").workStock(5).workUploadTime(Common.getNowDate()).workCover("aaa")
 				.workSummary("asdasdasd").build();
 		try {
-			MockMultipartFile pdfFile = new MockMultipartFile("5.pdf", new FileInputStream(
-					new File("D:/Lovelive/call表/自制call表/Lovelive!Sunshine!!/Aqours/“MY LIST” to you!.pdf")));
 			MockMultipartFile coverFile = new MockMultipartFile("1.jpg",
 					new FileInputStream(new File("D:/develop/nginx-1.12.1/img/starsea.png")));
-			System.out.println(workService.addWorkService(pdfFile, coverFile, work));
+			MockMultipartFile[] array = new MockMultipartFile[3];
+			System.out.println(workService.addWorkService(coverFile, array, work));
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("错错错");
 		}
 	}
 }

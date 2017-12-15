@@ -1,11 +1,13 @@
 package top.starrysea.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import top.starrysea.common.Common;
@@ -13,10 +15,12 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IWorkDao;
+import top.starrysea.dao.IWorkImageDao;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;
 import top.starrysea.file.FileUtil;
 import top.starrysea.object.dto.Work;
+import top.starrysea.object.dto.WorkImage;
 import top.starrysea.service.IMailService;
 import top.starrysea.service.IWorkService;
 
@@ -32,6 +36,8 @@ public class WorkServiceImpl implements IWorkService {
 	private IMailService mailService;
 	@Autowired
 	private FileUtil fileUtil;
+	@Autowired
+	private IWorkImageDao workImageDao;
 
 	@Override
 	// 查询所有作品
@@ -69,25 +75,39 @@ public class WorkServiceImpl implements IWorkService {
 			return new ServiceResult(daoResult);
 		}
 		Work w = daoResult.getResult(Work.class);
+		daoResult = workImageDao.getAllWorkImageDao(new WorkImage.Builder().work(work).build());
+		if (!daoResult.isSuccessed()) {
+			return new ServiceResult(daoResult);
+		}
 		result.setSuccessed(true);
 		result.setResult(Work.class, w);
+		result.setResult(List.class, daoResult.getResult(List.class));
 		return result;
 	}
 
 	@Override
 	// 添加一个作品
-	public ServiceResult addWorkService(MultipartFile pdfFile, MultipartFile coverFile, Work work) {
+	@Transactional
+	public ServiceResult addWorkService(MultipartFile coverFile, MultipartFile[] imageFiles, Work work) {
 		try {
-			String originPdfFileName = fileUtil.saveFile(pdfFile,
-					FileCondition.of(FileType.PDF, 10, work.getWorkName()));
 			String originCoverFileName = fileUtil.saveFile(coverFile,
 					FileCondition.of(FileType.IMG, 1, work.getWorkName()));
 			work.setWorkUploadTime(Common.getNowDate());
-			work.setWorkPdfpath(originPdfFileName);
 			work.setWorkCover(originCoverFileName);
 			DaoResult daoResult = workDao.saveWorkDao(work);
 			if (!daoResult.isSuccessed()) {
 				throw new RuntimeException("插入作品失败");
+			}
+			work.setWorkId(daoResult.getResult(Integer.class));
+			List<WorkImage> workImages = new ArrayList<>();
+			for (MultipartFile imageFile : imageFiles) {
+				String originImageFileName = fileUtil.saveFile(imageFile,
+						FileCondition.of(FileType.IMG, 1, work.getWorkName()));
+				workImages.add(new WorkImage.Builder().work(work).workImagePath(originImageFileName).build());
+			}
+			daoResult = workImageDao.saveWorkImageDao(workImages);
+			if (!daoResult.isSuccessed()) {
+				throw new RuntimeException("插入作品图片失败");
 			}
 			mailService.sendMailService(work);
 			return new ServiceResult(daoResult);

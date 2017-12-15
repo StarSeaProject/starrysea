@@ -8,10 +8,17 @@ import top.starrysea.object.dto.Work;
 
 import static top.starrysea.common.Common.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository("workDao")
@@ -27,7 +34,7 @@ public class WorkDaoImpl implements IWorkDao {
 	public DaoResult getAllWorkDao(Condition condition, Work work) {
 		SqlWithParams sqlWithParams = getTheSqlForGetAll(work);
 		String sql = "SELECT work_id,work_name,work_cover,work_summary " + "FROM work " + sqlWithParams.getWhere()
-				+ "ORDER BY work_uploadtime " + "LIMIT " + (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
+				+ "ORDER BY work_uploadtime DESC " + "LIMIT " + (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
 		Object[] params = sqlWithParams.getParams();
 		List<Work> theResult = template.query(sql, params,
 				(rs, row) -> new Work.Builder().workId(rs.getInt("work_id")).workName(rs.getString("work_name"))
@@ -84,9 +91,23 @@ public class WorkDaoImpl implements IWorkDao {
 	public DaoResult saveWorkDao(Work work) {
 		String sql = "INSERT INTO work(work_name,work_uploadtime,work_pdfpath,work_stock,work_cover,work_summary) "
 				+ "VALUES(?,?,?,?,?,?)";
-		template.update(sql, work.getWorkName(), work.getWorkUploadTime(), work.getWorkPdfpath(), work.getWorkStock(),
-				work.getWorkCover(), work.getWorkSummary());
-		return new DaoResult(true);
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		template.update(new PreparedStatementCreator() {
+
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, work.getWorkName());
+				ps.setString(2, work.getWorkUploadTime());
+				ps.setString(3, work.getWorkPdfpath());
+				ps.setInt(4, work.getWorkStock());
+				ps.setString(5, work.getWorkCover());
+				ps.setString(6, work.getWorkSummary());
+				return ps;
+			}
+
+		}, keyHolder);
+		return new DaoResult(true, keyHolder.getKey().intValue());
 	}
 
 	@Override
