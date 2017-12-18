@@ -80,8 +80,10 @@ public class OrderControllerImpl implements IOrderController {
 			return modelAndView;
 		}
 		Work w = serviceResult.getResult(Work.class);
+		w.setWorkStock(serviceResult.getResult(Integer.class));
 		modelAndView.addObject("work", w.toVoForOne());
 		modelAndView.addObject("workId", work.getWorkId());
+		modelAndView.addObject("workImages", serviceResult.getResult(List.class));
 		modelAndView.setViewName("work_detail_orders");
 		return modelAndView;
 	}

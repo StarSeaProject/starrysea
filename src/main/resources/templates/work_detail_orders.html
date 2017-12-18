@@ -81,15 +81,15 @@ a:hover {
 					<h1 th:text="${work.workName}"></h1>
 				</div>
 				<div class="h2" th:text="'上架时间:'+${work.workUploadTime}"></div>
+				<div th:text="'库存:'+${work.workStock}"></div>
 				<button th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
 					class="btn btn-default">确认购买</button>
 			</div>
 		</div>
 
 	</div>
-	<div class="container">
-		<h3>作品介绍</h3>
-		<iframe th:attr="src=${work.workPdfpath}" class="pdfiframe"></iframe>
+	<div th:each="workImage:${workImages}" class="pdfcontainer">
+		<img th:attr="src=${workImage.workImagePath}" />
 	</div>
 	<script src="/work_orders_detail.js"></script>
 </body>

@@ -75,12 +75,18 @@ public class WorkServiceImpl implements IWorkService {
 			return new ServiceResult(daoResult);
 		}
 		Work w = daoResult.getResult(Work.class);
+		daoResult = workDao.getStockDao(work);
+		if (!daoResult.isSuccessed()) {
+			return new ServiceResult(daoResult);
+		}
+		Integer stock = daoResult.getResult(Integer.class);
 		daoResult = workImageDao.getAllWorkImageDao(new WorkImage.Builder().work(work).build());
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult(daoResult);
 		}
 		result.setSuccessed(true);
 		result.setResult(Work.class, w);
+		result.setResult(Integer.class, stock);
 		result.setResult(List.class, daoResult.getResult(List.class));
 		return result;
 	}
