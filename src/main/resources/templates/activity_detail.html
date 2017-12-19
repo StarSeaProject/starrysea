@@ -36,13 +36,48 @@
 a:hover {
 	color: rgb(7, 251, 251);
 }
+.head{
+background-color: #eeeeee;
+	color: #23b1f7;
+	height: 100px;
+	clear: both;
+	padding-top: 35px;
+	padding-bottom: 35px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+.headh1{
+padding-left: 100px;
+	margin: 0px;
+}
+.leftbox{
+	border:1px solid blue;
+	border-radius: 10px;
+	padding:20px 10px 20px 10px;
+}
+.rightbox{
+	border:1px solid blue;
+	border-radius: 10px;
+	padding:20px 10px 20px 10px;
+}
+.fname{
+	font-size:1.4em;
+}
+.fmoney{
+}
+.fms{
+
+}
 </style>
+<script>
+
+</script> 
 </head>
 <body>
 <body>
-	<div class="container" style="width: 100%; padding: 0%;">
+	<div class="container" style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
 		<nav class="navbar navbar-brand navbar-static-top heading"
-			role="navigation" id="mybar" style="background-size: 100% 100%">
+			role="navigation" id="mybar" style="background-size: 100% 100%; margin: 0%; padding: 0%;">
 
 			<div class="navbar-header">
 
@@ -66,32 +101,29 @@ a:hover {
 		</nav>
 	</div>
 
-	<div class="container">
-		活动名称：
-		<div th:text="${activity.activityName}"></div>
-		活动内容：
-		<div th:text="${activity.activityContent}"></div>
-		活动状态:
-		<div th:if="${activity.activityStatus == 1}">未开始</div>
-		<div th:if="${activity.activityStatus == 2}">进行中</div>
-		<div th:if="${activity.activityStatus == 3}">已结束</div>
-		<table>
-			<thead>
-				<tr>
-					<td>众筹者id</td>
-					<td>众筹金额</td>
-					<td>留言</td>
-				</tr>
-			</thead>
-			<tbody th:each="funding:${fundings}">
-				<tr>
-					<td th:text="${funding.fundingName}"></td>
-					<td th:text="${funding.fundingMoney}"></td>
-					<td th:text="${funding.fundingMessage}"></td>
-				</tr>
-			</tbody>
-		</table>
+	<div class="head">
+		<h1 th:text="${activity.activityName}" class="headh1"></h1>
 	</div>
+	<div class="container">
+		<div class="col-md-7 leftbox" id="he2">
+			<p th:text="${activity.activityContent}"></p>
+			<a class="btn btn-info" href="#" role="button">点我参与众筹</a>
+		</div>
+		<div class="col-md-5 rightbox"  id="he2">
+		<ul class="newbox" th:each="funding:${fundings}">
+			<li class="everybox">
+			<span th:text="${funding.fundingName}" class="fname"></span><br></br>
+			<span th:text="${funding.fundingMoney}" class="fmoney"></span>
+			<span th:text="${funding.fundingMessage}" class="fms"></span>
+				</li>
+		</ul>
+		</div>
+	</div>
+	
+	
+	<script>
+
+	</script>
 
 </body>
 </body>
