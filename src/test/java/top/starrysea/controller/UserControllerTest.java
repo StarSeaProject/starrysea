@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,7 +22,7 @@ public class UserControllerTest {
 		AdminForLogin admin = new AdminForLogin();
 		admin.setAdminPassword("kuma");
 		admin.setAdminUseraccount("kuma");
-		ModelAndView modelAndView = controller.loginController(new MockHttpSession(), admin, null);
+		ModelAndView modelAndView = controller.loginController(admin, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}

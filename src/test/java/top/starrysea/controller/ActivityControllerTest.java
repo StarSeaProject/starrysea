@@ -3,13 +3,11 @@ package top.starrysea.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,8 +34,6 @@ public class ActivityControllerTest {
 
 	@Test
 	public void addActivityController() {
-		HttpSession session = new MockHttpSession();
-		session.setAttribute("adminId", 1);
 		ActivityForAdd activity = new ActivityForAdd();
 		activity.setActivityName("asdfasdf");
 		activity.setActivityContent("qweasdqaweqweasd");
@@ -49,27 +45,23 @@ public class ActivityControllerTest {
 		activityImage.setActivityImagePath("bb");
 		activityImages.add(activityImage);
 		activity.setActivityImages(activityImages);
-		ModelAndView modelAndView = controller.addActivityController(session, null, activity, null);
+		ModelAndView modelAndView = controller.addActivityController(null, activity, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
 
 	@Test
 	public void modifyActivityController() {
-		HttpSession session = new MockHttpSession();
-		session.setAttribute("adminId", 1);
 		ActivityForModify activity = new ActivityForModify();
-		ModelAndView modelAndView = controller.modifyActivityController(session, activity, null);
+		ModelAndView modelAndView = controller.modifyActivityController(activity, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
 
 	@Test
 	public void removeActivityController() {
-		HttpSession session = new MockHttpSession();
-		session.setAttribute("adminId", 1);
 		ActivityForOne activity = new ActivityForOne();
-		ModelAndView modelAndView = controller.removeActivityController(session, activity, null);
+		ModelAndView modelAndView = controller.removeActivityController(activity, null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}

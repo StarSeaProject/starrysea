@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,16 +116,12 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 添加一个众筹活动
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView addActivityController(HttpSession session, @RequestParam("coverFile") MultipartFile coverFile,
+	public ModelAndView addActivityController(@RequestParam("coverFile") MultipartFile coverFile,
 			@Valid ActivityForAdd activity, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
-			return new ModelAndView(LOGIN_VIEW);
-		}
 		ServiceResult serviceResult = activityService.addActivityService(coverFile, activity.toDTO(),
 				activity.toDTOImage());
 		if (!serviceResult.isSuccessed()) {
@@ -144,16 +139,12 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 修改一个众筹活动的状态
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public ModelAndView modifyActivityController(HttpSession session, @Valid ActivityForModify activity,
+	public ModelAndView modifyActivityController(@Valid ActivityForModify activity,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
-			return new ModelAndView(LOGIN_VIEW);
-		}
 		ServiceResult serviceResult = activityService.modifyActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
@@ -170,16 +161,12 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 删除一个众筹活动
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeActivityController(HttpSession session, @Valid ActivityForOne activity,
+	public ModelAndView removeActivityController(@Valid ActivityForOne activity,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
-			return new ModelAndView(LOGIN_VIEW);
-		}
 		ServiceResult serviceResult = activityService.removeActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
@@ -195,16 +182,12 @@ public class ActivityControllerImpl implements IActivityController {
 
 	@Override
 	@RequestMapping(value = "/funding/add", method = RequestMethod.POST)
-	public ModelAndView addFundingController(HttpSession session, @Valid FundingForAddList fundings,
+	public ModelAndView addFundingController(@Valid FundingForAddList fundings,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
-			return new ModelAndView(LOGIN_VIEW);
-		}
 		for (FundingForAdd funding : fundings.getFundings()) {
 			funding.setActivityId(fundings.getActivityId());
 		}
@@ -224,16 +207,12 @@ public class ActivityControllerImpl implements IActivityController {
 
 	@Override
 	@RequestMapping(value = "/funding/remove", method = RequestMethod.POST)
-	public ModelAndView removeFundingController(HttpSession session, @Valid FundingForRemove funding,
+	public ModelAndView removeFundingController(@Valid FundingForRemove funding,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			// 如果当前没有管理员账号登陆,则拦截并返回登陆页面
-			return new ModelAndView(LOGIN_VIEW);
-		}
 		ServiceResult serviceResult = activityService.removeFundingService(funding.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());

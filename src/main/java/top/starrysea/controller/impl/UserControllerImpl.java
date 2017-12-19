@@ -1,6 +1,5 @@
 package top.starrysea.controller.impl;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class UserControllerImpl implements IUserController {
 	@Override
 	// 管理员登陆
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView loginController(HttpSession session, @Valid AdminForLogin admin, BindingResult bindingResult) {
+	public ModelAndView loginController(@Valid AdminForLogin admin, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -37,9 +36,9 @@ public class UserControllerImpl implements IUserController {
 		ServiceResult serviceResult = userService.loginService(admin.toDTO());
 		if (serviceResult.isSuccessed()) {
 			Admin admin1 = serviceResult.getResult(Admin.class);
-			session.setAttribute(ADMIN_SESSION_KEY, admin1.getAdminId());
 			// 登陆成功,返回管理员的主页
-			modelAndView.setViewName("boss");
+			modelAndView.addObject(ADMIN_SESSION_KEY, admin1.getAdminId());
+			modelAndView.setViewName(BOSS);
 		} else {
 			// 登陆失败,返回登陆页面
 			modelAndView.setViewName(LOGIN_VIEW);

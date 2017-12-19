@@ -2,8 +2,6 @@ package top.starrysea.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,14 +21,13 @@ public interface IActivityController {
 
 	Map<String, Object> queryActivityControllerAjax(ActivityForOne activity, BindingResult bindingResult);
 
-	ModelAndView addActivityController(HttpSession session, MultipartFile coverFile, ActivityForAdd activity,
-			BindingResult bindingResult);
+	ModelAndView addActivityController(MultipartFile coverFile, ActivityForAdd activity, BindingResult bindingResult);
 
-	ModelAndView modifyActivityController(HttpSession session, ActivityForModify activity, BindingResult bindingResult);
+	ModelAndView modifyActivityController(ActivityForModify activity, BindingResult bindingResult);
 
-	ModelAndView removeActivityController(HttpSession session, ActivityForOne activity, BindingResult bindingResult);
+	ModelAndView removeActivityController(ActivityForOne activity, BindingResult bindingResult);
 
-	ModelAndView addFundingController(HttpSession session, FundingForAddList fundings, BindingResult bindingResult);
+	ModelAndView addFundingController(FundingForAddList fundings, BindingResult bindingResult);
 
-	ModelAndView removeFundingController(HttpSession session, FundingForRemove funding, BindingResult bindingResult);
+	ModelAndView removeFundingController(FundingForRemove funding, BindingResult bindingResult);
 }
