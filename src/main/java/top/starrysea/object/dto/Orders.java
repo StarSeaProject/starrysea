@@ -1,8 +1,5 @@
 package top.starrysea.object.dto;
 
-import java.util.Date;
-
-import top.starrysea.common.Common;
 import top.starrysea.object.view.out.OrderForAll;
 import top.starrysea.object.view.out.OrderForOne;
 
@@ -177,14 +174,6 @@ public class Orders extends Entity {
 	}
 
 	public OrderForOne toVoForOne() {
-		String status = "";
-		if (this.orderStatus == (short) 1) {
-			status = "未发货";
-		} else if (this.orderStatus == (short) 2) {
-			status = "已发货";
-		}
-		return new OrderForOne(work.getWorkName(), orderName, orderArea.getCity().getProvince().getProvinceName(),
-				orderArea.getCity().getCityName(), orderArea.getAreaName(), orderAddress, status, orderExpressnum,
-				Common.time2String(new Date(orderTime)));
+		return new OrderForOne(this);
 	}
 }

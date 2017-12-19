@@ -1,5 +1,10 @@
 package top.starrysea.object.view.out;
 
+import java.util.Date;
+
+import top.starrysea.common.Common;
+import top.starrysea.object.dto.Orders;
+
 public class OrderForOne {
 	private String workName;
 	private String orderName;
@@ -11,17 +16,22 @@ public class OrderForOne {
 	private String orderExpressnum;
 	private String orderTime;
 
-	public OrderForOne(String workName, String orderName, String province, String city, String area,
-			String orderAddress, String orderStatus, String orderExpressnum, String orderTime) {
-		this.workName = workName;
-		this.orderName = orderName;
-		this.province = province;
-		this.city = city;
-		this.area = area;
-		this.orderAddress = orderAddress;
-		this.orderStatus = orderStatus;
-		this.orderExpressnum = orderExpressnum;
-		this.orderTime = orderTime;
+	public OrderForOne(Orders order) {
+		this.workName = order.getWork().getWorkName();
+		this.orderName = order.getOrderName();
+		this.province = order.getOrderArea().getCity().getProvince().getProvinceName();
+		this.city = order.getOrderArea().getCity().getCityName();
+		this.area = order.getOrderArea().getAreaName();
+		this.orderAddress = order.getOrderAddress();
+		String status = "";
+		if (order.getOrderStatus() == (short) 1) {
+			status = "未发货";
+		} else if (order.getOrderStatus() == (short) 2) {
+			status = "已发货";
+		}
+		this.orderStatus = status;
+		this.orderExpressnum = order.getOrderExpressnum();
+		this.orderTime = Common.time2String(new Date(order.getOrderTime()));
 	}
 
 	public String getWorkName() {
