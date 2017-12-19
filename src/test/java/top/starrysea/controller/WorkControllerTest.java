@@ -1,12 +1,10 @@
 package top.starrysea.controller;
 
-import javax.servlet.http.HttpSession;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,10 +45,8 @@ public class WorkControllerTest {
 
 	@Test
 	public void removeWorkController() {
-		HttpSession session = new MockHttpSession();
-		session.setAttribute("adminId", 1);
 		WorkForOne work = new WorkForOne();
 		work.setWorkId(1);
-		System.out.println(workController.removeWorkController(session, work, null));
+		System.out.println(workController.removeWorkController(work, null));
 	}
 }

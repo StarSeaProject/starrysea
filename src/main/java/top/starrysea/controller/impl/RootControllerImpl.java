@@ -1,6 +1,5 @@
 package top.starrysea.controller.impl;
 
-import static top.starrysea.common.Const.ADMIN_SESSION_KEY;
 import static top.starrysea.common.Const.ERRINFO;
 import static top.starrysea.common.Const.ERROR_VIEW;
 
@@ -13,7 +12,6 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -148,12 +146,8 @@ public class RootControllerImpl implements IRootController {
 	// 查询所有的订单
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> queryAllOrderController(HttpSession session, @RequestBody OrderForAll order) {
+	public Map<String, Object> queryAllOrderController(@RequestBody OrderForAll order) {
 		Map<String, Object> theResult = new HashMap<>();
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			theResult.put(ERRINFO, "重新登陆!");
-			return theResult;
-		}
 		ServiceResult serviceResult = orderService.queryAllOrderService(order.getCondition(), order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());

@@ -2,8 +2,6 @@ package top.starrysea.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,7 +25,7 @@ public interface IOrderController {
 
 	ModelAndView addOrderController(OrderForAdd order, BindingResult bindingResult);
 
-	ModelAndView modifyOrderController(HttpSession session, OrderForModify order, BindingResult bindingResult);
+	ModelAndView modifyOrderController(OrderForModify order, BindingResult bindingResult);
 
-	ModelAndView removeOrderController(HttpSession session, OrderForRemove order, BindingResult bindingResult);
+	ModelAndView removeOrderController(OrderForRemove order, BindingResult bindingResult);
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,16 +104,13 @@ public class WorkControllerImpl implements IWorkController {
 
 	// 添加一个作品
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView addWorkController(HttpSession session, @RequestParam("coverFile") MultipartFile coverFile,
+	public ModelAndView addWorkController(@RequestParam("coverFile") MultipartFile coverFile,
 			@RequestParam("imageFiles") MultipartFile[] imageFiles, @Valid WorkForAdd work,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			return new ModelAndView("admin_login");
-		}
 		ServiceResult serviceResult = workService.addWorkService(coverFile, imageFiles, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
@@ -129,14 +125,11 @@ public class WorkControllerImpl implements IWorkController {
 	@Override
 	// 删除一个作品
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeWorkController(HttpSession session, @Valid WorkForOne work, BindingResult bindingResult) {
+	public ModelAndView removeWorkController(@Valid WorkForOne work, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			return new ModelAndView(LOGIN_VIEW);
-		}
 		ServiceResult serviceResult = workService.removeWorkService(work.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());

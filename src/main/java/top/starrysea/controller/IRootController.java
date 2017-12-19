@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,5 +23,5 @@ public interface IRootController {
 	
 	ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity);
 	
-	Map<String, Object> queryAllOrderController(HttpSession session, OrderForAll order);
+	Map<String, Object> queryAllOrderController(OrderForAll order);
 }

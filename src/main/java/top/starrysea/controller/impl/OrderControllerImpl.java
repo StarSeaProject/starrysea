@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,15 +161,11 @@ public class OrderControllerImpl implements IOrderController {
 	@Override
 	// 修改一个订单的状态
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public ModelAndView modifyOrderController(HttpSession session, @Valid OrderForModify order,
-			BindingResult bindingResult) {
+	public ModelAndView modifyOrderController(@Valid OrderForModify order, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			return new ModelAndView("admin_login");
-		}
 		ServiceResult serviceResult = orderService.modifyOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
@@ -185,13 +180,9 @@ public class OrderControllerImpl implements IOrderController {
 	@Override
 	// 删除一个订单
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeOrderController(HttpSession session, @Valid OrderForRemove order,
-			BindingResult bindingResult) {
+	public ModelAndView removeOrderController(@Valid OrderForRemove order, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
-		}
-		if (session.getAttribute(ADMIN_SESSION_KEY) == null) {
-			return new ModelAndView(LOGIN_VIEW);
 		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = orderService.removeOrderService(order.toDTO());
