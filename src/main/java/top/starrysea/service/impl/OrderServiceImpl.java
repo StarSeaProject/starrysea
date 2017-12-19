@@ -68,7 +68,6 @@ public class OrderServiceImpl implements IOrderService {
 	// 用户对一个作品进行下单，同时减少该作品的库存
 	@Transactional
 	public ServiceResult addOrderService(Orders order) {
-		ServiceResult result = new ServiceResult();
 		Work work = order.getWork();
 		work.setWorkStock(1);
 		DaoResult daoResult = workDao.getStockDao(work);
@@ -81,14 +80,16 @@ public class OrderServiceImpl implements IOrderService {
 		} else if (stock - work.getWorkStock() < 0) {
 			return new ServiceResult("作品库存不足");
 		}
-		daoResult=workDao.updateWorkStockDao(work);
+		daoResult = workDao.updateWorkStockDao(work);
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult("减少库存失败");
 		}
-		daoResult=orderDao.saveOrderDao(order);
+		daoResult = orderDao.saveOrderDao(order);
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult("下单失败");
 		}
+		ServiceResult result = new ServiceResult();
+		result.setSuccessed(true);
 		return result;
 	}
 
