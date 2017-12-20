@@ -1,6 +1,8 @@
 package top.starrysea.object.dto;
 
-public class Admin extends Entity {
+import top.starrysea.kql.entity.Entity;
+
+public class Admin implements Entity {
 
 	private Integer adminId;
 	private String adminUseraccount;

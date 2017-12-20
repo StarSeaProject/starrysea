@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import top.starrysea.object.dto.Entity;
+import top.starrysea.kql.entity.Entity;
 
 public class Common {
 

@@ -36,7 +36,7 @@ public class WorkDaoTest {
 
 	@Test
 	public void getWorkDao() {
-		System.out.println(workDao.getWorkDao(new Work.Builder().workId(1).build()).getResult(Integer.class));
+		System.out.println(workDao.getWorkDao(new Work.Builder().workId(6).build()).getResult(Integer.class));
 	}
 
 	@Test
@@ -57,6 +57,6 @@ public class WorkDaoTest {
 
 	@Test
 	public void getStockDao() {
-		System.out.println(workDao.getStockDao(new Work.Builder().workId(1).build()).getResult(Integer.class));
+		System.out.println(workDao.getStockDao(new Work.Builder().workId(6).build()).getResult(Integer.class));
 	}
 }

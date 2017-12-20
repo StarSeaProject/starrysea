@@ -1,6 +1,8 @@
 package top.starrysea.object.dto;
 
-public class Funding extends Entity{
+import top.starrysea.kql.entity.Entity;
+
+public class Funding implements Entity {
 
 	private Integer fundingId;
 	private Activity activity;

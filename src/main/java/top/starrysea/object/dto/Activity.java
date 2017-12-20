@@ -1,9 +1,10 @@
 package top.starrysea.object.dto;
 
+import top.starrysea.kql.entity.Entity;
 import top.starrysea.object.view.out.ActivityForAll;
 import top.starrysea.object.view.out.ActivityForOne;
 
-public class Activity extends Entity {
+public class Activity implements Entity {
 
 	private Integer activityId;
 	private String activityName;

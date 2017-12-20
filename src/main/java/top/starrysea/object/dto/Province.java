@@ -1,6 +1,8 @@
 package top.starrysea.object.dto;
 
-public class Province extends Entity {
+import top.starrysea.kql.entity.Entity;
+
+public class Province implements Entity {
 
 	private Integer provinceId;
 	private String provinceName;

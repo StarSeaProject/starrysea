@@ -1,6 +1,8 @@
 package top.starrysea.object.dto;
 
-public class WorkImage extends Entity {
+import top.starrysea.kql.entity.Entity;
+
+public class WorkImage implements Entity {
 
 	private Integer workImageId;
 	private Work work;

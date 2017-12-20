@@ -2,136 +2,107 @@ package top.starrysea.dao.impl;
 
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
-import top.starrysea.common.SqlWithParams;
 import top.starrysea.dao.IWorkDao;
+import top.starrysea.kql.clause.OrderByType;
+import top.starrysea.kql.clause.SelectClause;
+import top.starrysea.kql.clause.UpdateSetType;
+import top.starrysea.kql.clause.WhereType;
+import top.starrysea.kql.facede.EntitySqlResult;
+import top.starrysea.kql.facede.IntegerSqlResult;
+import top.starrysea.kql.facede.KumaSqlDao;
+import top.starrysea.kql.facede.ListSqlResult;
+import top.starrysea.kql.facede.OperationType;
+import top.starrysea.kql.facede.UpdateSqlResult;
 import top.starrysea.object.dto.Work;
 
 import static top.starrysea.common.Common.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository("workDao")
 public class WorkDaoImpl implements IWorkDao {
 
 	@Autowired
-	private JdbcTemplate template;
+	private KumaSqlDao kumaSqlDao;
 	// 作品每页显示条数
 	public static final int PAGE_LIMIT = 10;
 
 	@Override
 	// 查询所有作品
 	public DaoResult getAllWorkDao(Condition condition, Work work) {
-		SqlWithParams sqlWithParams = getTheSqlForGetAll(work);
-		String sql = "SELECT work_id,work_name,work_cover,work_summary " + "FROM work " + sqlWithParams.getWhere()
-				+ "ORDER BY work_uploadtime DESC " + "LIMIT " + (condition.getPage() - 1) * PAGE_LIMIT + ","
-				+ PAGE_LIMIT;
-		Object[] params = sqlWithParams.getParams();
-		List<Work> theResult = template.query(sql, params,
-				(rs, row) -> new Work.Builder().workId(rs.getInt("work_id")).workName(rs.getString("work_name"))
-						.workCover(rs.getString("work_cover")).workSummary(rs.getString("work_summary")).build());
-		return new DaoResult(true, theResult);
-	}
-
-	private SqlWithParams getTheSqlForGetAll(Work work) {
-		StringBuilder whereBuffer = new StringBuilder();
-		int insertIndex;
-		Object[] preParams = new Object[1];
-		int paramsIndex = 0;
-		whereBuffer.append("WHERE 1=1 ");
-
-		if (isNotNull(work.getWorkName())) {
-			insertIndex = whereBuffer.indexOf("WHERE") + 5;
-			whereBuffer.insert(insertIndex, " work_name LIKE ? AND ");
-			preParams[paramsIndex] = "%" + work.getWorkName() + "%";
-			paramsIndex++;
-		}
-
-		Object[] params = new Object[paramsIndex];
-		System.arraycopy(preParams, 0, params, 0, paramsIndex);
-		return new SqlWithParams(whereBuffer.toString(), params);
+		kumaSqlDao.changeMode(OperationType.SELECT);
+		ListSqlResult theResult = kumaSqlDao.select("work_id").select("work_name").select("work_cover")
+				.select("work_summary").from(Work.class).where("work_name", WhereType.FUZZY, work.getWorkName())
+				.orderBy("work_uploadtime", OrderByType.DESC).limit((condition.getPage() - 1) * PAGE_LIMIT, PAGE_LIMIT)
+				.endForList((rs, row) -> new Work.Builder().workId(rs.getInt("work_id"))
+						.workName(rs.getString("work_name")).workCover(rs.getString("work_cover"))
+						.workSummary(rs.getString("work_summary")).build());
+		return new DaoResult(true, theResult.getResult());
 	}
 
 	@Override
 	// 查询所有作品的数量，用于分页
 	public DaoResult getWorkCountDao(Condition condition, Work work) {
-		SqlWithParams sqlWithParams = getTheSqlForGetAll(work);
-		String sql = "SELECT COUNT(*) " + "FROM work " + sqlWithParams.getWhere();
-		Object[] params = sqlWithParams.getParams();
-		Integer theResult = template.queryForObject(sql, params, Integer.class);
-		return new DaoResult(true, theResult);
+		kumaSqlDao.changeMode(OperationType.SELECT);
+		IntegerSqlResult theResult = kumaSqlDao.select(SelectClause.COUNT).from(Work.class)
+				.where("work_name", WhereType.FUZZY, work.getWorkName()).endForNumber();
+		return new DaoResult(true, theResult.getResult());
 	}
 
 	@Override
 	// 查询一个作品的详情页
 	public DaoResult getWorkDao(Work work) {
-		String sql = "UPDATE work " + "SET work_click = work_click + 1 " + "WHERE work_id = ?";
-		template.update(sql, work.getWorkId());
-		sql = "SELECT work_name,work_uploadtime,work_pdfpath,work_click,work_cover " + "FROM work "
-				+ "WHERE work_id = ?";
-		Work theResult = template.queryForObject(sql, new Object[] { work.getWorkId() },
-				(rs, row) -> new Work.Builder().workName(rs.getString("work_name"))
+		kumaSqlDao.changeMode(OperationType.UPDATE);
+		kumaSqlDao.update("work_click", UpdateSetType.ADD, 1).where("work_id", WhereType.EQUALS, work.getWorkId())
+				.table(Work.class).end();
+		kumaSqlDao.changeMode(OperationType.SELECT);
+		EntitySqlResult theResult = kumaSqlDao.select("work_name").select("work_uploadtime").select("work_pdfpath")
+				.select("work_click").select("work_cover").from(Work.class)
+				.where("work_id", WhereType.EQUALS, work.getWorkId())
+				.endForObject((rs, row) -> new Work.Builder().workName(rs.getString("work_name"))
 						.workUploadTime(date2String(rs.getDate("work_uploadtime")))
 						.workPdfpath(rs.getString("work_pdfpath")).workClick(rs.getInt("work_click"))
 						.workCover(rs.getString("work_cover")).build());
-		return new DaoResult(true, theResult);
+		return new DaoResult(true, theResult.getResult());
 	}
 
 	@Override
 	// 添加一个作品
 	public DaoResult saveWorkDao(Work work) {
-		String sql = "INSERT INTO work(work_name,work_uploadtime,work_pdfpath,work_stock,work_cover,work_summary) "
-				+ "VALUES(?,?,?,?,?,?)";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		template.update(new PreparedStatementCreator() {
-
-			@Override
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-				ps.setString(1, work.getWorkName());
-				ps.setString(2, work.getWorkUploadTime());
-				ps.setString(3, work.getWorkPdfpath());
-				ps.setInt(4, work.getWorkStock());
-				ps.setString(5, work.getWorkCover());
-				ps.setString(6, work.getWorkSummary());
-				return ps;
-			}
-
-		}, keyHolder);
-		return new DaoResult(true, keyHolder.getKey().intValue());
+		kumaSqlDao.changeMode(OperationType.INSERT);
+		UpdateSqlResult theResult = kumaSqlDao.insert("work_name", work.getWorkName())
+				.insert("work_uploadtime", work.getWorkUploadTime()).insert("work_pdfpath", work.getWorkPdfpath())
+				.insert("work_stock", work.getWorkStock()).insert("work_cover", work.getWorkCover())
+				.insert("work_summary", work.getWorkSummary()).table(Work.class).end();
+		return new DaoResult(true, theResult.getKeyHolder().getKey().intValue());
 	}
 
 	@Override
 	// 管理员删除一个作品
 	public DaoResult deleteWorkDao(Work work) {
-		String sql = "DELETE FROM work " + "WHERE work_id = ?";
-		template.update(sql, work.getWorkId());
+		kumaSqlDao.changeMode(OperationType.DELETE);
+		kumaSqlDao.table(Work.class).where("work_id", WhereType.EQUALS, work.getWorkId()).end();
 		return new DaoResult(true);
 	}
 
 	@Override
 	// 减少一个作品的库存
 	public DaoResult updateWorkStockDao(Work work) {
-		String sql = "UPDATE work " + "SET work_stock = work_stock - ? " + "WHERE work_id = ?";
-		template.update(sql, work.getWorkStock(), work.getWorkId());
+		kumaSqlDao.changeMode(OperationType.UPDATE);
+		kumaSqlDao.update("work_stock", UpdateSetType.REDUCE, work.getWorkStock())
+				.where("work_id", WhereType.EQUALS, work.getWorkId()).table(Work.class).end();
 		return new DaoResult(true);
 	}
 
 	@Override
 	public DaoResult getStockDao(Work work) {
-		String sql = "SELECT work_stock " + "FROM work " + "WHERE work_id = ?";
-		Integer theResult = template.queryForObject(sql, new Object[] { work.getWorkId() }, Integer.class);
-		return new DaoResult(true, theResult);
+		kumaSqlDao.changeMode(OperationType.SELECT);
+		EntitySqlResult theResult = kumaSqlDao.select("work_stock").from(Work.class)
+				.where("work_id", WhereType.EQUALS, work.getWorkId())
+				.endForObject((rs, row) -> new Work.Builder().workStock(rs.getInt("work_stock")).build());
+		Work w = (Work) theResult.getResult();
+		return new DaoResult(true, w.getWorkStock());
 	}
 
 }

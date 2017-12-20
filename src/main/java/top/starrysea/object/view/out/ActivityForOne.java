@@ -4,24 +4,12 @@ public class ActivityForOne {
 
 	private String activityName;
 	private String activityContent;
-	private String activityStatus;
+	private Short activityStatus;
 
 	public ActivityForOne(String activityName, String activityContent, Short activityStatus) {
 		this.activityName = activityName;
 		this.activityContent = activityContent;
-		switch (activityStatus) {
-		case 1:
-			this.activityStatus = "未开始";
-			break;
-		case 2:
-			this.activityStatus = "进行中";
-			break;
-		case 3:
-			this.activityStatus = "已结束";
-			break;
-		default:
-			this.activityStatus="";
-		}
+		this.activityStatus = activityStatus;
 	}
 
 	public String getActivityName() {
@@ -32,7 +20,7 @@ public class ActivityForOne {
 		return activityContent;
 	}
 
-	public String getActivityStatus() {
+	public Short getActivityStatus() {
 		return activityStatus;
 	}
 }

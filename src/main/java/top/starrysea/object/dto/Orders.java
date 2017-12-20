@@ -1,9 +1,10 @@
 package top.starrysea.object.dto;
 
+import top.starrysea.kql.entity.Entity;
 import top.starrysea.object.view.out.OrderForAll;
 import top.starrysea.object.view.out.OrderForOne;
 
-public class Orders extends Entity {
+public class Orders implements Entity {
 
 	private String orderId;
 	private Work work;

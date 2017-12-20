@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import top.starrysea.object.dto.Entity;
+import top.starrysea.kql.entity.Entity;
 
 public class DaoResult {
 

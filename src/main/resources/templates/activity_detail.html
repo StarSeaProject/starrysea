@@ -36,8 +36,9 @@
 a:hover {
 	color: rgb(7, 251, 251);
 }
-.head{
-background-color: #eeeeee;
+
+.head {
+	background-color: #eeeeee;
 	color: #23b1f7;
 	height: 100px;
 	clear: both;
@@ -46,38 +47,46 @@ background-color: #eeeeee;
 	margin-top: 0px;
 	margin-bottom: 10px;
 }
-.headh1{
-padding-left: 100px;
+
+.headh1 {
+	padding-left: 100px;
 	margin: 0px;
 }
-.leftbox{
-	border:1px solid blue;
-	border-radius: 10px;
-	padding:20px 10px 20px 10px;
-}
-.rightbox{
-	border:1px solid blue;
-	border-radius: 10px;
-	padding:20px 10px 20px 10px;
-}
-.fname{
-	font-size:1.4em;
-}
-.fmoney{
-}
-.fms{
 
+.leftbox {
+	border: 1px solid blue;
+	border-radius: 10px;
+	padding: 20px 10px 20px 10px;
+}
+
+.rightbox {
+	border: 1px solid blue;
+	border-radius: 10px;
+	padding: 20px 10px 20px 10px;
+}
+
+.fname {
+	font-size: 1.4em;
+}
+
+.fmoney {
+	
+}
+
+.fms {
+	
 }
 </style>
 <script>
-
-</script> 
+	
+</script>
 </head>
 <body>
-<body>
-	<div class="container" style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
+	<div class="container"
+		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
 		<nav class="navbar navbar-brand navbar-static-top heading"
-			role="navigation" id="mybar" style="background-size: 100% 100%; margin: 0%; padding: 0%;">
+			role="navigation" id="mybar"
+			style="background-size: 100% 100%; margin: 0%; padding: 0%;">
 
 			<div class="navbar-header">
 
@@ -106,25 +115,23 @@ padding-left: 100px;
 	</div>
 	<div class="container">
 		<div class="col-md-7 leftbox" id="he2">
-			<p th:text="${activity.activityContent}"></p>
-			<a class="btn btn-info" href="#" role="button">点我参与众筹</a>
+			<p th:utext="${activity.activityContent}"></p>
+			<div th:if="${activity.activityStatus eq 2}">
+				<h4>你可以通过以下的方式参与众筹:</h4>
+				<img src="/zfb.jpg" style="width:45%"/>
+				<img src="/wechat.jpg" style="width:45%"/>
+			</div>
 		</div>
-		<div class="col-md-5 rightbox"  id="he2">
-		<ul class="newbox" th:each="funding:${fundings}">
-			<li class="everybox">
-			<span th:text="${funding.fundingName}" class="fname"></span><br></br>
-			<span th:text="${funding.fundingMoney}" class="fmoney"></span>
-			<span th:text="${funding.fundingMessage}" class="fms"></span>
+		<div class="col-md-5 rightbox" id="he2">
+			<ul class="newbox" th:each="funding:${fundings}">
+				<li class="everybox">
+					<span th:text="${funding.fundingName}" class="fname"></span><br/>
+					<span th:text="${funding.fundingMoney}" class="fmoney"></span>
+					<span th:text="${funding.fundingMessage}" class="fms"></span>
 				</li>
-		</ul>
+			</ul>
 		</div>
 	</div>
-	
-	
-	<script>
 
-	</script>
-
-</body>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package top.starrysea.object.dto;
 
-public class Online extends Entity {
+import top.starrysea.kql.entity.Entity;
+
+public class Online implements Entity {
 
 	private String onlineId;
 	private String onlineEmail;

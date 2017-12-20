@@ -91,16 +91,15 @@ a:hover {
 		<h4
 			th:text="'上传时间:'+${work.workUploadTime}+'&nbsp;&nbsp;点击量:'+${work.workClick}"
 			class=" uploadtime text-center"></h4>
-		<h4>
+		<h4 style="text-align:center">
 			<a th:href="@{${work.workPdfpath}}"
 				th:attr="download=${work.workName}">下载链接</a>
 		</h4>
 	</div>
 	<hr></hr>
-	<div th:each="workImage:${workImages}" class="pdfcontainer">
-		<img th:attr="src=${workImage.workImagePath}" />
+	<div style="text-align:center" th:each="workImage:${workImages}" class="pdfcontainer">
+		<img style="width:70%" th:attr="src=${workImage.workImagePath}" />
 	</div>
-
 </body>
 </body>
 </html>

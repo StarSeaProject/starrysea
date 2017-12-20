@@ -1,6 +1,8 @@
 package top.starrysea.object.dto;
 
-public class Area extends Entity {
+import top.starrysea.kql.entity.Entity;
+
+public class Area implements Entity {
 
 	private Integer areaId;
 	private City city;

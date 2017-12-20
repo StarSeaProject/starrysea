@@ -1,9 +1,10 @@
 package top.starrysea.object.dto;
 
+import top.starrysea.kql.entity.Entity;
 import top.starrysea.object.view.out.WorkForAll;
 import top.starrysea.object.view.out.WorkForOne;
 
-public class Work extends Entity {
+public class Work implements Entity {
 
 	private Integer workId;
 	private String workName;
