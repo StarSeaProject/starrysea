@@ -99,6 +99,7 @@ public class WorkControllerImpl implements IWorkController {
 		}
 		Work w = serviceResult.getResult(Work.class);
 		theResult.put("work", w.toVoForOne());
+		theResult.put("workImages", serviceResult.getResult(List.class));
 		return theResult;
 	}
 
