@@ -117,6 +117,9 @@ public class WorkServiceImpl implements IWorkService {
 			}
 			mailService.sendMailService(work);
 			return new ServiceResult(daoResult);
+		} catch(RuntimeException e) {
+			logger.error(e.getMessage(), e);
+			throw e;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return new ServiceResult("文件上传失败,原因为" + e.getMessage());
