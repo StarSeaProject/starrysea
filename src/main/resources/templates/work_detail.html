@@ -104,10 +104,10 @@ a:hover {
 		$(function(){
 			let workImages=[[${workImages}]];
 			console.log(workImages);
-			let str=`<img style="width: 70%" src="${workImages.shift().workImagePath}" />`;
+			let str=`<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
 			$("#more_image").before(str);
 			$("#more_image").on("click",()=>{
-				let str=`<img style="width: 70%" src="${workImages.shift().workImagePath}" />`;
+				let str=`<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
 				$("#more_image").before(str);
 			});
 		});
