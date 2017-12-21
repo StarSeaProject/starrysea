@@ -1,5 +1,7 @@
 package top.starrysea.dao;
 
+import java.util.List;
+
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.object.dto.Activity;
@@ -14,6 +16,10 @@ public interface IActivityDao {
 	DaoResult saveActivityDao(Activity activity);
 
 	DaoResult updateActivityDao(Activity activity);
+	
+	DaoResult updateAddActivityMoneyDao(List<Activity> activitys);
+	
+	DaoResult updateReduceActivityMoneyDao(Activity activity);
 
 	DaoResult deleteActivityDao(Activity activity);
 }

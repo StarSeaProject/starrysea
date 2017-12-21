@@ -13,6 +13,7 @@ public class Activity implements Entity {
 	private String activityCover;
 	private String activitySummary;
 	private String activityEndtime;
+	private Double activityMoney;
 
 	public Activity(Builder builder) {
 		this.activityId = builder.activityId;
@@ -22,6 +23,7 @@ public class Activity implements Entity {
 		this.activityCover = builder.activityCover;
 		this.activitySummary = builder.activitySummary;
 		this.activityEndtime = builder.activityEndtime;
+		this.activityMoney = builder.activityMoney;
 	}
 
 	public static class Builder implements IBuilder<Activity> {
@@ -32,6 +34,7 @@ public class Activity implements Entity {
 		private String activityCover;
 		private String activitySummary;
 		private String activityEndtime;
+		private Double activityMoney;
 
 		public Builder activityId(Integer activityId) {
 			this.activityId = activityId;
@@ -65,6 +68,11 @@ public class Activity implements Entity {
 
 		public Builder activityEndtime(String activityEndtime) {
 			this.activityEndtime = activityEndtime;
+			return this;
+		}
+
+		public Builder activityMoney(Double activityMoney) {
+			this.activityMoney = activityMoney;
 			return this;
 		}
 
@@ -131,11 +139,19 @@ public class Activity implements Entity {
 		this.activityEndtime = activityEndtime;
 	}
 
+	public Double getActivityMoney() {
+		return activityMoney;
+	}
+
+	public void setActivityMoney(Double activityMoney) {
+		this.activityMoney = activityMoney;
+	}
+
 	public ActivityForAll toVoForAll() {
 		return new ActivityForAll(activityId, activityName, activityCover, activitySummary, activityEndtime);
 	}
 
 	public ActivityForOne toVoForOne() {
-		return new ActivityForOne(activityName, activityContent, activityStatus);
+		return new ActivityForOne(activityName, activityContent, activityStatus, activityMoney);
 	}
 }

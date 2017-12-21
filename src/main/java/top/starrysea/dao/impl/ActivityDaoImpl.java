@@ -11,6 +11,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -72,13 +73,14 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	// 查询一个众筹活动的详情页
 	public DaoResult getActivityDao(Activity activity) {
-		String sql = "SELECT activity_name,activity_content,activity_status " + "FROM activity "
+		String sql = "SELECT activity_name,activity_content,activity_status,activity_money " + "FROM activity "
 				+ "WHERE activity_id = ?";
 		try {
 			Activity theResult = template.queryForObject(sql, new Object[] { activity.getActivityId() },
 					(rs, row) -> new Activity.Builder().activityName(rs.getString("activity_name"))
 							.activityContent(rs.getString("activity_content"))
-							.activityStatus(rs.getShort("activity_status")).build());
+							.activityStatus(rs.getShort("activity_status"))
+							.activityMoney(rs.getDouble("activity_money")).build());
 			return new DaoResult(true, theResult);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -163,6 +165,32 @@ public class ActivityDaoImpl implements IActivityDao {
 		Object[] params = new Object[paramsIndex];
 		System.arraycopy(preParams, 0, params, 0, paramsIndex);
 		return new SqlWithParams(whereBuffer.toString(), params);
+	}
+
+	@Override
+	public DaoResult updateAddActivityMoneyDao(List<Activity> activitys) {
+		String sql = "UPDATE activity " + "SET activity_money = activity_money + ? " + "WHERE activity_id = ?";
+		template.batchUpdate(sql, new BatchPreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps, int i) throws SQLException {
+				ps.setDouble(1, activitys.get(i).getActivityMoney());
+				ps.setInt(2, activitys.get(i).getActivityId());
+			}
+
+			@Override
+			public int getBatchSize() {
+				return activitys.size();
+			}
+		});
+		return new DaoResult(true);
+	}
+
+	@Override
+	public DaoResult updateReduceActivityMoneyDao(Activity activity) {
+		String sql = "UPDATE activity " + "SET activity_money = activity_money - ? " + "WHERE activity_id = ?";
+		template.update(sql, activity.getActivityMoney(), activity.getActivityId());
+		return new DaoResult(true);
 	}
 
 }

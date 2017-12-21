@@ -26,7 +26,7 @@ public class FundingDaoImpl implements IFundingDao {
 		List<Funding> theResult = template.query(sql, new Object[] { funding.getActivity().getActivityId() },
 				(rs, row) -> new Funding.Builder().fundingId(rs.getInt("funding_id"))
 						.fundingName(rs.getString("funding_name")).fundingMoney(rs.getDouble("funding_money"))
-						.fundingMessage(rs.getString("funding_message")).build());
+						.fundingMessage(rs.getString("funding_message")).activity(funding.getActivity()).build());
 		return new DaoResult(true, theResult);
 	}
 
