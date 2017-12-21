@@ -58,7 +58,6 @@ a:hover {
 </style>
 </head>
 <body>
-<body>
 	<div class="container"
 		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
 		<nav class="navbar navbar-brand navbar-static-top heading"
@@ -91,15 +90,27 @@ a:hover {
 		<h4
 			th:text="'上传时间:'+${work.workUploadTime}+'&nbsp;&nbsp;点击量:'+${work.workClick}"
 			class=" uploadtime text-center"></h4>
-		<h4 style="text-align:center">
+		<h4 style="text-align: center">
 			<a th:href="@{${work.workPdfpath}}"
 				th:attr="download=${work.workName}">下载链接</a>
 		</h4>
 	</div>
 	<hr></hr>
-	<div style="text-align:center" th:each="workImage:${workImages}" class="pdfcontainer">
-		<img style="width:70%" th:attr="src=${workImage.workImagePath}" />
+	<div id="workImages" style="text-align: center" class="pdfcontainer">
+		<button id="more_image">更多</button>
 	</div>
-</body>
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+	<script th:inline="javascript">
+		$(function(){
+			let workImages=[[${workImages}]];
+			console.log(workImages);
+			let str=`<img style="width: 70%" src="${workImages.shift().workImagePath}" />`;
+			$("#more_image").before(str);
+			$("#more_image").on("click",()=>{
+				let str=`<img style="width: 70%" src="${workImages.shift().workImagePath}" />`;
+				$("#more_image").before(str);
+			});
+		});
+	</script>
 </body>
 </html>
