@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"></meta>
+<title>错误页面</title>
+</head>
+<body>
+	Something wrong,the errInfo is:
+	<table>
+		<tr th:each="err:${errInfo}">
+			<td th:text="${err}"></td>
+		</tr>
+	</table>
+</body>
+</html>

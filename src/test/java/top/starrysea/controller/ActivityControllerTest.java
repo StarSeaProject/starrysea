@@ -27,7 +27,7 @@ public class ActivityControllerTest {
 	@Test
 	public void queryActivityController() {
 		ActivityForOne activity = new ActivityForOne();
-		ModelAndView modelAndView = controller.queryActivityController(activity, null);
+		ModelAndView modelAndView = controller.queryActivityController(activity, null,null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
@@ -45,7 +45,7 @@ public class ActivityControllerTest {
 		activityImage.setActivityImagePath("bb");
 		activityImages.add(activityImage);
 		activity.setActivityImages(activityImages);
-		ModelAndView modelAndView = controller.addActivityController(null, activity, null);
+		ModelAndView modelAndView = controller.addActivityController(null, activity, null,null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
@@ -53,7 +53,7 @@ public class ActivityControllerTest {
 	@Test
 	public void modifyActivityController() {
 		ActivityForModify activity = new ActivityForModify();
-		ModelAndView modelAndView = controller.modifyActivityController(activity, null);
+		ModelAndView modelAndView = controller.modifyActivityController(activity, null,null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
@@ -61,7 +61,7 @@ public class ActivityControllerTest {
 	@Test
 	public void removeActivityController() {
 		ActivityForOne activity = new ActivityForOne();
-		ModelAndView modelAndView = controller.removeActivityController(activity, null);
+		ModelAndView modelAndView = controller.removeActivityController(activity, null,null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}

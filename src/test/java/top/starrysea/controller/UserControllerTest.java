@@ -22,7 +22,7 @@ public class UserControllerTest {
 		AdminForLogin admin = new AdminForLogin();
 		admin.setAdminPassword("kuma");
 		admin.setAdminUseraccount("kuma");
-		ModelAndView modelAndView = controller.loginController(admin, null);
+		ModelAndView modelAndView = controller.loginController(admin, null,null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}

@@ -9,4 +9,5 @@ public class Const {
 	public static final String LOGIN_VIEW = "login";
 	public static final String SUCCESS_VIEW = "success";
 	public static final String BOSS = "boss";
+	public static final String MOBILE = "mobile/";
 }

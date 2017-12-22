@@ -1,7 +1,6 @@
 package top.starrysea.controller.impl;
 
-import static top.starrysea.common.Const.ERRINFO;
-import static top.starrysea.common.Const.ERROR_VIEW;
+import static top.starrysea.common.Const.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,7 +78,7 @@ public class RootControllerImpl implements IRootController {
 			@RequestParam("file") MultipartFile file) {
 		String filePath = null;
 		try {
-			filePath=fileUtil.saveFile(file, FileCondition.of(FileType.IMG, ""));
+			filePath = fileUtil.saveFile(file, FileCondition.of(FileType.IMG, ""));
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -100,12 +100,12 @@ public class RootControllerImpl implements IRootController {
 	@Override
 	@RequestMapping(value = "/work", method = RequestMethod.GET)
 	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
-	public ModelAndView queryAllWorkController(Condition condition, WorkForAll work) {
+	public ModelAndView queryAllWorkController(Condition condition, WorkForAll work, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		List<Work> result = serviceResult.getResult(List.class);
@@ -114,14 +114,14 @@ public class RootControllerImpl implements IRootController {
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName("work");
+		modelAndView.setViewName(device.isNormal() ? "work" : MOBILE + "work");
 		return modelAndView;
 	}
-	
+
 	@Override
 	// 查询所有众筹活动
 	@RequestMapping(value = "/activity", method = RequestMethod.GET)
-	public ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity) {
+	public ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -138,10 +138,10 @@ public class RootControllerImpl implements IRootController {
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
 		// 返回众筹活动的列表页
-		modelAndView.setViewName("all_activity");
+		modelAndView.setViewName(device.isNormal() ? "all_activity" : MOBILE + "all_activity");
 		return modelAndView;
 	}
-	
+
 	@Override
 	// 查询所有的订单
 	@RequestMapping(value = "/order", method = RequestMethod.POST)

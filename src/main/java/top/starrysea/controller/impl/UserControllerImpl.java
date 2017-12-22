@@ -3,6 +3,7 @@ package top.starrysea.controller.impl;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ public class UserControllerImpl implements IUserController {
 	@Override
 	// 管理员登陆
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView loginController(@Valid AdminForLogin admin, BindingResult bindingResult) {
+	public ModelAndView loginController(@Valid AdminForLogin admin, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -38,10 +39,10 @@ public class UserControllerImpl implements IUserController {
 			Admin admin1 = serviceResult.getResult(Admin.class);
 			// 登陆成功,返回管理员的主页
 			modelAndView.addObject(ADMIN_SESSION_KEY, admin1.getAdminId());
-			modelAndView.setViewName(BOSS);
+			modelAndView.setViewName(device.isNormal() ? BOSS : MOBILE + BOSS);
 		} else {
 			// 登陆失败,返回登陆页面
-			modelAndView.setViewName(LOGIN_VIEW);
+			modelAndView.setViewName(device.isNormal() ? LOGIN_VIEW : MOBILE + LOGIN_VIEW);
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 		}
 		return modelAndView;

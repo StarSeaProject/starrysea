@@ -32,7 +32,8 @@ dependencies {
 		'org.springframework.boot:spring-boot-starter-thymeleaf',
 		'org.springframework.boot:spring-boot-starter-jetty',
 		'org.springframework.boot:spring-boot-starter-actuator',
-		'org.springframework.boot:spring-boot-starter-mail'
+		'org.springframework.boot:spring-boot-starter-mail',
+		'org.springframework.mobile:spring-mobile-device'
 	)
 	compile fileTree(dir:'lib',include:['*.jar'])
 	runtime('mysql:mysql-connector-java')

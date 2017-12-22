@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,7 +67,8 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 查询一个众筹活动的详情页
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public ModelAndView queryActivityController(@Valid ActivityForOne activity, BindingResult bindingResult) {
+	public ModelAndView queryActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
+			Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -75,14 +77,14 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 查询失败则返回错误页面
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		Activity a = serviceResult.getResult(Activity.class);
 		modelAndView.addObject("activity", a.toVoForOne());
 		modelAndView.addObject("fundings", serviceResult.getResult(List.class));
 		// 返回众筹活动的详细页
-		modelAndView.setViewName("activity_detail");
+		modelAndView.setViewName(device.isNormal() ? "activity_detail" : MOBILE + "activity_detail");
 		return modelAndView;
 	}
 
@@ -117,7 +119,7 @@ public class ActivityControllerImpl implements IActivityController {
 	// 添加一个众筹活动
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView addActivityController(@RequestParam("coverFile") MultipartFile coverFile,
-			@Valid ActivityForAdd activity, BindingResult bindingResult) {
+			@Valid ActivityForAdd activity, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -127,20 +129,20 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 添加失败则返回错误页面
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "添加成功！");
 		// 添加成功则返回成功页面
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 
 	@Override
 	// 修改一个众筹活动的状态
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public ModelAndView modifyActivityController(@Valid ActivityForModify activity,
-			BindingResult bindingResult) {
+	public ModelAndView modifyActivityController(@Valid ActivityForModify activity, BindingResult bindingResult,
+			Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -149,20 +151,20 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 修改失败则返回错误页面
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "修改成功!");
 		// 修改成功则返回成功页面
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 
 	@Override
 	// 删除一个众筹活动
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeActivityController(@Valid ActivityForOne activity,
-			BindingResult bindingResult) {
+	public ModelAndView removeActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
+			Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -171,19 +173,19 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 删除失败则返回错误页面
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		// 删除成功则返回成功页面
 		modelAndView.addObject("info", "删除成功!");
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 
 	@Override
 	@RequestMapping(value = "/funding/add", method = RequestMethod.POST)
-	public ModelAndView addFundingController(@Valid FundingForAddList fundings,
-			BindingResult bindingResult) {
+	public ModelAndView addFundingController(@Valid FundingForAddList fundings, BindingResult bindingResult,
+			Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -196,19 +198,19 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 添加失败则返回错误页面
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		// 添加成功则返回成功页面
 		modelAndView.addObject("info", "添加成功!");
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 
 	@Override
 	@RequestMapping(value = "/funding/remove", method = RequestMethod.POST)
-	public ModelAndView removeFundingController(@Valid FundingForRemove funding,
-			BindingResult bindingResult) {
+	public ModelAndView removeFundingController(@Valid FundingForRemove funding, BindingResult bindingResult,
+			Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -217,12 +219,12 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 添加失败则返回错误页面
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		// 添加成功则返回成功页面
 		modelAndView.addObject("info", "删除成功!");
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 

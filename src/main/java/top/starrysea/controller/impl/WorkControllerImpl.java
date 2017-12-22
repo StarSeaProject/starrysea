@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,7 +62,7 @@ public class WorkControllerImpl implements IWorkController {
 	@Override
 	// 查询一个作品的详情页，此方法可用于作品管理，也可用于查看旧货
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public ModelAndView queryWorkController(@Valid WorkForOne work, BindingResult bindingResult) {
+	public ModelAndView queryWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -77,7 +78,7 @@ public class WorkControllerImpl implements IWorkController {
 		modelAndView.addObject("work", w.toVoForOne());
 		modelAndView.addObject("workId", work.getWorkId());
 		modelAndView.addObject("workImages", serviceResult.getResult(List.class));
-		modelAndView.setViewName("work_detail");
+		modelAndView.setViewName(device.isNormal() ? "work_detail" : MOBILE + "work_detail");
 		return modelAndView;
 	}
 
@@ -108,8 +109,8 @@ public class WorkControllerImpl implements IWorkController {
 	// 添加一个作品
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView addWorkController(@RequestParam("coverFile") MultipartFile coverFile,
-			@RequestParam("imageFiles") MultipartFile[] imageFiles, @Valid WorkForAdd work,
-			BindingResult bindingResult) {
+			@RequestParam("imageFiles") MultipartFile[] imageFiles, @Valid WorkForAdd work, BindingResult bindingResult,
+			Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -121,14 +122,14 @@ public class WorkControllerImpl implements IWorkController {
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "添加成功!");
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 
 	@Override
 	// 删除一个作品
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeWorkController(@Valid WorkForOne work, BindingResult bindingResult) {
+	public ModelAndView removeWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -140,7 +141,7 @@ public class WorkControllerImpl implements IWorkController {
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "删除成功！");
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 

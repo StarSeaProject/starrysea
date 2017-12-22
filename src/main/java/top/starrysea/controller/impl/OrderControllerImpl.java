@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +41,7 @@ public class OrderControllerImpl implements IOrderController {
 	@Override
 	// 根据订单号查询一个订单的具体信息以及发货情况
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
-	public ModelAndView queryOrderController(@Valid OrderForOne order, BindingResult bindingResult) {
+	public ModelAndView queryOrderController(@Valid OrderForOne order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -48,12 +49,12 @@ public class OrderControllerImpl implements IOrderController {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		Orders o = serviceResult.getResult(Orders.class);
 		modelAndView.addObject("orders", o.toVoForOne());
-		modelAndView.setViewName("orders_details");
+		modelAndView.setViewName(device.isNormal() ? "orders_details" : MOBILE + "orders_details");
 		return modelAndView;
 	}
 
@@ -82,17 +83,17 @@ public class OrderControllerImpl implements IOrderController {
 	}
 
 	@RequestMapping(value = "/toAddOrder", method = RequestMethod.GET)
-	public ModelAndView gotoAddOrder(@Valid WorkForOne work) {
+	public ModelAndView gotoAddOrder(@Valid WorkForOne work, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("workId", work.getWorkId());
-		modelAndView.setViewName("add_order");
+		modelAndView.setViewName(device.isNormal() ? "add_order" : MOBILE + "add_order");
 		return modelAndView;
 	}
 
 	@Override
 	// 对一个作品进行下单
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult) {
+	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -100,18 +101,18 @@ public class OrderControllerImpl implements IOrderController {
 		ServiceResult serviceResult = orderService.addOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "下单成功!");
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 
 	@Override
 	// 修改一个订单的状态
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public ModelAndView modifyOrderController(@Valid OrderForModify order, BindingResult bindingResult) {
+	public ModelAndView modifyOrderController(@Valid OrderForModify order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -119,18 +120,18 @@ public class OrderControllerImpl implements IOrderController {
 		ServiceResult serviceResult = orderService.modifyOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "修改成功！");
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 
 	@Override
 	// 删除一个订单
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public ModelAndView removeOrderController(@Valid OrderForRemove order, BindingResult bindingResult) {
+	public ModelAndView removeOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -138,11 +139,11 @@ public class OrderControllerImpl implements IOrderController {
 		ServiceResult serviceResult = orderService.removeOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "删除成功!");
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 

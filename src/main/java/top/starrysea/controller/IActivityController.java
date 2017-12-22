@@ -2,6 +2,7 @@ package top.starrysea.controller;
 
 import java.util.Map;
 
+import org.springframework.mobile.device.Device;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,17 +18,17 @@ public interface IActivityController {
 
 	Map<String, Object> queryAllActivityControllerAjax(ActivityForAll activity);
 
-	ModelAndView queryActivityController(ActivityForOne activity, BindingResult bindingResult);
+	ModelAndView queryActivityController(ActivityForOne activity, BindingResult bindingResult, Device device);
 
 	Map<String, Object> queryActivityControllerAjax(ActivityForOne activity, BindingResult bindingResult);
 
-	ModelAndView addActivityController(MultipartFile coverFile, ActivityForAdd activity, BindingResult bindingResult);
+	ModelAndView addActivityController(MultipartFile coverFile, ActivityForAdd activity, BindingResult bindingResult, Device device);
 
-	ModelAndView modifyActivityController(ActivityForModify activity, BindingResult bindingResult);
+	ModelAndView modifyActivityController(ActivityForModify activity, BindingResult bindingResult, Device device);
 
-	ModelAndView removeActivityController(ActivityForOne activity, BindingResult bindingResult);
+	ModelAndView removeActivityController(ActivityForOne activity, BindingResult bindingResult, Device device);
 
-	ModelAndView addFundingController(FundingForAddList fundings, BindingResult bindingResult);
+	ModelAndView addFundingController(FundingForAddList fundings, BindingResult bindingResult, Device device);
 
-	ModelAndView removeFundingController(FundingForRemove funding, BindingResult bindingResult);
+	ModelAndView removeFundingController(FundingForRemove funding, BindingResult bindingResult, Device device);
 }

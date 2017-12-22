@@ -20,7 +20,7 @@ public class WorkControllerTest {
 	@Test
 	public void queryWorkController() {
 		WorkForOne work = new WorkForOne();
-		ModelAndView modelAndView = workController.queryWorkController(work, null);
+		ModelAndView modelAndView = workController.queryWorkController(work, null,null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}
@@ -47,6 +47,6 @@ public class WorkControllerTest {
 	public void removeWorkController() {
 		WorkForOne work = new WorkForOne();
 		work.setWorkId(1);
-		System.out.println(workController.removeWorkController(work, null));
+		System.out.println(workController.removeWorkController(work, null,null));
 	}
 }

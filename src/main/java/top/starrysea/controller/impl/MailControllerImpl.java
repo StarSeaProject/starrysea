@@ -1,6 +1,7 @@
 package top.starrysea.controller.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +21,7 @@ public class MailControllerImpl implements IMailController {
 	private IMailService mailService;
 
 	@Override
-	public ModelAndView addMailController(OnlineForAdd online, BindingResult bindingResult) {
+	public ModelAndView addMailController(OnlineForAdd online, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
@@ -29,11 +30,11 @@ public class MailControllerImpl implements IMailController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 查询失败则返回错误页面
-			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
 			return modelAndView;
 		}
 		// 添加成功则返回成功页面
-		modelAndView.setViewName(SUCCESS_VIEW);
+		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
 		return modelAndView;
 	}
 
