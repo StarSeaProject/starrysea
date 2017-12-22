@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="utf-8"></meta>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/mycss.css"></link>
+
+<style>
+.heading {
+	background-image: url("/navbar.png");
+}
+
+#btnnav {
+	float: right;
+}
+
+#shownav {
+	float: right;
+}
+
+.abnav {
+	color: #FFFFFF;
+	font-size: 1.5em;
+}
+
+a:hover {
+	color: rgb(7, 251, 251);
+}
+
+.workname {
+	background-color: #eeeeee;
+	color: #23b1f7;
+	padding-top: 35px;
+	padding-bottom: 35px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+.pdfiframe {
+	width: 100%;
+	height: 700px;;
+	border: 0px;
+}
+
+.uploadtime {
+	color: #999999;
+}
+</style>
+</head>
+<body>
+	<div class="container"
+		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
+		<nav class="navbar navbar-brand navbar-static-top heading"
+			role="navigation" id="mybar"
+			style="background-size: 100% 100%; margin: 0%; padding: 0%;">
+
+			<div class="navbar-header">
+
+				<img src="/starsea.png" style="height: 70px; width: 70px;"
+					class="col-sms-4"></img>
+
+				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
+					data-target="#shownav" id="btnnav">
+					<span class="glyphicon glyphicon-menu-hamburger"></span>
+
+				</button>
+			</div>
+			<div class="collapse navbar-collapse navbar-right" id="shownav">
+				<ul class="nav navbar-nav mynavul">
+					<li><a href="/work" class="anav">作品阅览</a></li>
+					<li><a href="/activity" class="anav">活动众筹</a></li>
+					<li><a href="/intro.html" class="anav">组织介绍</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<div class="container checklist">
+
+		<div class="row">
+			<div class="col-xs-4">
+				<img th:attr="src=${work.workCover}" class="img-reponsive"></img>
+			</div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-6">
+				<div class="h1">
+					<h1 th:text="${work.workName}"></h1>
+				</div>
+				<div class="h2" th:text="'上架时间:'+${work.workUploadTime}"></div>
+				<div class="h2" th:text="'点击量:'+${work.workClick}"></div>
+				<div class="h2">
+					<a th:href="@{${work.workPdfpath}}" th:attr="download=${work.workName}">下载链接</a>
+				</div>
+				<div class="h2" id="stock" th:text="'库存:'+${work.workStock}"></div>
+				<button th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
+					class="btn btn-default">确认购买</button>
+			</div>
+		</div>
+	</div>
+	<hr></hr>
+	<div id="workImages" style="text-align: center" class="pdfcontainer">
+		<button id="more_image">更多</button>
+	</div>
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+	<script th:inline="javascript">
+		$(function(){
+			let workImages=[[${workImages}]];
+			console.log(workImages);
+			let str=`<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
+			$("#more_image").before(str);
+			$("#more_image").on("click",()=>{
+				let str=`<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
+				$("#more_image").before(str);
+			});
+			if($("#stock").text()=="库存:0"){
+		        $("#gotoOrder").attr("disabled",true);
+		    }
+		    $("#gotoOrder").on("click", function (event) {
+		        let workId = $(event.target).data("workid");
+		        window.location.href = "/order/toAddOrder?workId=" + workId;
+		    });
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="utf-8"></meta>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/mycss.css"></link>
+
+<style>
+.heading {
+	background-image: url("/navbar.png");
+}
+
+#btnnav {
+	float: right;
+}
+
+#shownav {
+	float: right;
+}
+
+.abnav {
+	color: #FFFFFF;
+	font-size: 1.5em;
+}
+
+a:hover {
+	color: rgb(7, 251, 251);
+}
+
+.imagerow {
+	margin: 15px;
+}
+</style>
+</head>
+
+<body>
+	<div class="container" style="width: 100%; padding: 0;%">
+		<nav class="navbar navbar-brand navbar-static-top heading"
+			role="navigation" id="mybar" style="background-size: 100% 100%">
+
+			<div class="navbar-header">
+
+				<img src="/starsea.png" style="height: 70px; width: 70px;"
+					class="col-sms-4"></img>
+
+				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
+					data-target="#shownav" id="btnnav">
+					<span class="glyphicon glyphicon-menu-hamburger"></span>
+
+				</button>
+			</div>
+			<div class="collapse navbar-collapse navbar-right" id="shownav">
+				<ul class="nav navbar-nav mynavul">
+					<li><a href="/work" class="anav">作品阅览</a></li>
+					<li><a href="/activity" class="anav">活动众筹</a></li>
+					<li><a href="/intro.html" class="anav">组织介绍</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+
+	<div class="container">
+		<table>
+			<thead>
+				<tr>
+					<td></td>
+				</tr>
+			</thead>
+			<tbody id="activitys">
+				<tr th:each="activity:${result}">
+					<td><a th:attr="data-activityid=${activity.activityId}"
+						href="javascript:void(0)" th:text="${activity.activityName}"></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<br />
+		<div id="pages">
+			<a href="javascript:void(0)"
+				th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"></a> <span
+				th:text="${nowPage}"></span> <a href="javascript:void(0)"
+				th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"></a>
+		</div>
+	</div>
+	<form id="activityDetail" action="/activity/detail" method="get">
+		<input id="activityId" type="hidden" name="activityId" />
+	</form>
+
+
+
+
+	<script src="/common.js"></script>
+	<script src="/activity.js"></script>
+
+</body>
+
+</html>

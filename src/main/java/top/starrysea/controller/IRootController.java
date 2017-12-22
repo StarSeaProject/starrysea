@@ -16,7 +16,7 @@ import top.starrysea.object.view.in.WorkForAll;
 
 public interface IRootController {
 
-	ModelAndView index();
+	ModelAndView index(Device device);
 
 	void upload(HttpServletRequest request, HttpServletResponse response, MultipartFile file);
 

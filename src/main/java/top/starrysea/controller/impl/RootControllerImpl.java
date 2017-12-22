@@ -58,8 +58,8 @@ public class RootControllerImpl implements IRootController {
 
 	@Override
 	@RequestMapping("/")
-	public ModelAndView index() {
-		return new ModelAndView("index");
+	public ModelAndView index(Device device) {
+		return new ModelAndView(device.isNormal() ? "index" : MOBILE + "index");
 	}
 
 	@RequestMapping("/intro")

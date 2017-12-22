@@ -1,0 +1,224 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="utf-8"></meta>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/mycss.css"></link>
+
+<style>
+.heading {
+	background-image: url("/navbar.png");
+}
+
+#btnnav {
+	float: right;
+}
+
+#shownav {
+	float: right;
+}
+
+.abnav {
+	color: #FFFFFF;
+	font-size: 1.5em;
+}
+
+a:hover {
+	color: rgb(7, 251, 251);
+}
+
+.imagerow {
+	margin: 15px;
+}
+
+.nowacttitle {
+	
+}
+
+.nowactbutton {
+	padding: 9px;
+	border: 1px solid;
+	border-radius: 12px;
+	border-color: #23b1f7;
+	text-decoration: none;
+	color: #23b1f7;
+}
+
+a.nowactbutton:hover {
+	text-decoration: none;
+	color: #23b1f7;
+}
+
+a.nowactbutton:visited {
+	text-decoration: none;
+	color: #23b1f7;
+}
+
+a.nowactbutton:link {
+	text-decoration: none;
+	color: #23b1f7;
+}
+
+.acttitle {
+	background-color: #eeeeee;
+	color: #23b1f7;
+	height: 70px;
+	clear: both;
+}
+
+.acttitleh3 {
+	padding-top: 10px;
+}
+
+.page {
+	font-size: 1.2em;
+}
+
+.nowpage {
+	font-size: 1.2em;
+}
+
+.pagebutton {
+	border: 1px solid;
+	border-radius: 2px;
+	border-color: #23b1f7;
+	margin-left: 10px;
+	height: 40px;
+}
+</style>
+</head>
+
+<body>
+	<div class="container" style="width: 100%; padding: 0;%">
+		<nav class="navbar navbar-brand navbar-static-top heading"
+			role="navigation" id="mybar" style="background-size: 100% 100%">
+
+			<div class="navbar-header">
+
+				<img src="/starsea.png" style="height: 70px; width: 70px;"
+					class="col-sms-4"></img>
+
+				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
+					data-target="#shownav" id="btnnav">
+					<span class="glyphicon glyphicon-menu-hamburger"></span>
+
+				</button>
+			</div>
+			<div class="collapse navbar-collapse navbar-right" id="shownav">
+				<ul class="nav navbar-nav mynavul">
+					<li><a href="/work" class="anav">作品阅览</a></li>
+					<li><a href="/activity" class="anav">活动众筹</a></li>
+					<li><a href="/intro.html" class="anav">组织介绍</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+
+	<div class="container">
+		<div class="nowactbox">
+			<div class="nowactimg  col-xs-3">
+				<img th:attr="src=${newResult.activityCover}" src=""
+					class="img-reponsive"></img>
+			</div>
+			<div class="nowactdetail col-xs-9">
+				<h3 th:text="${newResult.activityName}" class="h3 nowacttitle">当前活动名</h3>
+				<br></br> <br></br> <br></br>
+				<p th:text="${newResult.activitySummary}" class="p nowactdetail">几句话来介绍当前的活动</p>
+				<br></br> <br></br> <br></br> <a
+					th:attr="data-activityid=${newResult.activityId}"
+					class="a nowactbutton" href="javascript:void(0)">点击打开详情页面</a>
+			</div>
+			<br /> <br /> <br />
+		</div>
+	</div>
+	<br />
+	<br />
+	<div class="acttitle text-ceter">
+		<h3 class="h3 acttitleh3 text-center">往期活动</h3>
+	</div>
+	<br />
+	<br />
+	<div class="container">
+		<div class="activityclass" id="activitys">
+
+			<div class="actlist" th:each="activity:${result}">
+				<div class="actbox row">
+					<div class="col-xs-3 actimg">
+						<img class="img-reponsive"></img>
+					</div>
+					<div class="col-xs-3 actname">
+						<p th:text="${activity.activityName}" class="lead"></p>
+					</div>
+					<div class="col-xs-3 endtime">
+						<p th:text="${activity.activityEndtime}">活动结束日期</p>
+					</div>
+					<div class="col-xs-3 actdetail">
+						<a class="detailbutton btn-lg"> <span
+							th:attr="data-activityid=${activity.activityId}"
+							class="glyphicon glyphicon-circle-arrow-right"></span>
+						</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<br />
+		<div class="pagebox col-md-4"></div>
+		<div id="pages" class="pagebox row col-md-4 ">
+			<div class="col-xs-3 pagebutton" id="frontbox">
+				<a href="javascript:void(0)" class="page" id="front"
+					th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"> </a>
+				<script type="text/javascript">
+					var x = document.getElementById("front");
+					if (x.innerHTML == "") {
+						$("#frontbox").hide();
+
+					}
+				</script>
+			</div>
+			<div class="col-xs-3 pagebutton">
+				<span class="nowpage" th:text="${nowPage}"> </span>
+			</div>
+			<div class="col-xs-3 pagebutton" id="backbox">
+				<a href="javascript:void(0)" class="page" id="back"
+					th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"> </a>
+			</div>
+			<script type="text/javascript">
+				var x = document.getElementById("back");
+				if (x.innerHTML == "") {
+					$("#backbox").hide();
+
+				}
+			</script>
+		</div>
+		<div class="pagebox col-md-4"></div>
+	</div>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<form id="activityDetail" action="/activity/detail" method="get">
+		<input id="activityId" type="hidden" name="activityId" />
+	</form>
+
+
+
+
+	<script src="/common.js"></script>
+	<script src="/activity.js"></script>
+
+</body>
+
+</html>
