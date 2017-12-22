@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,43 +16,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import top.starrysea.common.Condition;
-import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IRootController;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;
 import top.starrysea.file.FileUtil;
-import top.starrysea.object.dto.Activity;
-import top.starrysea.object.dto.Orders;
-import top.starrysea.object.dto.Work;
-import top.starrysea.object.view.in.ActivityForAll;
-import top.starrysea.object.view.in.OrderForAll;
-import top.starrysea.object.view.in.WorkForAll;
-import top.starrysea.service.IActivityService;
-import top.starrysea.service.IOrderService;
-import top.starrysea.service.IWorkService;
 
 @Controller
 public class RootControllerImpl implements IRootController {
 
 	@Autowired
 	private FileUtil fileUtil;
-	@Autowired
-	private IWorkService workService;
-	@Autowired
-	private IActivityService activityService;
-	@Autowired
-	private IOrderService orderService;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Override
@@ -97,69 +76,4 @@ public class RootControllerImpl implements IRootController {
 		}
 	}
 
-	@Override
-	@RequestMapping(value = "/work", method = RequestMethod.GET)
-	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
-	public ModelAndView queryAllWorkController(Condition condition, WorkForAll work, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
-			return modelAndView;
-		}
-		List<Work> result = serviceResult.getResult(List.class);
-		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
-				.collect(Collectors.toList());
-		modelAndView.addObject("result", voResult);
-		modelAndView.addObject("nowPage", serviceResult.getNowPage());
-		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName(device.isNormal() ? "work" : MOBILE + "work");
-		return modelAndView;
-	}
-
-	@Override
-	// 查询所有众筹活动
-	@RequestMapping(value = "/activity", method = RequestMethod.GET)
-	public ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			// 查询失败则返回错误页面
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
-		List<Activity> result = serviceResult.getResult(List.class);
-		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
-				.collect(Collectors.toList());
-		modelAndView.addObject("newResult", voResult.get(0));
-		modelAndView.addObject("result", voResult.subList(1, voResult.size()));
-		modelAndView.addObject("nowPage", serviceResult.getNowPage());
-		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		// 返回众筹活动的列表页
-		modelAndView.setViewName(device.isNormal() ? "all_activity" : MOBILE + "all_activity");
-		return modelAndView;
-	}
-
-	@Override
-	// 查询所有的订单
-	@RequestMapping(value = "/order", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> queryAllOrderController(@RequestBody OrderForAll order) {
-		Map<String, Object> theResult = new HashMap<>();
-		ServiceResult serviceResult = orderService.queryAllOrderService(order.getCondition(), order.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			return theResult;
-		}
-		List<Orders> result = serviceResult.getResult(List.class);
-		List<top.starrysea.object.view.out.OrderForAll> voResult = result.stream().map(Orders::toVoForAll)
-				.collect(Collectors.toList());
-		theResult.put("orderName", order.getOrderName());
-		theResult.put("result", voResult);
-		theResult.put("nowPage", serviceResult.getNowPage());
-		theResult.put("totalPage", serviceResult.getTotalPage());
-		return theResult;
-	}
 }

@@ -23,6 +23,7 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IOrderController;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.view.in.OrderForAdd;
+import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
@@ -32,15 +33,35 @@ import top.starrysea.service.IOrderService;
 import static top.starrysea.common.Const.*;
 
 @Controller
-@RequestMapping(value = "/order")
 public class OrderControllerImpl implements IOrderController {
 
 	@Autowired
 	private IOrderService orderService;
 
 	@Override
+	// 查询所有的订单
+	@RequestMapping(value = "/order", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> queryAllOrderController(@RequestBody OrderForAll order) {
+		Map<String, Object> theResult = new HashMap<>();
+		ServiceResult serviceResult = orderService.queryAllOrderService(order.getCondition(), order.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			theResult.put(ERRINFO, serviceResult.getErrInfo());
+			return theResult;
+		}
+		List<Orders> result = serviceResult.getResult(List.class);
+		List<top.starrysea.object.view.out.OrderForAll> voResult = result.stream().map(Orders::toVoForAll)
+				.collect(Collectors.toList());
+		theResult.put("orderName", order.getOrderName());
+		theResult.put("result", voResult);
+		theResult.put("nowPage", serviceResult.getNowPage());
+		theResult.put("totalPage", serviceResult.getTotalPage());
+		return theResult;
+	}
+	
+	@Override
 	// 根据订单号查询一个订单的具体信息以及发货情况
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/order/{orderNum}", method = RequestMethod.GET)
 	public ModelAndView queryOrderController(@Valid OrderForOne order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
@@ -60,7 +81,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 根据订单号查询一个订单的具体信息以及发货情况
-	@RequestMapping(value = "/detail/ajax", method = RequestMethod.POST)
+	@RequestMapping(value = "/order/detail/ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> queryOrderControllerAjax(@RequestBody @Valid OrderForRemove order,
 			BindingResult bindingResult) {
@@ -82,7 +103,7 @@ public class OrderControllerImpl implements IOrderController {
 		return theResult;
 	}
 
-	@RequestMapping(value = "/toAddOrder", method = RequestMethod.GET)
+	@RequestMapping(value = "/order/toAddOrder", method = RequestMethod.GET)
 	public ModelAndView gotoAddOrder(@Valid WorkForOne work, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("workId", work.getWorkId());
@@ -92,7 +113,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 对一个作品进行下单
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/order/add", method = RequestMethod.POST)
 	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
@@ -111,7 +132,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 修改一个订单的状态
-	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	@RequestMapping(value = "/order/modify", method = RequestMethod.POST)
 	public ModelAndView modifyOrderController(@Valid OrderForModify order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
@@ -130,7 +151,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 删除一个订单
-	@RequestMapping(value = "/remove", method = RequestMethod.POST)
+	@RequestMapping(value = "/order/remove", method = RequestMethod.POST)
 	public ModelAndView removeOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);

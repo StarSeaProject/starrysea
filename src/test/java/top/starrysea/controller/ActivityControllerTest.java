@@ -12,7 +12,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.StarrtseaApplication;
+import top.starrysea.common.Condition;
 import top.starrysea.object.view.in.ActivityForAdd;
+import top.starrysea.object.view.in.ActivityForAll;
 import top.starrysea.object.view.in.ActivityForModify;
 import top.starrysea.object.view.in.ActivityForOne;
 import top.starrysea.object.view.in.ActivityImageForAdd;
@@ -24,6 +26,16 @@ public class ActivityControllerTest {
 	@Autowired
 	private IActivityController controller;
 
+	@Test
+	public void queryAllActivityController() {
+		Condition condition = new Condition();
+		condition.setPage(1);
+		ActivityForAll activity = new ActivityForAll();
+		ModelAndView modelAndView = controller.queryAllActivityController(condition, activity,null);
+		System.out.println(modelAndView.getViewName());
+		System.out.println(modelAndView.getModel());
+	}
+	
 	@Test
 	public void queryActivityController() {
 		ActivityForOne activity = new ActivityForOne();

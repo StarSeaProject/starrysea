@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Common;
+import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IActivityController;
 import top.starrysea.object.dto.Activity;
@@ -36,7 +37,6 @@ import top.starrysea.service.IActivityService;
 import static top.starrysea.common.Const.*;
 
 @Controller
-@RequestMapping("/activity")
 public class ActivityControllerImpl implements IActivityController {
 
 	@Autowired
@@ -44,7 +44,31 @@ public class ActivityControllerImpl implements IActivityController {
 
 	@Override
 	// 查询所有众筹活动
-	@RequestMapping(value = "/ajax", method = RequestMethod.POST)
+	@RequestMapping(value = "/activity", method = RequestMethod.GET)
+	public ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity, Device device) {
+		ModelAndView modelAndView = new ModelAndView();
+		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			// 查询失败则返回错误页面
+			modelAndView.setViewName(ERROR_VIEW);
+			return modelAndView;
+		}
+		List<Activity> result = serviceResult.getResult(List.class);
+		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
+				.collect(Collectors.toList());
+		modelAndView.addObject("newResult", voResult.get(0));
+		modelAndView.addObject("result", voResult.subList(1, voResult.size()));
+		modelAndView.addObject("nowPage", serviceResult.getNowPage());
+		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
+		// 返回众筹活动的列表页
+		modelAndView.setViewName(device.isNormal() ? "all_activity" : MOBILE + "all_activity");
+		return modelAndView;
+	}
+	
+	@Override
+	// 查询所有众筹活动
+	@RequestMapping(value = "/activity/ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> queryAllActivityControllerAjax(@RequestBody ActivityForAll activity) {
 		Map<String, Object> theResult = new HashMap<>();
@@ -66,7 +90,7 @@ public class ActivityControllerImpl implements IActivityController {
 
 	@Override
 	// 查询一个众筹活动的详情页
-	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/activity/{activityId}", method = RequestMethod.GET)
 	public ModelAndView queryActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
 			Device device) {
 		if (bindingResult.hasErrors()) {
@@ -90,7 +114,7 @@ public class ActivityControllerImpl implements IActivityController {
 
 	@Override
 	// 查询一个众筹活动的详情页
-	@RequestMapping(value = "/detail/ajax", method = RequestMethod.POST)
+	@RequestMapping(value = "/activity/detail/ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> queryActivityControllerAjax(@RequestBody @Valid ActivityForOne activity,
 			BindingResult bindingResult) {
@@ -117,7 +141,7 @@ public class ActivityControllerImpl implements IActivityController {
 
 	@Override
 	// 添加一个众筹活动
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/activity/add", method = RequestMethod.POST)
 	public ModelAndView addActivityController(@RequestParam("coverFile") MultipartFile coverFile,
 			@Valid ActivityForAdd activity, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
@@ -140,7 +164,7 @@ public class ActivityControllerImpl implements IActivityController {
 
 	@Override
 	// 修改一个众筹活动的状态
-	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	@RequestMapping(value = "/activity/modify", method = RequestMethod.POST)
 	public ModelAndView modifyActivityController(@Valid ActivityForModify activity, BindingResult bindingResult,
 			Device device) {
 		if (bindingResult.hasErrors()) {
@@ -162,7 +186,7 @@ public class ActivityControllerImpl implements IActivityController {
 
 	@Override
 	// 删除一个众筹活动
-	@RequestMapping(value = "/remove", method = RequestMethod.POST)
+	@RequestMapping(value = "/activity/remove", method = RequestMethod.POST)
 	public ModelAndView removeActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
 			Device device) {
 		if (bindingResult.hasErrors()) {
@@ -183,7 +207,7 @@ public class ActivityControllerImpl implements IActivityController {
 	}
 
 	@Override
-	@RequestMapping(value = "/funding/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/activity/funding/add", method = RequestMethod.POST)
 	public ModelAndView addFundingController(@Valid FundingForAddList fundings, BindingResult bindingResult,
 			Device device) {
 		if (bindingResult.hasErrors()) {
@@ -208,7 +232,7 @@ public class ActivityControllerImpl implements IActivityController {
 	}
 
 	@Override
-	@RequestMapping(value = "/funding/remove", method = RequestMethod.POST)
+	@RequestMapping(value = "/activity/funding/remove", method = RequestMethod.POST)
 	public ModelAndView removeFundingController(@Valid FundingForRemove funding, BindingResult bindingResult,
 			Device device) {
 		if (bindingResult.hasErrors()) {

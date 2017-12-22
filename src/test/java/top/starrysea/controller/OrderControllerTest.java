@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.StarrtseaApplication;
 import top.starrysea.object.view.in.OrderForAdd;
+import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
@@ -20,6 +21,13 @@ public class OrderControllerTest {
 	@Autowired
 	private IOrderController orderController;
 
+	@Test
+	public void queryAllOrderController() {
+		OrderForAll order = new OrderForAll();
+		order.setPage(1);
+		System.out.println(orderController.queryAllOrderController(order));
+	}
+	
 	@Test
 	public void queryOrderController() {
 		OrderForOne order = new OrderForOne();

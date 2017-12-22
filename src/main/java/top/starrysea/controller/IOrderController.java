@@ -7,12 +7,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.object.view.in.OrderForAdd;
+import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
 
 public interface IOrderController {
 
+	Map<String, Object> queryAllOrderController(OrderForAll order);
+	
 	ModelAndView queryOrderController(OrderForOne order, BindingResult bindingResult, Device device);
 
 	Map<String, Object> queryOrderControllerAjax(OrderForRemove order, BindingResult bindingResult);
