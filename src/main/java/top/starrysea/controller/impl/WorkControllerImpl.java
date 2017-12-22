@@ -73,7 +73,9 @@ public class WorkControllerImpl implements IWorkController {
 			return modelAndView;
 		}
 		Work w = serviceResult.getResult(Work.class);
+		w.setWorkStock(serviceResult.getResult(Integer.class));
 		modelAndView.addObject("work", w.toVoForOne());
+		modelAndView.addObject("workId", work.getWorkId());
 		modelAndView.addObject("workImages", serviceResult.getResult(List.class));
 		modelAndView.setViewName("work_detail");
 		return modelAndView;

@@ -15,10 +15,6 @@ import top.starrysea.object.view.in.WorkForOne;
 
 public interface IOrderController {
 
-	ModelAndView queryAllWorkForOrderController(Condition condition, WorkForAll work);
-
-	ModelAndView queryWorkForOrderController(WorkForOne work, BindingResult bindingResult);
-
 	ModelAndView queryOrderController(OrderForOne order, BindingResult bindingResult);
 
 	Map<String, Object> queryOrderControllerAjax(OrderForRemove order, BindingResult bindingResult);

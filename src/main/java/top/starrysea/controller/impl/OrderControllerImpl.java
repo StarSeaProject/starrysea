@@ -18,19 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Common;
-import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IOrderController;
 import top.starrysea.object.dto.Orders;
-import top.starrysea.object.dto.Work;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
-import top.starrysea.object.view.in.WorkForAll;
 import top.starrysea.object.view.in.WorkForOne;
 import top.starrysea.service.IOrderService;
-import top.starrysea.service.IWorkService;
 
 import static top.starrysea.common.Const.*;
 
@@ -40,52 +36,6 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Autowired
 	private IOrderService orderService;
-	@Autowired
-	private IWorkService workService;
-
-	@Override
-	// 查询所有的作品
-	@RequestMapping(value = "/getWorks", method = RequestMethod.GET)
-	public ModelAndView queryAllWorkForOrderController(Condition condition, WorkForAll work) {
-		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
-		List<Work> result = serviceResult.getResult(List.class);
-		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
-				.collect(Collectors.toList());
-		modelAndView.addObject("result", voResult);
-		modelAndView.addObject("nowPage", serviceResult.getNowPage());
-		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName("work_orders");
-		return modelAndView;
-	}
-
-	@Override
-	// 查询作品详情
-	@RequestMapping(value = "/getWork", method = RequestMethod.GET)
-	public ModelAndView queryWorkForOrderController(@Valid WorkForOne work, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
-		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
-		Work w = serviceResult.getResult(Work.class);
-		w.setWorkStock(serviceResult.getResult(Integer.class));
-		modelAndView.addObject("work", w.toVoForOne());
-		modelAndView.addObject("workId", work.getWorkId());
-		modelAndView.addObject("workImages", serviceResult.getResult(List.class));
-		modelAndView.setViewName("work_detail_orders");
-		return modelAndView;
-	}
 
 	@Override
 	// 根据订单号查询一个订单的具体信息以及发货情况

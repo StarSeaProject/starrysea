@@ -31,7 +31,7 @@ public class OrderDaoImpl implements IOrderDao {
 	// 根据订单号查询一个订单
 	public DaoResult getOrderDao(Orders order) {
 		if (isNotNull(order.getOrderNum())) {
-			String sql = "SELECT order_name,w.work_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum "
+			String sql = "SELECT order_name,w.work_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum,order_time "
 					+ "FROM orders AS o " + "LEFT JOIN area AS a " + "ON o.order_area = a.area_id "
 					+ "LEFT JOIN city AS c " + "ON a.city_id=c.city_id " + "LEFT JOIN province AS p "
 					+ "ON c.province_id = p.province_id " + "LEFT JOIN work AS w " + " ON o.work_id = w.work_id "
@@ -44,10 +44,11 @@ public class OrderDaoImpl implements IOrderDao {
 											.province(new Province(null, rs.getString("province_name"))).build())
 									.build())
 							.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
-							.orderExpressnum(rs.getString("order_expressnum")).build());
+							.orderExpressnum(rs.getString("order_expressnum")).orderTime(rs.getLong("order_time"))
+							.build());
 			return new DaoResult(true, theResult);
 		} else if (isNotNull(order.getOrderId())) {
-			String sql = "SELECT order_name,w.work_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum "
+			String sql = "SELECT order_name,w.work_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum,order_time "
 					+ "FROM orders AS o " + "LEFT JOIN area AS a " + "ON o.order_area = a.area_id "
 					+ "LEFT JOIN city AS c " + "ON a.city_id=c.city_id " + "LEFT JOIN province AS p "
 					+ "ON c.province_id = p.province_id " + "LEFT JOIN work AS w " + " ON o.work_id = w.work_id "
@@ -60,7 +61,8 @@ public class OrderDaoImpl implements IOrderDao {
 											.province(new Province(null, rs.getString("province_name"))).build())
 									.build())
 							.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
-							.orderExpressnum(rs.getString("order_expressnum")).build());
+							.orderExpressnum(rs.getString("order_expressnum")).orderTime(rs.getLong("order_time"))
+							.build());
 			return new DaoResult(true, theResult);
 		}
 		return new DaoResult(false, "订单号和订单id不能同时为空");

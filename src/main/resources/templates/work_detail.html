@@ -79,21 +79,32 @@ a:hover {
 				<ul class="nav navbar-nav mynavul">
 					<li><a href="/work" class="anav">作品阅览</a></li>
 					<li><a href="/activity" class="anav">活动众筹</a></li>
-					<li><a href="/order/getWorks" class="anav">旧货处理</a></li>
 					<li><a href="/intro.html" class="anav">组织介绍</a></li>
 				</ul>
 			</div>
 		</nav>
 	</div>
-	<div class="pagetitle">
-		<h1 th:text="${work.workName}" class="h1 workname text-center"></h1>
-		<h4
-			th:text="'上传时间:'+${work.workUploadTime}+'&nbsp;&nbsp;点击量:'+${work.workClick}"
-			class=" uploadtime text-center"></h4>
-		<h4 style="text-align: center">
-			<a th:href="@{${work.workPdfpath}}"
-				th:attr="download=${work.workName}">下载链接</a>
-		</h4>
+	<div class="container checklist">
+
+		<div class="row">
+			<div class="col-xs-4">
+				<img th:attr="src=${work.workCover}" class="img-reponsive"></img>
+			</div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-6">
+				<div class="h1">
+					<h1 th:text="${work.workName}"></h1>
+				</div>
+				<div class="h2" th:text="'上架时间:'+${work.workUploadTime}"></div>
+				<div class="h2" th:text="'点击量:'+${work.workClick}"></div>
+				<div class="h2">
+					<a th:href="@{${work.workPdfpath}}" th:attr="download=${work.workName}">下载链接</a>
+				</div>
+				<div class="h2" id="stock" th:text="'库存:'+${work.workStock}"></div>
+				<button th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
+					class="btn btn-default">确认购买</button>
+			</div>
+		</div>
 	</div>
 	<hr></hr>
 	<div id="workImages" style="text-align: center" class="pdfcontainer">
@@ -110,6 +121,13 @@ a:hover {
 				let str=`<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
 				$("#more_image").before(str);
 			});
+			if($("#stock").text()=="库存:0"){
+		        $("#gotoOrder").attr("disabled",true);
+		    }
+		    $("#gotoOrder").on("click", function (event) {
+		        let workId = $(event.target).data("workid");
+		        window.location.href = "/order/toAddOrder?workId=" + workId;
+		    });
 		});
 	</script>
 </body>
