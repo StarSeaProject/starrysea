@@ -13,6 +13,7 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
 				"/activity/add", "/activity/modify", "/activity/remove", "/activity/funding/add",
 				"/activity/funding/remove", "/order", "/order/modify", "/order/remove");
 		registry.addInterceptor(new AfterLoginInterceptor()).addPathPatterns("/user/login");
+		registry.addInterceptor(new ErrorInterceptor()).addPathPatterns("/**");
 		super.addInterceptors(registry);
 	}
 }
