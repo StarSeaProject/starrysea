@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-<title>星之海志愿者公会</title>
+<title></title>
 <link rel="stylesheet"
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
 <link rel="stylesheet"
@@ -17,7 +17,9 @@
 
 <style>
 .heading {
-	background-image: url("/navbar.png");
+	background-image: url("/navbar.jpg");
+	height:320px;
+	background-repeat:no-repeat;
 }
 
 #btnnav {
@@ -38,8 +40,8 @@ a:hover {
 }
 
 .pagetitle {
-	background-color: #eeeeee;
-	color: #23b1f7;
+	
+	color: #238acb;
 	padding-top: 35px;
 	padding-bottom: 35px;
 	margin-top: 0px;
@@ -90,6 +92,18 @@ a.detailhref:link {
 	text-decoration: none;
 	color: #23b1f7;
 }
+.footbar{
+	background-image:url("wavew.png");
+	background-repeat: repeat-x;
+	height:120px;
+	backgroud:#409cc3;
+}
+.pagecontain{
+	background-image:url("002.png");
+	background-repeat: no-repeat;
+	background-position:300px 400px;
+	height:1200px;
+}
 </style>
 </head>
 
@@ -98,7 +112,7 @@ a.detailhref:link {
 		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
 		<nav class="navbar navbar-brand navbar-static-top heading"
 			role="navigation" id="mybar"
-			style="background-size: 100% 100%; margin: 0%; padding: 0%;">
+			style="background-size: 99% 102%; margin:15px; padding: 10px;">
 
 			<div class="navbar-header">
 
@@ -136,19 +150,25 @@ a.detailhref:link {
 						<div class="col-xs-9 workdetail">
 							<p th:text="${work.workName}" class="h3 worktitle"></p>
 							<p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
-							<a class="h4 detailhref" th:href="@{'/work/'+${work.workId}}">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
+							<a th:attr="data-workid=${work.workId}" class="h4 detailhref"
+								href="javascript:void(0)">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
 						</div>
 					</div>
 					<hr />
 				</div>
 			</div>
 		</div>
-		<form id="workDetail" action="" method="get"></form>
+		<form id="workDetail" action="/work/detail" method="get">
+			<input id="workId" type="hidden" name="workId" />
+		</form>
 		<div class="weibo col-md-3">
 			<iframe id="weibo" style="width: 80%; height: 500px;" frameborder="0"
 				scrolling="no"
 				src="http://v.t.sina.com.cn/widget/widget_blog.php?uid=6241874149"></iframe>
 		</div>
+	</div>
+	<div class="footbar text-center">
+		<p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
 	<script src="/common.js"></script>
 	<script src="/read.js"></script>

@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-<title>星之海志愿者公会</title>
+<title></title>
 <link rel="stylesheet"
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
 <link rel="stylesheet"
@@ -17,7 +17,9 @@
 
 <style>
 .heading {
-	background-image: url("/navbar.png");
+	background-image: url("/navbar.jpg");
+	height:320px;
+	background-repeat:no-repeat;
 }
 
 #btnnav {
@@ -95,13 +97,26 @@ a.nowactbutton:link {
 	margin-left: 10px;
 	height: 40px;
 }
+.footbar{
+	background-image:url("wavew.png");
+	background-repeat: repeat-x;
+	height:120px;
+	backgroud:#409cc3;
+}
+.pagecontain{
+	background-image:url("002.png");
+	background-repeat: no-repeat;
+	background-position:300px 300px;
+	height:800px;
+}
 </style>
 </head>
 
 <body>
 	<div class="container" style="width: 100%; padding: 0;%">
 		<nav class="navbar navbar-brand navbar-static-top heading"
-			role="navigation" id="mybar" style="background-size: 100% 100%">
+			role="navigation" id="mybar"
+			style="background-size: 99% 102%; margin:15px; padding: 10px;">
 
 			<div class="navbar-header">
 
@@ -123,7 +138,8 @@ a.nowactbutton:link {
 			</div>
 		</nav>
 	</div>
-
+	<br/>
+	<br/>
 	<div class="container">
 		<div class="nowactbox">
 			<div class="nowactimg  col-xs-3">
@@ -134,7 +150,9 @@ a.nowactbutton:link {
 				<h3 th:text="${newResult.activityName}" class="h3 nowacttitle">当前活动名</h3>
 				<br></br> <br></br> <br></br>
 				<p th:text="${newResult.activitySummary}" class="p nowactdetail">几句话来介绍当前的活动</p>
-				<br></br> <br></br> <br></br> <a th:href="@{'/activity/'+${newResult.activityId}}" class="a nowactbutton">点击打开详情页面</a>
+				<br></br> <br></br> <br></br> <a
+					th:attr="data-activityid=${newResult.activityId}"
+					class="a nowactbutton" href="javascript:void(0)">点击打开详情页面</a>
 			</div>
 			<br /> <br /> <br />
 		</div>
@@ -146,7 +164,7 @@ a.nowactbutton:link {
 	</div>
 	<br />
 	<br />
-	<div class="container">
+	<div class="container pagecontain">
 		<div class="activityclass" id="activitys">
 
 			<div class="actlist" th:each="activity:${result}">
@@ -202,11 +220,22 @@ a.nowactbutton:link {
 		</div>
 		<div class="pagebox col-md-4"></div>
 	</div>
+
 	<br />
 	<br />
 	<br />
 	<br />
 	<br />
+	<div class="footbar text-center">
+		<p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
+	</div>
+	<form id="activityDetail" action="/activity/detail" method="get">
+		<input id="activityId" type="hidden" name="activityId" />
+	</form>
+
+
+
+
 	<script src="/common.js"></script>
 	<script src="/activity.js"></script>
 
