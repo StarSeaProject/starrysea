@@ -17,12 +17,34 @@
 
 <style>
 .heading {
-	background-image: url("/navbar.png");
+	background-image: url("/navbar.jpg");
+	height:360px;
+	background-repeat:no-repeat;
 }
 
 #btnnav {
 	float: right;
 }
+.myli{
+	color:#fff;
+}
+.myli:hover{
+	text-decoration:underline;	
+}
+.footbar{
+	background-image:url("/wavew.png");
+	background-repeat: repeat-x;
+	height:120px;
+	backgroud:#409cc3;
+}
+.navimg{
+transition: all 0.6s;
+}
+.navimg:hover{
+ transform: scale(1.4);
+}
+
+
 
 #shownav {
 	float: right;
@@ -36,6 +58,7 @@
 a:hover {
 	color: rgb(7, 251, 251);
 }
+
 
 .head {
 	background-color: #eeeeee;
@@ -82,17 +105,17 @@ a:hover {
 </script>
 </head>
 <body>
-	<div class="container"
+<div class="container"
 		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
 		<nav class="navbar navbar-brand navbar-static-top heading"
 			role="navigation" id="mybar"
-			style="background-size: 100% 100%; margin: 0%; padding: 0%;">
+			style="background-size: 99% 101%; margin:15px; padding: 10px;">
 
-			<div class="navbar-header">
-
+			<div class="navbar-header" style="padding-left: 25px; padding-top: 10px;">
+				<a href="/" class="navimg">
 				<img src="/starsea.png" style="height: 70px; width: 70px;"
-					class="col-sms-4"></img>
-
+					class="col-sms-4 navimg"></img>
+				</a>
 				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
 					data-target="#shownav" id="btnnav">
 					<span class="glyphicon glyphicon-menu-hamburger"></span>
@@ -101,14 +124,13 @@ a:hover {
 			</div>
 			<div class="collapse navbar-collapse navbar-right" id="shownav">
 				<ul class="nav navbar-nav mynavul">
-					<li><a href="/work" class="anav">作品阅览</a></li>
-					<li><a href="/activity" class="anav">活动众筹</a></li>
-					<li><a href="/intro.html" class="anav">组织介绍</a></li>
+					<li class="myli"><a href="/work" class="anav">作品阅览</a></li>
+					<li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
+					<li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
 				</ul>
 			</div>
 		</nav>
 	</div>
-
 	<div class="head">
 		<h1 th:text="${activity.activityName}" class="headh1"></h1>
 	</div>
@@ -132,6 +154,8 @@ a:hover {
 			</ul>
 		</div>
 	</div>
-
+	<div class="footbar text-center">
+		<p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
+	</div>
 </body>
 </html>
