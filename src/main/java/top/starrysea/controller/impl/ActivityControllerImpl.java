@@ -105,7 +105,6 @@ public class ActivityControllerImpl implements IActivityController {
 			return modelAndView;
 		}
 		Activity a = serviceResult.getResult(Activity.class);
-		modelAndView.addObject("activityId", activity.getActivityId());
 		modelAndView.addObject("activity", a.toVoForOne());
 		modelAndView.addObject("fundings", serviceResult.getResult(List.class));
 		// 返回众筹活动的详细页
