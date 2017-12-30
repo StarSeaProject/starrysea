@@ -16,32 +16,51 @@
 <link rel="stylesheet" href="/mycss.css"></link>
 
 <style>
-.heading {
-	background-image: url("/navbar.png");
+.navbartop {
+	width: 100%;
+	background:#1e93f3;
+}
+.ma{
+	margin-top:20px;
+	margin-left:10px;
+	margin-bottom:-4px;
+	color:white;
+	display: inline-block;
+	font-size:1.2em;
+}
+.mfoot{
+	background-image:url("/wavew.png");
+	background-repeat: repeat-x;
+	height:120px;
+	backgroud:#409cc3;
+}
+.pagetitle {
+	background-color:#f69163;
+	color: #ffffff;
+	padding-top: 20px;
+	padding-bottom: 35px;
+	margin-top: 0px;
+	margin-bottom: 10px;
 }
 
-#btnnav {
-	float: right;
+.pagetitleh1 {
+	padding-left: 40px;
+	margin: 0px;
 }
 
-#shownav {
-	float: right;
+.pagetitleh2 {
+	padding-left: 40px;
+	margin: 0px;
+	color: #000;
 }
-
-.abnav {
-	color: #FFFFFF;
-	font-size: 1.5em;
-}
-
-a:hover {
-	color: rgb(7, 251, 251);
-}
-
 .imagerow {
 	margin: 15px;
 }
-
-.nowacttitle {
+.nowactbox{
+	height:270px;
+}
+.nowactbox,.nowactimg,.nowactdetail{
+	background:#a9d6f5;
 	
 }
 
@@ -52,6 +71,7 @@ a:hover {
 	border-color: #23b1f7;
 	text-decoration: none;
 	color: #23b1f7;
+	background:white;
 }
 
 a.nowactbutton:hover {
@@ -99,38 +119,29 @@ a.nowactbutton:link {
 </head>
 
 <body>
-	<div class="container" style="width: 100%; padding: 0;%">
-		<nav class="navbar navbar-brand navbar-static-top heading"
-			role="navigation" id="mybar" style="background-size: 100% 100%">
-
-			<div class="navbar-header">
-
-				<img src="/starsea.png" style="height: 70px; width: 70px;"
-					class="col-sms-4"></img>
-
-				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
-					data-target="#shownav" id="btnnav">
-					<span class="glyphicon glyphicon-menu-hamburger"></span>
-
-				</button>
-			</div>
-			<div class="collapse navbar-collapse navbar-right" id="shownav">
-				<ul class="nav navbar-nav mynavul">
-					<li><a href="/work" class="anav">作品阅览</a></li>
-					<li><a href="/activity" class="anav">活动众筹</a></li>
-					<li><a href="/intro.html" class="anav">组织介绍</a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
-
-	<div class="container">
-		<div class="nowactbox">
-			<div class="nowactimg  col-xs-3">
-				<img th:attr="src=${newResult.activityCover}" src=""
+	<div class="navbartop" style="clear: both">
+			<div class="navbar-header col-xs-3">
+				<img src="starsea.png" style="height: 70px; width: 70px;"
 					class="img-reponsive"></img>
 			</div>
-			<div class="nowactdetail col-xs-9">
+			<div class="navbar-right col-xs-9 text-right">
+				<a href="/work" class="ma text-right">作品阅览</a>
+				<a href="/activity" class="ma text-right">活动众筹</a>
+				<a href="/intro.html" class="ma text-right">组织介绍</a>
+				<hr style="coloe:white"></hr>
+			</div>
+			<img class="img-reponsive" src="navbar.jpg"></img>
+	</div>
+	<div class="pagetitle">
+		<h1 class="h1 pagetitleh1">活动众筹</h1>
+		<h2 class="h2 pagetitleh2">Crowd Raising</h2>
+	</div>
+		<div class="nowactbox">
+			<div class="nowactimg  col-xs-5">
+				<img th:attr="src=${newResult.activityCover}"
+					class="img-reponsive"></img>
+			</div>
+			<div class="nowactdetail col-xs-7">
 				<h3 th:text="${newResult.activityName}" class="h3 nowacttitle">当前活动名</h3>
 				<br></br> <br></br> <br></br>
 				<p th:text="${newResult.activitySummary}" class="p nowactdetail">几句话来介绍当前的活动</p>
@@ -140,14 +151,10 @@ a.nowactbutton:link {
 			</div>
 			<br /> <br /> <br />
 		</div>
-	</div>
 	<br />
 	<br />
-	<div class="acttitle text-ceter">
-		<h3 class="h3 acttitleh3 text-center">往期活动</h3>
-	</div>
-	<br />
-	<br />
+	<br /> 
+
 	<div class="container">
 		<div class="activityclass" id="activitys">
 
@@ -215,7 +222,9 @@ a.nowactbutton:link {
 
 
 
-
+	<div class="mfoot text-center">
+	<p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
+	</div>
 	<script src="/common.js"></script>
 	<script src="/activity.js"></script>
 
