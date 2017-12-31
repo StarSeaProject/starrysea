@@ -123,18 +123,13 @@ a.detailhref:link {
 						<div class="col-xs-9 workdetail">
 							<p th:text="${work.workName}" class="h3 worktitle"></p>
 							<p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
-							<a th:attr="data-workid=${work.workId}" class="h4 detailhref"
-								href="javascript:void(0)">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
+							<a class="h4 detailhref" th:href="@{'/work/'+${work.workId}}">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
 						</div>
 					</div>
 					<hr />
 				</div>
 			</div>
 		</div>
-		<form id="workDetail" action="/work/detail" method="get">
-			<input id="workId" type="hidden" name="workId" />
-		</form>
-		
 	</div>
 	<div class="mfoot text-center">
 	<p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>

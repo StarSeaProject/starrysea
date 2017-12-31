@@ -146,7 +146,7 @@ a.nowactbutton:link {
 				<br></br> <br></br> <br></br>
 				<p th:text="${newResult.activitySummary}" class="p nowactdetail">几句话来介绍当前的活动</p>
 				<br></br> <br></br> <br></br> <a
-					th:attr="data-activityid=${newResult.activityId}"
+					th:href="@{'/activity/'+${newResult.activityId}}"
 					class="a nowactbutton" href="javascript:void(0)">点击打开详情页面</a>
 			</div>
 			<br /> <br /> <br />
@@ -171,7 +171,7 @@ a.nowactbutton:link {
 					</div>
 					<div class="col-xs-3 actdetail">
 						<a class="detailbutton btn-lg"> <span
-							th:attr="data-activityid=${activity.activityId}"
+							th:href="@{'/activity/'+${activity.activityId}}"
 							class="glyphicon glyphicon-circle-arrow-right"></span>
 						</a>
 					</div>
