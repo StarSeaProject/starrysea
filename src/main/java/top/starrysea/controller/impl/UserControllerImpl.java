@@ -48,4 +48,10 @@ public class UserControllerImpl implements IUserController {
 		return modelAndView;
 	}
 
+	@Override
+	@RequestMapping(value = "/exit", method = RequestMethod.GET)
+	public ModelAndView exitController(Device device) {
+		return new ModelAndView(device.isNormal() ? LOGIN_VIEW : MOBILE + LOGIN_VIEW);
+	}
+
 }

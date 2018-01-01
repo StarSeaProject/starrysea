@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,10 @@ public class RootControllerImpl implements IRootController {
 	}
 
 	@RequestMapping("/admin")
-	public ModelAndView admin() {
+	public ModelAndView admin(HttpSession session, Device device) {
+		if (session.getAttribute(ADMIN_SESSION_KEY) != null) {
+			return new ModelAndView(device.isNormal() ? BOSS : MOBILE + BOSS);
+		}
 		return new ModelAndView("admin_login");
 	}
 

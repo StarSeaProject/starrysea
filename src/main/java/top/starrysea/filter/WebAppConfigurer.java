@@ -14,6 +14,7 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
 				"/activity/funding/remove", "/order", "/order/modify", "/order/remove");
 		registry.addInterceptor(new AfterLoginInterceptor()).addPathPatterns("/user/login");
 		registry.addInterceptor(new ErrorInterceptor()).addPathPatterns("/**");
+		registry.addInterceptor(new AfterExitInterceptor()).addPathPatterns("/user/exit");
 		super.addInterceptors(registry);
 	}
 }
