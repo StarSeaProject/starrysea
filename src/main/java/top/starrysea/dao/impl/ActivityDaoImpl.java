@@ -35,12 +35,30 @@ public class ActivityDaoImpl implements IActivityDao {
 	public static final int PAGE_LIMIT = 10;
 
 	@Override
+	public DaoResult getNewestActivityDao() {
+		String sql = "SELECT activity_id,activity_name,activity_cover,activity_summary,activity_endtime "
+				+ "FROM activity ORDER BY activity_id DESC " + "LIMIT 1";
+		Activity activity = template.queryForObject(sql,
+				(rs, row) -> new Activity.Builder().activityId(rs.getInt("activity_id"))
+						.activityName(rs.getString("activity_name")).activityCover(rs.getString("activity_cover"))
+						.activitySummary(rs.getString("activity_summary"))
+						.activityEndtime(Common.date2String(rs.getDate("activity_endtime"))).build());
+		return new DaoResult(true, activity);
+	}
+
+	@Override
 	// 查询所有众筹活动
 	public DaoResult getAllActivityDao(Condition condition, Activity activity) {
 		SqlWithParams sqlWithParams = getTheSqlForGetAll(activity);
+		int start = 0;
+		if (condition.getPage() == 1) {
+			start = 1;
+		} else {
+			start = (condition.getPage() - 1) * PAGE_LIMIT;
+		}
 		String sql = "SELECT activity_id,activity_name,activity_cover,activity_summary,activity_endtime "
-				+ "FROM activity " + sqlWithParams.getWhere() + "ORDER BY activity_id DESC " + "LIMIT "
-				+ (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
+				+ "FROM activity " + sqlWithParams.getWhere() + "ORDER BY activity_id DESC " + "LIMIT " + start + ","
+				+ PAGE_LIMIT;
 		Object[] params = sqlWithParams.getParams();
 		try {
 			List<Activity> theResult = template.query(sql, params,

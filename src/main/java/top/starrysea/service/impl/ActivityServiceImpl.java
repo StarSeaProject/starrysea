@@ -44,7 +44,12 @@ public class ActivityServiceImpl implements IActivityService {
 	// 查询所有众筹活动
 	public ServiceResult queryAllActivityService(Condition condition, Activity activity) {
 		ServiceResult result = new ServiceResult();
-		DaoResult daoResult = activityDao.getAllActivityDao(condition, activity);
+		DaoResult daoResult = activityDao.getNewestActivityDao();
+		if (!daoResult.isSuccessed()) {
+			return new ServiceResult(daoResult);
+		}
+		Activity a = daoResult.getResult(Activity.class);
+		daoResult = activityDao.getAllActivityDao(condition, activity);
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult(daoResult);
 		}
@@ -62,6 +67,7 @@ public class ActivityServiceImpl implements IActivityService {
 
 		result.setSuccessed(true);
 		result.setResult(List.class, activitylist);
+		result.setResult(Activity.class, a);
 		result.setNowPage(condition.getPage());
 		result.setTotalPage(totalPage);
 		return result;

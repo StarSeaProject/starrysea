@@ -7,6 +7,9 @@ import top.starrysea.common.DaoResult;
 import top.starrysea.object.dto.Activity;
 
 public interface IActivityDao {
+	
+	DaoResult getNewestActivityDao();
+	
 	DaoResult getAllActivityDao(Condition condition, Activity activity);
 
 	DaoResult getActivityCountDao(Condition condition, Activity activity);
