@@ -2,184 +2,190 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-<meta charset="utf-8"></meta>
+    <meta charset="utf-8"></meta>
 
-<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-<title></title>
-<link rel="stylesheet"
-	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-<link rel="stylesheet"
-	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-<script src="/jquery-3.2.1.min.js"></script>
-<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="/mycss.css"></link>
+    <title></title>
+    <link rel="stylesheet"
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+    <link rel="stylesheet"
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+    <script src="/jquery-3.2.1.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/mycss.css"></link>
 
-<style>
-.heading {
-	background-image: url("/navbar.jpg");
-	height:360px;
-	background-repeat:no-repeat;
-}
+    <style>
+        .heading {
+            background-image: url("/navbar.jpg");
+            height: 360px;
+            background-repeat: no-repeat;
+        }
 
-#btnnav {
-	float: right;
-}
-.myli{
-	color:#fff;
-}
-.myli:hover{
-	text-decoration:underline;	
-}
+        #btnnav {
+            float: right;
+        }
 
-#shownav {
-	float: right;
-}
+        .myli {
+            color: #fff;
+        }
 
-.abnav {
-	color: #FFFFFF;
-	font-size: 1.5em;
-}
+        .myli:hover {
+            text-decoration: underline;
+        }
 
-a:hover {
-	color: rgb(7, 251, 251);
-}
+        #shownav {
+            float: right;
+        }
 
-.pagetitle {
-	
-	color: #238acb;
-	padding-top: 35px;
-	padding-bottom: 35px;
-	margin-top: 0px;
-	margin-bottom: 10px;
-}
+        .abnav {
+            color: #FFFFFF;
+            font-size: 1.5em;
+        }
 
-.pagetitleh1 {
-	padding-left: 100px;
-	margin: 0px;
-}
+        a:hover {
+            color: rgb(7, 251, 251);
+        }
 
-.pagetitleh2 {
-	padding-left: 100px;
-	margin: 0px;
-	color: #999999;
-}
+        .pagetitle {
 
-.worktitle {
-	color: #23b1f7;
-}
+            color: #238acb;
+            padding-top: 35px;
+            padding-bottom: 35px;
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
 
-.workdetail {
-	margin-top: 15px;
-	margin-bottom: 15px;
-	padding-bottom: 5px;
-}
+        .pagetitleh1 {
+            padding-left: 100px;
+            margin: 0px;
+        }
 
-a.detailhref {
-	padding: 9px;
-	border: 1px solid;
-	border-radius: 12px;
-	border-color: #23b1f7;
-	text-decoration: none;
-	color: #23b1f7;
-}
+        .pagetitleh2 {
+            padding-left: 100px;
+            margin: 0px;
+            color: #999999;
+        }
 
-a.detailhref:hover {
-	text-decoration: none;
-	color: #23b1f7;
-}
+        .worktitle {
+            color: #23b1f7;
+        }
 
-a.detailhref:visited {
-	text-decoration: none;
-	color: #23b1f7;
-}
+        .workdetail {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
 
-a.detailhref:link {
-	text-decoration: none;
-	color: #23b1f7;
-}
-.footbar{
-	background-image:url("/wavew.png");
-	background-repeat: repeat-x;
-	height:120px;
-	backgroud:#409cc3;
-}
-.pagecontain{
-	background-image:url("/002.png");
-	background-repeat: no-repeat;
-	background-position:right bottom;
-	
-}
-.navimg{
-transition: all 0.6s;
-}
-.navimg:hover{
- transform: scale(1.4);
-}
-</style>
+        a.detailhref {
+            padding: 9px;
+            border: 1px solid;
+            border-radius: 12px;
+            border-color: #23b1f7;
+            text-decoration: none;
+            color: #23b1f7;
+        }
+
+        a.detailhref:hover {
+            text-decoration: none;
+            color: #23b1f7;
+        }
+
+        a.detailhref:visited {
+            text-decoration: none;
+            color: #23b1f7;
+        }
+
+        a.detailhref:link {
+            text-decoration: none;
+            color: #23b1f7;
+        }
+
+        .footbar {
+            background-image: url("/wavew.png");
+            background-repeat: repeat-x;
+            height: 120px;
+            backgroud: #409cc3;
+        }
+
+        .pagecontain {
+            background-image: url("/002.png");
+            background-repeat: no-repeat;
+            background-position: right bottom;
+
+        }
+
+        .navimg {
+            transition: all 0.6s;
+        }
+
+        .navimg:hover {
+            transform: scale(1.4);
+        }
+    </style>
 </head>
 
 <body>
-	<div class="container"
-		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
-		<nav class="navbar navbar-brand navbar-static-top heading"
-			role="navigation" id="mybar"
-			style="background-size: 99% ; margin:15px; padding: 10px;">
+<div class="container"
+     style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
+    <nav class="navbar navbar-brand navbar-static-top heading"
+         role="navigation" id="mybar"
+         style="background-size: 99% ; margin:15px; padding: 10px;">
 
-			<div class="navbar-header" style="padding-left: 25px; padding-top: 10px;">
-				<a href="/" class="navimg">
-				<img src="/starsea.png" style="height: 70px; width: 70px;"
-					class="col-sms-4 navimg"></img>
-				</a>
-				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
-					data-target="#shownav" id="btnnav">
-					<span class="glyphicon glyphicon-menu-hamburger"></span>
+        <div class="navbar-header" style="padding-left: 25px; padding-top: 10px;">
+            <a href="/" class="navimg">
+                <img src="/starsea.png" style="height: 70px; width: 70px;"
+                     class="col-sms-4 navimg"></img>
+            </a>
+            <button class="navbar-toggle col-sm-4" data-toggle="collapse"
+                    data-target="#shownav" id="btnnav">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
 
-				</button>
-			</div>
-			<div class="collapse navbar-collapse navbar-right" id="shownav">
-				<ul class="nav navbar-nav mynavul">
-					<li class="myli"><a href="/work" class="anav">作品阅览</a></li>
-					<li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
-					<li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
-	<div class="pagetitle">
-		<h1 class="h1 pagetitleh1">作品展示</h1>
-		<h2 class="h2 pagetitleh2">Works Gallery</h2>
-	</div>
-	<div class="container pagecontain">
-		<div class="worktable col-md-9">
-			<div id="works">
-				<div th:each="work:${result}">
-					<div class="row workbox">
-						<div class="col-xs-3 workimage">
-							<img th:attr="src=${work.workCover}"
-								class="workimg img-reponsive"></img>
-						</div>
-						<div class="col-xs-9 workdetail">
-							<p th:text="${work.workName}" class="h3 worktitle"></p>
-							<p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
-							<a class="h4 detailhref" th:href="@{'/work/'+${work.workId}}">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
-						</div>
-					</div>
-					<hr />
-				</div>
-			</div>
-		</div>
-		<div class="weibo col-md-3">
-			<iframe id="weibo" style="width: 80%; height: 500px;" frameborder="0"
-				scrolling="no"
-				src="http://v.t.sina.com.cn/widget/widget_blog.php?uid=6241874149"></iframe>
-		</div>
-	</div>
-	<div class="footbar text-center">
-		<p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
-	</div>
-	<script src="/common.js"></script>
-	<script src="/read.js"></script>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse navbar-right" id="shownav">
+            <ul class="nav navbar-nav mynavul">
+                <li class="myli"><a href="/work" class="anav">作品阅览</a></li>
+                <li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
+                <li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="pagetitle">
+    <h1 class="h1 pagetitleh1">作品展示</h1>
+    <h2 class="h2 pagetitleh2">Works Gallery</h2>
+</div>
+<div class="container pagecontain">
+    <div class="worktable col-md-9">
+        <div id="works">
+            <div th:each="work:${result}">
+                <div class="row workbox">
+                    <div class="col-xs-3 workimage">
+                        <img th:attr="src=${work.workCover}"
+                             class="workimg img-reponsive"></img>
+                    </div>
+                    <div class="col-xs-9 workdetail">
+                        <p th:text="${work.workName}" class="h3 worktitle"></p>
+                        <p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
+                        <a class="h4 detailhref" th:href="@{'/work/'+${work.workId}}">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+        </div>
+    </div>
+    <div class="weibo col-md-3">
+        <iframe id="weibo" style="width: 80%; height: 500px;" frameborder="0"
+                scrolling="no"
+                src="http://v.t.sina.com.cn/widget/widget_blog.php?uid=6241874149"></iframe>
+    </div>
+</div>
+<div class="footbar text-center">
+    <p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
+</div>
+<script src="/common.js"></script>
+<script src="/read.js"></script>
 
 </body>
 
