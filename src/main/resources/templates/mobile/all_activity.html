@@ -170,9 +170,8 @@ a.nowactbutton:link {
 						<p th:text="${activity.activityEndtime}">活动结束日期</p>
 					</div>
 					<div class="col-xs-3 actdetail">
-						<a class="detailbutton btn-lg"> <span
-							th:href="@{'/activity/'+${activity.activityId}}"
-							class="glyphicon glyphicon-circle-arrow-right"></span>
+						<a class="detailbutton btn-lg" th:href="@{'/activity/'+${activity.activityId}}">
+							<span class="glyphicon glyphicon-circle-arrow-right"></span>
 						</a>
 					</div>
 				</div>
