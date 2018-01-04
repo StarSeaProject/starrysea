@@ -1,14 +1,21 @@
 package top.starrysea.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
-import top.starrysea.common.SqlWithParams;
 import top.starrysea.dao.IOrderDao;
+import top.starrysea.kql.clause.OrderByType;
+import top.starrysea.kql.clause.SelectClause;
+import top.starrysea.kql.clause.UpdateSetType;
+import top.starrysea.kql.clause.WhereType;
+import top.starrysea.kql.facede.EntitySqlResult;
+import top.starrysea.kql.facede.IntegerSqlResult;
+import top.starrysea.kql.facede.KumaSqlDao;
+import top.starrysea.kql.facede.ListSqlResult;
+import top.starrysea.kql.facede.OperationType;
 import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.City;
 import top.starrysea.object.dto.Orders;
@@ -17,27 +24,28 @@ import top.starrysea.object.dto.Work;
 
 import static top.starrysea.common.Common.*;
 
-import java.util.List;
-
 @Repository("orderDao")
 public class OrderDaoImpl implements IOrderDao {
 
 	@Autowired
-	private JdbcTemplate template;
+	private KumaSqlDao kumaSqlDao;
 	// 订单每页显示条数
 	public static final int PAGE_LIMIT = 10;
 
 	@Override
 	// 根据订单号查询一个订单
 	public DaoResult getOrderDao(Orders order) {
+		kumaSqlDao.changeMode(OperationType.SELECT);
 		if (isNotNull(order.getOrderNum())) {
-			String sql = "SELECT order_name,w.work_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum,order_time "
-					+ "FROM orders AS o " + "LEFT JOIN area AS a " + "ON o.order_area = a.area_id "
-					+ "LEFT JOIN city AS c " + "ON a.city_id=c.city_id " + "LEFT JOIN province AS p "
-					+ "ON c.province_id = p.province_id " + "LEFT JOIN work AS w " + " ON o.work_id = w.work_id "
-					+ "WHERE order_num = ?";
-			Orders theResult = template.queryForObject(sql, new Object[] { order.getOrderNum() },
-					(rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
+			EntitySqlResult theResult = kumaSqlDao.select("order_name").select("work_name", "w")
+					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
+					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
+					.from(Orders.class, "o").leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
+					.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
+					.leftjoin(Province.class, "p", "province_id", City.class, "province_id")
+					.leftjoin(Work.class, "w", "work_id", Orders.class, "work_id")
+					.where("order_num", WhereType.EQUALS, order.getOrderNum())
+					.endForObject((rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
 							.work(new Work.Builder().workName(rs.getString("work_name")).build())
 							.orderArea(new Area.Builder().areaName(rs.getString("area_name"))
 									.city(new City.Builder().cityName(rs.getString("city_name"))
@@ -46,15 +54,16 @@ public class OrderDaoImpl implements IOrderDao {
 							.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
 							.orderExpressnum(rs.getString("order_expressnum")).orderTime(rs.getLong("order_time"))
 							.build());
-			return new DaoResult(true, theResult);
+			return new DaoResult(true, theResult.getResult());
 		} else if (isNotNull(order.getOrderId())) {
-			String sql = "SELECT order_name,w.work_name,p.province_name,c.city_name,a.area_name,order_address,order_status,order_expressnum,order_time "
-					+ "FROM orders AS o " + "LEFT JOIN area AS a " + "ON o.order_area = a.area_id "
-					+ "LEFT JOIN city AS c " + "ON a.city_id=c.city_id " + "LEFT JOIN province AS p "
-					+ "ON c.province_id = p.province_id " + "LEFT JOIN work AS w " + " ON o.work_id = w.work_id "
-					+ "WHERE order_id = ?";
-			Orders theResult = template.queryForObject(sql, new Object[] { order.getOrderId() },
-					(rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
+			EntitySqlResult theResult = kumaSqlDao.select("order_name").select("work_name", "w")
+					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
+					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
+					.from(Orders.class, "o").leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
+					.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
+					.leftjoin(Province.class, "p", "province_id", City.class, "province_id")
+					.where("order_id", WhereType.EQUALS, order.getOrderId())
+					.endForObject((rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
 							.work(new Work.Builder().workName(rs.getString("work_name")).build())
 							.orderArea(new Area.Builder().areaName(rs.getString("area_name"))
 									.city(new City.Builder().cityName(rs.getString("city_name"))
@@ -63,7 +72,7 @@ public class OrderDaoImpl implements IOrderDao {
 							.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
 							.orderExpressnum(rs.getString("order_expressnum")).orderTime(rs.getLong("order_time"))
 							.build());
-			return new DaoResult(true, theResult);
+			return new DaoResult(true, theResult.getResult());
 		}
 		return new DaoResult(false, "订单号和订单id不能同时为空");
 	}
@@ -71,24 +80,25 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	// 对一个作品进行下单
 	public DaoResult saveOrderDao(Orders order) {
-		String sql = "INSERT INTO orders(order_id,work_id,order_num,order_name,order_area,order_address,order_status,order_time) "
-				+ "VALUES(?,?,?,?,?,?,?,?)";
-		template.update(sql, Common.getCharId("O-", 10), order.getWork().getWorkId(), Common.getCharId(30),
-				order.getOrderName(), order.getOrderArea().getAreaId(), order.getOrderAddress(), 1,
-				System.currentTimeMillis());
+		kumaSqlDao.changeMode(OperationType.INSERT);
+		kumaSqlDao.insert("order_id", order.getOrderId()).insert("work_id", order.getWork().getWorkId())
+				.insert("order_num", Common.getCharId(30)).insert("order_name", order.getOrderName())
+				.insert("order_area", order.getOrderArea().getAreaId()).insert("order_address", order.getOrderAddress())
+				.insert("order_status", 1).insert("order_time", System.currentTimeMillis()).table(Orders.class).end();
 		return new DaoResult(true);
 	}
 
 	@Override
 	// 修改一个订单的状态
 	public DaoResult updateOrderDao(Orders order) {
-		String sql = "";
+		kumaSqlDao.changeMode(OperationType.UPDATE);
 		if (order.getOrderExpressnum() != null) {
-			sql = "UPDATE orders " + "SET order_status = ? , order_expressnum = ?" + "WHERE order_id = ?";
-			template.update(sql, order.getOrderStatus(), order.getOrderExpressnum(), order.getOrderId());
+			kumaSqlDao.update("order_status", UpdateSetType.ASSIGN, order.getOrderStatus())
+					.update("order_expressnum", UpdateSetType.ASSIGN, order.getOrderExpressnum()).table(Orders.class)
+					.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
 		} else {
-			sql = "UPDATE orders " + "SET order_status = ? " + "WHERE order_id = ?";
-			template.update(sql, order.getOrderStatus(), order.getOrderId());
+			kumaSqlDao.update("order_status", UpdateSetType.ASSIGN, order.getOrderStatus()).table(Orders.class)
+					.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
 		}
 		return new DaoResult(true);
 	}
@@ -96,64 +106,34 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	// 删除一个订单
 	public DaoResult deleteOrderDao(Orders order) {
-		String sql = "DELETE FROM orders " + "WHERE order_id = ?";
-		template.update(sql, order.getOrderId());
+		kumaSqlDao.changeMode(OperationType.DELETE);
+		kumaSqlDao.table(Orders.class).where("order_id", WhereType.EQUALS, order.getOrderId()).end();
 		return new DaoResult(true);
 	}
 
 	@Override
 	public DaoResult getAllOrderDao(Condition condition, Orders order) {
-		SqlWithParams sqlWithParams = getTheSqlForGetAll(order);
-		String sql = "SELECT order_id,order_num,order_name,order_status,order_time " + "FROM orders "
-				+ sqlWithParams.getWhere() + "ORDER BY order_time DESC " + "LIMIT "
-				+ (condition.getPage() - 1) * PAGE_LIMIT + "," + PAGE_LIMIT;
-		List<Orders> theResult = template.query(sql, sqlWithParams.getParams(),
-				(rs, row) -> new Orders.Builder().orderId(rs.getString("order_id")).orderNum(rs.getString("order_num"))
-						.orderName(rs.getString("order_name")).orderStatus(rs.getShort("order_status"))
-						.orderTime(rs.getLong("order_time")).build());
-		return new DaoResult(true, theResult);
-	}
-
-	private SqlWithParams getTheSqlForGetAll(Orders order) {
-		StringBuilder whereBuffer = new StringBuilder();
-		int insertIndex;
-		Object[] preParams = new Object[1];
-		int paramsIndex = 0;
-		whereBuffer.append("WHERE 1=1 ");
-
-		if (isNotNull(order.getOrderNum())) {
-			insertIndex = whereBuffer.indexOf("WHERE") + 5;
-			whereBuffer.insert(insertIndex, " order_num LIKE ? AND ");
-			preParams[paramsIndex] = "%" + order.getOrderNum() + "%";
-			paramsIndex++;
-		}
-
-		if (isNotNull(order.getOrderStatus())) {
-			insertIndex = whereBuffer.indexOf("WHERE") + 5;
-			whereBuffer.insert(insertIndex, " order_status = ? AND ");
-			preParams[paramsIndex] = order.getOrderStatus();
-			paramsIndex++;
-		}
-
-		if (isNotNull(order.getOrderName())) {
-			insertIndex = whereBuffer.indexOf("WHERE") + 5;
-			whereBuffer.insert(insertIndex, " order_name LIKE ? AND ");
-			preParams[paramsIndex] = "%" + order.getOrderName() + "%";
-			paramsIndex++;
-		}
-
-		Object[] params = new Object[paramsIndex];
-		System.arraycopy(preParams, 0, params, 0, paramsIndex);
-		return new SqlWithParams(whereBuffer.toString(), params);
+		kumaSqlDao.changeMode(OperationType.SELECT);
+		ListSqlResult theResult = kumaSqlDao.select("order_id").select("order_num").select("order_name")
+				.select("order_status").select("order_time").from(Orders.class)
+				.where("order_num", WhereType.FUZZY, order.getOrderNum())
+				.where("order_status", WhereType.EQUALS, order.getOrderStatus())
+				.where("order_name", WhereType.FUZZY, order.getOrderName()).orderBy("order_time", OrderByType.DESC)
+				.limit((condition.getPage() - 1) * PAGE_LIMIT, PAGE_LIMIT)
+				.endForList((rs, row) -> new Orders.Builder().orderId(rs.getString("order_id"))
+						.orderNum(rs.getString("order_num")).orderName(rs.getString("order_name"))
+						.orderStatus(rs.getShort("order_status")).orderTime(rs.getLong("order_time")).build());
+		return new DaoResult(true, theResult.getResult());
 	}
 
 	@Override
 	public DaoResult getOrderCountDao(Condition condition, Orders order) {
-		SqlWithParams sqlWithParams = getTheSqlForGetAll(order);
-		String sql = "SELECT COUNT(*) " + "FROM orders " + sqlWithParams.getWhere();
-		Object[] params = sqlWithParams.getParams();
-		Integer theResult = template.queryForObject(sql, params, Integer.class);
-		return new DaoResult(true, theResult);
+		kumaSqlDao.changeMode(OperationType.SELECT);
+		IntegerSqlResult theResult = kumaSqlDao.select(SelectClause.COUNT).from(Orders.class)
+				.where("order_num", WhereType.FUZZY, order.getOrderNum())
+				.where("order_status", WhereType.EQUALS, order.getOrderStatus())
+				.where("order_name", WhereType.FUZZY, order.getOrderName()).endForNumber();
+		return new DaoResult(true, theResult.getResult());
 	}
 
 }
