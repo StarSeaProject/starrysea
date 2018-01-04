@@ -46,9 +46,9 @@ public class MailServiceImpl implements IMailService, InitializingBean {
 		if (!daoResult.isSuccessed()) {
 			return;
 		}
-		List<String> receivers = daoResult.getResult(List.class);
-		for (String receiver : receivers) {
-			threadPool.execute(new MailTask(receiver, work));
+		List<Online> receivers = daoResult.getResult(List.class);
+		for (Online receiver : receivers) {
+			threadPool.execute(new MailTask(receiver.getOnlineEmail(), work));
 		}
 	}
 
