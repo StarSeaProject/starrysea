@@ -21,6 +21,6 @@ public class AdminDaoTest {
 	public void loginDao() {
 		DaoResult result = adminDao
 				.loginDao(new Admin.Builder().adminUseraccount("kuma").adminPassword("kuma").build());
-		System.out.println(result.getErrInfo());
+		System.out.println(result);
 	}
 }
