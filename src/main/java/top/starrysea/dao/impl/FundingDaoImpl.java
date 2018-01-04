@@ -6,55 +6,60 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IFundingDao;
+import top.starrysea.kql.clause.WhereType;
+import top.starrysea.kql.facede.KumaSqlDao;
+import top.starrysea.kql.facede.ListSqlResult;
+import top.starrysea.kql.facede.OperationType;
 import top.starrysea.object.dto.Funding;
 
 @Repository("fundingDao")
 public class FundingDaoImpl implements IFundingDao {
 
 	@Autowired
-	private JdbcTemplate template;
+	private KumaSqlDao kumaSqlDao;
 
 	@Override
 	public DaoResult getAllFundingDao(Funding funding) {
-		String sql = "SELECT funding_id,funding_name,funding_money,funding_message " + "FROM funding "
-				+ "WHERE activity_id = ?";
-		List<Funding> theResult = template.query(sql, new Object[] { funding.getActivity().getActivityId() },
-				(rs, row) -> new Funding.Builder().fundingId(rs.getInt("funding_id"))
+		kumaSqlDao.changeMode(OperationType.SELECT);
+		ListSqlResult theResult = kumaSqlDao.select("funding_id").select("funding_name").select("funding_money")
+				.select("funding_message").from(Funding.class)
+				.where("activity_id", WhereType.EQUALS, funding.getActivity().getActivityId())
+				.endForList((rs, row) -> new Funding.Builder().fundingId(rs.getInt("funding_id"))
 						.fundingName(rs.getString("funding_name")).fundingMoney(rs.getDouble("funding_money"))
 						.fundingMessage(rs.getString("funding_message")).activity(funding.getActivity()).build());
-		return new DaoResult(true, theResult);
+		return new DaoResult(true, theResult.getResult());
 	}
 
 	@Override
 	public DaoResult saveFundingDao(List<Funding> fundings) {
-		String sql = "INSERT INTO funding(activity_id,funding_name,funding_money,funding_message) " + "VALUES(?,?,?,?)";
-		template.batchUpdate(sql, new BatchPreparedStatementSetter() {
+		kumaSqlDao.changeMode(OperationType.INSERT);
+		kumaSqlDao.insert("activity_id").insert("funding_name").insert("funding_money").insert("funding_message")
+				.table(Funding.class).batchEnd(new BatchPreparedStatementSetter() {
 
-			@Override
-			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				ps.setInt(1, fundings.get(i).getActivity().getActivityId());
-				ps.setString(2, fundings.get(i).getFundingName());
-				ps.setDouble(3, fundings.get(i).getFundingMoney());
-				ps.setString(4, fundings.get(i).getFundingMessage());
-			}
+					@Override
+					public void setValues(PreparedStatement ps, int i) throws SQLException {
+						ps.setInt(1, fundings.get(i).getActivity().getActivityId());
+						ps.setString(2, fundings.get(i).getFundingName());
+						ps.setDouble(3, fundings.get(i).getFundingMoney());
+						ps.setString(4, fundings.get(i).getFundingMessage());
+					}
 
-			@Override
-			public int getBatchSize() {
-				return fundings.size();
-			}
-		});
+					@Override
+					public int getBatchSize() {
+						return fundings.size();
+					}
+				});
 		return new DaoResult(true);
 	}
 
 	@Override
 	public DaoResult deleteFundingDao(Funding funding) {
-		String sql = "DELETE FROM funding " + "WHERE funding_id = ?";
-		template.update(sql, funding.getFundingId());
+		kumaSqlDao.changeMode(OperationType.DELETE);
+		kumaSqlDao.table(Funding.class).where("funding_id", WhereType.EQUALS, funding.getFundingId()).end();
 		return new DaoResult(true);
 	}
 

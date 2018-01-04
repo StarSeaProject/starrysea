@@ -29,7 +29,7 @@ public class FundingDaoTest {
 
 	@Test
 	public void saveFundingDao() {
-		Activity a = new Activity.Builder().activityId(190).build();
+		Activity a = new Activity.Builder().activityId(191).build();
 		List<Funding> list = new ArrayList<>();
 		list.add(new Funding.Builder().activity(a).fundingName("aaa").fundingMoney(12.30).fundingMessage("aaaaaaa")
 				.build());
@@ -42,6 +42,6 @@ public class FundingDaoTest {
 
 	@Test
 	public void deleteFundingDao() {
-		System.out.println(fundingDao.deleteFundingDao(new Funding.Builder().fundingId(4).build()).isSuccessed());
+		System.out.println(fundingDao.deleteFundingDao(new Funding.Builder().fundingId(126).build()).isSuccessed());
 	}
 }
