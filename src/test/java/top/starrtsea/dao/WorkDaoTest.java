@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import groovyjarjarantlr.collections.List;
 import top.starrysea.StarrtseaApplication;
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.dao.IWorkDao;
 import top.starrysea.object.dto.Work;
+
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)

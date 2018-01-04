@@ -1,6 +1,8 @@
 package top.starrysea.object.dto;
 
-public class ActivityImage {
+import top.starrysea.kql.entity.Entity;
+
+public class ActivityImage implements Entity{
 
 	private Integer activityImageId;
 	private Activity activity;
