@@ -2,140 +2,145 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-<meta charset="utf-8"></meta>
+    <meta charset="utf-8"></meta>
 
-<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-<title>星之海志愿者公会</title>
-<link rel="stylesheet"
-	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-<link rel="stylesheet"
-	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-<script src="/jquery-3.2.1.min.js"></script>
-<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="/mycss.css"></link>
+    <title>星之海志愿者公会</title>
+    <link rel="stylesheet"
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+    <link rel="stylesheet"
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+    <script src="/jquery-3.2.1.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/mycss.css"></link>
 
-<style>
-.navbartop {
-	width: 100%;
-	background:#1e93f3;
-}
-.ma{
-	margin-top:20px;
-	margin-left:10px;
-	margin-bottom:-4px;
-	color:white;
-	display: inline-block;
-	font-size:1.2em;
-}
-.mfoot{
-	background-image:url("/wavew.png");
-	background-repeat: repeat-x;
-	height:120px;
-	backgroud:#409cc3;
-}
-.pagetitle {
-	background-color:#f69163;
-	color: #ffffff;
-	padding-top: 20px;
-	padding-bottom: 35px;
-	margin-top: 0px;
-	margin-bottom: 10px;
-}
+    <style>
+        .navbartop {
+            width: 100%;
+            background: #1e93f3;
+        }
 
-.pagetitleh1 {
-	padding-left: 40px;
-	margin: 0px;
-}
+        .ma {
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-bottom: -4px;
+            color: white;
+            display: inline-block;
+            font-size: 1.2em;
+        }
 
-.pagetitleh2 {
-	padding-left: 40px;
-	margin: 0px;
-	color: #000;
-}
-.workbox{
-	background:#a9d6f5;
-}
-.worktitle {
-	color: #000;
-}
+        .mfoot {
+            background-image: url("/wavew.png");
+            background-repeat: repeat-x;
+            height: 120px;
+            backgroud: #409cc3;
+        }
 
-.workdetail {
-	margin-top: 15px;
-	margin-bottom: 15px;
-	padding-bottom: 5px;
-	color:#fff;
-}
+        .pagetitle {
+            background-color: #f69163;
+            color: #ffffff;
+            padding-top: 20px;
+            padding-bottom: 35px;
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
 
-a.detailhref {
-	padding: 9px;
-	border: 1px solid;
-	border-radius: 12px;
-	border-color: #23b1f7;
-	text-decoration: none;
-	color: #23b1f7;
-}
+        .pagetitleh1 {
+            padding-left: 40px;
+            margin: 0px;
+        }
 
-a.detailhref:hover {
-	text-decoration: none;
-	color: #23b1f7;
-}
+        .pagetitleh2 {
+            padding-left: 40px;
+            margin: 0px;
+            color: #000;
+        }
 
-a.detailhref:visited {
-	text-decoration: none;
-	color: #23b1f7;
-}
+        .workbox {
+            background: #a9d6f5;
+        }
 
-a.detailhref:link {
-	text-decoration: none;
-	color: #23b1f7;
-}
-</style>
+        .worktitle {
+            color: #000;
+        }
+
+        .workdetail {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            color: #fff;
+        }
+
+        a.detailhref {
+            padding: 9px;
+            border: 1px solid;
+            border-radius: 12px;
+            border-color: #23b1f7;
+            text-decoration: none;
+            color: #23b1f7;
+        }
+
+        a.detailhref:hover {
+            text-decoration: none;
+            color: #23b1f7;
+        }
+
+        a.detailhref:visited {
+            text-decoration: none;
+            color: #23b1f7;
+        }
+
+        a.detailhref:link {
+            text-decoration: none;
+            color: #23b1f7;
+        }
+    </style>
 </head>
 
 <body>
 <div class="navbartop" style="clear: both">
-	<div class="navbar-header col-xs-3">
-		<img src="/starsea.png" style="height: 70px; width: 70px;"
-			 class="img-reponsive"></img>
-	</div>
-	<div class="navbar-right col-xs-9 text-right">
-		<a href="/work" class="ma text-right">作品</a>
-		<a href="/activity" class="ma text-right">活动</a>
-		<a href="/mintro.html" class="ma text-right">关于</a>
-		<hr style="coloe:white"></hr>
-	</div>
-	<img class="img-reponsive" src="/navbar.jpg"></img>
+    <div class="navbar-header col-xs-3">
+        <img src="/starsea.png" style="height: 70px; width: 70px;"
+             class="img-reponsive"></img>
+    </div>
+    <div class="navbar-right col-xs-9 text-right">
+        <a href="/work" class="ma text-right">作品</a>
+        <a href="/activity" class="ma text-right">活动</a>
+        <a href="/mintro.html" class="ma text-right">关于</a>
+        <hr style="coloe:white"></hr>
+    </div>
+    <img class="img-reponsive" src="/navbar.jpg"></img>
 </div>
-	<div class="pagetitle">
-		<h1 class="h1 pagetitleh1">作品展示</h1>
-		<h2 class="h2 pagetitleh2">Works Gallery</h2>
-	</div>
-	<div class="pagecontain">
-		<div class="worktable">
-			<div id="works">
-				<div th:each="work:${result}">
-					<div class="row workbox">
-						<div class="col-xs-3 workimage">
-							<img th:attr="src=${work.workCover}"
-								class="workimg img-reponsive"></img>
-						</div>
-						<div class="col-xs-9 workdetail">
-							<p th:text="${work.workName}" class="h3 worktitle"></p>
-							<p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
-							<a class="h4 detailhref" th:href="@{'/work/'+${work.workId}}">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
-						</div>
-					</div>
-					<hr />
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="mfoot text-center">
-	<p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
-	</div>
-	<script src="/common.js"></script>
-	<script src="/read.js"></script>
+<div class="pagetitle">
+    <h1 class="h1 pagetitleh1">作品展示</h1>
+    <h2 class="h2 pagetitleh2">Works Gallery</h2>
+</div>
+<div class="pagecontain">
+    <div class="worktable">
+        <div id="works">
+            <div th:each="work:${result}">
+                <div class="row workbox">
+                    <div class="col-xs-3 workimage">
+                        <img th:attr="src=${work.workCover}"
+                             class="workimg img-reponsive"></img>
+                    </div>
+                    <div class="col-xs-9 workdetail">
+                        <p th:text="${work.workName}" class="h3 worktitle"></p>
+                        <p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
+                        <a class="h4 detailhref" th:href="@{'/work/'+${work.workId}}">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mfoot text-center">
+    <p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
+</div>
+<script src="/common.js"></script>
+<script src="/read.js"></script>
 
 </body>
 
