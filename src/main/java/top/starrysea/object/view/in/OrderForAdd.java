@@ -2,6 +2,7 @@ package top.starrysea.object.view.in;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -20,6 +21,9 @@ public class OrderForAdd {
 	@NotEmpty(message = "收货地址不能为空")
 	@Length(max = 50, message = "收货地址长度不能超过50")
 	private String orderAddress;
+	@NotNull(message = "收件人邮箱不能为空")
+	@Email(message = "输入的邮箱地址不是合法的")
+	private String orderEmail;
 
 	public Integer getWorkId() {
 		return workId;
@@ -53,8 +57,17 @@ public class OrderForAdd {
 		this.orderAddress = orderAddress;
 	}
 
+	public String getOrderEmail() {
+		return orderEmail;
+	}
+
+	public void setOrderEmail(String orderEmail) {
+		this.orderEmail = orderEmail;
+	}
+
 	public Orders toDTO() {
 		return new Orders.Builder().work(new Work.Builder().workId(workId).build()).orderName(orderName)
-				.orderArea(new Area.Builder().areaId(orderArea).build()).orderAddress(orderAddress).build();
+				.orderArea(new Area.Builder().areaId(orderArea).build()).orderAddress(orderAddress)
+				.orderEMail(orderEmail).build();
 	}
 }

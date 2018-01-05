@@ -40,7 +40,8 @@ public class OrderDaoImpl implements IOrderDao {
 			EntitySqlResult theResult = kumaSqlDao.select("order_name").select("work_name", "w")
 					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
 					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
-					.from(Orders.class, "o").leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
+					.select("order_email").from(Orders.class, "o")
+					.leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
 					.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
 					.leftjoin(Province.class, "p", "province_id", City.class, "province_id")
 					.leftjoin(Work.class, "w", "work_id", Orders.class, "work_id")
@@ -59,7 +60,8 @@ public class OrderDaoImpl implements IOrderDao {
 			EntitySqlResult theResult = kumaSqlDao.select("order_name").select("work_name", "w")
 					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
 					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
-					.from(Orders.class, "o").leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
+					.select("order_email").from(Orders.class, "o")
+					.leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
 					.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
 					.leftjoin(Province.class, "p", "province_id", City.class, "province_id")
 					.where("order_id", WhereType.EQUALS, order.getOrderId())
@@ -84,7 +86,8 @@ public class OrderDaoImpl implements IOrderDao {
 		kumaSqlDao.insert("order_id", order.getOrderId()).insert("work_id", order.getWork().getWorkId())
 				.insert("order_num", Common.getCharId(30)).insert("order_name", order.getOrderName())
 				.insert("order_area", order.getOrderArea().getAreaId()).insert("order_address", order.getOrderAddress())
-				.insert("order_status", 1).insert("order_time", System.currentTimeMillis()).table(Orders.class).end();
+				.insert("order_status", 1).insert("order_time", System.currentTimeMillis())
+				.insert("order_email", order.getOrderEMail()).table(Orders.class).end();
 		return new DaoResult(true);
 	}
 

@@ -15,6 +15,7 @@ public class OrderForOne {
 	private String orderStatus;
 	private String orderExpressnum;
 	private String orderTime;
+	private String orderEMail;
 
 	public OrderForOne(Orders order) {
 		this.workName = order.getWork().getWorkName();
@@ -32,6 +33,7 @@ public class OrderForOne {
 		this.orderStatus = status;
 		this.orderExpressnum = order.getOrderExpressnum();
 		this.orderTime = Common.time2String(new Date(order.getOrderTime()));
+		this.orderEMail = order.getOrderEMail();
 	}
 
 	public String getWorkName() {
@@ -68,6 +70,10 @@ public class OrderForOne {
 
 	public String getOrderTime() {
 		return orderTime;
+	}
+
+	public String getOrderEMail() {
+		return orderEMail;
 	}
 
 }
