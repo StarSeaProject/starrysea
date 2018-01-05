@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.object.view.in.OnlineForAdd;
 
-public interface IMailController {
+public interface IOnlineController {
 
-	ModelAndView addMailController(OnlineForAdd online, BindingResult bindingResult, Device device);
+	ModelAndView addOnlineController(OnlineForAdd online, BindingResult bindingResult, Device device);
 }

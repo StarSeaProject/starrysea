@@ -4,24 +4,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
-import top.starrysea.controller.IMailController;
+import top.starrysea.controller.IOnlineController;
 import top.starrysea.object.view.in.OnlineForAdd;
 import top.starrysea.service.IOnlineService;
 
 import static top.starrysea.common.Const.*;
 
 @Controller
-public class MailControllerImpl implements IMailController {
+@RequestMapping("/online")
+public class OnlineControllerImpl implements IOnlineController {
 
 	@Autowired
 	private IOnlineService onlineService;
 
 	@Override
-	public ModelAndView addMailController(OnlineForAdd online, BindingResult bindingResult, Device device) {
+	@RequestMapping(value="/add",method=RequestMethod.POST)
+	public ModelAndView addOnlineController(OnlineForAdd online, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}

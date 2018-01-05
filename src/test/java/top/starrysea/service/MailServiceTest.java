@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import top.starrysea.StarrtseaApplication;
-import top.starrysea.object.dto.Online;
 import top.starrysea.object.dto.Work;
 
 @RunWith(SpringRunner.class)
