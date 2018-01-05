@@ -1,12 +1,8 @@
 package top.starrysea.service;
 
-import top.starrysea.common.ServiceResult;
-import top.starrysea.object.dto.Online;
-import top.starrysea.object.dto.Work;
+import top.starrysea.kql.entity.Entity;
 
 public interface IMailService {
 
-	ServiceResult addMailService(Online online);
-
-	void sendMailService(Work work);
+	void sendMailService(Entity entity);
 }

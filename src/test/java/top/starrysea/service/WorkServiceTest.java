@@ -39,7 +39,7 @@ public class WorkServiceTest {
 	@Test
 	public void addWorkService() {
 		Work work = new Work.Builder().workName("a").workStock(5).workUploadTime(Common.getNowDate()).workCover("aaa")
-				.workSummary("asdasdasd").build();
+				.workPdfpath("aaa").workSummary("asdasdasd").build();
 		try {
 			MockMultipartFile coverFile = new MockMultipartFile("1.jpg",
 					new FileInputStream(new File("D:/develop/nginx-1.12.1/img/starsea.png")));

@@ -21,7 +21,6 @@ import top.starrysea.file.FileType;
 import top.starrysea.file.FileUtil;
 import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkImage;
-import top.starrysea.service.IMailService;
 import top.starrysea.service.IWorkService;
 
 import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
@@ -32,8 +31,6 @@ public class WorkServiceImpl implements IWorkService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IWorkDao workDao;
-	@Autowired
-	private IMailService mailService;
 	@Autowired
 	private FileUtil fileUtil;
 	@Autowired
@@ -115,9 +112,10 @@ public class WorkServiceImpl implements IWorkService {
 			if (!daoResult.isSuccessed()) {
 				throw new RuntimeException("插入作品图片失败");
 			}
-			mailService.sendMailService(work);
-			return new ServiceResult(daoResult);
-		} catch(RuntimeException e) {
+			ServiceResult serviceResult = new ServiceResult();
+			serviceResult.setResult(Work.class, work);
+			return serviceResult;
+		} catch (RuntimeException e) {
 			logger.error(e.getMessage(), e);
 			throw e;
 		} catch (Exception e) {

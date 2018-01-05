@@ -10,7 +10,7 @@ import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IMailController;
 import top.starrysea.object.view.in.OnlineForAdd;
-import top.starrysea.service.IMailService;
+import top.starrysea.service.IOnlineService;
 
 import static top.starrysea.common.Const.*;
 
@@ -18,7 +18,7 @@ import static top.starrysea.common.Const.*;
 public class MailControllerImpl implements IMailController {
 
 	@Autowired
-	private IMailService mailService;
+	private IOnlineService onlineService;
 
 	@Override
 	public ModelAndView addMailController(OnlineForAdd online, BindingResult bindingResult, Device device) {
@@ -26,7 +26,7 @@ public class MailControllerImpl implements IMailController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = mailService.addMailService(online.toDTO());
+		ServiceResult serviceResult = onlineService.addMailService(online.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 查询失败则返回错误页面

@@ -18,11 +18,6 @@ public class MailServiceTest {
 	private IMailService service;
 
 	@Test
-	public void addMailService() {
-		System.out.println(service.addMailService(new Online.Builder().onlineEmail("7097825711@qq.com").build()));
-	}
-
-	@Test
 	public void sendMailService() {
 		service.sendMailService(new Work.Builder().workName("作品A").workPdfpath("/asdasd").build());
 	}
