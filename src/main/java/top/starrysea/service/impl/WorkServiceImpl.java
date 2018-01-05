@@ -113,6 +113,7 @@ public class WorkServiceImpl implements IWorkService {
 				throw new RuntimeException("插入作品图片失败");
 			}
 			ServiceResult serviceResult = new ServiceResult();
+			serviceResult.setSuccessed(true);
 			serviceResult.setResult(Work.class, work);
 			return serviceResult;
 		} catch (RuntimeException e) {
