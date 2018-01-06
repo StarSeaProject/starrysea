@@ -57,10 +57,10 @@ public class WorkControllerTest {
 //		}
 //	}
 
-	@Test
-	public void removeWorkController() {
-		WorkForOne work = new WorkForOne();
-		work.setWorkId(1);
-		System.out.println(workController.removeWorkController(work, null,null));
-	}
+//	@Test
+//	public void removeWorkController() {
+//		WorkForOne work = new WorkForOne();
+//		work.setWorkId(1);
+//		System.out.println(workController.removeWorkController(work, null,null));
+//	}
 }

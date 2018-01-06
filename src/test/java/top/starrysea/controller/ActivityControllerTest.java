@@ -44,37 +44,37 @@ public class ActivityControllerTest {
 		System.out.println(modelAndView.getModel());
 	}
 
-	@Test
-	public void addActivityController() {
-		ActivityForAdd activity = new ActivityForAdd();
-		activity.setActivityName("asdfasdf");
-		activity.setActivityContent("qweasdqaweqweasd");
-		List<ActivityImageForAdd> activityImages = new ArrayList<>();
-		ActivityImageForAdd activityImage = new ActivityImageForAdd();
-		activityImage.setActivityImagePath("aa");
-		activityImages.add(activityImage);
-		activityImage = new ActivityImageForAdd();
-		activityImage.setActivityImagePath("bb");
-		activityImages.add(activityImage);
-		activity.setActivityImages(activityImages);
-		ModelAndView modelAndView = controller.addActivityController(null, activity, null,null);
-		System.out.println(modelAndView.getViewName());
-		System.out.println(modelAndView.getModel());
-	}
-
-	@Test
-	public void modifyActivityController() {
-		ActivityForModify activity = new ActivityForModify();
-		ModelAndView modelAndView = controller.modifyActivityController(activity, null,null);
-		System.out.println(modelAndView.getViewName());
-		System.out.println(modelAndView.getModel());
-	}
-
-	@Test
-	public void removeActivityController() {
-		ActivityForOne activity = new ActivityForOne();
-		ModelAndView modelAndView = controller.removeActivityController(activity, null,null);
-		System.out.println(modelAndView.getViewName());
-		System.out.println(modelAndView.getModel());
-	}
+//	@Test
+//	public void addActivityController() {
+//		ActivityForAdd activity = new ActivityForAdd();
+//		activity.setActivityName("asdfasdf");
+//		activity.setActivityContent("qweasdqaweqweasd");
+//		List<ActivityImageForAdd> activityImages = new ArrayList<>();
+//		ActivityImageForAdd activityImage = new ActivityImageForAdd();
+//		activityImage.setActivityImagePath("aa");
+//		activityImages.add(activityImage);
+//		activityImage = new ActivityImageForAdd();
+//		activityImage.setActivityImagePath("bb");
+//		activityImages.add(activityImage);
+//		activity.setActivityImages(activityImages);
+//		ModelAndView modelAndView = controller.addActivityController(null, activity, null,null);
+//		System.out.println(modelAndView.getViewName());
+//		System.out.println(modelAndView.getModel());
+//	}
+//
+//	@Test
+//	public void modifyActivityController() {
+//		ActivityForModify activity = new ActivityForModify();
+//		ModelAndView modelAndView = controller.modifyActivityController(activity, null,null);
+//		System.out.println(modelAndView.getViewName());
+//		System.out.println(modelAndView.getModel());
+//	}
+//
+//	@Test
+//	public void removeActivityController() {
+//		ActivityForOne activity = new ActivityForOne();
+//		ModelAndView modelAndView = controller.removeActivityController(activity, null,null);
+//		System.out.println(modelAndView.getViewName());
+//		System.out.println(modelAndView.getModel());
+//	}
 }

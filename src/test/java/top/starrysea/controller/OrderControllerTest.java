@@ -34,28 +34,28 @@ public class OrderControllerTest {
 		System.out.println(orderController.queryOrderController(order, null,null));
 	}
 
-	@Test
-	public void addOrderController() {
-		OrderForAdd order = new OrderForAdd();
-		ModelAndView modelAndView = orderController.addOrderController(order, null,null);
-		System.out.println(modelAndView.getViewName());
-		System.out.println(modelAndView.getModel());
-	}
-
-	@Test
-	public void modifyOrderController() {
-		OrderForModify order = new OrderForModify();
-		ModelAndView modelAndView = orderController.modifyOrderController(order, null,null);
-		System.out.println(modelAndView.getViewName());
-		System.out.println(modelAndView.getModel());
-	}
-
-	@Test
-	public void removeOrderController() {
-		OrderForRemove order = new OrderForRemove();
-		order.setOrderId("1");
-		ModelAndView modelAndView = orderController.removeOrderController(order, null,null);
-		System.out.println(modelAndView.getViewName());
-		System.out.println(modelAndView.getModel());
-	}
+//	@Test
+//	public void addOrderController() {
+//		OrderForAdd order = new OrderForAdd();
+//		ModelAndView modelAndView = orderController.addOrderController(order, null,null);
+//		System.out.println(modelAndView.getViewName());
+//		System.out.println(modelAndView.getModel());
+//	}
+//
+//	@Test
+//	public void modifyOrderController() {
+//		OrderForModify order = new OrderForModify();
+//		ModelAndView modelAndView = orderController.modifyOrderController(order, null,null);
+//		System.out.println(modelAndView.getViewName());
+//		System.out.println(modelAndView.getModel());
+//	}
+//
+//	@Test
+//	public void removeOrderController() {
+//		OrderForRemove order = new OrderForRemove();
+//		order.setOrderId("1");
+//		ModelAndView modelAndView = orderController.removeOrderController(order, null,null);
+//		System.out.println(modelAndView.getViewName());
+//		System.out.println(modelAndView.getModel());
+//	}
 }

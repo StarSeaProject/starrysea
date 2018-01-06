@@ -32,10 +32,10 @@ public class OrderServiceTest {
 				.queryOrderService(new Orders.Builder().orderNum("MWsW8VnJZSWLX7WdzXJDYpVKMsKzZD").build()));
 	}
 
-	@Test
-	public void addOrderService() {
-		System.out.println(orderService
-				.addOrderService(new Orders.Builder().work(new Work.Builder().workId(6).build()).orderName("liuyang")
-						.orderArea(new Area.Builder().areaId(1).build()).orderAddress("asdasdasd").build()));
-	}
+//	@Test
+//	public void addOrderService() {
+//		System.out.println(orderService
+//				.addOrderService(new Orders.Builder().work(new Work.Builder().workId(6).build()).orderName("liuyang")
+//						.orderArea(new Area.Builder().areaId(1).build()).orderAddress("asdasdasd").build()));
+//	}
 }

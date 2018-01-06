@@ -41,18 +41,18 @@ public class ActivityServiceTest {
 		System.out.println(serviceResult.getResult(Activity.class));
 	}
 
-	@Test
-	public void addActivityService() {
-		Activity activity = new Activity.Builder().activityName("asd").activityStatus((short) 1)
-				.activitySummary("qweqwe").activityContent("21qw2e1qwe").build();
-		try {
-			MockMultipartFile coverFile = new MockMultipartFile("1.jpg",
-					new FileInputStream(new File("D:/develop/nginx-1.12.1/img/starsea.png")));
-			service.addActivityService(coverFile, activity, new ArrayList<>());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void addActivityService() {
+//		Activity activity = new Activity.Builder().activityName("asd").activityStatus((short) 1)
+//				.activitySummary("qweqwe").activityContent("21qw2e1qwe").build();
+//		try {
+//			MockMultipartFile coverFile = new MockMultipartFile("1.jpg",
+//					new FileInputStream(new File("D:/develop/nginx-1.12.1/img/starsea.png")));
+//			service.addActivityService(coverFile, activity, new ArrayList<>());
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

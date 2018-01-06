@@ -40,21 +40,21 @@ public class WorkDaoTest {
 		System.out.println(workDao.getWorkDao(new Work.Builder().workId(6).build()).getResult(Integer.class));
 	}
 
-	@Test
-	public void saveWorkDao() {
-		System.out.println(workDao.saveWorkDao(new Work.Builder().workName("啊啊啊").workPdfpath("dd").workStock(4)
-				.workUploadTime(Common.getNowDate()).build()));
-	}
-
-	@Test
-	public void deleteWorkDao() {
-		System.out.println(workDao.deleteWorkDao(new Work.Builder().workId(5).build()));
-	}
-
-	@Test
-	public void updateWorkStockDao() {
-		System.out.println(workDao.updateWorkStockDao(new Work.Builder().workId(3).workStock(1).build()));
-	}
+//	@Test
+//	public void saveWorkDao() {
+//		System.out.println(workDao.saveWorkDao(new Work.Builder().workName("啊啊啊").workPdfpath("dd").workStock(4)
+//				.workUploadTime(Common.getNowDate()).build()));
+//	}
+//
+//	@Test
+//	public void deleteWorkDao() {
+//		System.out.println(workDao.deleteWorkDao(new Work.Builder().workId(5).build()));
+//	}
+//
+//	@Test
+//	public void updateWorkStockDao() {
+//		System.out.println(workDao.updateWorkStockDao(new Work.Builder().workId(3).workStock(1).build()));
+//	}
 
 	@Test
 	public void getStockDao() {
