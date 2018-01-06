@@ -30,7 +30,7 @@ public class FileUtil {
 		if (file == null || file.isEmpty())
 			throw new NullPointerException("文件为空");
 		String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
-		if (!isRightFileType(fileType, fileCondition.getFileType()))
+		if (!fileCondition.getFileType().contains(bytesToHex(file.getBytes())))
 			throw new IllegalArgumentException("文件类型不正确");
 		Double fileSize = (double) file.getSize() / (double) (1024 * 1024);
 		if (fileCondition.getFileSize() != null && fileSize.compareTo(fileCondition.getFileSize()) > 0)
@@ -48,16 +48,24 @@ public class FileUtil {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
-		return File.separator+nowDate + File.separator + originFileName;
+		return File.separator + nowDate + File.separator + originFileName;
 	}
 
-	private boolean isRightFileType(String sourceFileType, FileType fileType) {
-		if (fileType == FileType.IMG) {
-			return sourceFileType.equals("png") || sourceFileType.equals("jpg") || sourceFileType.equals("jpeg");
-		} else if (fileType == FileType.PDF) {
-			return sourceFileType.equals("pdf");
+	/** 将字节数组转换成16进制字符串 */
+	public String bytesToHex(byte[] src) {
+		StringBuilder stringBuilder = new StringBuilder("");
+		if (src == null || src.length <= 0) {
+			return null;
 		}
-		return false;
+		for (int i = 0; i < src.length; i++) {
+			int v = src[i] & 0xFF;
+			String hv = Integer.toHexString(v);
+			if (hv.length() < 2) {
+				stringBuilder.append(0);
+			}
+			stringBuilder.append(hv);
+		}
+		return stringBuilder.toString().toUpperCase();
 	}
 
 	private String getFilePathName(FileType fileType) {
