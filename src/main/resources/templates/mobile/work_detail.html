@@ -53,9 +53,11 @@
         a:hover {
             color: rgb(7, 251, 251);
         }
-        .titleh1{
-        font-size:0.8em;
+
+        .titleh1 {
+            font-size: 0.8em;
         }
+
         .workname {
             background-color: #eeeeee;
             color: #23b1f7;
@@ -79,8 +81,8 @@
 <body>
 <div class="navbartop" style="clear: both">
     <div class="navbar-header col-xs-3">
-        <img src="/starsea.png" style="width: 70px;"
-             class="img-reponsive"></img>
+        <a href="/"><img src="/starsea.png" style="width: 70px;"
+                         class="img-reponsive"></img></a>
     </div>
     <div class="navbar-right col-xs-9 text-right">
         <a href="/work" class="ma text-right">作品</a>
@@ -99,7 +101,7 @@
         <div class="col-xs-6">
             <div class="h1">
                 <h1 th:text="${work.workName}"
-                class="titleh1"></h1>
+                    class="titleh1"></h1>
             </div>
             <div class="h6" th:text="'上架时间:'+${work.workUploadTime}"></div>
             <div class="h6" th:text="'点击量:'+${work.workClick}"></div>
@@ -127,7 +129,7 @@
         console.log(workImages);
         let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
         $("#more_image").before(str);
-        $("#more_image").on("click", () => {
+        $("#more_image").on("click", () = > {
             let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
         $("#more_image").before(str);
     })

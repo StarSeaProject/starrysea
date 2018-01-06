@@ -2,108 +2,107 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-<meta charset="utf-8"></meta>
+    <meta charset="utf-8"></meta>
 
-<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-<title>星之海志愿者公会</title>
-<link rel="stylesheet"
-	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-<link rel="stylesheet"
-	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="/mycss.css"></link>
+    <title>星之海志愿者公会</title>
+    <link rel="stylesheet"
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+    <link rel="stylesheet"
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/mycss.css"></link>
 
-<style>
-	.navbartop {
-		width: 100%;
-		background: #1e93f3;
-	}
+    <style>
+        .navbartop {
+            width: 100%;
+            background: #1e93f3;
+        }
 
-	.ma {
-		margin-top: 20px;
-		margin-left: 10px;
-		margin-bottom: -4px;
-		color: white;
-		display: inline-block;
-		font-size: 1.2em;
-	}
+        .ma {
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-bottom: -4px;
+            color: white;
+            display: inline-block;
+            font-size: 1.2em;
+        }
 
-	.mfoot {
-		background-image: url("/wavew.png");
-		background-repeat: repeat-x;
-		height: 120px;
-		backgroud: #409cc3;
-	}
-#btnnav {
-	float: right;
-}
+        .mfoot {
+            background-image: url("/wavew.png");
+            background-repeat: repeat-x;
+            height: 120px;
+            backgroud: #409cc3;
+        }
 
-#shownav {
-	float: right;
-}
+        #btnnav {
+            float: right;
+        }
 
-.abnav {
-	color: #FFFFFF;
-	font-size: 1.5em;
-}
+        #shownav {
+            float: right;
+        }
 
-a:hover {
-	color: rgb(7, 251, 251);
-}
+        .abnav {
+            color: #FFFFFF;
+            font-size: 1.5em;
+        }
 
-.imagerow {
-	margin: 15px;
-}
-</style>
+        a:hover {
+            color: rgb(7, 251, 251);
+        }
+
+        .imagerow {
+            margin: 15px;
+        }
+    </style>
 </head>
 
 <body>
-	<div class="navbartop" style="clear: both">
-			<div class="navbar-header col-xs-3">
-				<img src="/starsea.png" style="width: 70px;"
-					class="img-reponsive"></img>
-			</div>
-			<div class="navbar-right col-xs-9 text-right">
-				<a href="/work" class="ma text-right">作品</a>
-				<a href="/activity" class="ma text-right">活动</a>
-				<a href="/mintro.html" class="ma text-right">关于</a>
-			</div>
-			<img class="img-reponsive" src="/navbar.jpg"></img>
-	</div>
+<div class="navbartop" style="clear: both">
+    <div class="navbar-header col-xs-3">
+        <a href="/"><img src="/starsea.png" style="width: 70px;"
+                         class="img-reponsive"></img></a>
+    </div>
+    <div class="navbar-right col-xs-9 text-right">
+        <a href="/work" class="ma text-right">作品</a>
+        <a href="/activity" class="ma text-right">活动</a>
+        <a href="/mintro.html" class="ma text-right">关于</a>
+    </div>
+    <img class="img-reponsive" src="/navbar.jpg"></img>
+</div>
 
-	<div class="container">
-		<table>
-			<thead>
-				<tr>
-					<td></td>
-				</tr>
-			</thead>
-			<tbody id="activitys">
-				<tr th:each="activity:${result}">
-					<td><a th:attr="data-activityid=${activity.activityId}"
-						href="javascript:void(0)" th:text="${activity.activityName}"></a></td>
-				</tr>
-			</tbody>
-		</table>
-		<br />
-		<div id="pages">
-			<a href="javascript:void(0)"
-				th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"></a> <span
-				th:text="${nowPage}"></span> <a href="javascript:void(0)"
-				th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"></a>
-		</div>
-	</div>
-	<form id="activityDetail" action="/activity/detail" method="get">
-		<input id="activityId" type="hidden" name="activityId" />
-	</form>
-
-
+<div class="container">
+    <table>
+        <thead>
+        <tr>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody id="activitys">
+        <tr th:each="activity:${result}">
+            <td><a th:attr="data-activityid=${activity.activityId}"
+                   href="javascript:void(0)" th:text="${activity.activityName}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+    <br/>
+    <div id="pages">
+        <a href="javascript:void(0)"
+           th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"></a> <span
+            th:text="${nowPage}"></span> <a href="javascript:void(0)"
+                                            th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"></a>
+    </div>
+</div>
+<form id="activityDetail" action="/activity/detail" method="get">
+    <input id="activityId" type="hidden" name="activityId"/>
+</form>
 
 
-	<script src="/common.js"></script>
-	<script src="/activity.js"></script>
+<script src="/common.js"></script>
+<script src="/activity.js"></script>
 
 </body>
 
