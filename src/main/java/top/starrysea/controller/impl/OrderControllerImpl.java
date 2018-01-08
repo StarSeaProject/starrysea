@@ -58,7 +58,7 @@ public class OrderControllerImpl implements IOrderController {
 		theResult.put("totalPage", serviceResult.getTotalPage());
 		return theResult;
 	}
-	
+
 	@Override
 	// 根据订单号查询一个订单的具体信息以及发货情况
 	@RequestMapping(value = "/order/{orderNum}", method = RequestMethod.GET)
@@ -70,12 +70,12 @@ public class OrderControllerImpl implements IOrderController {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		Orders o = serviceResult.getResult(Orders.class);
 		modelAndView.addObject("orders", o.toVoForOne());
-		modelAndView.setViewName(device.isNormal() ? "orders_details" : MOBILE + "orders_details");
+		modelAndView.setViewName(device.isMobile() ? MOBILE + "orders_details" : "orders_details");
 		return modelAndView;
 	}
 
@@ -122,11 +122,11 @@ public class OrderControllerImpl implements IOrderController {
 		ServiceResult serviceResult = orderService.addOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "下单成功!");
-		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -141,11 +141,11 @@ public class OrderControllerImpl implements IOrderController {
 		ServiceResult serviceResult = orderService.modifyOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "修改成功！");
-		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -160,11 +160,11 @@ public class OrderControllerImpl implements IOrderController {
 		ServiceResult serviceResult = orderService.removeOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "删除成功!");
-		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 

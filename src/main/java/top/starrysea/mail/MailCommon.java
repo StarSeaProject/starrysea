@@ -61,7 +61,5 @@ public class MailCommon implements InitializingBean {
 				logger.error(e.getMessage(), e);
 			}
 		}
-
 	}
-
 }
