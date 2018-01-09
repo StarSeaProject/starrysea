@@ -71,7 +71,7 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult addOrderService(Orders order) {
 		Work work = order.getWork();
 		work.setWorkStock(1);
-		order.setOrderId(Common.getCharId(5));
+		order.setOrderId(Common.getCharId("O-",10));
 		DaoResult daoResult = workDao.getStockDao(work);
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult("该作品不存在");
