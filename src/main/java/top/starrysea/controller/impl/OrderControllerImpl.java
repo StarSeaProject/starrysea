@@ -103,7 +103,7 @@ public class OrderControllerImpl implements IOrderController {
 		return theResult;
 	}
 
-	@RequestMapping(value = "/order/toAddOrder", method = RequestMethod.GET)
+	@RequestMapping(value = "/order/toAddOrder/{workId}", method = RequestMethod.GET)
 	public ModelAndView gotoAddOrder(@Valid WorkForOne work, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("workId", work.getWorkId());
@@ -113,7 +113,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 对一个作品进行下单
-	@RequestMapping(value = "/order/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/order/add/{workId}", method = RequestMethod.PUT)
 	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
@@ -132,7 +132,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 修改一个订单的状态
-	@RequestMapping(value = "/order/modify", method = RequestMethod.POST)
+	@RequestMapping(value = "/order/modify/{orderId}", method = RequestMethod.PUT)
 	public ModelAndView modifyOrderController(@Valid OrderForModify order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
@@ -151,7 +151,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 删除一个订单
-	@RequestMapping(value = "/order/remove", method = RequestMethod.POST)
+	@RequestMapping(value = "/order/remove/{orderId}", method = RequestMethod.DELETE)
 	public ModelAndView removeOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
