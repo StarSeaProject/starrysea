@@ -24,7 +24,7 @@ public class OnlineControllerImpl implements IOnlineController {
 	private IOnlineService onlineService;
 
 	@Override
-	@RequestMapping(value="/add",method=RequestMethod.POST)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView addOnlineController(OnlineForAdd online, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
@@ -34,11 +34,11 @@ public class OnlineControllerImpl implements IOnlineController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 查询失败则返回错误页面
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		// 添加成功则返回成功页面
-		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 

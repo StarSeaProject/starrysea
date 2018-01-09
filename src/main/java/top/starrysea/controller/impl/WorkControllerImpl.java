@@ -55,7 +55,7 @@ public class WorkControllerImpl implements IWorkController {
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName(device.isNormal() ? "work" : MOBILE + "work");
+		modelAndView.setViewName(device.isMobile() ? MOBILE + "work" : "work");
 		return modelAndView;
 	}
 
@@ -99,7 +99,7 @@ public class WorkControllerImpl implements IWorkController {
 		modelAndView.addObject("work", w.toVoForOne());
 		modelAndView.addObject("workId", work.getWorkId());
 		modelAndView.addObject("workImages", serviceResult.getResult(List.class));
-		modelAndView.setViewName(device.isNormal() ? "work_detail" : MOBILE + "work_detail");
+		modelAndView.setViewName(device.isMobile() ? MOBILE + "work_detail" : "work_detail");
 		return modelAndView;
 	}
 
@@ -143,7 +143,7 @@ public class WorkControllerImpl implements IWorkController {
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "添加成功!");
-		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -162,7 +162,7 @@ public class WorkControllerImpl implements IWorkController {
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "删除成功！");
-		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 

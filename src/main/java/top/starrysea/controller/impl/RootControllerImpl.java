@@ -39,7 +39,7 @@ public class RootControllerImpl implements IRootController {
 	@Override
 	@RequestMapping("/")
 	public ModelAndView index(Device device) {
-		return new ModelAndView(device.isNormal() ? "index" : MOBILE + "index");
+		return new ModelAndView(device.isMobile() ?MOBILE +  "index" : "index");
 	}
 
 	@RequestMapping("/intro")
@@ -50,7 +50,7 @@ public class RootControllerImpl implements IRootController {
 	@RequestMapping("/admin")
 	public ModelAndView admin(HttpSession session, Device device) {
 		if (session.getAttribute(ADMIN_SESSION_KEY) != null) {
-			return new ModelAndView(device.isNormal() ? BOSS : MOBILE + BOSS);
+			return new ModelAndView(device.isMobile() ? MOBILE + BOSS : BOSS);
 		}
 		return new ModelAndView("admin_login");
 	}

@@ -63,7 +63,7 @@ public class ActivityControllerImpl implements IActivityController {
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
 		// 返回众筹活动的列表页
-		modelAndView.setViewName(device.isNormal() ? "all_activity" : MOBILE + "all_activity");
+		modelAndView.setViewName(device.isMobile() ? MOBILE + "all_activity" : "all_activity");
 		return modelAndView;
 	}
 
@@ -109,7 +109,7 @@ public class ActivityControllerImpl implements IActivityController {
 		modelAndView.addObject("activity", a.toVoForOne());
 		modelAndView.addObject("fundings", serviceResult.getResult(List.class));
 		// 返回众筹活动的详细页
-		modelAndView.setViewName(device.isNormal() ? "activity_detail" : MOBILE + "activity_detail");
+		modelAndView.setViewName(device.isMobile() ? MOBILE + "activity_detail" : "activity_detail");
 		return modelAndView;
 	}
 
@@ -154,12 +154,12 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 添加失败则返回错误页面
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "添加成功！");
 		// 添加成功则返回成功页面
-		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -176,12 +176,12 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 修改失败则返回错误页面
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "修改成功!");
 		// 修改成功则返回成功页面
-		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -198,12 +198,12 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 删除失败则返回错误页面
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		// 删除成功则返回成功页面
 		modelAndView.addObject("info", "删除成功!");
-		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -223,12 +223,12 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 添加失败则返回错误页面
-			modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		// 添加成功则返回成功页面
 		modelAndView.addObject("info", "添加成功!");
-		modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -244,12 +244,12 @@ public class ActivityControllerImpl implements IActivityController {
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			// 添加失败则返回错误页面
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		// 添加成功则返回成功页面
 		modelAndView.addObject("info", "删除成功!");
-		modelAndView.setViewName(device.isNormal() ? SUCCESS_VIEW : MOBILE + SUCCESS_VIEW);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 

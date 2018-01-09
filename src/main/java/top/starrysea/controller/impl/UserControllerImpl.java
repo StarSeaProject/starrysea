@@ -39,10 +39,10 @@ public class UserControllerImpl implements IUserController {
 			Admin admin1 = serviceResult.getResult(Admin.class);
 			// 登陆成功,返回管理员的主页
 			modelAndView.addObject(ADMIN_SESSION_KEY, admin1.getAdminId());
-			modelAndView.setViewName(device.isNormal() ? BOSS : MOBILE + BOSS);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + BOSS : BOSS);
 		} else {
 			// 登陆失败,返回登陆页面
-			modelAndView.setViewName(device.isNormal() ? LOGIN_VIEW : MOBILE + LOGIN_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + LOGIN_VIEW : LOGIN_VIEW);
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 		}
 		return modelAndView;
@@ -51,7 +51,7 @@ public class UserControllerImpl implements IUserController {
 	@Override
 	@RequestMapping(value = "/exit", method = RequestMethod.GET)
 	public ModelAndView exitController(Device device) {
-		return new ModelAndView(device.isNormal() ? LOGIN_VIEW : MOBILE + LOGIN_VIEW);
+		return new ModelAndView(device.isMobile() ? MOBILE + LOGIN_VIEW : LOGIN_VIEW);
 	}
 
 }
