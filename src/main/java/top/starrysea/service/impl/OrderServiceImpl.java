@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
@@ -70,6 +71,7 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult addOrderService(Orders order) {
 		Work work = order.getWork();
 		work.setWorkStock(1);
+		order.setOrderId(Common.getCharId(5));
 		DaoResult daoResult = workDao.getStockDao(work);
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult("该作品不存在");
