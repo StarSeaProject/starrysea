@@ -107,7 +107,7 @@ public class OrderControllerImpl implements IOrderController {
 	public ModelAndView gotoAddOrder(@Valid WorkForOne work, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("workId", work.getWorkId());
-		modelAndView.setViewName(device.isNormal() ? "add_order" : MOBILE + "add_order");
+		modelAndView.setViewName(device.isMobile() ? MOBILE + "add_order" : "add_order");
 		return modelAndView;
 	}
 

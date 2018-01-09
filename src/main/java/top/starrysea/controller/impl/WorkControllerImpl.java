@@ -46,7 +46,7 @@ public class WorkControllerImpl implements IWorkController {
 		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isNormal() ? ERROR_VIEW : MOBILE + ERROR_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		List<Work> result = serviceResult.getResult(List.class);
