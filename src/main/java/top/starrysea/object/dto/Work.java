@@ -1,6 +1,7 @@
 package top.starrysea.object.dto;
 
 import top.starrysea.kql.entity.Entity;
+import top.starrysea.kql.entity.IBuilder;
 import top.starrysea.object.view.out.WorkForAll;
 import top.starrysea.object.view.out.WorkForOne;
 
