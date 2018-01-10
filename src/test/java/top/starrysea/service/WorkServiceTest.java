@@ -43,7 +43,7 @@ public class WorkServiceTest {
 //		try {
 //			MockMultipartFile coverFile = new MockMultipartFile("1.jpg",
 //					new FileInputStream(new File("D:/develop/nginx-1.12.1/img/starsea.png")));
-//			MockMultipartFile[] array = new MockMultipartFile[3];
+//			MockMultipartFile[] array = new MockMultipartFile[1];
 //			System.out.println(workService.addWorkService(coverFile, array, work));
 //		} catch (Exception e) {
 //			e.printStackTrace();

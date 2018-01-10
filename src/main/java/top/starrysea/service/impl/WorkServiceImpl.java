@@ -93,25 +93,25 @@ public class WorkServiceImpl implements IWorkService {
 	@Transactional
 	public ServiceResult addWorkService(MultipartFile coverFile, MultipartFile[] imageFiles, Work work) {
 		try {
-			String originCoverFileName = fileUtil.saveFile(coverFile,
-					FileCondition.of(FileType.IMG, 1, work.getWorkName()));
-			work.setWorkUploadTime(Common.getNowDate());
-			work.setWorkCover(originCoverFileName);
-			DaoResult daoResult = workDao.saveWorkDao(work);
-			if (!daoResult.isSuccessed()) {
-				throw new RuntimeException("插入作品失败");
-			}
-			work.setWorkId(daoResult.getResult(Integer.class));
-			List<WorkImage> workImages = new ArrayList<>();
-			for (MultipartFile imageFile : imageFiles) {
-				String originImageFileName = fileUtil.saveFile(imageFile,
-						FileCondition.of(FileType.IMG, 1, work.getWorkName()));
-				workImages.add(new WorkImage.Builder().work(work).workImagePath(originImageFileName).build());
-			}
-			daoResult = workImageDao.saveWorkImageDao(workImages);
-			if (!daoResult.isSuccessed()) {
-				throw new RuntimeException("插入作品图片失败");
-			}
+//			String originCoverFileName = fileUtil.saveFile(coverFile,
+//					FileCondition.of(FileType.IMG, 1, work.getWorkName()));
+//			work.setWorkUploadTime(Common.getNowDate());
+//			work.setWorkCover(originCoverFileName);
+//			DaoResult daoResult = workDao.saveWorkDao(work);
+//			if (!daoResult.isSuccessed()) {
+//				throw new RuntimeException("插入作品失败");
+//			}
+//			work.setWorkId(daoResult.getResult(Integer.class));
+//			List<WorkImage> workImages = new ArrayList<>();
+//			for (MultipartFile imageFile : imageFiles) {
+//				String originImageFileName = fileUtil.saveFile(imageFile,
+//						FileCondition.of(FileType.IMG, 1, work.getWorkName()));
+//				workImages.add(new WorkImage.Builder().work(work).workImagePath(originImageFileName).build());
+//			}
+//			daoResult = workImageDao.saveWorkImageDao(workImages);
+//			if (!daoResult.isSuccessed()) {
+//				throw new RuntimeException("插入作品图片失败");
+//			}
 			ServiceResult serviceResult = new ServiceResult();
 			serviceResult.setSuccessed(true);
 			serviceResult.setResult(Work.class, work);

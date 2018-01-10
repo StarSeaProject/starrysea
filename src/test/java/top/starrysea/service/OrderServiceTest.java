@@ -34,8 +34,14 @@ public class OrderServiceTest {
 
 //	@Test
 //	public void addOrderService() {
-//		System.out.println(orderService
-//				.addOrderService(new Orders.Builder().work(new Work.Builder().workId(6).build()).orderName("liuyang")
-//						.orderArea(new Area.Builder().areaId(1).build()).orderAddress("asdasdasd").build()));
+//		System.out.println(orderService.addOrderService(new Orders.Builder().work(new Work.Builder().workId(6).build())
+//				.orderName("liuyang").orderArea(new Area.Builder().areaId(1).build()).orderAddress("asdasdasd")
+//				.orderEMail("709782571@qq.com").build()));
+//	}
+//
+//	@Test
+//	public void modifyOrderService() {
+//		System.out.println(orderService.modifyOrderService(new Orders.Builder().orderId("O-095GgIDt")
+//				.orderStatus((short) 2).orderExpressnum("asdaqweqwesd").build()));
 //	}
 }

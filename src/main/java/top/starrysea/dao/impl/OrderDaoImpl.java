@@ -60,10 +60,11 @@ public class OrderDaoImpl implements IOrderDao {
 			EntitySqlResult theResult = kumaSqlDao.select("order_name").select("work_name", "w")
 					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
 					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
-					.select("order_email").from(Orders.class, "o")
+					.select("order_email").select("order_num").from(Orders.class, "o")
 					.leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
 					.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
 					.leftjoin(Province.class, "p", "province_id", City.class, "province_id")
+					.leftjoin(Work.class, "w", "work_id", Orders.class, "work_id")
 					.where("order_id", WhereType.EQUALS, order.getOrderId())
 					.endForObject((rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
 							.work(new Work.Builder().workName(rs.getString("work_name")).build())
@@ -73,7 +74,7 @@ public class OrderDaoImpl implements IOrderDao {
 									.build())
 							.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
 							.orderExpressnum(rs.getString("order_expressnum")).orderTime(rs.getLong("order_time"))
-							.build());
+							.orderNum(rs.getString("order_num")).build());
 			return new DaoResult(true, theResult.getResult());
 		}
 		return new DaoResult(false, "订单号和订单id不能同时为空");
@@ -83,26 +84,22 @@ public class OrderDaoImpl implements IOrderDao {
 	// 对一个作品进行下单
 	public DaoResult saveOrderDao(Orders order) {
 		kumaSqlDao.changeMode(OperationType.INSERT);
+		order.setOrderNum(Common.getCharId(30));
 		kumaSqlDao.insert("order_id", order.getOrderId()).insert("work_id", order.getWork().getWorkId())
-				.insert("order_num", Common.getCharId(30)).insert("order_name", order.getOrderName())
+				.insert("order_num", order.getOrderNum()).insert("order_name", order.getOrderName())
 				.insert("order_area", order.getOrderArea().getAreaId()).insert("order_address", order.getOrderAddress())
 				.insert("order_status", 1).insert("order_time", System.currentTimeMillis())
 				.insert("order_email", order.getOrderEMail()).table(Orders.class).end();
-		return new DaoResult(true);
+		return new DaoResult(true, order);
 	}
 
 	@Override
 	// 修改一个订单的状态
 	public DaoResult updateOrderDao(Orders order) {
 		kumaSqlDao.changeMode(OperationType.UPDATE);
-		if (order.getOrderExpressnum() != null) {
-			kumaSqlDao.update("order_status", UpdateSetType.ASSIGN, order.getOrderStatus())
-					.update("order_expressnum", UpdateSetType.ASSIGN, order.getOrderExpressnum()).table(Orders.class)
-					.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
-		} else {
-			kumaSqlDao.update("order_status", UpdateSetType.ASSIGN, order.getOrderStatus()).table(Orders.class)
-					.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
-		}
+		kumaSqlDao.update("order_status", UpdateSetType.ASSIGN, order.getOrderStatus())
+				.update("order_expressnum", UpdateSetType.ASSIGN, order.getOrderExpressnum()).table(Orders.class)
+				.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
 		return new DaoResult(true);
 	}
 

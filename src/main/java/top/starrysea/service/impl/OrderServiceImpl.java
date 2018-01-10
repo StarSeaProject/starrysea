@@ -71,7 +71,6 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult addOrderService(Orders order) {
 		Work work = order.getWork();
 		work.setWorkStock(1);
-		order.setOrderId(Common.getCharId("O-",10));
 		DaoResult daoResult = workDao.getStockDao(work);
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult("该作品不存在");
@@ -86,19 +85,27 @@ public class OrderServiceImpl implements IOrderService {
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult("减少库存失败");
 		}
+		order.setOrderId(Common.getCharId("O-", 10));
 		daoResult = orderDao.saveOrderDao(order);
 		if (!daoResult.isSuccessed()) {
 			return new ServiceResult("下单失败");
 		}
-		ServiceResult result = new ServiceResult();
-		result.setSuccessed(true);
-		return result;
+		daoResult = workDao.getWorkDao(order.getWork());
+		order.setWork(daoResult.getResult(Work.class));
+		ServiceResult serviceResult = new ServiceResult();
+		serviceResult.setSuccessed(true);
+		serviceResult.setResult(Orders.class, order);
+		return serviceResult;
 	}
 
 	@Override
 	// 修改一个订单的状态
 	public ServiceResult modifyOrderService(Orders order) {
-		return new ServiceResult(orderDao.updateOrderDao(order));
+		DaoResult daoResult = orderDao.updateOrderDao(order);
+		if (!daoResult.isSuccessed()) {
+			return new ServiceResult(daoResult);
+		}
+		return new ServiceResult(orderDao.getOrderDao(order));
 	}
 
 	@Override
