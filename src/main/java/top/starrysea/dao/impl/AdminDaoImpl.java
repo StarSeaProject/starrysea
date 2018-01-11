@@ -8,7 +8,6 @@ import top.starrysea.dao.IAdminDao;
 import top.starrysea.kql.clause.WhereType;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
-import top.starrysea.kql.facede.OperationType;
 import top.starrysea.object.dto.Admin;
 
 import static top.starrysea.common.Common.isNotNull;
@@ -23,13 +22,12 @@ public class AdminDaoImpl implements IAdminDao {
 	@Override
 	// 管理员登陆
 	public DaoResult loginDao(Admin admin) {
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		ListSqlResult list = kumaSqlDao.select("1").from(Admin.class)
 				.where("admin_useraccount", WhereType.EQUALS, admin.getAdminUseraccount()).endForList(String.class);
 		if (list.getResult().isEmpty()) {
 			return new DaoResult(false, "管理员账号不存在");
 		}
-		kumaSqlDao.changeMode(OperationType.SELECT);
 		ListSqlResult theResult = kumaSqlDao.select("admin_id").from(Admin.class)
 				.where("admin_useraccount", WhereType.EQUALS, admin.getAdminUseraccount())
 				.where("admin_password", WhereType.EQUALS, md5(admin.getAdminPassword()))

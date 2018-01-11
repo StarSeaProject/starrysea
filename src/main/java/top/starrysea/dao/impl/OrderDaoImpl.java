@@ -15,7 +15,6 @@ import top.starrysea.kql.facede.EntitySqlResult;
 import top.starrysea.kql.facede.IntegerSqlResult;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
-import top.starrysea.kql.facede.OperationType;
 import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.City;
 import top.starrysea.object.dto.Orders;
@@ -35,7 +34,7 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	// 根据订单号查询一个订单
 	public DaoResult getOrderDao(Orders order) {
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		if (isNotNull(order.getOrderNum())) {
 			EntitySqlResult theResult = kumaSqlDao.select("order_name").select("work_name", "w")
 					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
@@ -83,7 +82,7 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	// 对一个作品进行下单
 	public DaoResult saveOrderDao(Orders order) {
-		kumaSqlDao.changeMode(OperationType.INSERT);
+		kumaSqlDao.insertMode();
 		order.setOrderNum(Common.getCharId(30));
 		kumaSqlDao.insert("order_id", order.getOrderId()).insert("work_id", order.getWork().getWorkId())
 				.insert("order_num", order.getOrderNum()).insert("order_name", order.getOrderName())
@@ -96,7 +95,7 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	// 修改一个订单的状态
 	public DaoResult updateOrderDao(Orders order) {
-		kumaSqlDao.changeMode(OperationType.UPDATE);
+		kumaSqlDao.updateMode();
 		kumaSqlDao.update("order_status", UpdateSetType.ASSIGN, order.getOrderStatus())
 				.update("order_expressnum", UpdateSetType.ASSIGN, order.getOrderExpressnum()).table(Orders.class)
 				.where("order_id", WhereType.EQUALS, order.getOrderId()).end();
@@ -106,14 +105,14 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	// 删除一个订单
 	public DaoResult deleteOrderDao(Orders order) {
-		kumaSqlDao.changeMode(OperationType.DELETE);
+		kumaSqlDao.deleteMode();
 		kumaSqlDao.table(Orders.class).where("order_id", WhereType.EQUALS, order.getOrderId()).end();
 		return new DaoResult(true);
 	}
 
 	@Override
 	public DaoResult getAllOrderDao(Condition condition, Orders order) {
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		ListSqlResult theResult = kumaSqlDao.select("order_id").select("order_num").select("order_name")
 				.select("order_status").select("order_time").from(Orders.class)
 				.where("order_num", WhereType.FUZZY, order.getOrderNum())
@@ -128,7 +127,7 @@ public class OrderDaoImpl implements IOrderDao {
 
 	@Override
 	public DaoResult getOrderCountDao(Condition condition, Orders order) {
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		IntegerSqlResult theResult = kumaSqlDao.select(SelectClause.COUNT).from(Orders.class)
 				.where("order_num", WhereType.FUZZY, order.getOrderNum())
 				.where("order_status", WhereType.EQUALS, order.getOrderStatus())

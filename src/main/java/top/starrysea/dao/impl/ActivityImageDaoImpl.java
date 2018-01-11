@@ -13,7 +13,6 @@ import top.starrysea.dao.IActivityImageDao;
 import top.starrysea.kql.clause.WhereType;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
-import top.starrysea.kql.facede.OperationType;
 import top.starrysea.object.dto.Activity;
 import top.starrysea.object.dto.ActivityImage;
 
@@ -25,7 +24,7 @@ public class ActivityImageDaoImpl implements IActivityImageDao {
 
 	@Override
 	public DaoResult getAllActivityImageDao(Activity activity) {
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		ListSqlResult theResult = kumaSqlDao.select("activity_image_path").from(ActivityImage.class)
 				.where("activity_id", WhereType.EQUALS, activity.getActivityId())
 				.endForList((rs, row) -> new ActivityImage.Builder()
@@ -35,7 +34,7 @@ public class ActivityImageDaoImpl implements IActivityImageDao {
 
 	@Override
 	public DaoResult saveActivityImageDao(List<ActivityImage> activityImages) {
-		kumaSqlDao.changeMode(OperationType.INSERT);
+		kumaSqlDao.insertMode();
 		kumaSqlDao.insert("activity_id").insert("activity_image_path").table(ActivityImage.class)
 				.batchEnd(new BatchPreparedStatementSetter() {
 

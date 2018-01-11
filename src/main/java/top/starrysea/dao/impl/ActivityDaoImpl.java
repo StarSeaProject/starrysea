@@ -20,7 +20,6 @@ import top.starrysea.kql.facede.EntitySqlResult;
 import top.starrysea.kql.facede.IntegerSqlResult;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
-import top.starrysea.kql.facede.OperationType;
 import top.starrysea.kql.facede.UpdateSqlResult;
 import top.starrysea.object.dto.Activity;
 
@@ -34,7 +33,7 @@ public class ActivityDaoImpl implements IActivityDao {
 
 	@Override
 	public DaoResult getNewestActivityDao() {
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		EntitySqlResult theResult = kumaSqlDao.select("activity_id").select("activity_name").select("activity_cover")
 				.select("activity_summary").select("activity_endtime").from(Activity.class)
 				.orderBy("activity_id", OrderByType.DESC).limit(1)
@@ -54,7 +53,7 @@ public class ActivityDaoImpl implements IActivityDao {
 		} else {
 			start = (condition.getPage() - 1) * PAGE_LIMIT;
 		}
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		ListSqlResult theResult = kumaSqlDao.select("activity_id").select("activity_name").select("activity_cover")
 				.select("activity_summary").select("activity_endtime").from(Activity.class)
 				.where("activity_name", WhereType.FUZZY, activity.getActivityName())
@@ -69,7 +68,7 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	// 查询所有众筹活动的数量，用于分页
 	public DaoResult getActivityCountDao(Condition condition, Activity activity) {
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		IntegerSqlResult theResult = kumaSqlDao.select(SelectClause.COUNT).from(Activity.class)
 				.where("activity_name", WhereType.FUZZY, activity.getActivityName()).endForNumber();
 		return new DaoResult(true, theResult.getResult());
@@ -78,7 +77,7 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	// 查询一个众筹活动的详情页
 	public DaoResult getActivityDao(Activity activity) {
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		EntitySqlResult theResult = kumaSqlDao.select("activity_name").select("activity_content")
 				.select("activity_status").select("activity_money").from(Activity.class)
 				.where("activity_id", WhereType.EQUALS, activity.getActivityId())
@@ -92,7 +91,7 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	// 添加一个众筹活动
 	public DaoResult saveActivityDao(Activity activity) {
-		kumaSqlDao.changeMode(OperationType.INSERT);
+		kumaSqlDao.insertMode();
 		UpdateSqlResult theResult = kumaSqlDao.insert("activity_name", activity.getActivityName())
 				.insert("activity_content", activity.getActivityContent())
 				.insert("activity_status", activity.getActivityStatus())
@@ -104,7 +103,7 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	// 修改一个众筹活动的状态
 	public DaoResult updateActivityDao(Activity activity) {
-		kumaSqlDao.changeMode(OperationType.UPDATE);
+		kumaSqlDao.updateMode();
 		if (activity.getActivityStatus() == 3) {
 			kumaSqlDao.update("activity_status", UpdateSetType.ASSIGN, activity.getActivityStatus())
 					.update("activity_endtime", UpdateSetType.ASSIGN, activity.getActivityEndtime())
@@ -119,14 +118,14 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	// 删除一个众筹活动
 	public DaoResult deleteActivityDao(Activity activity) {
-		kumaSqlDao.changeMode(OperationType.DELETE);
+		kumaSqlDao.deleteMode();
 		kumaSqlDao.table(Activity.class).where("activity_id", WhereType.EQUALS, activity.getActivityId()).end();
 		return new DaoResult(true);
 	}
 
 	@Override
 	public DaoResult updateAddActivityMoneyDao(List<Activity> activitys) {
-		kumaSqlDao.changeMode(OperationType.UPDATE);
+		kumaSqlDao.updateMode();
 		kumaSqlDao.update("activity_money", UpdateSetType.ADD, null).where("activity_id", WhereType.EQUALS, null)
 				.table(Activity.class).batchEnd(new BatchPreparedStatementSetter() {
 
@@ -146,7 +145,7 @@ public class ActivityDaoImpl implements IActivityDao {
 
 	@Override
 	public DaoResult updateReduceActivityMoneyDao(Activity activity) {
-		kumaSqlDao.changeMode(OperationType.UPDATE);
+		kumaSqlDao.updateMode();
 		kumaSqlDao.update("activity_money", UpdateSetType.REDUCE, activity.getActivityMoney())
 				.where("activity_id", WhereType.EQUALS, activity.getActivityId()).table(Activity.class).end();
 		return new DaoResult(true);

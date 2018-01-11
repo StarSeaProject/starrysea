@@ -16,7 +16,6 @@ import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IWorkDao;
 import top.starrysea.dao.IWorkImageDao;
-import top.starrysea.exception.EmptyResultException;
 import top.starrysea.exception.UpdateException;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;

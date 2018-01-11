@@ -13,7 +13,6 @@ import top.starrysea.dao.IFundingDao;
 import top.starrysea.kql.clause.WhereType;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
-import top.starrysea.kql.facede.OperationType;
 import top.starrysea.object.dto.Funding;
 
 @Repository("fundingDao")
@@ -24,7 +23,7 @@ public class FundingDaoImpl implements IFundingDao {
 
 	@Override
 	public DaoResult getAllFundingDao(Funding funding) {
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		ListSqlResult theResult = kumaSqlDao.select("funding_id").select("funding_name").select("funding_money")
 				.select("funding_message").from(Funding.class)
 				.where("activity_id", WhereType.EQUALS, funding.getActivity().getActivityId())
@@ -36,7 +35,7 @@ public class FundingDaoImpl implements IFundingDao {
 
 	@Override
 	public DaoResult saveFundingDao(List<Funding> fundings) {
-		kumaSqlDao.changeMode(OperationType.INSERT);
+		kumaSqlDao.insertMode();
 		kumaSqlDao.insert("activity_id").insert("funding_name").insert("funding_money").insert("funding_message")
 				.table(Funding.class).batchEnd(new BatchPreparedStatementSetter() {
 
@@ -58,7 +57,7 @@ public class FundingDaoImpl implements IFundingDao {
 
 	@Override
 	public DaoResult deleteFundingDao(Funding funding) {
-		kumaSqlDao.changeMode(OperationType.DELETE);
+		kumaSqlDao.deleteMode();
 		kumaSqlDao.table(Funding.class).where("funding_id", WhereType.EQUALS, funding.getFundingId()).end();
 		return new DaoResult(true);
 	}

@@ -22,7 +22,7 @@ public class OnlineDaoImpl implements IOnlineDao {
 
 	@Override
 	public DaoResult saveOnlineDao(Online online) {
-		kumaSqlDao.changeMode(OperationType.INSERT);
+		kumaSqlDao.insertMode();
 		try {
 			kumaSqlDao.insert("online_id", online.getOnlineId()).insert("online_email", online.getOnlineEmail())
 					.table(Online.class).end();
@@ -35,7 +35,7 @@ public class OnlineDaoImpl implements IOnlineDao {
 
 	@Override
 	public DaoResult getAllOnlineDao() {
-		kumaSqlDao.changeMode(OperationType.SELECT);
+		kumaSqlDao.selectMode();
 		ListSqlResult theResult = kumaSqlDao.select("online_email").from(Online.class)
 				.endForList((rs, row) -> new Online.Builder().onlineEmail(rs.getString("online_email")).build());
 		return new DaoResult(true, theResult.getResult());
