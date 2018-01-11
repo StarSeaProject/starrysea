@@ -1,6 +1,5 @@
 package top.starrysea;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -24,12 +23,12 @@ public class KumaSqlBeanDefinitionRegistryPostProcessor implements BeanDefinitio
 	private BeanNameGenerator beanNameGenerator = new AnnotationBeanNameGenerator();
 
 	@Override
-	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 		// 什么都不做
 	}
 
 	@Override
-	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
+	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) {
 		registerBean(registry, "kumaSqlDao", KumaSqlDaoImpl.class);
 	}
 

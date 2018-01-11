@@ -16,6 +16,8 @@ import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IWorkDao;
 import top.starrysea.dao.IWorkImageDao;
+import top.starrysea.exception.EmptyResultException;
+import top.starrysea.exception.UpdateException;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;
 import top.starrysea.file.FileUtil;
@@ -41,13 +43,7 @@ public class WorkServiceImpl implements IWorkService {
 	public ServiceResult queryAllWorkService(Condition condition, Work work) {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = workDao.getAllWorkDao(condition, work);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
 		List<Work> workList = daoResult.getResult(List.class);
-		if (workList.isEmpty()) {
-			return new ServiceResult("查询结果为空");
-		}
 		int totalPage = 0;
 		daoResult = workDao.getWorkCountDao(condition, work);
 		int count = (int) daoResult.getResult(Integer.class);
@@ -68,19 +64,10 @@ public class WorkServiceImpl implements IWorkService {
 	public ServiceResult queryWorkService(Work work) {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = workDao.getWorkDao(work);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
 		Work w = daoResult.getResult(Work.class);
 		daoResult = workDao.getStockDao(work);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
 		Integer stock = daoResult.getResult(Integer.class);
 		daoResult = workImageDao.getAllWorkImageDao(new WorkImage.Builder().work(work).build());
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
 		result.setSuccessed(true);
 		result.setResult(Work.class, w);
 		result.setResult(Integer.class, stock);
@@ -93,35 +80,25 @@ public class WorkServiceImpl implements IWorkService {
 	@Transactional
 	public ServiceResult addWorkService(MultipartFile coverFile, MultipartFile[] imageFiles, Work work) {
 		try {
-//			String originCoverFileName = fileUtil.saveFile(coverFile,
-//					FileCondition.of(FileType.IMG, 1, work.getWorkName()));
-//			work.setWorkUploadTime(Common.getNowDate());
-//			work.setWorkCover(originCoverFileName);
-//			DaoResult daoResult = workDao.saveWorkDao(work);
-//			if (!daoResult.isSuccessed()) {
-//				throw new RuntimeException("插入作品失败");
-//			}
-//			work.setWorkId(daoResult.getResult(Integer.class));
-//			List<WorkImage> workImages = new ArrayList<>();
-//			for (MultipartFile imageFile : imageFiles) {
-//				String originImageFileName = fileUtil.saveFile(imageFile,
-//						FileCondition.of(FileType.IMG, 1, work.getWorkName()));
-//				workImages.add(new WorkImage.Builder().work(work).workImagePath(originImageFileName).build());
-//			}
-//			daoResult = workImageDao.saveWorkImageDao(workImages);
-//			if (!daoResult.isSuccessed()) {
-//				throw new RuntimeException("插入作品图片失败");
-//			}
-			ServiceResult serviceResult = new ServiceResult();
-			serviceResult.setSuccessed(true);
+			String originCoverFileName = fileUtil.saveFile(coverFile,
+					FileCondition.of(FileType.IMG, 1, work.getWorkName()));
+			work.setWorkUploadTime(Common.getNowDate());
+			work.setWorkCover(originCoverFileName);
+			DaoResult daoResult = workDao.saveWorkDao(work);
+			work.setWorkId(daoResult.getResult(Integer.class));
+			List<WorkImage> workImages = new ArrayList<>();
+			for (MultipartFile imageFile : imageFiles) {
+				String originImageFileName = fileUtil.saveFile(imageFile,
+						FileCondition.of(FileType.IMG, 1, work.getWorkName()));
+				workImages.add(new WorkImage.Builder().work(work).workImagePath(originImageFileName).build());
+			}
+			workImageDao.saveWorkImageDao(workImages);
+			ServiceResult serviceResult = new ServiceResult(true);
 			serviceResult.setResult(Work.class, work);
 			return serviceResult;
-		} catch (RuntimeException e) {
-			logger.error(e.getMessage(), e);
-			throw e;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new ServiceResult("文件上传失败,原因为" + e.getMessage());
+			throw new UpdateException(e);
 		}
 	}
 

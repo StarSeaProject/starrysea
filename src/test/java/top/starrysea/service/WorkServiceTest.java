@@ -27,12 +27,12 @@ public class WorkServiceTest {
 	public void queryAllWorkService() {
 		Condition condition = new Condition();
 		condition.setPage(1);
-		System.out.println(workService.queryAllWorkService(condition, new Work.Builder().build()));
+		System.out.println(workService.queryAllWorkService(condition, new Work.Builder().workName("qweqwe").build()));
 	}
 
 	@Test
 	public void queryWorkService() {
-		ServiceResult serviceResult = workService.queryWorkService(new Work.Builder().workId(6).build());
+		ServiceResult serviceResult = workService.queryWorkService(new Work.Builder().workId(1).build());
 		System.out.println(serviceResult.getResult(Work.class));
 	}
 

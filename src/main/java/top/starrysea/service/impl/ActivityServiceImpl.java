@@ -1,6 +1,5 @@
 package top.starrysea.service.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +16,7 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IActivityDao;
 import top.starrysea.dao.IActivityImageDao;
 import top.starrysea.dao.IFundingDao;
+import top.starrysea.exception.UpdateException;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;
 import top.starrysea.file.FileUtil;
@@ -45,18 +45,9 @@ public class ActivityServiceImpl implements IActivityService {
 	public ServiceResult queryAllActivityService(Condition condition, Activity activity) {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = activityDao.getNewestActivityDao();
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
 		Activity a = daoResult.getResult(Activity.class);
 		daoResult = activityDao.getAllActivityDao(condition, activity);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
 		List<Activity> activitylist = daoResult.getResult(List.class);
-		if (condition.getPage() != 1 && activitylist.isEmpty()) {
-			return new ServiceResult("查询结果为空");
-		}
 		int totalPage = 0;
 		daoResult = activityDao.getActivityCountDao(condition, activity);
 		int count = daoResult.getResult(Integer.class);
@@ -78,17 +69,10 @@ public class ActivityServiceImpl implements IActivityService {
 	public ServiceResult queryActivityService(Activity activity) {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = activityDao.getActivityDao(activity);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
 		Activity a = daoResult.getResult(Activity.class);
 		result.setSuccessed(true);
 		result.setResult(Activity.class, a);
-
 		daoResult = fundingDao.getAllFundingDao(new Funding.Builder().activity(activity).build());
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
 		result.setResult(List.class, daoResult.getResult(List.class));
 		return result;
 	}
@@ -104,17 +88,15 @@ public class ActivityServiceImpl implements IActivityService {
 			activity.setActivityCover(originCoverFileName);
 			activity.setActivityStatus((short) 1);
 			DaoResult daoResult = activityDao.saveActivityDao(activity);
-			if (!daoResult.isSuccessed()) {
-				return new ServiceResult(daoResult);
-			}
 			activity.setActivityId(daoResult.getResult(Integer.class));
 			for (ActivityImage activityImage : activityImages) {
 				activityImage.setActivity(activity);
 			}
-			return new ServiceResult(activityImageDao.saveActivityImageDao(activityImages));
-		} catch (IOException e) {
+			activityImageDao.saveActivityImageDao(activityImages);
+			return new ServiceResult(true);
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			return new ServiceResult("插入失败,原因为" + e.getMessage());
+			throw new UpdateException(e);
 		}
 	}
 
@@ -133,33 +115,36 @@ public class ActivityServiceImpl implements IActivityService {
 	@Override
 	@Transactional
 	public ServiceResult addFundingService(List<Funding> fundings) {
-		DaoResult daoResult = fundingDao.saveFundingDao(fundings);
-		if (!daoResult.isSuccessed())
-			throw new RuntimeException("添加众筹人失败");
-		List<Activity> activitys = new ArrayList<>();
-		for (Funding funding : fundings) {
-			Activity activity = new Activity.Builder().activityMoney(funding.getFundingMoney())
-					.activityId(funding.getActivity().getActivityId()).build();
-			activitys.add(activity);
+		try {
+			fundingDao.saveFundingDao(fundings);
+			List<Activity> activitys = new ArrayList<>();
+			for (Funding funding : fundings) {
+				Activity activity = new Activity.Builder().activityMoney(funding.getFundingMoney())
+						.activityId(funding.getActivity().getActivityId()).build();
+				activitys.add(activity);
+			}
+			activityDao.updateAddActivityMoneyDao(activitys);
+			return new ServiceResult(true);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new UpdateException(e);
 		}
-		daoResult = activityDao.updateAddActivityMoneyDao(activitys);
-		if (!daoResult.isSuccessed())
-			throw new RuntimeException("更新总众筹金额失败");
-		return new ServiceResult(daoResult);
 	}
 
 	@Override
 	@Transactional
 	public ServiceResult removeFundingService(Funding funding) {
-		DaoResult daoResult = fundingDao.deleteFundingDao(funding);
-		if (!daoResult.isSuccessed())
-			throw new RuntimeException("删除众筹人失败");
-		Activity activity = new Activity.Builder().activityMoney(funding.getFundingMoney())
-				.activityId(funding.getActivity().getActivityId()).build();
-		daoResult = activityDao.updateReduceActivityMoneyDao(activity);
-		if (!daoResult.isSuccessed())
-			throw new RuntimeException("更新总众筹金额失败");
-		return new ServiceResult(daoResult);
+		try {
+			fundingDao.deleteFundingDao(funding);
+			Activity activity = new Activity.Builder().activityMoney(funding.getFundingMoney())
+					.activityId(funding.getActivity().getActivityId()).build();
+			activityDao.updateReduceActivityMoneyDao(activity);
+			return new ServiceResult(true);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new UpdateException(e);
+		}
+
 	}
 
 }

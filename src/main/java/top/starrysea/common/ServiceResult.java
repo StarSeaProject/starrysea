@@ -17,6 +17,10 @@ public class ServiceResult {
 		theResult = new HashMap<>();
 	}
 
+	public ServiceResult(boolean successed) {
+		this.successed = successed;
+	}
+
 	public ServiceResult(String errInfo) {
 		theResult = new HashMap<>();
 		this.errInfo = errInfo;

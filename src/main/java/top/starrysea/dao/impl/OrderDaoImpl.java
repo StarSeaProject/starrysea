@@ -77,7 +77,7 @@ public class OrderDaoImpl implements IOrderDao {
 							.orderNum(rs.getString("order_num")).build());
 			return new DaoResult(true, theResult.getResult());
 		}
-		return new DaoResult(false, "订单号和订单id不能同时为空");
+		throw new IllegalArgumentException("订单号和订单id不能同时为空");
 	}
 
 	@Override

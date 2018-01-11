@@ -23,9 +23,6 @@ public class FileUtil {
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private FileUtil() {
-	}
-
 	public String saveFile(MultipartFile file, FileCondition fileCondition) throws IOException {
 		if (file == null || file.isEmpty())
 			throw new NullPointerException("文件为空");

@@ -2,6 +2,8 @@ package top.starrysea.service.impl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,9 @@ import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.dao.IWorkDao;
+import top.starrysea.exception.EmptyResultException;
+import top.starrysea.exception.LogicException;
+import top.starrysea.exception.UpdateException;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.Work;
 import top.starrysea.service.IOrderService;
@@ -20,6 +25,8 @@ import static top.starrysea.dao.impl.OrderDaoImpl.PAGE_LIMIT;
 
 @Service("orderService")
 public class OrderServiceImpl implements IOrderService {
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IOrderDao orderDao;
 	@Autowired
@@ -29,13 +36,7 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = orderDao.getAllOrderDao(condition, order);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
 		List<Orders> ordersList = daoResult.getResult(List.class);
-		if (ordersList.isEmpty()) {
-			return new ServiceResult("查询结果为空");
-		}
 		int totalPage = 0;
 		daoResult = orderDao.getOrderCountDao(condition, order);
 		int count = daoResult.getResult(Integer.class);
@@ -56,9 +57,6 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult queryOrderService(Orders order) {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = orderDao.getOrderDao(order);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
 		Orders o = daoResult.getResult(Orders.class);
 		result.setSuccessed(true);
 		result.setResult(Orders.class, o);
@@ -69,42 +67,35 @@ public class OrderServiceImpl implements IOrderService {
 	// 用户对一个作品进行下单，同时减少该作品的库存
 	@Transactional
 	public ServiceResult addOrderService(Orders order) {
-		Work work = order.getWork();
-		work.setWorkStock(1);
-		DaoResult daoResult = workDao.getStockDao(work);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult("该作品不存在");
+		try {
+			Work work = order.getWork();
+			work.setWorkStock(1);
+			DaoResult daoResult = workDao.getStockDao(work);
+			int stock = daoResult.getResult(Integer.class);
+			if (stock == 0) {
+				throw new EmptyResultException("该作品已售空");
+			} else if (stock - work.getWorkStock() < 0) {
+				throw new LogicException("作品库存不足");
+			}
+			workDao.updateWorkStockDao(work);
+			order.setOrderId(Common.getCharId("O-", 10));
+			orderDao.saveOrderDao(order);
+			daoResult = workDao.getWorkDao(order.getWork());
+			order.setWork(daoResult.getResult(Work.class));
+			ServiceResult serviceResult = new ServiceResult(true);
+			serviceResult.setResult(Orders.class, order);
+			return serviceResult;
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new UpdateException(e);
 		}
-		int stock = daoResult.getResult(Integer.class);
-		if (stock == 0) {
-			return new ServiceResult("该作品已售空");
-		} else if (stock - work.getWorkStock() < 0) {
-			return new ServiceResult("作品库存不足");
-		}
-		daoResult = workDao.updateWorkStockDao(work);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult("减少库存失败");
-		}
-		order.setOrderId(Common.getCharId("O-", 10));
-		daoResult = orderDao.saveOrderDao(order);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult("下单失败");
-		}
-		daoResult = workDao.getWorkDao(order.getWork());
-		order.setWork(daoResult.getResult(Work.class));
-		ServiceResult serviceResult = new ServiceResult();
-		serviceResult.setSuccessed(true);
-		serviceResult.setResult(Orders.class, order);
-		return serviceResult;
+
 	}
 
 	@Override
 	// 修改一个订单的状态
 	public ServiceResult modifyOrderService(Orders order) {
-		DaoResult daoResult = orderDao.updateOrderDao(order);
-		if (!daoResult.isSuccessed()) {
-			return new ServiceResult(daoResult);
-		}
+		orderDao.updateOrderDao(order);
 		return new ServiceResult(orderDao.getOrderDao(order));
 	}
 

@@ -30,8 +30,8 @@ public class ActivityServiceTest {
 	@Test
 	public void queryAllActivityService() {
 		Condition condition = new Condition();
-		condition.setPage(1);
-		System.out.println(service.queryAllActivityService(condition, new Activity.Builder().build()));
+		condition.setPage(2);
+		System.out.println(service.queryAllActivityService(condition, new Activity.Builder().activityName("qweqwe").build()));
 	}
 
 	@Test
