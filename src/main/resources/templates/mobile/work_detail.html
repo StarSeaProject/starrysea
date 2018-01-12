@@ -30,13 +30,6 @@
             font-size: 1.2em;
         }
 
-        .mfoot {
-            background-image: url("/wavew.png");
-            background-repeat: repeat-x;
-            height: 120px;
-            backgroud: #409cc3;
-        }
-
         #btnnav {
             float: right;
         }
@@ -120,7 +113,7 @@
     <button id="more_image">更多</button>
 </div>
 <div class="mfoot text-center">
-    <p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
+    <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 <script th:inline="javascript">
@@ -129,10 +122,11 @@
         console.log(workImages);
         let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
         $("#more_image").before(str);
-        $("#more_image").on("click", () => {
+        $("#more_image").on("click", () = > {
             let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
-        	$("#more_image").before(str);
-    	});
+        $("#more_image").before(str);
+    })
+        ;
         if ($("#stock").text() == "库存:0") {
             $("#gotoOrder").attr("disabled", true);
         }
