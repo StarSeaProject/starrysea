@@ -56,8 +56,8 @@ public class WorkDaoImpl implements IWorkDao {
 		kumaSqlDao.update("work_click", UpdateSetType.ADD, 1).where("work_id", WhereType.EQUALS, work.getWorkId())
 				.table(Work.class).end();
 		kumaSqlDao.selectMode();
-		EntitySqlResult theResult = kumaSqlDao.select("work_name").select("work_uploadtime").select("work_pdfpath")
-				.select("work_click").select("work_cover").from(Work.class)
+		EntitySqlResult<Work> theResult = kumaSqlDao.select("work_name").select("work_uploadtime")
+				.select("work_pdfpath").select("work_click").select("work_cover").from(Work.class)
 				.where("work_id", WhereType.EQUALS, work.getWorkId())
 				.endForObject((rs, row) -> new Work.Builder().workName(rs.getString("work_name"))
 						.workUploadTime(date2String(rs.getDate("work_uploadtime")))
@@ -97,7 +97,7 @@ public class WorkDaoImpl implements IWorkDao {
 	@Override
 	public DaoResult getStockDao(Work work) {
 		kumaSqlDao.selectMode();
-		EntitySqlResult theResult = kumaSqlDao.select("work_stock").from(Work.class)
+		EntitySqlResult<Work> theResult = kumaSqlDao.select("work_stock").from(Work.class)
 				.where("work_id", WhereType.EQUALS, work.getWorkId())
 				.endForObject((rs, row) -> new Work.Builder().workStock(rs.getInt("work_stock")).build());
 		Work w = (Work) theResult.getResult();

@@ -36,7 +36,7 @@ public class OrderDaoImpl implements IOrderDao {
 	public DaoResult getOrderDao(Orders order) {
 		kumaSqlDao.selectMode();
 		if (isNotNull(order.getOrderNum())) {
-			EntitySqlResult theResult = kumaSqlDao.select("order_name").select("work_name", "w")
+			EntitySqlResult<Orders> theResult = kumaSqlDao.select("order_name").select("work_name", "w")
 					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
 					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
 					.select("order_email").from(Orders.class, "o")
@@ -56,7 +56,7 @@ public class OrderDaoImpl implements IOrderDao {
 							.build());
 			return new DaoResult(true, theResult.getResult());
 		} else if (isNotNull(order.getOrderId())) {
-			EntitySqlResult theResult = kumaSqlDao.select("order_name").select("work_name", "w")
+			EntitySqlResult<Orders> theResult = kumaSqlDao.select("order_name").select("work_name", "w")
 					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
 					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
 					.select("order_email").select("order_num").from(Orders.class, "o")

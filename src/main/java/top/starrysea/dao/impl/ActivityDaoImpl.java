@@ -34,7 +34,7 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	public DaoResult getNewestActivityDao() {
 		kumaSqlDao.selectMode();
-		EntitySqlResult theResult = kumaSqlDao.select("activity_id").select("activity_name").select("activity_cover")
+		EntitySqlResult<Activity> theResult = kumaSqlDao.select("activity_id").select("activity_name").select("activity_cover")
 				.select("activity_summary").select("activity_endtime").from(Activity.class)
 				.orderBy("activity_id", OrderByType.DESC).limit(1)
 				.endForObject((rs, row) -> new Activity.Builder().activityId(rs.getInt("activity_id"))
@@ -78,7 +78,7 @@ public class ActivityDaoImpl implements IActivityDao {
 	// 查询一个众筹活动的详情页
 	public DaoResult getActivityDao(Activity activity) {
 		kumaSqlDao.selectMode();
-		EntitySqlResult theResult = kumaSqlDao.select("activity_name").select("activity_content")
+		EntitySqlResult<Activity> theResult = kumaSqlDao.select("activity_name").select("activity_content")
 				.select("activity_status").select("activity_money").from(Activity.class)
 				.where("activity_id", WhereType.EQUALS, activity.getActivityId())
 				.endForObject((rs, row) -> new Activity.Builder().activityName(rs.getString("activity_name"))
