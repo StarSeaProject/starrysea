@@ -122,11 +122,10 @@
         console.log(workImages);
         let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
         $("#more_image").before(str);
-        $("#more_image").on("click", () = > {
+        $("#more_image").on("click", () => {
             let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
         $("#more_image").before(str);
-    })
-        ;
+    	});
         if ($("#stock").text() == "库存:0") {
             $("#gotoOrder").attr("disabled", true);
         }
