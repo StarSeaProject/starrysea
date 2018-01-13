@@ -124,7 +124,7 @@
                         <img th:attr="src=${work.workCover}"
                              class="workimg img-reponsive"></img>
                     </div>
-                    <div class="col-xs-8 workdetail">
+                    <div class="col-xs-7 workdetail">
                         <p th:text="${work.workName}" class="h3 worktitle"></p>
                         <p th:text="${work.workSummary}" class="p workdetail">这里是作品的一句话介绍，简单的描述我们的作品！</p>
                         <a class="h4 detailhref" th:href="@{'/work/'+${work.workId}}">&nbsp;&nbsp;查看作品&nbsp;&nbsp;</a>
