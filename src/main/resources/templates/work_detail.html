@@ -179,8 +179,6 @@
                        th:attr="download=${work.workName}">下载链接</a></h3>
                 <h3 id="stock" th:text="'库存:'+${work.workStock}"></h3>
                 <hr style="border-top:1px solid black"></hr>
-
-                <input id="num" data_step="1" data_min="1" data_digit="0" value="1" data_edit="true"/>
                 <button th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
                         class="btn btn-info">确认购买
                 </button>
@@ -217,12 +215,5 @@
         });
     });
 </script>
-<script>
-    var stks;
-    stks = document.getElementById("stock").innerHTML;
-    var stk = stks.replace(/[^0-9]/ig, "");
-    document.getElementById("num").setAttribute("data_max", stk);
-</script>
-<script src="/num.js"></script>
 </body>
 </html>
