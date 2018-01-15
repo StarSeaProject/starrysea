@@ -2,153 +2,200 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-<meta charset="utf-8"></meta>
+	<meta charset="utf-8"></meta>
 
-<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-<title>星之海志愿者公会</title>
-<link rel="stylesheet"
-	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-<link rel="stylesheet"
-	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="/mycss.css"></link>
+	<title>星之海志愿者公会</title>
+	<link rel="stylesheet"
+		  href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+	<link rel="stylesheet"
+		  href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/mycss.css"></link>
 
-<style>
-.heading {
-	background-image: url("/navbar.jpg");
-	height: 360px;
-	background-repeat: no-repeat;
-}
+	<style>
+		.heading {
+			background-image: url("/navbar.jpg");
+			height: 360px;
+			background-repeat: no-repeat;
+		}
 
-#btnnav {
-	float: right;
-}
+		#btnnav {
+			float: right;
+		}
 
-.myli {
-	color: #fff;
-}
+		.myli {
+			color: #fff;
+		}
 
-.myli:hover {
-	text-decoration: underline;
-}
+		.myli:hover {
+			text-decoration: underline;
+		}
 
-.footbar {
-	background-image: url("/wavew.png");
-	background-repeat: repeat-x;
-	height: 120px;
-	backgroud: #409cc3;
-}
+		.footbar {
+			background-image: url("/wavew.png");
+			background-repeat: repeat-x;
+			height: 120px;
+			backgroud: #409cc3;
+		}
 
-.navimg {
-	transition: all 0.6s;
-}
+		.navimg {
+			transition: all 0.6s;
+		}
 
-.navimg:hover {
-	transform: scale(1.4);
-}
+		.navimg:hover {
+			transform: scale(1.4);
+		}
 
-#shownav {
-	float: right;
-}
+		#shownav {
+			float: right;
+		}
 
-.abnav {
-	color: #FFFFFF;
-	font-size: 1.5em;
-}
+		.abnav {
+			color: #FFFFFF;
+			font-size: 1.5em;
+		}
 
-a:hover {
-	color: rgb(7, 251, 251);
-}
+		a:hover {
+			color: rgb(7, 251, 251);
+		}
+		.pagetitle {
 
-.workname {
-	background-color: #eeeeee;
-	color: #23b1f7;
-	padding-top: 35px;
-	padding-bottom: 35px;
-	margin-top: 0px;
-	margin-bottom: 10px;
-}
+			color: #238acb;
+			padding-top: 35px;
+			padding-bottom: 35px;
+			margin-top: 0px;
+			margin-bottom: 10px;
+		}
 
-.pdfiframe {
-	width: 100%;
-	height: 700px;;
-	border: 0px;
-}
+		.pagetitleh1 {
+			padding-left: 100px;
+			margin: 0px;
+		}
 
-.uploadtime {
-	color: #999999;
-}
-</style>
+		.pagetitleh2 {
+			padding-left: 100px;
+			margin: 0px;
+			color: #999999;
+		}
+		.processbar{
+			background:black;
+			height:40px;
+			margin-bottom:60px;
+		}
+
+		.processbarli{
+			display:inline-block;
+			color:white;
+			font-size:1.6em;
+			padding-left:15px;
+			padding-right:15px;
+			height:40px;
+		}
+		.nowprocess{
+			background:red;
+
+		}
+		.workname {
+			background-color: #eeeeee;
+			color: #23b1f7;
+			padding-top: 35px;
+			padding-bottom: 35px;
+			margin-top: 0px;
+			margin-bottom: 10px;
+		}
+
+		.pdfiframe {
+			width: 100%;
+			height: 700px;;
+			border: 0px;
+		}
+
+		.uploadtime {
+			color: #999999;
+		}
+	</style>
 </head>
 <body>
-	<div class="container"
-		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
-		<nav class="navbar navbar-brand navbar-static-top heading"
-			role="navigation" id="mybar"
-			style="background-size: 99%; margin: 15px; padding: 10px;">
+<div class="container"
+	 style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
+	<nav class="navbar navbar-brand navbar-static-top heading"
+		 role="navigation" id="mybar"
+		 style="background-size: 99%; margin: 15px; padding: 10px;">
 
-			<div class="navbar-header"
-				style="padding-left: 25px; padding-top: 10px;">
-				<a href="/" class="navimg"> <img src="/starsea.png"
-					style="width: 70px;" class="col-sms-4 navimg"></img>
-				</a>
-				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
+		<div class="navbar-header"
+			 style="padding-left: 25px; padding-top: 10px;">
+			<a href="/" class="navimg"> <img src="/starsea.png"
+											 style="width: 70px;" class="col-sms-4 navimg"></img>
+			</a>
+			<button class="navbar-toggle col-sm-4" data-toggle="collapse"
 					data-target="#shownav" id="btnnav">
-					<span class="glyphicon glyphicon-menu-hamburger"></span>
+				<span class="glyphicon glyphicon-menu-hamburger"></span>
 
-				</button>
-			</div>
-			<div class="collapse navbar-collapse navbar-right" id="shownav">
-				<ul class="nav navbar-nav mynavul">
-					<li class="myli"><a href="/work" class="anav">作品阅览</a></li>
-					<li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
-					<li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
-	<div class="container checklist">
+			</button>
+		</div>
+		<div class="collapse navbar-collapse navbar-right" id="shownav">
+			<ul class="nav navbar-nav mynavul">
+				<li class="myli"><a href="/work" class="anav">作品阅览</a></li>
+				<li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
+				<li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
+			</ul>
+		</div>
+	</nav>
+</div>
+<div class="pagetitle">
+	<h1 class="h1 pagetitleh1">作品展示</h1>
+	<h2 class="h2 pagetitleh2">Works Gallery</h2>
+</div>
+<div class="processbar">
+	<ul class="ul" style="padding-left:100px; height:40px;">
+		<li class="processbarli text-center nowprocess">作品信息</li>
+		<li class="processbarli text-center"> > </li>
+		<li class="processbarli text-center">确认订单</li>
+		<li class="processbarli text-center"> > </li>
+		<li class="processbarli text-center">处理结果</li>
+	</ul>
+</div>
+<div class="container checklist">
 
-		<div class="row">
-			<div class="col-xs-4">
-				<img th:attr="src=${work.workCover}" class="img-reponsive"></img>
-			</div>
-			<div class="col-xs-1"></div>
-			<div class="col-xs-6">
-				<div class="h1">
-					<h1 th:text="${work.workName}"></h1>
-				</div>
-				<div class="h2" th:text="'上架时间:'+${work.workUploadTime}"></div>
-				<div class="h2" th:text="'点击量:'+${work.workClick}"></div>
-				<div class="h2">
-					<a th:href="@{${work.workPdfpath}}"
-						th:attr="download=${work.workName}">下载链接</a>
-				</div>
-				<div class="h2" id="stock" th:text="'库存:'+${work.workStock}"></div>
+	<div class="row">
+		<div class="col-xs-4">
+			<img th:attr="src=${work.workCover}" class="img-reponsive"></img>
+		</div>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-6">
+			<div class="detail">
+				<h2 th:text="${work.workName}"></h2>
+				<h3 th:text="'上架时间:'+${work.workUploadTime}"></h3>
+				<h3 th:text="'点击量:'+${work.workClick}"></h3>
+				<h3><a th:href="@{${work.workPdfpath}}"
+					   th:attr="download=${work.workName}">下载链接</a></h3>
+				<h3 id="stock" th:text="'库存:'+${work.workStock}"></h3>
 				<button th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
-					class="btn btn-default">确认购买</button>
+						class="btn btn-info">确认购买</button>
 			</div>
 		</div>
 	</div>
-	<hr></hr>
-	<div id="workImages" style="text-align: center" class="pdfcontainer">
-		<button id="more_image">更多</button>
-	</div>
-	<div class="footbar text-center">
-		<p style="padding-top: 100px;">互联网ICP备案：鲁ICP备17053445号</p>
-	</div>
-	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-	<script th:inline="javascript">
+</div>
+<hr></hr>
+<div id="workImages" style="text-align: center" class="pdfcontainer">
+	<button id="more_image">更多</button>
+</div>
+<div class="footbar text-center">
+	<p style="padding-top: 100px;">互联网ICP备案：鲁ICP备17053445号</p>
+</div>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script th:inline="javascript">
     $(function () {
         let workImages = [[${workImages}]];
         let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
         $("#more_image").before(str);
         $("#more_image").on("click", () => {
             let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
-        	$("#more_image").before(str);
-    	});
+            $("#more_image").before(str);
+        });
         if ($("#stock").text() == "库存:0") {
             $("#gotoOrder").attr("disabled", true);
         }
