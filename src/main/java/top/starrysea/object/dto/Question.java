@@ -4,6 +4,7 @@ import top.starrysea.kql.entity.Entity;
 import top.starrysea.kql.entity.IBuilder;
 
 public class Question implements Entity {
+	
 	private String questionId;
 	private String question;
 	private long questionCreateTime;
@@ -29,13 +30,11 @@ public class Question implements Entity {
 		private short questionStatus;
 
 		public Builder questionId(String questionId) {
-			// TODO 自动生成的构造函数存根
 			this.questionId = questionId;
 			return this;
 		}
 
 		public Builder question(String question) {
-			// TODO 自动生成的构造函数存根
 			this.question = question;
 			return this;
 		}
@@ -51,20 +50,17 @@ public class Question implements Entity {
 		}
 
 		public Builder answer(String answer) {
-			// TODO 自动生成的构造函数存根
 			this.answer = answer;
 			return this;
 		}
 
 		public Builder questionStatus(short questionStatus) {
-			// TODO 自动生成的构造函数存根
 			this.questionStatus = questionStatus;
 			return this;
 		}
 
 		@Override
 		public Question build() {
-			// TODO 自动生成的方法存根
 			return new Question(this);
 		}
 
