@@ -11,4 +11,6 @@ public interface IQuestionDao {
 	DaoResult saveQuestionDao(Question question);
 
 	DaoResult updateQuestionDao(Question question);
+	
+	DaoResult getQuestionCountDao(Question question);
 }
