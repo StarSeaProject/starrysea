@@ -7,6 +7,7 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IQuestionDao;
 import top.starrysea.kql.clause.OrderByType;
+import top.starrysea.kql.clause.SelectClause;
 import top.starrysea.kql.clause.UpdateSetType;
 import top.starrysea.kql.clause.WhereType;
 import top.starrysea.kql.facede.EntitySqlResult;
@@ -57,6 +58,14 @@ public class QuestionDaoImpl implements IQuestionDao {
 				.update("question_update_time", UpdateSetType.ASSIGN, System.currentTimeMillis())
 				.where("question_id", WhereType.EQUALS, question.getQuestionId()).table(Question.class).end();
 		return new DaoResult(true);
+	}
+
+	@Override
+	public DaoResult getQuestionCountDao(Question question) {
+		kumaSqlDao.selectMode();
+		IntegerSqlResult theResult = kumaSqlDao.select(SelectClause.COUNT).from(Question.class)
+				.where("question_status", WhereType.EQUALS, question.getQuestionId()).endForNumber();
+		return new DaoResult(true, theResult.getResult());
 	}
 
 }
