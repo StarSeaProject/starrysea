@@ -36,4 +36,10 @@ public class QuestionDaoTest {
 		System.out.println(
 				questionDao.updateQuestionDao(new Question.Builder().questionId("Q-T4mSaPgA").answer("haode").build()));
 	}
+
+	@Test
+	public void getQuestionCountDaoTest() {
+		System.out.println(questionDao.getQuestionCountDao(new Question.Builder().questionStatus((short) 1).build())
+				.getResult(Integer.class));
+	}
 }
