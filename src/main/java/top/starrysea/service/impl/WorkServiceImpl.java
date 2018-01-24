@@ -47,6 +47,7 @@ public class WorkServiceImpl implements IWorkService {
 	public ServiceResult queryAllWorkService(Condition condition, Work work) {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = workDao.getAllWorkDao(condition, work);
+		@SuppressWarnings("unchecked")
 		List<Work> workList = daoResult.getResult(List.class);
 		int totalPage = 0;
 		daoResult = workDao.getWorkCountDao(condition, work);

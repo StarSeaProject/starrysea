@@ -50,6 +50,7 @@ public class ActivityServiceImpl implements IActivityService {
 		DaoResult daoResult = activityDao.getNewestActivityDao();
 		Activity a = daoResult.getResult(Activity.class);
 		daoResult = activityDao.getAllActivityDao(condition, activity);
+		@SuppressWarnings("unchecked")
 		List<Activity> activitylist = daoResult.getResult(List.class);
 		int totalPage = 0;
 		daoResult = activityDao.getActivityCountDao(condition, activity);
@@ -76,6 +77,7 @@ public class ActivityServiceImpl implements IActivityService {
 		result.setSuccessed(true);
 		result.setResult(ACTIVITY_DETAIL, a);
 		daoResult = fundingDao.getAllFundingDao(new Funding.Builder().activity(activity).build());
+		@SuppressWarnings("unchecked")
 		List<Funding> fundings = daoResult.getResult(List.class);
 		double fundingMoneySum = fundings.stream().collect(Collectors.summingDouble(Funding::getFundingMoney));
 		double richThreshold = fundingMoneySum * FUNDING_FACTOR;

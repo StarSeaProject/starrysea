@@ -41,6 +41,7 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = orderDao.getAllOrderDao(condition, order);
+		@SuppressWarnings("unchecked")
 		List<Orders> ordersList = daoResult.getResult(List.class);
 		int totalPage = 0;
 		daoResult = orderDao.getOrderCountDao(condition, order);

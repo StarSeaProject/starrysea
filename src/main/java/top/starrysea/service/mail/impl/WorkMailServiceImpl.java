@@ -25,6 +25,7 @@ public class WorkMailServiceImpl extends MailServiceImpl {
 		if (!daoResult.isSuccessed()) {
 			return;
 		}
+		@SuppressWarnings("unchecked")
 		List<Online> receivers = daoResult.getResult(List.class);
 		Work work = (Work) entity;
 		receivers.parallelStream().forEach(
