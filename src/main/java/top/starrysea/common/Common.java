@@ -25,8 +25,9 @@ import top.starrysea.kql.entity.Entity;
 public class Common {
 
 	private static final Logger logger = LoggerFactory.getLogger(Common.class);
-	private static SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
-	private static SimpleDateFormat timeSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private static final Common INSTANCE = new Common();
+	private SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
+	private SimpleDateFormat timeSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	// 私有构造器防止外部创建新的Util对象
 	private Common() {
@@ -45,18 +46,18 @@ public class Common {
 	public static String date2String(Date date) {
 		if (date == null)
 			return "";
-		return dateSdf.format(date);
+		return INSTANCE.dateSdf.format(date);
 	}
 
 	public static String time2String(Date date) {
 		if (date == null)
 			return "";
-		return timeSdf.format(date);
+		return INSTANCE.timeSdf.format(date);
 	}
 
 	public static Date string2Date(String str) {
 		try {
-			return dateSdf.parse(str);
+			return INSTANCE.dateSdf.parse(str);
 		} catch (ParseException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -65,7 +66,7 @@ public class Common {
 
 	public static Date string2Time(String str) {
 		try {
-			return timeSdf.parse(str);
+			return INSTANCE.timeSdf.parse(str);
 		} catch (ParseException e) {
 			logger.error(e.getMessage(), e);
 		}
@@ -105,37 +106,28 @@ public class Common {
 	}
 
 	public static boolean isNotNull(Object object) {
-		boolean result = false;
 		if (object == null)
-			return result;
+			return false;
 		if (object instanceof String) {
 			String temp = (String) object;
-			if (!temp.equals(""))
-				result = true;
-			else
-				result = false;
-		} else if (object instanceof Entity) {
-			result = true;
-		} else if (object instanceof List) {
+			return !temp.equals("");
+		} 
+		if (object instanceof Entity) {
+			return true;
+		} 
+		if (object instanceof List) {
 			List<?> list = List.class.cast(object);
-			if (!list.isEmpty())
-				result = true;
-			else
-				result = false;
-		} else if (object instanceof Integer) {
+			return !list.isEmpty();
+		} 
+		if (object instanceof Integer) {
 			int num = (int) object;
-			if (num == 0)
-				result = false;
-			else
-				result = true;
-		} else if (object instanceof Short) {
+			return num == 0;
+		} 
+		if (object instanceof Short) {
 			short num = (short) object;
-			if (num == 0)
-				result = false;
-			else
-				result = true;
+			return num == 0;
 		}
-		return result;
+		throw new IllegalArgumentException("无法识别的参数类型");
 	}
 
 	public static String md5(String str) {

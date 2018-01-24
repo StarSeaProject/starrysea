@@ -9,36 +9,23 @@ import top.starrysea.object.dto.Admin;
 
 public enum ResultKey {
 
-	WOKR_LIST(List.class, "用于WorkServiceImpl.queryAllWorkService()"), WORK_DETAIL(Work.class,
-			"用于WorkServiceImpl.queryWorkService/removeWorkService()"), WORK_DETAIL_IMAGE(List.class,
-					"用于WorkServiceImpl.queryWorkService()"), WORK_DETAIL_TYPE(List.class,
-							"用于WorkServiceImpl.queryWorkService()"),
+	WOKR_LIST(List.class), WORK_DETAIL(Work.class), WORK_DETAIL_IMAGE(List.class), WORK_DETAIL_TYPE(List.class),
 
-	ACTIVITY_LIST(List.class, "用于ActivityServiceImpl.queryAllActivityService()"), NEWEST_ACTIVITY(Activity.class,
-			"用于ActivityServiceImpl.queryAllActivityService()"), ACTIVITY_DETAIL(Activity.class,
-					"用于ActivityServiceImpl.queryActivityService()"), ACTIVITY_FUNDING_LIST(List.class,
-							"用于ActivityServiceImpl.queryActivityService()"), ACTIVITY_FUNDING_THRESHOLD(Double.class,
-									"用于ActivityServiceImpl.queryActivityService()"),
+	ACTIVITY_LIST(List.class), NEWEST_ACTIVITY(Activity.class), ACTIVITY_DETAIL(Activity.class), ACTIVITY_FUNDING_LIST(
+			List.class), ACTIVITY_FUNDING_THRESHOLD(Double.class),
 
-	ORDER_LIST(List.class, "用于OrderServiceImpl.queryAllOrderService()"), ORDER_DETAIL(Orders.class,
-			"用于OrderServiceImpl.queryOrderService()"),
+	ORDER_LIST(List.class), ORDER_DETAIL(Orders.class),
 
-	ADMIN(Admin.class, "用于UserServiceImpl.loginService()");
+	ADMIN(Admin.class);
 
 	private Class<?> clazz;
-	private String caption;
 
-	ResultKey(Class<?> clazz, String caption) {
+	ResultKey(Class<?> clazz) {
 		this.clazz = clazz;
-		this.caption = caption;
 	}
 
 	public Class<?> getClazz() {
 		return clazz;
-	}
-
-	public String getCaption() {
-		return caption;
 	}
 
 }
