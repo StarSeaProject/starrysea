@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static top.starrysea.dao.impl.QuestionDaoImpl.PAGE_LIMIT;
+import static top.starrysea.common.ResultKey.QUESTION_LIST;
 
 import java.util.List;
 import top.starrysea.common.Condition;
@@ -12,6 +13,7 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IQuestionDao;
 import top.starrysea.object.dto.Question;
 import top.starrysea.service.IQuestionService;
+
 @Service("questionService")
 public class QuestionServiceImpl implements IQuestionService {
 	@Autowired
@@ -31,7 +33,7 @@ public class QuestionServiceImpl implements IQuestionService {
 			totalPage = (count / PAGE_LIMIT) + 1;
 		}
 		result.setSuccessed(true);
-		result.setResult(List.class, questionsList);
+		result.setResult(QUESTION_LIST, questionsList);
 		result.setNowPage(condition.getPage());
 		result.setTotalPage(totalPage);
 		return result;
@@ -39,12 +41,14 @@ public class QuestionServiceImpl implements IQuestionService {
 
 	@Override
 	public ServiceResult askQuestionService(Question question) {
-		return new ServiceResult(questionDao.saveQuestionDao(question));
+		questionDao.saveQuestionDao(question);
+		return new ServiceResult(true);
 	}
 
 	@Override
 	public ServiceResult answerQuestionService(Question question) {
-		return new ServiceResult(questionDao.updateQuestionDao(question));
+		questionDao.updateQuestionDao(question);
+		return new ServiceResult(true);
 	}
 
 }

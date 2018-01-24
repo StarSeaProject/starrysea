@@ -16,7 +16,9 @@ public enum ResultKey {
 
 	ORDER_LIST(List.class), ORDER_DETAIL(Orders.class),
 
-	ADMIN(Admin.class);
+	ADMIN(Admin.class),
+	
+	QUESTION_LIST(List.class);
 
 	private Class<?> clazz;
 

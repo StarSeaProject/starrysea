@@ -10,6 +10,7 @@ import top.starrysea.kql.clause.OrderByType;
 import top.starrysea.kql.clause.SelectClause;
 import top.starrysea.kql.clause.UpdateSetType;
 import top.starrysea.kql.clause.WhereType;
+import top.starrysea.kql.facede.IntegerSqlResult;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
 import top.starrysea.object.dto.Question;
