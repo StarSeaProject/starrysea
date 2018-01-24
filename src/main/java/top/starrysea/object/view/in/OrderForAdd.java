@@ -9,8 +9,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.Work;
+import top.starrysea.object.dto.WorkType;
 
 public class OrderForAdd {
+	@NotNull(message = "作品类型Id不能为空")
+	private Integer workTypeId;
 	@NotNull(message = "作品Id不能为空")
 	private Integer workId;
 	@NotEmpty(message = "收货人姓名不能为空")
@@ -24,13 +27,14 @@ public class OrderForAdd {
 	@NotNull(message = "收件人邮箱不能为空")
 	@Email(message = "输入的邮箱地址不是合法的")
 	private String orderEmail;
+	private String orderRemark;
 
-	public Integer getWorkId() {
-		return workId;
+	public Integer getWorkTypeId() {
+		return workTypeId;
 	}
 
-	public void setWorkId(Integer workId) {
-		this.workId = workId;
+	public void setWorkTypeId(Integer workTypeId) {
+		this.workTypeId = workTypeId;
 	}
 
 	public String getOrderName() {
@@ -65,9 +69,27 @@ public class OrderForAdd {
 		this.orderEmail = orderEmail;
 	}
 
+	public String getOrderRemark() {
+		return orderRemark;
+	}
+
+	public void setOrderRemark(String orderRemark) {
+		this.orderRemark = orderRemark;
+	}
+
+	public Integer getWorkId() {
+		return workId;
+	}
+
+	public void setWorkId(Integer workId) {
+		this.workId = workId;
+	}
+
 	public Orders toDTO() {
-		return new Orders.Builder().work(new Work.Builder().workId(workId).build()).orderName(orderName)
-				.orderArea(new Area.Builder().areaId(orderArea).build()).orderAddress(orderAddress)
-				.orderEMail(orderEmail).build();
+		return new Orders.Builder()
+				.workType(new WorkType.Builder().workTypeId(workTypeId).work(new Work.Builder().workId(workId).build())
+						.build())
+				.orderName(orderName).orderArea(new Area.Builder().areaId(orderArea).build()).orderAddress(orderAddress)
+				.orderEMail(orderEmail).orderRemark(orderRemark).build();
 	}
 }

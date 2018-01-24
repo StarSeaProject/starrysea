@@ -11,7 +11,6 @@ public class Work implements Entity {
 	private String workName;
 	private String workUploadTime;
 	private String workPdfpath;
-	private Integer workStock;
 	private String workCover;
 	private String workSummary;
 	private Integer workClick;
@@ -21,7 +20,6 @@ public class Work implements Entity {
 		this.workName = builder.workName;
 		this.workUploadTime = builder.workUploadTime;
 		this.workPdfpath = builder.workPdfpath;
-		this.workStock = builder.workStock;
 		this.workCover = builder.workCover;
 		this.workSummary = builder.workSummary;
 		this.workClick = builder.workClick;
@@ -33,7 +31,6 @@ public class Work implements Entity {
 		private String workName;
 		private String workUploadTime;
 		private String workPdfpath;
-		private Integer workStock;
 		private String workCover;
 		private String workSummary;
 		private Integer workClick;
@@ -55,11 +52,6 @@ public class Work implements Entity {
 
 		public Builder workPdfpath(String workPdfpath) {
 			this.workPdfpath = workPdfpath;
-			return this;
-		}
-
-		public Builder workStock(Integer workStock) {
-			this.workStock = workStock;
 			return this;
 		}
 
@@ -117,14 +109,6 @@ public class Work implements Entity {
 		this.workPdfpath = workPdfpath;
 	}
 
-	public Integer getWorkStock() {
-		return workStock;
-	}
-
-	public void setWorkStock(Integer workStock) {
-		this.workStock = workStock;
-	}
-
 	public String getWorkCover() {
 		return workCover;
 	}
@@ -154,6 +138,6 @@ public class Work implements Entity {
 	}
 
 	public WorkForOne toVoForOne() {
-		return new WorkForOne(workName, workUploadTime, workPdfpath, workClick, workCover, workStock);
+		return new WorkForOne(workName, workUploadTime, workPdfpath, workClick, workCover);
 	}
 }

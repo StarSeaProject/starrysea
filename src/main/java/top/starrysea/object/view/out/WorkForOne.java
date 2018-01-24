@@ -7,16 +7,13 @@ public class WorkForOne {
 	private String workPdfpath;
 	private Integer workClick;
 	private String workCover;
-	private Integer workStock;
 
-	public WorkForOne(String workName, String workUploadTime, String workPdfpath, Integer workClick, String workCover,
-			Integer workStock) {
+	public WorkForOne(String workName, String workUploadTime, String workPdfpath, Integer workClick, String workCover) {
 		this.workName = workName;
 		this.workUploadTime = workUploadTime;
 		this.workPdfpath = workPdfpath;
 		this.workClick = workClick;
 		this.workCover = workCover;
-		this.workStock = workStock;
 	}
 
 	public String getWorkName() {
@@ -37,10 +34,6 @@ public class WorkForOne {
 
 	public String getWorkCover() {
 		return workCover;
-	}
-
-	public Integer getWorkStock() {
-		return workStock;
 	}
 
 }

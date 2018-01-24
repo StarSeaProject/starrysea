@@ -177,8 +177,10 @@
                 <h3 th:text="'点击量:'+${work.workClick}"></h3>
                 <h3><a th:href="@{${work.workPdfpath}}"
                        th:attr="download=${work.workName}">下载链接</a></h3>
-                <h3 id="stock" th:text="'库存:'+${work.workStock}"></h3>
                 <hr style="border-top:1px solid black"></hr>
+                <select id="workTypes">
+                	<option th:each="workType:${workTypes}" th:value="${workType.workTypeId}" th:text="${workType.name}+' '+${workType.stock}"></option>
+                </select>
                 <button th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
                         class="btn btn-info">确认购买
                 </button>
@@ -210,8 +212,9 @@
             $("#gotoOrder").attr("disabled", true);
         }
         $("#gotoOrder").on("click", function (event) {
-            let workId = $(event.target).data("workid");
-            window.location.href = "/order/toAddOrder/" + workId;
+        	let workId = $(event.target).data("workid");
+            let workTypeId = $("#workTypes").val();
+            window.location.href = "/order/toAddOrder/" +workId+"/"+ workTypeId;
         });
     });
 </script>

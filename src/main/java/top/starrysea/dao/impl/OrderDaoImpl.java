@@ -19,7 +19,7 @@ import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.City;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.Province;
-import top.starrysea.object.dto.Work;
+import top.starrysea.object.dto.WorkType;
 
 import static top.starrysea.common.Common.*;
 
@@ -36,43 +36,44 @@ public class OrderDaoImpl implements IOrderDao {
 	public DaoResult getOrderDao(Orders order) {
 		kumaSqlDao.selectMode();
 		if (isNotNull(order.getOrderNum())) {
-			EntitySqlResult<Orders> theResult = kumaSqlDao.select("order_name").select("work_name", "w")
+			EntitySqlResult<Orders> theResult = kumaSqlDao.select("order_name").select("name", "wt")
 					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
 					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
-					.select("order_email").from(Orders.class, "o")
+					.select("order_email").select("order_remark").from(Orders.class, "o")
 					.leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
 					.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
 					.leftjoin(Province.class, "p", "province_id", City.class, "province_id")
-					.leftjoin(Work.class, "w", "work_id", Orders.class, "work_id")
+					.leftjoin(WorkType.class, "wt", "work_type_id", Orders.class, "work_type_id")
 					.where("order_num", WhereType.EQUALS, order.getOrderNum())
 					.endForObject((rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
-							.work(new Work.Builder().workName(rs.getString("work_name")).build())
+							.workType(new WorkType.Builder().name(rs.getString("name")).build())
 							.orderArea(new Area.Builder().areaName(rs.getString("area_name"))
 									.city(new City.Builder().cityName(rs.getString("city_name"))
 											.province(new Province(null, rs.getString("province_name"))).build())
 									.build())
 							.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
 							.orderExpressnum(rs.getString("order_expressnum")).orderTime(rs.getLong("order_time"))
-							.build());
+							.orderEMail(rs.getString("order_email")).orderRemark(rs.getString("order_remark")).build());
 			return new DaoResult(true, theResult.getResult());
 		} else if (isNotNull(order.getOrderId())) {
-			EntitySqlResult<Orders> theResult = kumaSqlDao.select("order_name").select("work_name", "w")
+			EntitySqlResult<Orders> theResult = kumaSqlDao.select("order_name").select("name", "wt")
 					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
 					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
-					.select("order_email").select("order_num").from(Orders.class, "o")
+					.select("order_email").select("order_num").select("order_remark").from(Orders.class, "o")
 					.leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
 					.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
 					.leftjoin(Province.class, "p", "province_id", City.class, "province_id")
-					.leftjoin(Work.class, "w", "work_id", Orders.class, "work_id")
+					.leftjoin(WorkType.class, "wt", "work_type_id", Orders.class, "work_type_id")
 					.where("order_id", WhereType.EQUALS, order.getOrderId())
 					.endForObject((rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
-							.work(new Work.Builder().workName(rs.getString("work_name")).build())
+							.workType(new WorkType.Builder().name(rs.getString("name")).build())
 							.orderArea(new Area.Builder().areaName(rs.getString("area_name"))
 									.city(new City.Builder().cityName(rs.getString("city_name"))
 											.province(new Province(null, rs.getString("province_name"))).build())
 									.build())
 							.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
 							.orderExpressnum(rs.getString("order_expressnum")).orderTime(rs.getLong("order_time"))
+							.orderEMail(rs.getString("order_email")).orderRemark(rs.getString("order_remark"))
 							.orderNum(rs.getString("order_num")).build());
 			return new DaoResult(true, theResult.getResult());
 		}
@@ -84,11 +85,12 @@ public class OrderDaoImpl implements IOrderDao {
 	public DaoResult saveOrderDao(Orders order) {
 		kumaSqlDao.insertMode();
 		order.setOrderNum(Common.getCharId(30));
-		kumaSqlDao.insert("order_id", order.getOrderId()).insert("work_id", order.getWork().getWorkId())
+		kumaSqlDao.insert("order_id", order.getOrderId()).insert("work_type_id", order.getWorkType().getWorkTypeId())
 				.insert("order_num", order.getOrderNum()).insert("order_name", order.getOrderName())
 				.insert("order_area", order.getOrderArea().getAreaId()).insert("order_address", order.getOrderAddress())
 				.insert("order_status", 1).insert("order_time", System.currentTimeMillis())
-				.insert("order_email", order.getOrderEMail()).table(Orders.class).end();
+				.insert("order_email", order.getOrderEMail()).insert("order_remark", order.getOrderRemark())
+				.table(Orders.class).end();
 		return new DaoResult(true, order);
 	}
 

@@ -72,7 +72,7 @@ public class WorkDaoImpl implements IWorkDao {
 		kumaSqlDao.insertMode();
 		UpdateSqlResult theResult = kumaSqlDao.insert("work_name", work.getWorkName())
 				.insert("work_uploadtime", work.getWorkUploadTime()).insert("work_pdfpath", work.getWorkPdfpath())
-				.insert("work_stock", work.getWorkStock()).insert("work_cover", work.getWorkCover())
+				.insert("work_cover", work.getWorkCover())
 				.insert("work_summary", work.getWorkSummary()).table(Work.class).end();
 		return new DaoResult(true, theResult.getKeyHolder().getKey().intValue());
 	}
@@ -84,24 +84,4 @@ public class WorkDaoImpl implements IWorkDao {
 		kumaSqlDao.table(Work.class).where("work_id", WhereType.EQUALS, work.getWorkId()).end();
 		return new DaoResult(true);
 	}
-
-	@Override
-	// 减少一个作品的库存
-	public DaoResult updateWorkStockDao(Work work) {
-		kumaSqlDao.updateMode();
-		kumaSqlDao.update("work_stock", UpdateSetType.REDUCE, work.getWorkStock())
-				.where("work_id", WhereType.EQUALS, work.getWorkId()).table(Work.class).end();
-		return new DaoResult(true);
-	}
-
-	@Override
-	public DaoResult getStockDao(Work work) {
-		kumaSqlDao.selectMode();
-		EntitySqlResult<Work> theResult = kumaSqlDao.select("work_stock").from(Work.class)
-				.where("work_id", WhereType.EQUALS, work.getWorkId())
-				.endForObject((rs, row) -> new Work.Builder().workStock(rs.getInt("work_stock")).build());
-		Work w = (Work) theResult.getResult();
-		return new DaoResult(true, w.getWorkStock());
-	}
-
 }

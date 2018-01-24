@@ -35,6 +35,7 @@ import top.starrysea.object.view.in.FundingForRemove;
 import top.starrysea.service.IActivityService;
 
 import static top.starrysea.common.Const.*;
+import static top.starrysea.common.ResultKey.*;
 
 @Controller
 public class ActivityControllerImpl implements IActivityController {
@@ -54,10 +55,10 @@ public class ActivityControllerImpl implements IActivityController {
 			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
-		List<Activity> result = serviceResult.getResult(List.class);
+		List<Activity> result = serviceResult.getResult(ACTIVITY_LIST);
 		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
 				.collect(Collectors.toList());
-		Activity newestActivity = serviceResult.getResult(Activity.class);
+		Activity newestActivity = serviceResult.getResult(NEWEST_ACTIVITY);
 		modelAndView.addObject("newResult", newestActivity.toVoForAll());
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
@@ -79,7 +80,7 @@ public class ActivityControllerImpl implements IActivityController {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
-		List<Activity> result = serviceResult.getResult(List.class);
+		List<Activity> result = serviceResult.getResult(ACTIVITY_LIST);
 		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
 				.collect(Collectors.toList());
 		theResult.put("activityName", activity.getActivityName());
@@ -105,9 +106,10 @@ public class ActivityControllerImpl implements IActivityController {
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		Activity a = serviceResult.getResult(Activity.class);
+		Activity a = serviceResult.getResult(ACTIVITY_DETAIL);
 		modelAndView.addObject("activity", a.toVoForOne());
-		modelAndView.addObject("fundings", serviceResult.getResult(List.class));
+		modelAndView.addObject("fundings", serviceResult.getResult(ACTIVITY_FUNDING_LIST));
+		modelAndView.addObject("fundingFactor", serviceResult.getResult(ACTIVITY_FUNDING_THRESHOLD));
 		// 返回众筹活动的详细页
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "activity_detail" : "activity_detail");
 		return modelAndView;
@@ -132,10 +134,10 @@ public class ActivityControllerImpl implements IActivityController {
 			// 查询失败则返回错误页面
 			return theResult;
 		}
-		Activity a = serviceResult.getResult(Activity.class);
+		Activity a = serviceResult.getResult(ACTIVITY_DETAIL);
 		theResult.put("activityId", activity.getActivityId());
 		theResult.put("activity", a.toVoForOne());
-		theResult.put("fundings", serviceResult.getResult(List.class));
+		theResult.put("fundings", serviceResult.getResult(ACTIVITY_FUNDING_LIST));
 		// 返回众筹活动的详细页
 		return theResult;
 	}

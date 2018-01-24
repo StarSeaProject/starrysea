@@ -16,15 +16,18 @@ import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IWorkDao;
 import top.starrysea.dao.IWorkImageDao;
+import top.starrysea.dao.IWorkTypeDao;
 import top.starrysea.exception.UpdateException;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;
 import top.starrysea.file.FileUtil;
 import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkImage;
+import top.starrysea.object.dto.WorkType;
 import top.starrysea.service.IWorkService;
 
 import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
+import static top.starrysea.common.ResultKey.*;
 
 @Service("workService")
 public class WorkServiceImpl implements IWorkService {
@@ -36,6 +39,8 @@ public class WorkServiceImpl implements IWorkService {
 	private FileUtil fileUtil;
 	@Autowired
 	private IWorkImageDao workImageDao;
+	@Autowired
+	private IWorkTypeDao workTypeDao;
 
 	@Override
 	// 查询所有作品
@@ -52,7 +57,7 @@ public class WorkServiceImpl implements IWorkService {
 			totalPage = (count / PAGE_LIMIT) + 1;
 		}
 		result.setSuccessed(true);
-		result.setResult(List.class, workList);
+		result.setResult(WOKR_LIST, workList);
 		result.setNowPage(condition.getPage());
 		result.setTotalPage(totalPage);
 		return result;
@@ -63,21 +68,20 @@ public class WorkServiceImpl implements IWorkService {
 	public ServiceResult queryWorkService(Work work) {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = workDao.getWorkDao(work);
-		Work w = daoResult.getResult(Work.class);
-		daoResult = workDao.getStockDao(work);
-		Integer stock = daoResult.getResult(Integer.class);
-		daoResult = workImageDao.getAllWorkImageDao(new WorkImage.Builder().work(work).build());
 		result.setSuccessed(true);
-		result.setResult(Work.class, w);
-		result.setResult(Integer.class, stock);
-		result.setResult(List.class, daoResult.getResult(List.class));
+		result.setResult(WORK_DETAIL, daoResult.getResult(Work.class));
+		daoResult = workImageDao.getAllWorkImageDao(new WorkImage.Builder().work(work).build());
+		result.setResult(WORK_DETAIL_IMAGE, daoResult.getResult(List.class));
+		daoResult = workTypeDao.getAllWorkTypeDao(new WorkType.Builder().work(work).build());
+		result.setResult(WORK_DETAIL_TYPE, daoResult.getResult(List.class));
 		return result;
 	}
 
 	@Override
 	// 添加一个作品
 	@Transactional
-	public ServiceResult addWorkService(MultipartFile coverFile, MultipartFile[] imageFiles, Work work) {
+	public ServiceResult addWorkService(MultipartFile coverFile, MultipartFile[] imageFiles, Work work,
+			List<WorkType> workTypes) {
 		try {
 			String originCoverFileName = fileUtil.saveFile(coverFile,
 					FileCondition.of(FileType.IMG, 1, work.getWorkName()));
@@ -92,8 +96,12 @@ public class WorkServiceImpl implements IWorkService {
 				workImages.add(new WorkImage.Builder().work(work).workImagePath(originImageFileName).build());
 			}
 			workImageDao.saveWorkImageDao(workImages);
+			for (WorkType workType : workTypes) {
+				workType.setWork(work);
+			}
+			workTypeDao.saveWorkTypeDao(workTypes);
 			ServiceResult serviceResult = new ServiceResult(true);
-			serviceResult.setResult(Work.class, work);
+			serviceResult.setResult(WORK_DETAIL, work);
 			return serviceResult;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -104,7 +112,20 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	// 删除一个作品
 	public ServiceResult removeWorkService(Work work) {
-		return new ServiceResult(workDao.deleteWorkDao(work));
+		workDao.deleteWorkDao(work);
+		return new ServiceResult(true);
+	}
+
+	@Override
+	public ServiceResult removeWorkTypeService(WorkType workType) {
+		workTypeDao.deleteWorkTypeDao(workType);
+		return new ServiceResult(true);
+	}
+
+	@Override
+	public ServiceResult modifyWorkTypeService(WorkType workType) {
+		workTypeDao.updateWorkTypeStockDao(workType);
+		return new ServiceResult(true);
 	}
 
 }

@@ -2,6 +2,7 @@ package top.starrysea.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,8 @@ import top.starrysea.object.dto.Funding;
 import top.starrysea.service.IActivityService;
 
 import static top.starrysea.dao.impl.ActivityDaoImpl.PAGE_LIMIT;
+import static top.starrysea.common.Const.FUNDING_FACTOR;
+import static top.starrysea.common.ResultKey.*;
 
 @Service("activityService")
 public class ActivityServiceImpl implements IActivityService {
@@ -57,8 +60,8 @@ public class ActivityServiceImpl implements IActivityService {
 			totalPage = (count / PAGE_LIMIT) + 1;
 
 		result.setSuccessed(true);
-		result.setResult(List.class, activitylist);
-		result.setResult(Activity.class, a);
+		result.setResult(ACTIVITY_LIST, activitylist);
+		result.setResult(NEWEST_ACTIVITY, a);
 		result.setNowPage(condition.getPage());
 		result.setTotalPage(totalPage);
 		return result;
@@ -71,9 +74,23 @@ public class ActivityServiceImpl implements IActivityService {
 		DaoResult daoResult = activityDao.getActivityDao(activity);
 		Activity a = daoResult.getResult(Activity.class);
 		result.setSuccessed(true);
-		result.setResult(Activity.class, a);
+		result.setResult(ACTIVITY_DETAIL, a);
 		daoResult = fundingDao.getAllFundingDao(new Funding.Builder().activity(activity).build());
-		result.setResult(List.class, daoResult.getResult(List.class));
+		List<Funding> fundings = daoResult.getResult(List.class);
+		double fundingMoneySum = fundings.stream().collect(Collectors.summingDouble(Funding::getFundingMoney));
+		double richThreshold = fundingMoneySum * FUNDING_FACTOR;
+		List<Funding> richFundings = new ArrayList<>();
+		List<Funding> normalFundings = new ArrayList<>();
+		for (Funding funding : fundings) {
+			if (funding.getFundingMoney() > richThreshold) {
+				richFundings.add(funding);
+			} else {
+				normalFundings.add(funding);
+			}
+		}
+		richFundings.addAll(normalFundings);
+		result.setResult(ACTIVITY_FUNDING_LIST, richFundings);
+		result.setResult(ACTIVITY_FUNDING_THRESHOLD, richThreshold);
 		return result;
 	}
 
@@ -103,13 +120,13 @@ public class ActivityServiceImpl implements IActivityService {
 	@Override
 	// 修改一个众筹活动的状态
 	public ServiceResult modifyActivityService(Activity activity) {
-		return new ServiceResult(activityDao.updateActivityDao(activity));
+		return new ServiceResult(true);
 	}
 
 	@Override
 	// 删除一个众筹活动
 	public ServiceResult removeActivityService(Activity activity) {
-		return new ServiceResult(activityDao.deleteActivityDao(activity));
+		return new ServiceResult(true);
 	}
 
 	@Override

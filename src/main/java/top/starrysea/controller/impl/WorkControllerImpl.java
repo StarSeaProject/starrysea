@@ -28,9 +28,12 @@ import top.starrysea.object.dto.Work;
 import top.starrysea.object.view.in.WorkForAdd;
 import top.starrysea.object.view.in.WorkForAll;
 import top.starrysea.object.view.in.WorkForOne;
+import top.starrysea.object.view.in.WorkTypeForModify;
+import top.starrysea.object.view.in.WorkTypeForRemove;
 import top.starrysea.service.IWorkService;
 
 import static top.starrysea.common.Const.*;
+import static top.starrysea.common.ResultKey.*;
 
 @Controller
 public class WorkControllerImpl implements IWorkController {
@@ -49,7 +52,7 @@ public class WorkControllerImpl implements IWorkController {
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		List<Work> result = serviceResult.getResult(List.class);
+		List<Work> result = serviceResult.getResult(WOKR_LIST);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());
 		modelAndView.addObject("result", voResult);
@@ -70,7 +73,7 @@ public class WorkControllerImpl implements IWorkController {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
-		List<Work> result = serviceResult.getResult(List.class);
+		List<Work> result = serviceResult.getResult(WOKR_LIST);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());
 		theResult.put("workName", work.getWorkName());
@@ -94,11 +97,11 @@ public class WorkControllerImpl implements IWorkController {
 			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
-		Work w = serviceResult.getResult(Work.class);
-		w.setWorkStock(serviceResult.getResult(Integer.class));
+		Work w = serviceResult.getResult(WORK_DETAIL);
 		modelAndView.addObject("work", w.toVoForOne());
 		modelAndView.addObject("workId", work.getWorkId());
-		modelAndView.addObject("workImages", serviceResult.getResult(List.class));
+		modelAndView.addObject("workImages", serviceResult.getResult(WORK_DETAIL_IMAGE));
+		modelAndView.addObject("workTypes", serviceResult.getResult(WORK_DETAIL_TYPE));
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "work_detail" : "work_detail");
 		return modelAndView;
 	}
@@ -121,9 +124,10 @@ public class WorkControllerImpl implements IWorkController {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
-		Work w = serviceResult.getResult(Work.class);
+		Work w = serviceResult.getResult(WORK_DETAIL);
 		theResult.put("work", w.toVoForOne());
-		theResult.put("workImages", serviceResult.getResult(List.class));
+		theResult.put("workImages", serviceResult.getResult(WORK_DETAIL_IMAGE));
+		theResult.put("workTypes", serviceResult.getResult(WORK_DETAIL_TYPE));
 		return theResult;
 	}
 
@@ -136,7 +140,8 @@ public class WorkControllerImpl implements IWorkController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = workService.addWorkService(coverFile, imageFiles, work.toDTO());
+		ServiceResult serviceResult = workService.addWorkService(coverFile, imageFiles, work.toDTO(),
+				work.toDTOWorkType());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			modelAndView.setViewName(ERROR_VIEW);
@@ -162,6 +167,44 @@ public class WorkControllerImpl implements IWorkController {
 			return modelAndView;
 		}
 		modelAndView.addObject("info", "删除成功！");
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
+		return modelAndView;
+	}
+
+	@Override
+	@RequestMapping(value = "/worktype/remove", method = RequestMethod.POST)
+	public ModelAndView removeWorkTypeController(WorkTypeForRemove workType, BindingResult bindingResult,
+			Device device) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		ServiceResult serviceResult = workService.removeWorkTypeService(workType.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
+			return modelAndView;
+		}
+		modelAndView.addObject("info", "删除作品类型成功！");
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
+		return modelAndView;
+	}
+
+	@Override
+	@RequestMapping(value = "/worktype/modifystock", method = RequestMethod.POST)
+	public ModelAndView modifyWorkTypeController(WorkTypeForModify workType, BindingResult bindingResult,
+			Device device) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
+		ModelAndView modelAndView = new ModelAndView();
+		ServiceResult serviceResult = workService.modifyWorkTypeService(workType.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
+			return modelAndView;
+		}
+		modelAndView.addObject("info", "修改库存成功！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}

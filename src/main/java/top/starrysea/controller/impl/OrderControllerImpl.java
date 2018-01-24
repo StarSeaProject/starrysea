@@ -27,10 +27,11 @@ import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
-import top.starrysea.object.view.in.WorkForOne;
+import top.starrysea.object.view.in.WorkTypeForToAddOrder;
 import top.starrysea.service.IOrderService;
 
 import static top.starrysea.common.Const.*;
+import static top.starrysea.common.ResultKey.*;
 
 @Controller
 public class OrderControllerImpl implements IOrderController {
@@ -49,7 +50,7 @@ public class OrderControllerImpl implements IOrderController {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
-		List<Orders> result = serviceResult.getResult(List.class);
+		List<Orders> result = serviceResult.getResult(ORDER_LIST);
 		List<top.starrysea.object.view.out.OrderForAll> voResult = result.stream().map(Orders::toVoForAll)
 				.collect(Collectors.toList());
 		theResult.put("orderName", order.getOrderName());
@@ -73,7 +74,7 @@ public class OrderControllerImpl implements IOrderController {
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		Orders o = serviceResult.getResult(Orders.class);
+		Orders o = serviceResult.getResult(ORDER_DETAIL);
 		modelAndView.addObject("orders", o.toVoForOne());
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "orders_details" : "orders_details");
 		return modelAndView;
@@ -97,23 +98,24 @@ public class OrderControllerImpl implements IOrderController {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
-		Orders o = serviceResult.getResult(Orders.class);
+		Orders o = serviceResult.getResult(ORDER_DETAIL);
 		theResult.put("orders", o.toVoForOne());
 		theResult.put("orderId", order.getOrderId());
 		return theResult;
 	}
 
-	@RequestMapping(value = "/order/toAddOrder/{workId}", method = RequestMethod.GET)
-	public ModelAndView gotoAddOrder(@Valid WorkForOne work, Device device) {
+	@RequestMapping(value = "/order/toAddOrder/{workId}/{workTypeId}", method = RequestMethod.GET)
+	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("workId", work.getWorkId());
+		modelAndView.addObject("workId", workType.getWorkId());
+		modelAndView.addObject("workTypeId", workType.getWorkTypeId());
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "add_order" : "add_order");
 		return modelAndView;
 	}
 
 	@Override
 	// 对一个作品进行下单
-	@RequestMapping(value = "/order/add/{workId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/order/add/{workId}/{workTypeId}", method = RequestMethod.POST)
 	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
@@ -132,7 +134,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 修改一个订单的状态
-	@RequestMapping(value = "/order/modify/{orderId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/order/modify/{orderId}", method = RequestMethod.POST)
 	public ModelAndView modifyOrderController(@Valid OrderForModify order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
@@ -151,7 +153,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 删除一个订单
-	@RequestMapping(value = "/order/remove/{orderId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/order/remove/{orderId}", method = RequestMethod.POST)
 	public ModelAndView removeOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);

@@ -2,111 +2,112 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8"></meta>
+<meta charset="utf-8"></meta>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-    <title>星之海志愿者公会</title>
-    <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-    <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/mycss.css"></link>
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/mycss.css"></link>
 
-    <style>
-        .heading {
-            background-image: url("/navbar.jpg");
-            height: 360px;
-            background-repeat: no-repeat;
-        }
+<style>
+.heading {
+	background-image: url("/navbar.jpg");
+	height: 360px;
+	background-repeat: no-repeat;
+}
 
-        #btnnav {
-            float: right;
-        }
+#btnnav {
+	float: right;
+}
 
-        .myli {
-            color: #fff;
-        }
+.myli {
+	color: #fff;
+}
 
-        .myli:hover {
-            text-decoration: underline;
-        }
+.myli:hover {
+	text-decoration: underline;
+}
 
-        .footbar {
-            background-image: url("/wavew.png");
-            background-repeat: repeat-x;
-            height: 120px;
-            backgroud: #409cc3;
-        }
+.footbar {
+	background-image: url("/wavew.png");
+	background-repeat: repeat-x;
+	height: 120px;
+	backgroud: #409cc3;
+}
 
-        .navimg {
-            transition: all 0.6s;
-        }
+.navimg {
+	transition: all 0.6s;
+}
 
-        .navimg:hover {
-            transform: scale(1.4);
-        }
+.navimg:hover {
+	transform: scale(1.4);
+}
 
-        .abnav {
-            color: #FFFFFF;
-            font-size: 1.5em;
-        }
+.abnav {
+	color: #FFFFFF;
+	font-size: 1.5em;
+}
 
-        a:hover {
-            color: rgb(7, 251, 251);
-        }
-    </style>
+a:hover {
+	color: rgb(7, 251, 251);
+}
+</style>
 </head>
 <body>
-<div class="container"
-     style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
-    <nav class="navbar navbar-brand navbar-static-top heading"
-         role="navigation" id="mybar"
-         style="background-size: 99%; margin:15px; padding: 10px;">
+	<div class="container"
+		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
+		<nav class="navbar navbar-brand navbar-static-top heading"
+			role="navigation" id="mybar"
+			style="background-size: 99%; margin: 15px; padding: 10px;">
 
-        <div class="navbar-header" style="padding-left: 25px; padding-top: 10px;">
-            <a href="/" class="navimg">
-                <img src="/starsea.png" style="width: 70px;"
-                     class="col-sms-4 navimg"></img>
-            </a>
-            <button class="navbar-toggle col-sm-4" data-toggle="collapse"
-                    data-target="#shownav" id="btnnav">
-                <span class="glyphicon glyphicon-menu-hamburger"></span>
+			<div class="navbar-header"
+				style="padding-left: 25px; padding-top: 10px;">
+				<a href="/" class="navimg"> <img src="/starsea.png"
+					style="width: 70px;" class="col-sms-4 navimg"></img>
+				</a>
+				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
+					data-target="#shownav" id="btnnav">
+					<span class="glyphicon glyphicon-menu-hamburger"></span>
 
-            </button>
-        </div>
-        <div class="collapse navbar-collapse navbar-right" id="shownav">
-            <ul class="nav navbar-nav mynavul">
-                <li class="myli"><a href="/work" class="anav">作品阅览</a></li>
-                <li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
-                <li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
-            </ul>
-        </div>
-    </nav>
-</div>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse navbar-right" id="shownav">
+				<ul class="nav navbar-nav mynavul">
+					<li class="myli"><a href="/work" class="anav">作品阅览</a></li>
+					<li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
+					<li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 
-<div class="container">
-    收货人信息
-    <form id="addOrderForm" action="/order/add" method="post">
-        <input type="hidden" name="workId" th:value="${workId}"/> <input
-            id="orderArea" type="hidden" name="orderArea"/> 收货人姓名:<input
-            type="text" name="orderName"/><br/> 收货地址(省份): <select
-            id="province">
-        <option value="1">广东</option>
-    </select><br/> 收货地址(城市): <select id="city">
-        <option value="1">广州</option>
-    </select><br/> 收货地址(区县): <select id="area">
-        <option value="1">越秀区</option>
-    </select><br/> 收货详细地址:<input type="text" name="orderAddress"/><br/> <input
-            type="button" value="提交" id="addOrderBtn"/>
-    </form>
-</div>
-<div class="footbar text-center">
-    <p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
-</div>
-<script type="text/javascript" src="/add_order.js"></script>
-<script src="/navbar.js"></script>
+	<div class="container">
+		收货人信息
+		<form id="addOrderForm" th:attr="action='/order/add/'+${workId}+'/'+${workTypeId}" method="post">
+			<input id="orderArea" type="hidden" name="orderArea" /> 收货人姓名:<input
+				type="text" name="orderName" /><br /> 收货地址(省份): <select
+				id="province">
+				<option value="1">广东</option>
+			</select><br /> 收货地址(城市): <select id="city">
+				<option value="1">广州</option>
+			</select><br /> 收货地址(区县): <select id="area">
+				<option value="1">越秀区</option>
+			</select><br /> 收货详细地址:<input type="text" name="orderAddress" /><br />
+			收货人电子邮箱: <input type="text" name="orderEmail" /><br />
+			备注: <input type="text" name="orderRemark" /><br /><input
+				type="button" value="提交" id="addOrderBtn" />
+		</form>
+	</div>
+	<div class="footbar text-center">
+		<p style="padding-top: 100px;">互联网ICP备案：鲁ICP备17053445号</p>
+	</div>
+	<script type="text/javascript" src="/add_order.js"></script>
+	<script src="/navbar.js"></script>
 </body>
 </html>

@@ -1,21 +1,22 @@
 package top.starrysea.service;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import top.starrysea.StarrtseaApplication;
-import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.Work;
+import top.starrysea.object.dto.WorkImage;
+import top.starrysea.object.dto.WorkType;
 import top.starrysea.service.IWorkService;
+
+import static top.starrysea.common.ResultKey.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)
@@ -32,8 +33,13 @@ public class WorkServiceTest {
 
 	@Test
 	public void queryWorkService() {
-		ServiceResult serviceResult = workService.queryWorkService(new Work.Builder().workId(1).build());
-		System.out.println(serviceResult.getResult(Work.class));
+		ServiceResult serviceResult = workService.queryWorkService(new Work.Builder().workId(6).build());
+		Work w=serviceResult.getResult(WORK_DETAIL);
+		List<WorkImage> wis=serviceResult.getResult(WORK_DETAIL_IMAGE);
+		List<WorkType> wts=serviceResult.getResult(WORK_DETAIL_TYPE);
+		System.out.println(w);
+		System.out.println(wis);
+		System.out.println(wts);
 	}
 
 //	@Test

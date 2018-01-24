@@ -11,11 +11,13 @@ import top.starrysea.common.Condition;
 import top.starrysea.object.view.in.WorkForAdd;
 import top.starrysea.object.view.in.WorkForAll;
 import top.starrysea.object.view.in.WorkForOne;
+import top.starrysea.object.view.in.WorkTypeForModify;
+import top.starrysea.object.view.in.WorkTypeForRemove;
 
 public interface IWorkController {
 
 	ModelAndView queryAllWorkController(Condition condition, WorkForAll work, Device device);
-	
+
 	Map<String, Object> queryAllWorkControllerAjax(WorkForAll work);
 
 	ModelAndView queryWorkController(WorkForOne work, BindingResult bindingResult, Device device);
@@ -26,4 +28,8 @@ public interface IWorkController {
 			BindingResult bindingResult, Device device);
 
 	ModelAndView removeWorkController(WorkForOne work, BindingResult bindingResult, Device device);
+
+	ModelAndView removeWorkTypeController(WorkTypeForRemove workType, BindingResult bindingResult, Device device);
+
+	ModelAndView modifyWorkTypeController(WorkTypeForModify workType, BindingResult bindingResult, Device device);
 }

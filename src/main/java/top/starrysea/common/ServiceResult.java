@@ -1,35 +1,29 @@
 package top.starrysea.common;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class ServiceResult {
 
 	private boolean successed = false;
-	private Map<Class<?>, Object> theResult;
+	private Map<ResultKey, Object> theResult;
 	private Integer nowPage;
 	private Integer totalPage;
 	private String errInfo;
 	private Map<String, Object> extraInfo;
 
 	public ServiceResult() {
-		theResult = new HashMap<>();
+		theResult = new EnumMap<>(ResultKey.class);
 	}
 
 	public ServiceResult(boolean successed) {
+		theResult = new EnumMap<>(ResultKey.class);
 		this.successed = successed;
 	}
 
 	public ServiceResult(String errInfo) {
-		theResult = new HashMap<>();
+		theResult = new EnumMap<>(ResultKey.class);
 		this.errInfo = errInfo;
-	}
-
-	public ServiceResult(DaoResult daoResult) {
-		this.successed = daoResult.isSuccessed();
-		this.theResult = daoResult.getTheResult();
-		this.errInfo = daoResult.getErrInfo();
 	}
 
 	public boolean isSuccessed() {
@@ -76,34 +70,15 @@ public class ServiceResult {
 		this.extraInfo = extraInfo;
 	}
 
-	public <T> T getResult(Class<T> type) {
-		return type.cast(theResult.get(type));
+	@SuppressWarnings("unchecked")
+	public <T> T getResult(ResultKey resultKey) {
+		return (T) resultKey.getClazz().cast(theResult.get(resultKey));
 	}
 
-	public <T> void setResult(Class<T> type, T result) {
-		if (type == null)
-			throw new NullPointerException("类型不能为空");
-		theResult.put(type, result);
+	public <T> void setResult(ResultKey resultKey, T result) {
+		if(!resultKey.getClazz().isAssignableFrom(result.getClass()))
+			throw new IllegalArgumentException("传入的result不是"+resultKey.getClazz().getName()+"类型");
+		theResult.put(resultKey, result);
 	}
 
-	public String toString() {
-		if (this.successed) {
-			if (this.theResult == null) {
-				return "successed : " + this.successed;
-			}
-			if (this.theResult.get(List.class) != null) {
-				StringBuilder result = new StringBuilder("successed : " + this.successed + "\n" + "result : \n");
-				List<?> list = this.getResult(List.class);
-				for (Object object : list) {
-					result.append("\t" + object.toString() + "\n");
-				}
-				result.append("\n");
-				return result.append("nowPage : " + this.nowPage + "\n" + "totalPage : " + this.totalPage).toString();
-			} else {
-				return "successed : " + this.successed + "\n" + "result : " + this.theResult;
-			}
-		} else {
-			return "successed : " + this.successed + "\n" + "errInfo : " + this.errInfo;
-		}
-	}
 }

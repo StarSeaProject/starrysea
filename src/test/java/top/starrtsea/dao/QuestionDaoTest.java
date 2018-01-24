@@ -1,5 +1,7 @@
 package top.starrtsea.dao;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ public class QuestionDaoTest {
 	public void getAllQuestionDaoTest() {
 		Condition condition = new Condition();
 		condition.setPage(1);
-		System.out.println(questionDao.getAllQuestionDao(condition, new Question.Builder().build()).getTheResult());
+		System.out.println(questionDao.getAllQuestionDao(condition, new Question.Builder().build()).getResult(List.class));
 	}
 
 	@Test
@@ -34,7 +36,7 @@ public class QuestionDaoTest {
 	@Test
 	public void updateQuestionDaoTest() {
 		System.out.println(
-				questionDao.updateQuestionDao(new Question.Builder().questionId("Q-T4mSaPgA").answer("haode").build()));
+				questionDao.updateQuestionDao(new Question.Builder().questionId("Q-0T2d4Wc1").answer("buhao!").build()));
 	}
 
 	@Test

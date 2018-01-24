@@ -1,24 +1,21 @@
 package top.starrysea.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import top.starrysea.StarrtseaApplication;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.Activity;
+import top.starrysea.object.dto.Funding;
 import top.starrysea.service.IActivityService;
+
+import static top.starrysea.common.ResultKey.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)
@@ -37,8 +34,10 @@ public class ActivityServiceTest {
 	@Test
 	public void queryActivityService() {
 		ServiceResult serviceResult=service.queryActivityService(new Activity.Builder().activityId(190).build());
-		System.out.println(serviceResult.getResult(List.class));
-		System.out.println(serviceResult.getResult(Activity.class));
+		Activity a=serviceResult.getResult(ACTIVITY_DETAIL);
+		System.out.println(a);
+		List<Funding> list=serviceResult.getResult(ACTIVITY_FUNDING_LIST);
+		System.out.println(list);
 	}
 
 //	@Test

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import top.starrysea.common.Common;
+import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IOnlineDao;
 import top.starrysea.object.dto.Online;
@@ -14,11 +15,16 @@ public class OnlineServiceImpl implements IOnlineService {
 
 	@Autowired
 	private IOnlineDao onlineDao;
-	
+
 	@Override
 	public ServiceResult addMailService(Online online) {
 		online.setOnlineId(Common.getCharId("O-", 10));
-		return new ServiceResult(onlineDao.saveOnlineDao(online));
+		DaoResult daoResult = onlineDao.saveOnlineDao(online);
+		ServiceResult sr = new ServiceResult();
+		sr.setSuccessed(daoResult.isSuccessed());
+		if (!daoResult.isSuccessed())
+			sr.setErrInfo(daoResult.getErrInfo());
+		return sr;
 	}
 
 }

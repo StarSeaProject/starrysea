@@ -10,7 +10,6 @@ import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IOnlineDao;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
-import top.starrysea.kql.facede.OperationType;
 import top.starrysea.object.dto.Online;
 
 @Repository("onlineDao")

@@ -8,7 +8,7 @@ import top.starrysea.object.view.out.OrderForOne;
 public class Orders implements Entity {
 
 	private String orderId;
-	private Work work;
+	private WorkType workType;
 	private String orderNum;
 	private String orderName;
 	private Area orderArea;
@@ -17,10 +17,11 @@ public class Orders implements Entity {
 	private String orderExpressnum;
 	private long orderTime;
 	private String orderEMail;
+	private String orderRemark;
 
 	private Orders(Builder builder) {
 		this.orderId = builder.orderId;
-		this.work = builder.work;
+		this.workType = builder.workType;
 		this.orderNum = builder.orderNum;
 		this.orderName = builder.orderName;
 		this.orderArea = builder.orderArea;
@@ -29,12 +30,13 @@ public class Orders implements Entity {
 		this.orderExpressnum = builder.orderExpressnum;
 		this.orderTime = builder.orderTime;
 		this.orderEMail=builder.orderEMail;
+		this.orderRemark=builder.orderRemark;
 	}
 
 	public static class Builder implements IBuilder<Orders> {
 
 		private String orderId;
-		private Work work;
+		private WorkType workType;
 		private String orderNum;
 		private String orderName;
 		private Area orderArea;
@@ -43,14 +45,15 @@ public class Orders implements Entity {
 		private String orderExpressnum;
 		private long orderTime;
 		private String orderEMail;
+		private String orderRemark;
 
 		public Builder orderId(String orderId) {
 			this.orderId = orderId;
 			return this;
 		}
 
-		public Builder work(Work work) {
-			this.work = work;
+		public Builder workType(WorkType workType) {
+			this.workType = workType;
 			return this;
 		}
 
@@ -94,6 +97,11 @@ public class Orders implements Entity {
 			return this;
 		}
 
+		public Builder orderRemark(String orderRemark) {
+			this.orderRemark=orderRemark;
+			return this;
+		}
+		
 		@Override
 		public Orders build() {
 			return new Orders(this);
@@ -165,12 +173,12 @@ public class Orders implements Entity {
 		this.orderTime = orderTime;
 	}
 
-	public Work getWork() {
-		return work;
+	public WorkType getWorkType() {
+		return workType;
 	}
 
-	public void setWork(Work work) {
-		this.work = work;
+	public void setWorkType(WorkType workType) {
+		this.workType = workType;
 	}
 
 	public String getOrderEMail() {
@@ -179,6 +187,14 @@ public class Orders implements Entity {
 
 	public void setOrderEMail(String orderEMail) {
 		this.orderEMail = orderEMail;
+	}
+
+	public String getOrderRemark() {
+		return orderRemark;
+	}
+
+	public void setOrderRemark(String orderRemark) {
+		this.orderRemark = orderRemark;
 	}
 
 	public OrderForAll toVoForAll() {

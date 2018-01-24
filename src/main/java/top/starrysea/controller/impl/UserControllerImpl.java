@@ -18,6 +18,7 @@ import top.starrysea.object.view.in.AdminForLogin;
 import top.starrysea.service.IUserService;
 
 import static top.starrysea.common.Const.*;
+import static top.starrysea.common.ResultKey.ADMIN;
 
 @Controller
 @RequestMapping("/user")
@@ -36,7 +37,7 @@ public class UserControllerImpl implements IUserController {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = userService.loginService(admin.toDTO());
 		if (serviceResult.isSuccessed()) {
-			Admin admin1 = serviceResult.getResult(Admin.class);
+			Admin admin1 = serviceResult.getResult(ADMIN);
 			// 登陆成功,返回管理员的主页
 			modelAndView.addObject(ADMIN_SESSION_KEY, admin1.getAdminId());
 			modelAndView.setViewName(device.isMobile() ? MOBILE + BOSS : BOSS);

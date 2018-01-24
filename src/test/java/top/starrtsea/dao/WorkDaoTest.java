@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import top.starrysea.StarrtseaApplication;
-import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.dao.IWorkDao;
 import top.starrysea.object.dto.Work;
@@ -55,9 +54,4 @@ public class WorkDaoTest {
 //	public void updateWorkStockDao() {
 //		System.out.println(workDao.updateWorkStockDao(new Work.Builder().workId(3).workStock(1).build()));
 //	}
-
-	@Test
-	public void getStockDao() {
-		System.out.println(workDao.getStockDao(new Work.Builder().workId(6).build()).getResult(Integer.class));
-	}
 }
