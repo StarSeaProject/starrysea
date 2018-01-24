@@ -2,139 +2,141 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8"></meta>
+<meta charset="utf-8"></meta>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-    <title>星之海志愿者公会</title>
-    <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-    <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/mycss.css"></link>
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/mycss.css"></link>
 
-    <style>
-        .navbartop {
-            width: 100%;
-            background: #1e93f3;
-        }
+<style>
+.navbartop {
+	width: 100%;
+	background: #1e93f3;
+}
 
-        .ma {
-            margin-top: 20px;
-            margin-left: 10px;
-            margin-bottom: -4px;
-            color: white;
-            display: inline-block;
-            font-size: 1.2em;
-        }
+.ma {
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-bottom: -4px;
+	color: white;
+	display: inline-block;
+	font-size: 1.2em;
+}
 
-        #btnnav {
-            float: right;
-        }
+#btnnav {
+	float: right;
+}
 
-        #shownav {
-            float: right;
-        }
+#shownav {
+	float: right;
+}
 
-        .abnav {
-            color: #FFFFFF;
-            font-size: 1.5em;
-        }
+.abnav {
+	color: #FFFFFF;
+	font-size: 1.5em;
+}
 
-        a:hover {
-            color: rgb(7, 251, 251);
-        }
+a:hover {
+	color: rgb(7, 251, 251);
+}
 
-        .head {
-            background-color: #eeeeee;
-            color: #23b1f7;
-            height: 100px;
-            clear: both;
-            padding-top: 35px;
-            padding-bottom: 35px;
-            margin-top: 0px;
-            margin-bottom: 10px;
-        }
+.head {
+	background-color: #eeeeee;
+	color: #23b1f7;
+	height: 100px;
+	clear: both;
+	padding-top: 35px;
+	padding-bottom: 35px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
 
-        .headh1 {
-            padding-left: 15px;
-            margin: 0px;
-            font-size: 1.9em;
-        }
+.headh1 {
+	padding-left: 15px;
+	margin: 0px;
+	font-size: 1.9em;
+}
 
-        .leftbox {
-            border: 1px solid blue;
-            border-radius: 10px;
-            padding: 20px 10px 20px 10px;
-        }
+.leftbox {
+	border: 1px solid blue;
+	border-radius: 10px;
+	padding: 20px 10px 20px 10px;
+}
 
-        .rightbox {
+.rightbox {
+	border: 1px solid blue;
+	border-radius: 10px;
+	padding: 20px 10px 20px 10px;
+}
 
-            border: 1px solid blue;
-            border-radius: 10px;
-            padding: 20px 10px 20px 10px;
-        }
+.fname {
+	font-size: 1.4em;
+}
 
-        .fname {
-            font-size: 1.4em;
-        }
+.fnamebold {
+	font-size: 1.4em;
+	font-weight: bold;
+}
 
-        .fmoney {
+.fmoney {
+	
+}
 
-        }
-
-        .fms {
-
-        }
-    </style>
-    <script>
+.fms {
+	
+}
+</style>
+<script>
 
     </script>
 </head>
 <body>
-<div class="navbartop" style="clear: both">
-    <div class="navbar-header col-xs-3">
-        <a href="/"><img src="/starsea.png" style="width: 70px;"
-                         class="img-reponsive"></img></a>
-    </div>
-    <div class="navbar-right col-xs-9 text-right">
-        <a href="/work" class="ma text-right">作品</a>
-        <a href="/activity" class="ma text-right">活动</a>
-        <a href="/mintro.html" class="ma text-right">关于</a>
-    </div>
-    <img class="img-reponsive" src="/navbar.jpg"></img>
-</div>
+	<div class="navbartop" style="clear: both">
+		<div class="navbar-header col-xs-3">
+			<a href="/"><img src="/starsea.png" style="width: 70px;"
+				class="img-reponsive"></img></a>
+		</div>
+		<div class="navbar-right col-xs-9 text-right">
+			<a href="/work" class="ma text-right">作品</a> <a href="/activity"
+				class="ma text-right">活动</a> <a href="/mintro.html"
+				class="ma text-right">关于</a>
+		</div>
+		<img class="img-reponsive" src="/navbar.jpg"></img>
+	</div>
 
-<div class="head">
-    <h1 th:text="${activity.activityName}" class="headh1"></h1>
-</div>
-<div class="container">
-    <div class="col-xs-12 leftbox" id="he2">
-        <p th:utext="${activity.activityContent}"></p>
-        <div th:if="${activity.activityStatus eq 2}">
-            <h4>你可以通过以下的方式参与众筹:</h4>
-            <img src="/zfb.jpg" style="width:45%"/>
-            <img src="/wechat.jpg" style="width:45%"/>
-        </div>
-    </div>
-    <div class="col-xs-12 medium" style="height: 20px;">
-
-    </div>
-    <div class="col-xs-12 rightbox" id="he2">
-        <h4 th:text="'众筹总金额为:'+${activity.activityMoney}"></h4>
-        <ul class="newbox" th:each="funding:${fundings}">
-            <li class="everybox">
-                <span th:text="${funding.fundingName}" class="fname"></span><br/>
-                <span th:text="${funding.fundingMoney}" class="fmoney"></span>
-                <span th:text="${funding.fundingMessage}" class="fms"></span>
-            </li>
-        </ul>
-    </div>
-</div>
-<div class="mfoot text-center">
-    <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
-</div>
+	<div class="head">
+		<h1 th:text="${activity.activityName}" class="headh1"></h1>
+	</div>
+	<div class="container">
+		<div class="col-xs-12 leftbox" id="he2">
+			<p th:utext="${activity.activityContent}"></p>
+			<div th:if="${activity.activityStatus eq 2}">
+				<h4>你可以通过以下的方式参与众筹:</h4>
+				<img src="/zfb.jpg" style="width: 45%" /> <img src="/wechat.jpg"
+					style="width: 45%" />
+			</div>
+		</div>
+		<div class="col-xs-12 medium" style="height: 20px;"></div>
+		<div class="col-xs-12 rightbox" id="he2">
+			<h4 th:text="'众筹总金额为:'+${activity.activityMoney}"></h4>
+			<ul class="newbox" th:each="funding:${fundings}">
+				<li class="everybox"><span
+					th:if="${funding.fundingMoney} gt ${fundingFactor}"
+					th:text="${funding.fundingName}" class="fnamebold"></span><br /> <span
+					th:text="${funding.fundingMoney}" class="fmoney"></span> <span
+					th:text="${funding.fundingMessage}" class="fms"></span></li>
+			</ul>
+		</div>
+	</div>
+	<div class="mfoot text-center">
+		<p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
+	</div>
 </body>
 </html>

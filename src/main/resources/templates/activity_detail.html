@@ -152,7 +152,6 @@ a:hover {
 		</div>
 		<div class="col-md-5 rightbox" id="he2">
 			<h4 th:text="'众筹总金额为:'+${activity.activityMoney}"></h4>
-			<p th:text="${fundingFactor}"></p>
 			<ul class="newbox" th:each="funding:${fundings}">
 				<li class="everybox"><span
 					th:if="${funding.fundingMoney} gt ${fundingFactor}"
