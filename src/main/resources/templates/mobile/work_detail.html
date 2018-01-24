@@ -101,7 +101,7 @@
             <div class="h6">
                 <a th:href="@{${work.workPdfpath}}" th:attr="download=${work.workName}">下载链接</a>
             </div>
-            <select hidden id="workTypes" style="display:none">
+            <select id="workTypes" style="display:none">
                 	<option th:each="workType:${workTypes}" th:value="${workType.workTypeId}" th:text="${workType.name}+' '+${workType.stock}"></option>
                 </select>
             <button style="display:none" th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
