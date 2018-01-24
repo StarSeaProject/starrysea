@@ -52,9 +52,6 @@ public class WorkDaoImpl implements IWorkDao {
 	@Override
 	// 查询一个作品的详情页
 	public DaoResult getWorkDao(Work work) {
-		kumaSqlDao.updateMode();
-		kumaSqlDao.update("work_click", UpdateSetType.ADD, 1).where("work_id", WhereType.EQUALS, work.getWorkId())
-				.table(Work.class).end();
 		kumaSqlDao.selectMode();
 		EntitySqlResult<Work> theResult = kumaSqlDao.select("work_name").select("work_uploadtime")
 				.select("work_pdfpath").select("work_click").select("work_cover").from(Work.class)
@@ -72,8 +69,8 @@ public class WorkDaoImpl implements IWorkDao {
 		kumaSqlDao.insertMode();
 		UpdateSqlResult theResult = kumaSqlDao.insert("work_name", work.getWorkName())
 				.insert("work_uploadtime", work.getWorkUploadTime()).insert("work_pdfpath", work.getWorkPdfpath())
-				.insert("work_cover", work.getWorkCover())
-				.insert("work_summary", work.getWorkSummary()).table(Work.class).end();
+				.insert("work_cover", work.getWorkCover()).insert("work_summary", work.getWorkSummary())
+				.table(Work.class).end();
 		return new DaoResult(true, theResult.getKeyHolder().getKey().intValue());
 	}
 
@@ -82,6 +79,14 @@ public class WorkDaoImpl implements IWorkDao {
 	public DaoResult deleteWorkDao(Work work) {
 		kumaSqlDao.deleteMode();
 		kumaSqlDao.table(Work.class).where("work_id", WhereType.EQUALS, work.getWorkId()).end();
+		return new DaoResult(true);
+	}
+
+	@Override
+	public DaoResult addWorkClick(Work work) {
+		kumaSqlDao.updateMode();
+		kumaSqlDao.update("work_click", UpdateSetType.ADD, 1).where("work_id", WhereType.EQUALS, work.getWorkId())
+				.table(Work.class).end();
 		return new DaoResult(true);
 	}
 }

@@ -68,6 +68,7 @@ public class WorkServiceImpl implements IWorkService {
 	// 查询一个作品的详情页
 	public ServiceResult queryWorkService(Work work) {
 		ServiceResult result = new ServiceResult();
+		workDao.addWorkClick(work);
 		DaoResult daoResult = workDao.getWorkDao(work);
 		result.setSuccessed(true);
 		result.setResult(WORK_DETAIL, daoResult.getResult(Work.class));

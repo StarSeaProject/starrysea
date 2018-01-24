@@ -14,5 +14,7 @@ public interface IWorkDao {
 	DaoResult saveWorkDao(Work work);
 
 	DaoResult deleteWorkDao(Work work);
+	
+	DaoResult addWorkClick(Work work);
 
 }
