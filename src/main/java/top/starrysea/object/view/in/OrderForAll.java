@@ -4,7 +4,7 @@ import top.starrysea.common.Condition;
 import top.starrysea.object.dto.Orders;
 
 public class OrderForAll {
-	
+
 	private String orderName;
 	private Integer page;
 
@@ -15,7 +15,7 @@ public class OrderForAll {
 	public void setOrderName(String orderName) {
 		this.orderName = orderName;
 	}
-	
+
 	public Condition getCondition() {
 		return new Condition(page != null ? page : 1);
 	}
