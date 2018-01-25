@@ -130,6 +130,8 @@ a:hover {
 				<li class="everybox"><span
 					th:if="${funding.fundingMoney} gt ${fundingFactor}"
 					th:text="${funding.fundingName}" class="fnamebold"></span><br /> <span
+					th:if="${funding.fundingMoney} le ${fundingFactor}"
+					th:text="${funding.fundingName}" class="fname"></span><br /> <span
 					th:text="${funding.fundingMoney}" class="fmoney"></span> <span
 					th:text="${funding.fundingMessage}" class="fms"></span></li>
 			</ul>
