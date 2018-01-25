@@ -37,7 +37,9 @@
         #shownav {
             float: right;
         }
-
+		#statusinfo{
+		color:red;
+		}
         .abnav {
             color: #FFFFFF;
             font-size: 1.5em;
@@ -62,26 +64,108 @@
     <img class="img-reponsive" src="/navbar.jpg"></img>
 </div>
 
-
 <div class="container">
-    收货人信息
-    <form id="addOrderForm" action="/order/add" method="post">
-        <input type="hidden" name="workId" th:value="${workId}"/> <input
-            id="orderArea" type="hidden" name="orderArea"/> 收货人姓名:<input
-            type="text" name="orderName"/><br/> 收货地址(省份): <select
-            id="province">
-        <option value="1">广东</option>
-    </select><br/> 收货地址(城市): <select id="city">
-        <option value="1">广州</option>
-    </select><br/> 收货地址(区县): <select id="area">
-        <option value="1">越秀区</option>
-    </select><br/> 收货详细地址:<input type="text" name="orderAddress"/><br/> <input
-            type="button" value="提交" id="addOrderBtn"/>
-    </form>
+	<h1 class="h2">收货人信息</h1>
+	<div class="container">
+	<p id="statusinfo"></p></div>
+	<form id="addOrderForm" th:attr="action='/order/add/'+${workId}+'/'+${workTypeId}" method="post">
+
+		<input id="orderArea" type="hidden" name="orderArea" />
+		<div class="col-xs-6" style="margin-top:15px;"><p>收货人姓名:</p></div>
+		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderName" id="ordname"/></div>
+
+<div class="col-xs-6" style="margin-top:15px;"><p>手机号:</p></div>
+		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderPhone" id="ordphone"/></div>
+
+		<div class="col-xs-6" style="margin-top:15px;"><p>收货地址</p></div>
+		<div class="col-xs-6" style="margin-top:15px;"><select	id="province">
+			<option value="1">广东</option>
+		</select><br/>
+			<select id="city">
+				<option value="1">广州</option>
+			</select><br/>
+			<select id="area">
+				<option value="1">越秀区</option>
+			</select><br/>
+			</div>
+			<div class="col-xs-6" style="margin-top:15px;"><p>收货详细地址</p></div>
+			<div class="col-xs-6" style="margin-top:15px;">
+			<input type="text" name="orderAddress" id="ordadddel"/>
+			</div>
+		<div class="col-xs-6" style="margin-top:15px;"><p>收货人电子邮箱:</p></div>
+		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderEmail" id="ordemail" /></div>
+
+
+		<div class="col-xs-6" style="margin-top:15px;"><p>备注:</p></div>
+		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderRemark" /></div>
+
+		<div class="col-xs-6" style="margin-top:15px;"><p> </p></div>
+		<div class="col-xs-6" style="margin-top:15px;"></div>
+
+
+	</form>
+	<button
+		id="addOrderBtn" class="btn btn-danger">提交</button>
 </div>
-<div class="mfoot text-center">
+<div class="mfoot text-center navbar-fixed-bottom">
     <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
-<script type="text/javascript" src="/add_order.js"></script>
+<script>
+$(document).ready(function(){
+    $("#addOrderBtn").on("click",function(e){
+        name = $("#ordname").val();
+        if(name.length==0)
+        	{$("#statusinfo").html("收货人空");
+        	return false;
+        	}
+        if(name.length>=10)
+    	{$("#statusinfo").html("收货人姓名过长！");
+    	return false;
+    	}
+        
+        phone = $("#ordphone").val();
+        if(phone.length!=11)
+        	{
+        	$("#statusinfo").html("手机号格式错误！");
+        	return false;
+        	}
+        
+        addarea = $("#area").val();
+        if(addarea.length==0){
+        	$("#statusinfo").html("请选择正确地址！");
+        	return false;
+        }
+        	
+        	
+        adddetail = $("#ordadddel").val();
+        if(adddetail.length==0){
+        	$("#statusinfo").html("收货地址不能为空！");
+        	return false;
+        }
+        if(adddetail.length>=50){
+        	$("#statusinfo").html("收货地址过长！");
+        	return false;
+        }
+        
+        
+        
+        email = $("#ordemail").val();
+        if(email.length == 0)
+        	{$("#statusinfo").html("邮箱为空！");
+        	return false;
+        	}
+        var reg = /\w+[@]{1}\w+[.]\w+/;
+        if(reg.test(email)){
+        	
+        }else{
+        	$("#statusinfo").html("邮箱格式不符合要求！");
+        	return false;
+        }
+      
+        $("#addOrderForm").submit(); 
+    });
+    
+});
+</script>
 </body>
 </html>

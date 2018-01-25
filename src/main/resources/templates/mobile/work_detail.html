@@ -69,6 +69,12 @@
         .uploadtime {
             color: #999999;
         }
+        .orderbtn{
+        background:rgba(255,255,255,0);
+        }
+        .active{
+        color:#238acb;
+        }
     </style>
 </head>
 <body>
@@ -102,17 +108,24 @@
                 <a th:href="@{${work.workPdfpath}}" th:attr="download=${work.workName}">下载链接</a>
             </div>
             <select id="workTypes" style="display:none">
-                	<option th:each="workType:${workTypes}" th:value="${workType.workTypeId}" th:text="${workType.name}+' '+${workType.stock}"></option>
+                    <option  th:each="workType:${workTypes}" th:value="${workType.workTypeId}" th:text="${workType.name}+' '+${workType.stock}"></option>
                 </select>
-            <button style="display:none" th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
-                    class="btn btn-default">确认购买
-            </button>
+
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default orderbtn" th:each="workType:${workTypes}" >
+                        <input type="radio" th:id="${workType.workTypeId}" th:text="${workType.name}+' '+${workType.stock}"/>
+                    </label>
+                </div>
+                <br/><br/>
+                <button  th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
+                         class="btn btn-info">确认购买
+                </button>
         </div>
     </div>
 </div>
 <hr></hr>
 <div id="workImages" style="text-align: center" class="pdfcontainer">
-    <button id="more_image">更多</button>
+    <button id="more_image" class="btn btn-info">更多</button>
 </div>
 <div class="mfoot text-center">
     <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
@@ -133,7 +146,8 @@
         }
         $("#gotoOrder").on("click", function (event) {
             let workId = $(event.target).data("workid");
-            window.location.href = "/order/toAddOrder/" + workId;
+            let workTypeId = $("#workTypes").val();
+            window.location.href = "/order/toAddOrder/"+workId+"/"+workTypeId;
         });
     });
 </script>
