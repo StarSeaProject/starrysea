@@ -2,6 +2,7 @@ package top.starrysea.object.dto;
 
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.kql.entity.IBuilder;
+import top.starrysea.object.view.out.QuestionForAll;
 
 public class Question implements Entity {
 	
@@ -112,6 +113,9 @@ public class Question implements Entity {
 
 	public void setQuestionStatus(short questionStatus) {
 		this.questionStatus = questionStatus;
+	}
+	public QuestionForAll toVoForAll(){
+		return new QuestionForAll(questionId, question, questionUpdateTime, answer, questionStatus);
 	}
 
 }
