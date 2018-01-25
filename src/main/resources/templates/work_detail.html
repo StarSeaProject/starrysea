@@ -120,6 +120,9 @@
         .uploadtime {
             color: #999999;
         }
+        .orderbtn{
+        background:rgba(255,255,255,0);
+        }
     </style>
 </head>
 <body>
@@ -183,11 +186,11 @@
                 </select>
 
                 <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default" th:each="workType:${workTypes}" >
+                    <label class="btn btn-default orderbtn" th:each="workType:${workTypes}" >
                         <input type="radio" th:id="${workType.workTypeId}" th:text="${workType.name}+' '+${workType.stock}"/>
                     </label>
                 </div>
-                <br/>
+                <br/><br/>
                 <button  th:attr="data-workid=${workId}" id="gotoOrder" type="submit"
                          class="btn btn-info">确认购买
                 </button>
@@ -197,7 +200,7 @@
 </div>
 <hr></hr>
 <div id="workImages" style="text-align: center" class="pdfcontainer">
-    <button id="more_image">更多</button>
+    <button id="more_image" class="btn btn-info">更多</button>
 </div>
 <div class="footbar text-center">
     <p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
