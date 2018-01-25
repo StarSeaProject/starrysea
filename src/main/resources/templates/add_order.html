@@ -94,7 +94,7 @@
 
 		<input id="orderArea" type="hidden" name="orderArea" />
 		<div class="col-xs-6" style="margin-top:15px;"><p>收货人姓名:</p></div>
-		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderName" /></div>
+		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderName" id="ordname"/></div>
 
 		<div class="col-xs-6" style="margin-top:15px;"><p>收货地址</p></div>
 		<div class="col-xs-6" style="margin-top:15px;"><select	id="province">
@@ -127,5 +127,16 @@
 </div>
 <script type="text/javascript" src="/add_order.js"></script>
 <script src="/navbar.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#addOrderBtn").on("click",function (event) {
+            name=$("#ordname").val;
+            alert(name);
+            if(name==""){
+                alert("kong");
+            }
+        })
+    })
+</script>
 </body>
 </html>
