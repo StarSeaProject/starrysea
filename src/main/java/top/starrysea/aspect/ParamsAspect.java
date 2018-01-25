@@ -18,7 +18,7 @@ public class ParamsAspect {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Around("execution(* top.starrysea.controller.impl.*.*(..))")
-	public void paramsLog(ProceedingJoinPoint pjp) throws Throwable {
+	public Object paramsLog(ProceedingJoinPoint pjp) throws Throwable {
 		String className = pjp.getSignature().getDeclaringTypeName();
 		String methodName = pjp.getSignature().getName();
 		if (logger.isDebugEnabled()) {
@@ -34,5 +34,6 @@ public class ParamsAspect {
 				logger.debug(outMessage + result);
 			}
 		}
+		return result;
 	}
 }
