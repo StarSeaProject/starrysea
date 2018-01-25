@@ -102,6 +102,7 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	// 修改一个订单的状态
 	public ServiceResult modifyOrderService(Orders order) {
+		order.setOrderStatus((short) 2);
 		orderDao.updateOrderDao(order);
 		ServiceResult sr = new ServiceResult(true);
 		sr.setResult(ORDER_DETAIL, orderDao.getOrderDao(order).getResult(Orders.class));
