@@ -114,13 +114,11 @@ a:hover {
 			</div>
 			<div class="col-xs-6" style="margin-top: 15px;">
 				<select id="province">
-					<option value="1">广东</option>
-				</select> <select id="city">
-					<option value="1">广州</option>
-				</select> <select id="area" name="areaId">
-					<option value="1" id="areaid">越秀区</option>
-				</select> <input style="display: none" type="text" id="areasub"
-					name="orderArea" />
+					<option th:each="province:${provinces}" th:value="${province.key}"
+						th:text="${province.value.provinceName}"></option>
+				</select> <select id="city" disabled="disabled">
+				</select> <select id="area" disabled="disabled">
+				</select> <input type="hidden" id="areasub" name="orderArea" />
 			</div>
 			<div class="col-xs-6" style="margin-top: 15px;">
 				<p>收货详细地址</p>
@@ -161,32 +159,33 @@ a:hover {
 	<script th:inline="javascript">
 
 $(function () {
-	let provinces = [[${provinces}]];
-	console.log(JSON.stringify(provinces));
     $("#addOrderBtn").on("click",function(e){
         name = $("#ordname").val();
-        if(name.length==0)
-        	{alert("收货人为空");
+        if(name.length==0){
+        	alert("收货人为空");
         	return false;
-        	}
-        if(name.length>=10)
-    	{alert("收货姓名过长");
-    	return false;
+        }
+        if(name.length>=10){
+        	alert("收货姓名过长");
+    		return false;
     	}
         
         phone = $("#ordphone").val();
-        if(phone.length!=11)
-        	{
+        if(phone.length!=11){
         	alert("手机号格式错误！");
         	return false;
-        	}
+        }
         
-        areanum = $("#areaid").val(); 
+        areanum = $("#area").val(); 
+        if(areanum==""||areanum==undefined){
+        	alert("收货地址不合法！");
+        	return false;
+        }
         $("#areasub").val(areanum);
         
         adddetail = $("#ordadddel").val();
         if(adddetail.length==0){
-        	alert("收货地址不能为空！");
+        	alert("收货详细地址不能为空！");
         	return false;
         }
         if(adddetail.length>=50){
@@ -194,27 +193,47 @@ $(function () {
         	return false;
         }
         
-        
-        
         email = $("#ordemail").val();
-        if(email.length == 0)
-        	{alert("电子邮箱为空");
+        if(email.length == 0){
+        	alert("电子邮箱为空");
         	return false;
-        	}
+        }
         var reg = /\w+[@]{1}\w+[.]\w+/;
-        if(reg.test(email)){
-        	
-        }else{
+        if(!reg.test(email)){
         	alert("Email格式不对");
         	return false;
         }
-       
-        
-       
         
         $("#addOrderForm").submit(); 
     });
     
+    let provinces = [[${provinces}]];
+    let citys;
+    $("#province").on("change",function(e){
+    	let provinceId=$(e.target).val();
+    	citys=provinces[provinceId].citys;
+    	let str=``;
+    	for(let city in citys){
+    		str+=`<option value='${citys[city].cityId}'>${citys[city].cityName}</option>`;
+    	}
+    	$("#area").html("").attr("disabled","disabled");
+    	$("#city").html(str);
+    	if($("#city").attr("disabled")=="disabled"){
+    		$("#city").removeAttr("disabled");
+    	}
+    });
+    $("#city").on("change",function(e){
+    	let cityId=$(e.target).val();
+    	let areas=citys[cityId].areas;
+    	let str=``;
+    	for(let area in areas){
+    		str+=`<option value='${areas[area].areaId}'>${areas[area].areaName}</option>`;
+    	}
+    	$("#area").html(str);
+    	if($("#area").attr("disabled")=="disabled"){
+    		$("#area").removeAttr("disabled");
+    	}
+    });
 });
 </script>
 </body>
