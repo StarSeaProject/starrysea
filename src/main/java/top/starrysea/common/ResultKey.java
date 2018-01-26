@@ -1,6 +1,7 @@
 package top.starrysea.common;
 
 import java.util.List;
+import java.util.Map;
 
 import top.starrysea.object.dto.Activity;
 import top.starrysea.object.dto.Work;
@@ -14,7 +15,7 @@ public enum ResultKey {
 	ACTIVITY_LIST(List.class), NEWEST_ACTIVITY(Activity.class), ACTIVITY_DETAIL(Activity.class), ACTIVITY_FUNDING_LIST(
 			List.class), ACTIVITY_FUNDING_THRESHOLD(Double.class),
 
-	ORDER_LIST(List.class), ORDER_DETAIL(Orders.class),
+	ORDER_LIST(List.class), ORDER_DETAIL(Orders.class),ORDER_ADDRESS(Map.class),
 
 	ADMIN(Admin.class),
 	

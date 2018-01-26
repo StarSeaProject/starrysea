@@ -16,6 +16,11 @@ public class DaoResult {
 		this.successed = successed;
 	}
 
+	public DaoResult(boolean successed, Map<?,?> result) {
+		theResult = new HashMap<>();
+		this.successed = successed;
+		this.theResult.put(Map.class, result);
+	}
 	public DaoResult(boolean successed, List<?> result) {
 		theResult = new HashMap<>();
 		this.successed = successed;

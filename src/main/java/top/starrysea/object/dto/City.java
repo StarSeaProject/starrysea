@@ -2,6 +2,7 @@ package top.starrysea.object.dto;
 
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.kql.entity.IBuilder;
+import top.starrysea.object.view.out.CityForAddOrder;
 
 public class City implements Entity {
 
@@ -67,4 +68,7 @@ public class City implements Entity {
 		this.cityName = cityName;
 	}
 
+	public CityForAddOrder toVo() {
+		return new CityForAddOrder(cityId, cityName);
+	}
 }

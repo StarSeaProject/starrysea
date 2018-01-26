@@ -109,6 +109,7 @@ public class OrderControllerImpl implements IOrderController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("workId", workType.getWorkId());
 		modelAndView.addObject("workTypeId", workType.getWorkTypeId());
+		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(ORDER_ADDRESS));
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "add_order" : "add_order");
 		return modelAndView;
 	}

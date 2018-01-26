@@ -2,6 +2,7 @@ package top.starrysea.object.dto;
 
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.kql.entity.IBuilder;
+import top.starrysea.object.view.out.AreaForAddOrder;
 
 public class Area implements Entity {
 
@@ -65,4 +66,7 @@ public class Area implements Entity {
 		this.areaName = areaName;
 	}
 
+	public AreaForAddOrder toVo() {
+		return new AreaForAddOrder(areaId, areaName);
+	}
 }

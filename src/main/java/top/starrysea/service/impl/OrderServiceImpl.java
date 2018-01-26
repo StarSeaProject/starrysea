@@ -1,6 +1,7 @@
 package top.starrysea.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
+import top.starrysea.dao.IProvinceDao;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.dao.IWorkDao;
 import top.starrysea.dao.IWorkTypeDao;
@@ -21,6 +23,7 @@ import top.starrysea.exception.UpdateException;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
+import top.starrysea.object.view.out.ProvinceForAddOrder;
 import top.starrysea.service.IOrderService;
 
 import static top.starrysea.dao.impl.OrderDaoImpl.PAGE_LIMIT;
@@ -36,6 +39,8 @@ public class OrderServiceImpl implements IOrderService {
 	private IWorkDao workDao;
 	@Autowired
 	private IWorkTypeDao workTypeDao;
+	@Autowired
+	private IProvinceDao areaDao;
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
@@ -117,6 +122,14 @@ public class OrderServiceImpl implements IOrderService {
 	// 删除一个订单
 	public ServiceResult removeOrderService(Orders order) {
 		return new ServiceResult(true);
+	}
+
+	@Override
+	public ServiceResult queryAllProvinceService() {
+		Map<Integer,ProvinceForAddOrder> provinces = areaDao.getAllProvinceDao().getResult(Map.class);
+		ServiceResult sr = new ServiceResult(true);
+		sr.setResult(ORDER_ADDRESS, provinces);
+		return sr;
 	}
 
 }

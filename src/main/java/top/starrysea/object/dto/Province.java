@@ -1,6 +1,7 @@
 package top.starrysea.object.dto;
 
 import top.starrysea.kql.entity.Entity;
+import top.starrysea.object.view.out.ProvinceForAddOrder;
 
 public class Province implements Entity {
 
@@ -26,6 +27,10 @@ public class Province implements Entity {
 
 	public void setProvinceName(String provinceName) {
 		this.provinceName = provinceName;
+	}
+
+	public ProvinceForAddOrder toVo() {
+		return new ProvinceForAddOrder(provinceId, provinceName);
 	}
 
 }

@@ -15,4 +15,6 @@ public interface IOrderService {
 	ServiceResult modifyOrderService(Orders order);
 
 	ServiceResult removeOrderService(Orders order);
+	
+	ServiceResult queryAllProvinceService();
 }
