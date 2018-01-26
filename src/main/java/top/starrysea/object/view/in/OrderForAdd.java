@@ -12,6 +12,7 @@ import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
 
 public class OrderForAdd {
+	
 	@NotNull(message = "作品类型Id不能为空")
 	private Integer workTypeId;
 	@NotNull(message = "作品Id不能为空")
@@ -24,10 +25,13 @@ public class OrderForAdd {
 	@NotEmpty(message = "收货地址不能为空")
 	@Length(max = 50, message = "收货地址长度不能超过50")
 	private String orderAddress;
-	@NotNull(message = "收件人邮箱不能为空")
+	@NotEmpty(message = "收件人邮箱不能为空")
 	@Email(message = "输入的邮箱地址不是合法的")
 	private String orderEmail;
 	private String orderRemark;
+	@NotEmpty(message = "收货人手机不能为空")
+	@Length(max = 15, message = "收货人手机长度不能超过15")
+	private String orderPhone;
 
 	public Integer getWorkTypeId() {
 		return workTypeId;
@@ -85,11 +89,19 @@ public class OrderForAdd {
 		this.workId = workId;
 	}
 
+	public String getOrderPhone() {
+		return orderPhone;
+	}
+
+	public void setOrderPhone(String orderPhone) {
+		this.orderPhone = orderPhone;
+	}
+
 	public Orders toDTO() {
 		return new Orders.Builder()
 				.workType(new WorkType.Builder().workTypeId(workTypeId).work(new Work.Builder().workId(workId).build())
 						.build())
 				.orderName(orderName).orderArea(new Area.Builder().areaId(orderArea).build()).orderAddress(orderAddress)
-				.orderEMail(orderEmail).orderRemark(orderRemark).build();
+				.orderEMail(orderEmail).orderRemark(orderRemark).orderPhone(orderPhone).build();
 	}
 }

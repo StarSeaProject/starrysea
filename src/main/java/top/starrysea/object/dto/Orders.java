@@ -18,6 +18,7 @@ public class Orders implements Entity {
 	private long orderTime;
 	private String orderEMail;
 	private String orderRemark;
+	private String orderPhone;
 
 	private Orders(Builder builder) {
 		this.orderId = builder.orderId;
@@ -31,6 +32,7 @@ public class Orders implements Entity {
 		this.orderTime = builder.orderTime;
 		this.orderEMail=builder.orderEMail;
 		this.orderRemark=builder.orderRemark;
+		this.orderPhone=builder.orderPhone;
 	}
 
 	public static class Builder implements IBuilder<Orders> {
@@ -46,6 +48,7 @@ public class Orders implements Entity {
 		private long orderTime;
 		private String orderEMail;
 		private String orderRemark;
+		private String orderPhone;
 
 		public Builder orderId(String orderId) {
 			this.orderId = orderId;
@@ -99,6 +102,11 @@ public class Orders implements Entity {
 
 		public Builder orderRemark(String orderRemark) {
 			this.orderRemark=orderRemark;
+			return this;
+		}
+		
+		public Builder orderPhone(String orderPhone) {
+			this.orderPhone=orderPhone;
 			return this;
 		}
 		
@@ -195,6 +203,14 @@ public class Orders implements Entity {
 
 	public void setOrderRemark(String orderRemark) {
 		this.orderRemark = orderRemark;
+	}
+
+	public String getOrderPhone() {
+		return orderPhone;
+	}
+
+	public void setOrderPhone(String orderPhone) {
+		this.orderPhone = orderPhone;
 	}
 
 	public OrderForAll toVoForAll() {

@@ -59,8 +59,8 @@ public class OrderDaoImpl implements IOrderDao {
 			EntitySqlResult<Orders> theResult = kumaSqlDao.select("order_name").select("name", "wt")
 					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
 					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
-					.select("order_email").select("order_num").select("order_remark").from(Orders.class, "o")
-					.leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
+					.select("order_email").select("order_num").select("order_remark").select("order_phone")
+					.from(Orders.class, "o").leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
 					.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
 					.leftjoin(Province.class, "p", "province_id", City.class, "province_id")
 					.leftjoin(WorkType.class, "wt", "work_type_id", Orders.class, "work_type_id")
@@ -74,7 +74,7 @@ public class OrderDaoImpl implements IOrderDao {
 							.orderAddress(rs.getString("order_address")).orderStatus(rs.getShort("order_status"))
 							.orderExpressnum(rs.getString("order_expressnum")).orderTime(rs.getLong("order_time"))
 							.orderEMail(rs.getString("order_email")).orderRemark(rs.getString("order_remark"))
-							.orderNum(rs.getString("order_num")).build());
+							.orderNum(rs.getString("order_num")).orderPhone(rs.getString("order_phone")).build());
 			return new DaoResult(true, theResult.getResult());
 		}
 		throw new IllegalArgumentException("订单号和订单id不能同时为空");
