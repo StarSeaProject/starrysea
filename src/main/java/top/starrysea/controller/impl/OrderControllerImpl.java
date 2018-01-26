@@ -22,6 +22,7 @@ import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IOrderController;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.WorkType;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
@@ -106,6 +107,13 @@ public class OrderControllerImpl implements IOrderController {
 
 	@RequestMapping(value = "/order/toAddOrder/{workId}/{workTypeId}", method = RequestMethod.GET)
 	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType, Device device) {
+		Integer stock = orderService.queryWorkTypeStock(workType.toDTO()).getResult(WORK_TYPE_STOCK);
+		if (stock <= 0) {
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.addObject(ERRINFO, "库存不足");
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
+			return modelAndView;
+		}
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("workId", workType.getWorkId());
 		modelAndView.addObject("workTypeId", workType.getWorkTypeId());

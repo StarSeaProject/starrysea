@@ -3,6 +3,7 @@ package top.starrysea.service;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.WorkType;
 
 public interface IOrderService {
 
@@ -17,4 +18,6 @@ public interface IOrderService {
 	ServiceResult removeOrderService(Orders order);
 	
 	ServiceResult queryAllProvinceService();
+	
+	ServiceResult queryWorkTypeStock(WorkType workType);
 }

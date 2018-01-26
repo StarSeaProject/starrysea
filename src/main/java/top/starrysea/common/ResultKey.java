@@ -10,7 +10,8 @@ import top.starrysea.object.dto.Admin;
 
 public enum ResultKey {
 
-	WOKR_LIST(List.class), WORK_DETAIL(Work.class), WORK_DETAIL_IMAGE(List.class), WORK_DETAIL_TYPE(List.class),
+	WOKR_LIST(List.class), WORK_DETAIL(Work.class), WORK_DETAIL_IMAGE(List.class), WORK_DETAIL_TYPE(
+			List.class), WORK_TYPE_STOCK(Integer.class),
 
 	ACTIVITY_LIST(List.class), NEWEST_ACTIVITY(Activity.class), ACTIVITY_DETAIL(Activity.class), ACTIVITY_FUNDING_LIST(
 			List.class), ACTIVITY_FUNDING_THRESHOLD(Double.class),

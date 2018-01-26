@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,10 +126,18 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
+	@Cacheable(value="provinces")
 	public ServiceResult queryAllProvinceService() {
-		Map<Integer,ProvinceForAddOrder> provinces = areaDao.getAllProvinceDao().getResult(Map.class);
+		Map<Integer, ProvinceForAddOrder> provinces = areaDao.getAllProvinceDao().getResult(Map.class);
 		ServiceResult sr = new ServiceResult(true);
 		sr.setResult(ORDER_ADDRESS, provinces);
+		return sr;
+	}
+
+	@Override
+	public ServiceResult queryWorkTypeStock(WorkType workType) {
+		ServiceResult sr = new ServiceResult(true);
+		sr.setResult(WORK_TYPE_STOCK, workTypeDao.getWorkTypeStockDao(workType).getResult(Integer.class));
 		return sr;
 	}
 
