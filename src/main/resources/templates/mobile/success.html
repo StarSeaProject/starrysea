@@ -62,9 +62,18 @@
     </div>
     <img class="img-reponsive" src="/navbar.jpg"></img>
 </div>
-<div class="container">
-    <h1 th:text="${info}"></h1>
+<div style="height:60px;"></div>
+<div class="container text-center">
+	<div class="col-xs-3">
+	<img class="img-reponsive" src="/ruby.png"  />
+	</div>
+	<div class="col-xs-9">
+    <h1 th:text="${info}" class="h2"></h1>
+    <h2 class="h3">您已下单成功，将会为您派送！</h2>
+    </div>
+    <button class="btn btn-info">查看订单详情</button>
 </div>
+<div style="height:60px;"></div>
 <div class="mfoot text-center">
     <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
