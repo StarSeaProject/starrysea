@@ -90,7 +90,7 @@ public class OrderDaoImpl implements IOrderDao {
 				.insert("order_area", order.getOrderArea().getAreaId()).insert("order_address", order.getOrderAddress())
 				.insert("order_status", 1).insert("order_time", System.currentTimeMillis())
 				.insert("order_email", order.getOrderEMail()).insert("order_remark", order.getOrderRemark())
-				.table(Orders.class).end();
+				.insert("order_phone", order.getOrderPhone()).table(Orders.class).end();
 		return new DaoResult(true, order);
 	}
 
