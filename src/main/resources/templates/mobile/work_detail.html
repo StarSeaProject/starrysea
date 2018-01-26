@@ -112,8 +112,8 @@
                 </select>
 
                 <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default orderbtn" th:each="workType:${workTypes}" >
-                        <input type="radio" th:id="${workType.workTypeId}" th:text="${workType.name}+' '+${workType.stock}"/>
+                    <label class="btn btn-default orderbtn" th:id="${workType.workTypeId}" th:each="workType:${workTypes}" >
+                        <input type="radio" th:text="${workType.name}+' '+${workType.stock}"/>
                     </label>
                 </div>
                 <br/><br/>
@@ -146,8 +146,8 @@
         }
         $("#gotoOrder").on("click", function (event) {
             let workId = $(event.target).data("workid");
-            let workTypeId = $("#workTypes").val();
-            window.location.href = "/order/toAddOrder/"+workId+"/"+workTypeId;
+           	typeid = $(".active").attr("id");
+            window.location.href = "/order/toAddOrder/" +workId+"/"+ typeid;
         });
     });
 </script>
