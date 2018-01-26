@@ -70,7 +70,6 @@
 	<p id="statusinfo"></p></div>
 	<form id="addOrderForm" th:attr="action='/order/add/'+${workId}+'/'+${workTypeId}" method="post">
 
-		<input id="orderArea" type="hidden" name="orderArea" />
 		<div class="col-xs-6" style="margin-top:15px;"><p>收货人姓名:</p></div>
 		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderName" id="ordname"/></div>
 
@@ -87,6 +86,7 @@
 			<select id="area">
 				<option value="1">越秀区</option>
 			</select><br/>
+			<input style="display:none" type="text" id="areasub" name="orderArea"/>
 			</div>
 			<div class="col-xs-6" style="margin-top:15px;"><p>收货详细地址</p></div>
 			<div class="col-xs-6" style="margin-top:15px;">
@@ -130,11 +130,9 @@ $(document).ready(function(){
         	return false;
         	}
         
-        addarea = $("#area").val();
-        if(addarea.length==0){
-        	$("#statusinfo").html("请选择正确地址！");
-        	return false;
-        }
+        areanum = $("#areaid").val(); 
+        $("#areasub").val(areanum);
+        
         	
         	
         adddetail = $("#ordadddel").val();

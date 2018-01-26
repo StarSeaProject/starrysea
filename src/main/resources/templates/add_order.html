@@ -92,7 +92,7 @@
 
 	<form id="addOrderForm" th:attr="action='/order/add/'+${workId}+'/'+${workTypeId}" method="post">
 
-		<input id="orderArea" type="hidden" name="orderArea" />
+		
 		<div class="col-xs-6" style="margin-top:15px;"><p>收货人姓名:</p></div>
 		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderName" id="ordname"/></div>
 
@@ -109,7 +109,7 @@
 			<select id="area" name="areaId">
 				<option value="1" id="areaid">越秀区</option>
 			</select>
-			<input style="display:none" type="text" id="areasub" name="areaId"/>
+			<input style="display:none" type="text" id="areasub" name="orderArea"/>
 			</div>
 			<div class="col-xs-6" style="margin-top:15px;"><p>收货详细地址</p></div>
 			<div class="col-xs-6" style="margin-top:15px;">
@@ -158,8 +158,7 @@ $(document).ready(function(){
         
         areanum = $("#areaid").val(); 
         $("#areasub").val(areanum);
-        	alert($("#areasub").val());
-        	
+        
         adddetail = $("#ordadddel").val();
         if(adddetail.length==0){
         	alert("收货地址不能为空！");
