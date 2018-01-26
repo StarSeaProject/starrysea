@@ -90,7 +90,7 @@ public class QuestionControllerImpl implements IQuestionController {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
-		theResult.put("info", "提问成功！");
+		theResult.put(INFO, "提问成功！");
 		return theResult;
 	}
 
@@ -109,7 +109,7 @@ public class QuestionControllerImpl implements IQuestionController {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
-		theResult.put("info", "回复成功！");
+		theResult.put(INFO, "回复成功！");
 		return theResult;
 	}
 

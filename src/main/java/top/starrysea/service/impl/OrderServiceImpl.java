@@ -126,7 +126,7 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	@Cacheable(value="provinces")
+	@Cacheable(value = "provinces")
 	public ServiceResult queryAllProvinceService() {
 		Map<Integer, ProvinceForAddOrder> provinces = areaDao.getAllProvinceDao().getResult(Map.class);
 		ServiceResult sr = new ServiceResult(true);
@@ -136,9 +136,21 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult queryWorkTypeStock(WorkType workType) {
-		ServiceResult sr = new ServiceResult(true);
-		sr.setResult(WORK_TYPE_STOCK, workTypeDao.getWorkTypeStockDao(workType).getResult(Integer.class));
-		return sr;
+		DaoResult daoResult;
+		try {
+			workDao.getWorkDao(workType.getWork());
+			daoResult = workTypeDao.getWorkTypeStockDao(workType);
+			ServiceResult sr = new ServiceResult(true);
+			Integer stock = daoResult.getResult(Integer.class);
+			if (stock <= 0)
+				throw new LogicException("库存不足");
+			sr.setResult(WORK_TYPE_STOCK, stock);
+			return sr;
+		} catch (Exception e) {
+			ServiceResult sr = new ServiceResult(false);
+			sr.setErrInfo(e.getMessage());
+			return sr;
+		}
 	}
 
 }

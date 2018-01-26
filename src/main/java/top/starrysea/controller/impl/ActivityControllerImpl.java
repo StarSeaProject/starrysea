@@ -159,7 +159,7 @@ public class ActivityControllerImpl implements IActivityController {
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("info", "添加成功！");
+		modelAndView.addObject(INFO, "添加成功！");
 		// 添加成功则返回成功页面
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
@@ -181,7 +181,7 @@ public class ActivityControllerImpl implements IActivityController {
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("info", "修改成功!");
+		modelAndView.addObject(INFO, "修改成功!");
 		// 修改成功则返回成功页面
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
@@ -204,7 +204,7 @@ public class ActivityControllerImpl implements IActivityController {
 			return modelAndView;
 		}
 		// 删除成功则返回成功页面
-		modelAndView.addObject("info", "删除成功!");
+		modelAndView.addObject(INFO, "删除成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
@@ -229,7 +229,7 @@ public class ActivityControllerImpl implements IActivityController {
 			return modelAndView;
 		}
 		// 添加成功则返回成功页面
-		modelAndView.addObject("info", "添加成功!");
+		modelAndView.addObject(INFO, "添加成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
@@ -250,7 +250,7 @@ public class ActivityControllerImpl implements IActivityController {
 			return modelAndView;
 		}
 		// 添加成功则返回成功页面
-		modelAndView.addObject("info", "删除成功!");
+		modelAndView.addObject(INFO, "删除成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}

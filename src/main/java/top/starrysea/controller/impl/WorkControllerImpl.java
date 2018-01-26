@@ -147,7 +147,7 @@ public class WorkControllerImpl implements IWorkController {
 			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("info", "添加成功!");
+		modelAndView.addObject(INFO, "添加成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
@@ -166,7 +166,7 @@ public class WorkControllerImpl implements IWorkController {
 			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("info", "删除成功！");
+		modelAndView.addObject(INFO, "删除成功！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
@@ -185,7 +185,7 @@ public class WorkControllerImpl implements IWorkController {
 			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("info", "删除作品类型成功！");
+		modelAndView.addObject(INFO, "删除作品类型成功！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
@@ -204,7 +204,7 @@ public class WorkControllerImpl implements IWorkController {
 			modelAndView.setViewName(ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("info", "修改库存成功！");
+		modelAndView.addObject(INFO, "修改库存成功！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}

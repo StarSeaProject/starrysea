@@ -13,4 +13,5 @@ public class Const {
 	public static final String BOSS = "boss";
 	public static final String MOBILE = "mobile/";
 	public static final double FUNDING_FACTOR = 0.07;
+	public static final String INFO = "info";
 }

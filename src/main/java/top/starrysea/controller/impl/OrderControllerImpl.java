@@ -106,14 +106,13 @@ public class OrderControllerImpl implements IOrderController {
 
 	@RequestMapping(value = "/order/toAddOrder/{workId}/{workTypeId}", method = RequestMethod.GET)
 	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType, Device device) {
-		Integer stock = orderService.queryWorkTypeStock(workType.toDTO()).getResult(WORK_TYPE_STOCK);
-		if (stock <= 0) {
-			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.addObject(ERRINFO, "库存不足");
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
+		ServiceResult sr=orderService.queryWorkTypeStock(workType.toDTO());
+		ModelAndView modelAndView = new ModelAndView();
+		if (!sr.isSuccessed()) {
+			modelAndView.addObject(INFO, sr.getErrInfo());
+			modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 			return modelAndView;
 		}
-		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("workId", workType.getWorkId());
 		modelAndView.addObject("workTypeId", workType.getWorkTypeId());
 		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(ORDER_ADDRESS));
@@ -135,7 +134,7 @@ public class OrderControllerImpl implements IOrderController {
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("info", "您已下单成功，之后将会为您派送！");
+		modelAndView.addObject(INFO, "您已下单成功，之后将会为您派送！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
@@ -154,7 +153,7 @@ public class OrderControllerImpl implements IOrderController {
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("info", "修改成功！");
+		modelAndView.addObject(INFO, "修改成功！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
@@ -173,7 +172,7 @@ public class OrderControllerImpl implements IOrderController {
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("info", "删除成功!");
+		modelAndView.addObject(INFO, "删除成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
