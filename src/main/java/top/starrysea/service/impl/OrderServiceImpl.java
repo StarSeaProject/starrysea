@@ -92,6 +92,10 @@ public class OrderServiceImpl implements IOrderService {
 			ServiceResult serviceResult = new ServiceResult(true);
 			serviceResult.setResult(ORDER_DETAIL, order);
 			return serviceResult;
+		} catch (EmptyResultException | LogicException e) {
+			ServiceResult serviceResult = new ServiceResult(false);
+			serviceResult.setErrInfo(e.getMessage());
+			return serviceResult;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UpdateException(e);
