@@ -75,7 +75,7 @@ public class OrderControllerImpl implements IOrderController {
 			return modelAndView;
 		}
 		Orders o = serviceResult.getResult(ORDER_DETAIL);
-		modelAndView.addObject("orders", o.toVoForOne());
+		modelAndView.addObject("order", o.toVoForOne());
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "orders_details" : "orders_details");
 		return modelAndView;
 	}

@@ -7,24 +7,24 @@ import top.starrysea.object.dto.Orders;
 
 public class OrderForOne {
 	private String workTypeName;
+	private String workName;
 	private String orderName;
-	private String province;
-	private String city;
-	private String area;
 	private String orderAddress;
 	private String orderStatus;
 	private String orderExpressnum;
 	private String orderTime;
 	private String orderEMail;
 	private String orderPhone;
+	private String orderRemark;
+	private String orderNum;
 
 	public OrderForOne(Orders order) {
 		this.workTypeName = order.getWorkType().getName();
+		this.workName = order.getWorkType().getWork().getWorkName();
 		this.orderName = order.getOrderName();
-		this.province = order.getOrderArea().getCity().getProvince().getProvinceName();
-		this.city = order.getOrderArea().getCity().getCityName();
-		this.area = order.getOrderArea().getAreaName();
-		this.orderAddress = order.getOrderAddress();
+		this.orderAddress = order.getOrderArea().getCity().getProvince().getProvinceName()
+				+ order.getOrderArea().getCity().getCityName() + order.getOrderArea().getAreaName()
+				+ order.getOrderAddress();
 		String status = "";
 		if (order.getOrderStatus() == (short) 1) {
 			status = "未发货";
@@ -33,9 +33,14 @@ public class OrderForOne {
 		}
 		this.orderStatus = status;
 		this.orderExpressnum = order.getOrderExpressnum();
+		if (this.orderExpressnum == null) {
+			this.orderExpressnum = "暂无";
+		}
 		this.orderTime = Common.time2String(new Date(order.getOrderTime()));
 		this.orderEMail = order.getOrderEMail();
-		this.orderPhone=order.getOrderPhone();
+		this.orderPhone = order.getOrderPhone();
+		this.orderRemark = order.getOrderRemark();
+		this.orderNum = order.getOrderNum();
 	}
 
 	public String getWorkTypeName() {
@@ -44,18 +49,6 @@ public class OrderForOne {
 
 	public String getOrderName() {
 		return orderName;
-	}
-
-	public String getProvince() {
-		return province;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public String getArea() {
-		return area;
 	}
 
 	public String getOrderAddress() {
@@ -80,6 +73,18 @@ public class OrderForOne {
 
 	public String getOrderPhone() {
 		return orderPhone;
+	}
+
+	public String getWorkName() {
+		return workName;
+	}
+
+	public String getOrderRemark() {
+		return orderRemark;
+	}
+
+	public String getOrderNum() {
+		return orderNum;
 	}
 
 }
