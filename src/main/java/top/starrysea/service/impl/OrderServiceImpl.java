@@ -122,6 +122,7 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	// 删除一个订单
 	public ServiceResult removeOrderService(Orders order) {
+		orderDao.deleteOrderDao(order);
 		return new ServiceResult(true);
 	}
 
