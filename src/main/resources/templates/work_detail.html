@@ -185,11 +185,14 @@ a:hover {
 					<span>种类:</span>&nbsp;&nbsp;
 					<div id="workType" class="btn-group" data-toggle="buttons">
 						<label class="btn btn-default orderbtn"
-							th:each="workType:${workTypes}" th:attr="data-stock=${workType.stock},data-worktypeid=${workType.workTypeId}">
+							th:each="workType:${workTypes}"
+							th:attr="data-stock=${workType.stock},data-worktypeid=${workType.workTypeId}">
 							<input type="radio" th:text="${workType.name}" />
 						</label>
 					</div>
-					<div><span>库存:</span><span id="stock"></span></div>
+					<div>
+						<span>库存:</span><span id="stock"></span>
+					</div>
 					<br /> <br />
 					<button th:attr="data-workid=${workId}" id="gotoOrder"
 						type="submit" class="btn btn-info" disabled="disabled">确认购买</button>
@@ -232,9 +235,18 @@ a:hover {
         $("#stock").text("  共"+sum+"个");
         $("#workType").on("click",function(e){
         	let stock=$(e.target).data("stock");
-        	$("#stock").text("  还有"+stock+"个");
-        	if($("#gotoOrder").attr("disabled")=="disabled")
-        		$("#gotoOrder").removeAttr("disabled");
+        	if(stock==0){
+        		$("#stock").text("没有库存啦");
+        		$("#gotoOrder").attr("disabled","disabled");
+        	}else{
+        		$("#stock").text("  还有"+stock+"个");
+        	}
+        	let isDisabled=$("#gotoOrder").attr("disabled")=="disabled";
+        	if(isDisabled){
+        		if(stock>0){
+        			$("#gotoOrder").removeAttr("disabled");
+        		}
+        	}
         });
     });
 </script>

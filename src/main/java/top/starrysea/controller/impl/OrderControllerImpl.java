@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,8 +106,8 @@ public class OrderControllerImpl implements IOrderController {
 	}
 
 	@RequestMapping(value = "/order/toAddOrder/{workId}/{workTypeId}", method = RequestMethod.GET)
-	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType, Device device) {
-		ServiceResult sr=orderService.queryWorkTypeStock(workType.toDTO());
+	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType, Device device, HttpSession session) {
+		ServiceResult sr = orderService.queryWorkTypeStock(workType.toDTO());
 		ModelAndView modelAndView = new ModelAndView();
 		if (!sr.isSuccessed()) {
 			modelAndView.addObject(INFO, sr.getErrInfo());
@@ -116,6 +117,9 @@ public class OrderControllerImpl implements IOrderController {
 		modelAndView.addObject("workId", workType.getWorkId());
 		modelAndView.addObject("workTypeId", workType.getWorkTypeId());
 		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(ORDER_ADDRESS));
+		String token = Common.getCharId(10);
+		session.setAttribute("token", token);
+		modelAndView.addObject("token", token);
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "add_order" : "add_order");
 		return modelAndView;
 	}
@@ -123,11 +127,18 @@ public class OrderControllerImpl implements IOrderController {
 	@Override
 	// 对一个作品进行下单
 	@RequestMapping(value = "/order/add/{workId}/{workTypeId}", method = RequestMethod.POST)
-	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device) {
+	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device,
+			HttpSession session) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
+		if (!order.getToken().equals(session.getAttribute("token"))) {
+			modelAndView.addObject(INFO, "您已经下单,请勿再次提交");
+			modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
+			return modelAndView;
+		}
+		session.removeAttribute("token");
 		ServiceResult serviceResult = orderService.addOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());

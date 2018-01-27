@@ -2,115 +2,136 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8"></meta>
+<meta charset="utf-8"></meta>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-    <title>星之海志愿者公会</title>
-    <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-    <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/mycss.css"></link>
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/mycss.css"></link>
 
-    <style>
-        .navbartop {
-            width: 100%;
-            background: #1e93f3;
-        }
+<style>
+.navbartop {
+	width: 100%;
+	background: #1e93f3;
+}
 
-        .ma {
-            margin-top: 20px;
-            margin-left: 10px;
-            margin-bottom: -4px;
-            color: white;
-            display: inline-block;
-            font-size: 1.2em;
-        }
+.ma {
+	margin-top: 20px;
+	margin-left: 10px;
+	margin-bottom: -4px;
+	color: white;
+	display: inline-block;
+	font-size: 1.2em;
+}
 
-        #btnnav {
-            float: right;
-        }
+#btnnav {
+	float: right;
+}
 
-        #shownav {
-            float: right;
-        }
-		#statusinfo{
-		color:red;
-		}
-        .abnav {
-            color: #FFFFFF;
-            font-size: 1.5em;
-        }
+#shownav {
+	float: right;
+}
 
-        a:hover {
-            color: rgb(7, 251, 251);
-        }
-    </style>
+#statusinfo {
+	color: red;
+}
+
+.abnav {
+	color: #FFFFFF;
+	font-size: 1.5em;
+}
+
+a:hover {
+	color: rgb(7, 251, 251);
+}
+</style>
 </head>
 <body>
-<div class="navbartop" style="clear: both">
-    <div class="navbar-header col-xs-3">
-        <a href="/"><img src="/starsea.png" style="width: 70px;"
-                         class="img-reponsive"></img></a>
-    </div>
-    <div class="navbar-right col-xs-9 text-right">
-        <a href="/work" class="ma text-right">作品</a>
-        <a href="/activity" class="ma text-right">活动</a>
-        <a href="/mintro.html" class="ma text-right">关于</a>
-    </div>
-    <img class="img-reponsive" src="/navbar.jpg"></img>
-</div>
+	<div class="navbartop" style="clear: both">
+		<div class="navbar-header col-xs-3">
+			<a href="/"><img src="/starsea.png" style="width: 70px;"
+				class="img-reponsive"></img></a>
+		</div>
+		<div class="navbar-right col-xs-9 text-right">
+			<a href="/work" class="ma text-right">作品</a> <a href="/activity"
+				class="ma text-right">活动</a> <a href="/mintro.html"
+				class="ma text-right">关于</a>
+		</div>
+		<img class="img-reponsive" src="/navbar.jpg"></img>
+	</div>
 
-<div class="container">
-	<h1 class="h2">收货人信息</h1>
 	<div class="container">
-	<p id="statusinfo"></p></div>
-	<form id="addOrderForm" th:attr="action='/order/add/'+${workId}+'/'+${workTypeId}" method="post">
-
-		<div class="col-xs-6" style="margin-top:15px;"><p>收货人姓名:</p></div>
-		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderName" id="ordname"/></div>
-
-<div class="col-xs-6" style="margin-top:15px;"><p>手机号:</p></div>
-		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderPhone" id="ordphone"/></div>
-
-		<div class="col-xs-6" style="margin-top:15px;"><p>收货地址</p></div>
-		<div class="col-xs-6" style="margin-top:15px;"><select	id="province">
-			<option value="1">广东</option>
-		</select><br/>
-			<select id="city">
-				<option value="1">广州</option>
-			</select><br/>
-			<select id="area">
-				<option value="1">越秀区</option>
-			</select><br/>
-			<input style="display:none" type="text" id="areasub" name="orderArea"/>
+		<h1 class="h2">收货人信息</h1>
+		<div class="container">
+			<p id="statusinfo"></p>
+		</div>
+		<form id="addOrderForm"
+			th:attr="action='/order/add/'+${workId}+'/'+${workTypeId}"
+			method="post">
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<p>收货人姓名:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top:15px;"><p>收货详细地址</p></div>
-			<div class="col-xs-6" style="margin-top:15px;">
-			<input type="text" name="orderAddress" id="ordadddel"/>
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<input type="text" name="orderName" id="ordname" />
 			</div>
-		<div class="col-xs-6" style="margin-top:15px;"><p>收货人电子邮箱:</p></div>
-		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderEmail" id="ordemail" /></div>
+
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<p>手机号:</p>
+			</div>
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<input type="text" name="orderPhone" id="ordphone" />
+			</div>
+
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<p>收货地址</p>
+			</div>
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<select id="province">
+					<option th:each="province:${provinces}" th:value="${province.key}"
+						th:text="${province.value.provinceName}"></option>
+				</select> <select id="city" disabled="disabled">
+				</select> <select id="area" disabled="disabled">
+				</select> <input type="hidden" id="areasub" name="orderArea" />
+			</div>
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<p>收货详细地址</p>
+			</div>
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<input type="text" name="orderAddress" id="ordadddel" />
+			</div>
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<p>收货人电子邮箱:</p>
+			</div>
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<input type="text" name="orderEmail" id="ordemail" />
+			</div>
 
 
-		<div class="col-xs-6" style="margin-top:15px;"><p>备注:</p></div>
-		<div class="col-xs-6" style="margin-top:15px;"><input type="text" name="orderRemark" /></div>
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<p>备注:</p>
+			</div>
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<input type="text" name="orderRemark" />
+			</div>
 
-		<div class="col-xs-6" style="margin-top:15px;"><p> </p></div>
-		<div class="col-xs-6" style="margin-top:15px;"></div>
-
-
-	</form>
-	<button
-		id="addOrderBtn" class="btn btn-danger">提交</button>
-</div>
-<div class="mfoot text-center navbar-fixed-bottom">
-    <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
-</div>
-<script>
+			<div class="col-xs-6" style="margin-top: 15px;">
+				<p></p>
+			</div>
+			<div class="col-xs-6" style="margin-top: 15px;"></div>
+			<input type="hidden" name="token" th:value="${token}"/>
+		</form>
+		<button id="addOrderBtn" class="btn btn-danger">提交</button>
+	</div>
+	<div class="mfoot text-center navbar-fixed-bottom">
+		<p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
+	</div>
+	<script th:inline="javascript">
 $(document).ready(function(){
     $("#addOrderBtn").on("click",function(e){
         name = $("#ordname").val();
@@ -130,7 +151,11 @@ $(document).ready(function(){
         	return false;
         	}
         
-        areanum = $("#areaid").val(); 
+        areanum = $("#area").val(); 
+        if(areanum==""||areanum==undefined){
+        	alert("收货地址不合法！");
+        	return false;
+        }
         $("#areasub").val(areanum);
         
         	
@@ -161,6 +186,35 @@ $(document).ready(function(){
         }
       
         $("#addOrderForm").submit(); 
+        
+    });
+    let provinces = [[${provinces}]];
+    let citys;
+    $("#province").on("change",function(e){
+    	let provinceId=$(e.target).val();
+    	console.log(provinceId);
+    	citys=provinces[provinceId].citys;
+    	let str=``;
+    	for(let city in citys){
+    		str+=`<option value='${citys[city].cityId}'>${citys[city].cityName}</option>`;
+    	}
+    	$("#area").html("").attr("disabled","disabled");
+    	$("#city").html(str);
+    	if($("#city").attr("disabled")=="disabled"){
+    		$("#city").removeAttr("disabled");
+    	}
+    });
+    $("#city").on("change",function(e){
+    	let cityId=$(e.target).val();
+    	let areas=citys[cityId].areas;
+    	let str=``;
+    	for(let area in areas){
+    		str+=`<option value='${areas[area].areaId}'>${areas[area].areaName}</option>`;
+    	}
+    	$("#area").html(str);
+    	if($("#area").attr("disabled")=="disabled"){
+    		$("#area").removeAttr("disabled");
+    	}
     });
     
 });

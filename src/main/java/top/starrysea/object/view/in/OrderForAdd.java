@@ -32,6 +32,8 @@ public class OrderForAdd {
 	@NotEmpty(message = "收货人手机不能为空")
 	@Length(max = 15, message = "收货人手机长度不能超过15")
 	private String orderPhone;
+	@NotEmpty(message="token序列不能为空!这是二次提交!")
+	private String token;
 
 	public Integer getWorkTypeId() {
 		return workTypeId;
@@ -95,6 +97,14 @@ public class OrderForAdd {
 
 	public void setOrderPhone(String orderPhone) {
 		this.orderPhone = orderPhone;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	public Orders toDTO() {
