@@ -1,5 +1,7 @@
 package top.starrysea.service.mail.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import top.starrysea.kql.entity.Entity;
@@ -9,6 +11,7 @@ import top.starrysea.object.dto.Orders;
 @Service("orderMailService")
 public class OrderMailServiceImpl extends MailServiceImpl {
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Override
 	public void sendMailService(Entity entity) {
 		Orders order = (Orders) entity;

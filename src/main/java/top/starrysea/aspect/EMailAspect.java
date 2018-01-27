@@ -2,11 +2,15 @@ package top.starrysea.aspect;
 
 import javax.annotation.Resource;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 import top.starrysea.common.ServiceResult;
+import top.starrysea.dao.IOrderDao;
+import top.starrysea.object.dto.Orders;
 import top.starrysea.service.IMailService;
 
 import static top.starrysea.common.ResultKey.*;
@@ -21,6 +25,10 @@ public class EMailAspect {
 	private IMailService orderMailService;
 	@Resource(name = "sendOrderMailService")
 	private IMailService sendOrderMailService;
+	@Resource(name="deleteOrderMailService")
+	private IMailService deleteOrderMailService;
+	@Resource
+	private IOrderDao orderDao;
 
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.WorkServiceImpl.addWorkService(..))", returning = "serviceResult")
 	public void sendWorkEmail(ServiceResult serviceResult) {
@@ -36,5 +44,11 @@ public class EMailAspect {
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.modifyOrderService(..))", returning = "serviceResult")
 	public void sendSendOrderEmail(ServiceResult serviceResult) {
 		sendOrderMailService.sendMailService(serviceResult.getResult(ORDER_DETAIL));
+	}
+	
+	@Before(value="execution(* top.starrysea.service.impl.OrderServiceImpl.removeOrderService(..))")
+	public void deleteOrderMail(JoinPoint jp) {
+		Orders order=(Orders) jp.getArgs()[0];
+		deleteOrderMailService.sendMailService(orderDao.getOrderDao(order).getResult(Orders.class));
 	}
 }
