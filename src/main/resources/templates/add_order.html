@@ -128,7 +128,7 @@ a:hover {
 				<input type="text" name="orderAddress" id="ordadddel" />
 			</div>
 			<div class="col-xs-6" style="margin-top: 15px;">
-				<p>收货人电子邮箱:</p>
+				<p>收货人电子邮箱：(*接收运单号使用)</p>
 			</div>
 			<div class="col-xs-6" style="margin-top: 15px;">
 				<input type="text" name="orderEmail" id="ordemail" />
@@ -143,7 +143,7 @@ a:hover {
 			</div>
 
 			<div class="col-xs-6" style="margin-top: 15px;">
-				<p></p>
+				<p style="font-size:12px">(*您有什么想对我们说的？或者有什么特殊要求？请在这里告诉我们)</p>
 			</div>
 			<div class="col-xs-6" style="margin-top: 15px;"></div>
 			<input type="hidden" name="token" th:value="${token}"/>
@@ -157,6 +157,37 @@ a:hover {
 
 	<script src="/navbar.js"></script>
 
-	<script src="/add_order.js" th:inline="javascript"></script>
+	<script src="/add_order.js"></script>
+	<script th:inline="javascript">
+		$(function () {
+			let provinces = [[${provinces}]];
+		    let citys;
+		    $("#province").on("change",function(e){
+		    	let provinceId=$(e.target).val();
+		    	citys=provinces[provinceId].citys;
+		    	let str=`<option>请选择城市</option>`;
+		    	for(let city in citys){
+		    		str+=`<option value='${citys[city].cityId}'>${citys[city].cityName}</option>`;
+		    	}
+		    	$("#area").html("").attr("disabled","disabled");
+		    	$("#city").html(str);
+		    	if($("#city").attr("disabled")=="disabled"){
+		    		$("#city").removeAttr("disabled");
+		    	}
+		    });
+		    $("#city").on("change",function(e){
+		    	let cityId=$(e.target).val();
+		    	let areas=citys[cityId].areas;
+		    	let str=`<option>请选择区县</option>`;
+		    	for(let area in areas){
+		    		str+=`<option value='${areas[area].areaId}'>${areas[area].areaName}</option>`;
+		    	}
+		    	$("#area").html(str);
+		    	if($("#area").attr("disabled")=="disabled"){
+		    		$("#area").removeAttr("disabled");
+		    	}
+		    });
+		});
+	</script>
 </body>
 </html>
