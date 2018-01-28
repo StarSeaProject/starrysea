@@ -34,8 +34,9 @@ dependencies {
 		'org.springframework.boot:spring-boot-starter-mail',
 		'org.springframework.mobile:spring-mobile-device',
 		'org.springframework.boot:spring-boot-starter-aop',
-		'org.springframework.boot:spring-boot-starter-cache'
+		'org.springframework.boot:spring-boot-starter-cache',
 	)
+	compile group: 'org.apache.poi', name: 'poi', version: '3.9'
 	compile fileTree(dir:'lib',include:['*.jar'])
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')

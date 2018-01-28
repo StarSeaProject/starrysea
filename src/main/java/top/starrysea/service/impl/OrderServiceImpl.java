@@ -1,8 +1,12 @@
 package top.starrysea.service.impl;
 
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,6 +158,39 @@ public class OrderServiceImpl implements IOrderService {
 			sr.setErrInfo(e.getMessage());
 			return sr;
 		}
+	}
+
+	@Override
+	public ServiceResult exportOrderToXlsService() {
+		List<Orders> result = orderDao.getAllOrderForXls().getResult(List.class);
+		HSSFWorkbook excel = new HSSFWorkbook();
+		HSSFSheet sheet = excel.createSheet("发货名单");
+		HSSFRow row = sheet.createRow(0);
+		row.createCell(0).setCellValue("收货人姓名");
+		row.createCell(1).setCellValue("作品名称");
+		row.createCell(2).setCellValue("作品类型");
+		row.createCell(3).setCellValue("收货地址");
+		row.createCell(4).setCellValue("收货人手机");
+		row.createCell(5).setCellValue("备注");
+		for (int i = 0; i < result.size(); i++) {
+			Orders order = result.get(i);
+			HSSFRow dataRow = sheet.createRow(i + 1);
+			dataRow.createCell(0).setCellValue(order.getOrderName());
+			dataRow.createCell(1).setCellValue(order.getWorkType().getWork().getWorkName());
+			dataRow.createCell(2).setCellValue(order.getWorkType().getName());
+			dataRow.createCell(3)
+					.setCellValue(order.getOrderArea().getCity().getProvince().getProvinceName()
+							+ order.getOrderArea().getCity().getCityName() + order.getOrderArea().getAreaName()
+							+ order.getOrderAddress());
+			dataRow.createCell(4).setCellValue(order.getOrderPhone());
+			dataRow.createCell(5).setCellValue(order.getOrderRemark());
+		}
+		try (FileOutputStream fout = new FileOutputStream("/result.xls")) {
+			excel.write(fout);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return null;
 	}
 
 }

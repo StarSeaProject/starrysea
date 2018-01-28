@@ -11,7 +11,7 @@ public class WebAppConfigurer extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new PreSessionInterceptor()).addPathPatterns("/work/add", "/work/remove",
 				"/activity/add", "/activity/modify", "/activity/remove", "/activity/funding/add",
-				"/activity/funding/remove", "/order", "/order/modify", "/order/remove");
+				"/activity/funding/remove", "/order", "/order/modify", "/order/remove", "/order/export");
 		registry.addInterceptor(new AfterLoginInterceptor()).addPathPatterns("/user/login");
 		registry.addInterceptor(new ErrorInterceptor()).addPathPatterns("/**");
 		registry.addInterceptor(new AfterExitInterceptor()).addPathPatterns("/user/exit");

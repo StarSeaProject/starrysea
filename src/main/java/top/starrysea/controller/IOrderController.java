@@ -2,6 +2,7 @@ package top.starrysea.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.mobile.device.Device;
@@ -27,4 +28,6 @@ public interface IOrderController {
 	ModelAndView modifyOrderController(OrderForModify order, BindingResult bindingResult, Device device);
 
 	ModelAndView removeOrderController(OrderForRemove order, BindingResult bindingResult, Device device);
+
+	void exportOrderToXlsController(HttpServletResponse response);
 }

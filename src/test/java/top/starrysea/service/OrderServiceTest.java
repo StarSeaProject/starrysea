@@ -44,4 +44,9 @@ public class OrderServiceTest {
 //		System.out.println(orderService.modifyOrderService(new Orders.Builder().orderId("O-095GgIDt")
 //				.orderStatus((short) 2).orderExpressnum("asdaqweqwesd").build()));
 //	}
+	
+	@Test
+	public void exportOrderToXls() {
+		orderService.exportOrderToXlsService();
+	}
 }

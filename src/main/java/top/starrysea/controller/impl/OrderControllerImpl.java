@@ -1,13 +1,19 @@
 package top.starrysea.controller.impl;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.mobile.device.Device;
@@ -37,6 +43,7 @@ import static top.starrysea.common.ResultKey.*;
 @Controller
 public class OrderControllerImpl implements IOrderController {
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IOrderService orderService;
 
@@ -186,6 +193,21 @@ public class OrderControllerImpl implements IOrderController {
 		modelAndView.addObject(INFO, "删除成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
+	}
+
+	@Override
+	@RequestMapping(value = "/order/export", method = RequestMethod.GET)
+	public void exportOrderToXlsController(HttpServletResponse response) {
+		orderService.exportOrderToXlsService();
+		response.setHeader("content-type", "application/octet-stream");
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Disposition", "attachment;filename=" + "result.xls");
+		try {
+			byte[] buff = Files.readAllBytes(Paths.get("/result.xls"));
+			response.getOutputStream().write(buff);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		}
 	}
 
 }

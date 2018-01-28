@@ -59,4 +59,9 @@ public class OrderDaoTest {
 		System.out.println(orderDao.getOrderCountDao(condition, new Orders.Builder().orderStatus((short) 1).build())
 				.getResult(Integer.class));
 	}
+	
+	@Test
+	public void getAllOrderForXls() {
+		System.out.println(orderDao.getAllOrderForXls().getResult(List.class));
+	}
 }

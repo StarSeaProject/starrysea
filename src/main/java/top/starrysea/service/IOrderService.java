@@ -20,4 +20,6 @@ public interface IOrderService {
 	ServiceResult queryAllProvinceService();
 	
 	ServiceResult queryWorkTypeStock(WorkType workType);
+	
+	ServiceResult exportOrderToXlsService();
 }
