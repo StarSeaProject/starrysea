@@ -164,7 +164,7 @@ public class OrderControllerImpl implements IOrderController {
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject(INFO, "修改成功！");
+		modelAndView.addObject(INFO, "发货成功！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}

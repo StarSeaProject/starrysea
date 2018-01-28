@@ -12,7 +12,7 @@ import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
 
 public class OrderForAdd {
-	
+
 	@NotNull(message = "作品类型Id不能为空")
 	private Integer workTypeId;
 	@NotNull(message = "作品Id不能为空")
@@ -28,11 +28,12 @@ public class OrderForAdd {
 	@NotEmpty(message = "收件人邮箱不能为空")
 	@Email(message = "输入的邮箱地址不是合法的")
 	private String orderEmail;
+	@Length(max = 50, message = "备注长度不能超过50")
 	private String orderRemark;
 	@NotEmpty(message = "收货人手机不能为空")
 	@Length(max = 15, message = "收货人手机长度不能超过15")
 	private String orderPhone;
-	@NotEmpty(message="token序列不能为空!这是二次提交!")
+	@NotEmpty(message = "token序列不能为空!这是二次提交!")
 	private String token;
 
 	public Integer getWorkTypeId() {

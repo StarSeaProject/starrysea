@@ -3,6 +3,7 @@ package top.starrysea.dao;
 import java.util.List;
 
 import top.starrysea.common.DaoResult;
+import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.WorkType;
 
 public interface IWorkTypeDao {
@@ -20,4 +21,6 @@ public interface IWorkTypeDao {
 	DaoResult updateWorkTypeStockDao(WorkType workType);
 	
 	DaoResult reduceWorkTypeStockDao(WorkType workType);
+	
+	DaoResult updateWorkTypeStockDao(Orders order);
 }

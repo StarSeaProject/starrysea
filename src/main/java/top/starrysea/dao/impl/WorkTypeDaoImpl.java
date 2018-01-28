@@ -15,6 +15,7 @@ import top.starrysea.kql.clause.WhereType;
 import top.starrysea.kql.facede.EntitySqlResult;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
+import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.WorkType;
 
 @Repository("workTypeDao")
@@ -94,6 +95,15 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 		kumaSqlDao.updateMode();
 		kumaSqlDao.update("stock", UpdateSetType.REDUCE, workType.getStock()).table(WorkType.class)
 				.where("work_type_id", WhereType.EQUALS, workType.getWorkTypeId()).end();
+		return new DaoResult(true);
+	}
+
+	@Override
+	public DaoResult updateWorkTypeStockDao(Orders order) {
+		kumaSqlDao.selectMode();
+		EntitySqlResult<WorkType> theResult=kumaSqlDao.select("work_type_id").from(Orders.class).where("order_id", WhereType.EQUALS, order.getOrderId()).endForObject((rs,row)->new WorkType.Builder().workTypeId(rs.getInt("work_type_id")).build());
+		kumaSqlDao.updateMode();
+		kumaSqlDao.update("stock", UpdateSetType.ADD, 1).table(WorkType.class).where("work_type_id", WhereType.EQUALS, theResult.getResult().getWorkTypeId()).end();
 		return new DaoResult(true);
 	}
 

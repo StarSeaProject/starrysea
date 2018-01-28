@@ -125,8 +125,8 @@ public class OrderDaoImpl implements IOrderDao {
 				.select("order_status").select("order_time").from(Orders.class)
 				.where("order_num", WhereType.FUZZY, order.getOrderNum())
 				.where("order_status", WhereType.EQUALS, order.getOrderStatus())
-				.where("order_name", WhereType.FUZZY, order.getOrderName()).orderBy("order_time", OrderByType.DESC)
-				.limit((condition.getPage() - 1) * PAGE_LIMIT, PAGE_LIMIT)
+				.where("order_name", WhereType.FUZZY, order.getOrderName()).orderBy("order_status")
+				.orderBy("order_time", OrderByType.DESC).limit((condition.getPage() - 1) * PAGE_LIMIT, PAGE_LIMIT)
 				.endForList((rs, row) -> new Orders.Builder().orderId(rs.getString("order_id"))
 						.orderNum(rs.getString("order_num")).orderName(rs.getString("order_name"))
 						.orderStatus(rs.getShort("order_status")).orderTime(rs.getLong("order_time")).build());

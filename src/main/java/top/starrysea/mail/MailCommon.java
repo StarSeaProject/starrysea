@@ -56,7 +56,9 @@ public class MailCommon implements InitializingBean {
 				mimeMessageHelper.setFrom(new InternetAddress(nick + "<mumuzhizhi@starrysea.top>"));
 				mimeMessageHelper.setSubject(mail.getTitle());
 				mimeMessageHelper.setText(mail.getContent(), true);
+				logger.info("准备发送邮件给" + mail.getTo());
 				mailSender.send(mimeMessage);
+				logger.info("已经成功发送邮件给" + mail.getTo());
 			} catch (MessagingException | UnsupportedEncodingException e) {
 				logger.error(e.getMessage(), e);
 			}

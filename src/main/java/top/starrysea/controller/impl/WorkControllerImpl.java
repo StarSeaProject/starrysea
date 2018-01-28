@@ -126,6 +126,7 @@ public class WorkControllerImpl implements IWorkController {
 		}
 		Work w = serviceResult.getResult(WORK_DETAIL);
 		theResult.put("work", w.toVoForOne());
+		theResult.put("workId", work.getWorkId());
 		theResult.put("workImages", serviceResult.getResult(WORK_DETAIL_IMAGE));
 		theResult.put("workTypes", serviceResult.getResult(WORK_DETAIL_TYPE));
 		return theResult;
@@ -192,7 +193,7 @@ public class WorkControllerImpl implements IWorkController {
 
 	@Override
 	@RequestMapping(value = "/worktype/modifystock", method = RequestMethod.POST)
-	public ModelAndView modifyWorkTypeController(WorkTypeForModify workType, BindingResult bindingResult,
+	public ModelAndView modifyWorkTypeController(@Valid WorkTypeForModify workType, BindingResult bindingResult,
 			Device device) {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildError(bindingResult);
