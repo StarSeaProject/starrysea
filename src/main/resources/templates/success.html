@@ -61,6 +61,11 @@
         a:hover {
             color: rgb(7, 251, 251);
         }
+        @media screen and (min-width: 991px){
+            #shownav{
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -69,19 +74,18 @@
      style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
     <nav class="navbar navbar-brand navbar-static-top heading"
          role="navigation" id="mybar"
-         style="background-size: 99%; margin: 15px; padding: 10px;">
+         style="height: auto;background-size: 99%; margin: 15px; padding: 10px;">
 
         <div class="navbar-header"
              style="padding-left: 25px; padding-top: 10px;">
             <a href="/" class="navimg"> <img src="/starsea.png"
                                              style="width: 70px;" class="col-sms-4 navimg"></img>
             </a>
-            <button class="navbar-toggle col-sm-4" data-toggle="collapse"
+        <button class="navbar-toggle col-sm-4" data-toggle="collapse"
                     data-target="#shownav" id="btnnav">
                 <span class="glyphicon glyphicon-menu-hamburger"></span>
 
-            </button>
-        </div>
+            </button></div>
         <div class="collapse navbar-collapse navbar-right" id="shownav">
             <ul class="nav navbar-nav mynavul">
                 <li class="myli"><a href="/work" class="anav">作品阅览</a></li>
@@ -89,6 +93,7 @@
                 <li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
             </ul>
         </div>
+        <img src="/navbar.jpg" style="visibility: hidden;width: 100%;height: 16vh;" alt=""></img>
     </nav>
 </div>
 <div class="container text-center" style="background:rgba(200,200,200,0.5);width:50%">
