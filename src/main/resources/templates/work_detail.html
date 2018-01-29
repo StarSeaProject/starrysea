@@ -229,6 +229,7 @@ a:hover {
         let workTypes=[[${workTypes}]];
         let sum = 0;
         for(let workType of workTypes){
+        	console.log(workType);
         	sum+=workType.stock;
         }
         $("#stock").data("sum",sum);
