@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="cn" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>质问箱</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/mycss.css">
+    <style>
+        .heading {
+            background-image: url("/navbar.jpg");
+            height: 360px;
+            background-repeat: no-repeat;
+        }
+
+        .myli {
+            color: #fff;
+        }
+
+        .myli:hover {
+            text-decoration: underline;
+        }
+
+        #btnnav {
+            float: right;
+        }
+
+        #shownav {
+            float: right;
+        }
+
+        .abnav {
+            color: #FFFFFF;
+            font-size: 1.5em;
+            text-decoration: underline;
+        }
+
+        a:hover {
+            color: rgb(7, 251, 251);
+        }
+
+        .navimg {
+            transition: all 0.6s;
+
+        }
+
+        .navimg:hover {
+            transform: scale(1.4);
+        }
+
+        .footbar {
+            background-image: url("/wavew.png");
+            background-repeat: repeat-x;
+            height: 120px;
+            backgroud: #409cc3;
+        }
+        #submitBtn {     
+            margin: 0 auto;
+            display: table;
+            display: -webkit-box;
+            padding:10px;
+            width: 25vw;
+            font-size: 1.45em;
+            background-color: #fafafa;
+            color: rgb(82, 82, 82);
+            border: solid 1px #409cc3;
+        }
+        textarea{
+            resize: none
+        }
+        .qaText{
+            color: #409cc3;
+        }
+        .qaBox{
+            margin: 25px;
+        }
+        .qaBox > * {
+            margin: 10px
+        }
+        .qaBox > .qBox> .qText{
+            padding: 20px;
+            background: #409cc3;
+            border-radius: 5px;
+            color: #fafafa;
+            font-size: 1.65rem;
+        }
+        .qaBox > .aBox >.aText{
+            padding: 20px;
+            background: orange;
+            border-radius: 5px;
+            color: #fafafa;
+            font-size: 1.65rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Navbar-->
+    <nav class="navbar navbar-brand navbar-static-top heading" role="navigation" id="mybar" style="background-size: 99% ; margin:15px; padding: 10px;">
+
+        <div class="navbar-header" style="padding-left: 25px; padding-top: 10px;">
+            <a href="/" class="navimg">
+                <img src="/starsea.png" style="width: 70px;" class="col-sms-4 navimg"></img>
+            </a>
+            <button class="navbar-toggle col-sm-4" data-toggle="collapse" data-target="#shownav" id="btnnav">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+
+            </button>
+        </div>
+        <div class="collapse navbar-collapse navbar-right" id="shownav">
+            <ul class="nav navbar-nav mynavul">
+                <li class="myli">
+                    <a href="/work" class="anav">作品阅览</a>
+                </li>
+                <li class="myli">
+                    <a href="/activity" class="anav">活动众筹</a>
+                </li>
+                <li class="myli">
+                    <a href="/intro.html" class="anav">组织介绍</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--Body Element-->
+    <div class="container">
+        <!--Intro Text-->
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <p class="h2">有什么疑问或者是想咨询的问题</p>
+                <p class="h2">请在质问箱里面提出来吧</p>
+            </div>
+        </div>
+        <!--Form Element-->
+        <div class="row">
+            <div class="col-sm-12">
+                    <form>
+                        <div class="form-group center-block">
+                            <label for="message">您的消息:</label>
+                            <textarea class="form-control" name="message" rows="7"></textarea> </div>
+                            <p class="text-center text-muted">提问是完全匿名，不符合社会主义核心价值观和让人感到伤心的问题还是请不要提出，谢谢茄子</p>
+                        </div>
+                    <button type="submit" id="submitBtn" class="btn">确认送出</button>
+                    </form>
+            </div>
+        </div>
+        <!--QA Box-->
+        <div class="row qaBox">
+            <p class="h3 qaText">已回答的问题一览</p>
+            <div class="col-sm-12 col-md-10 qBox">
+                    <p class="qText">
+                        Q:什么什么问题
+                    </p>
+            </div>
+            <div class="col-sm-12 col-md-10 aBox">
+                <p class="aText">
+                    A:什么什么回答
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--Footer-->
+    <div class="footbar text-center">
+        <p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
+    </div>
+</body>
+
+</html>

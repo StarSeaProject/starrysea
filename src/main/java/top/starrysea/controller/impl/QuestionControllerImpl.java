@@ -48,26 +48,26 @@ public class QuestionControllerImpl implements IQuestionController {
 		List<Question> result = serviceResult.getResult(QUESTION_LIST);
 		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());
-		System.out.println(voResult.get(0).getAnswer());
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("serviceResult", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName(device.isMobile() ? MOBILE + "question" : "question");
+		modelAndView.setViewName(device.isMobile() ? MOBILE + QUESTION + "question" : QUESTION + "question");
 		return modelAndView;
 	}
 
 	@Override
-	@RequestMapping(value="/question/ajax",method=RequestMethod.POST)
+	@RequestMapping(value = "/question/ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> queryQuestionControllerAjax(@RequestBody QuestionForAll question) {
-		Map<String, Object> theResult=new HashMap<>();
-		ServiceResult serviceResult=questionService.queryAllQuestionService(question.getCondition(), question.toDTO());
-		if(!serviceResult.isSuccessed()){
+		Map<String, Object> theResult = new HashMap<>();
+		ServiceResult serviceResult = questionService.queryAllQuestionService(question.getCondition(),
+				question.toDTO());
+		if (!serviceResult.isSuccessed()) {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
-		List<Question> result=serviceResult.getResult(QUESTION_LIST);
-		List<top.starrysea.object.view.out.QuestionForAll> voResult=result.stream().map(Question::toVoForAll)
+		List<Question> result = serviceResult.getResult(QUESTION_LIST);
+		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());
 		theResult.put("result", voResult);
 		theResult.put("nowPage", serviceResult.getNowPage());
@@ -76,17 +76,18 @@ public class QuestionControllerImpl implements IQuestionController {
 	}
 
 	@Override
-	@RequestMapping(value="/question/ask",method=RequestMethod.POST)
-	public Map<String, Object> askQuestionController(@RequestBody @Valid QuestionForAsk question, BindingResult bindingResult) {
-		Map<String, Object> theResult=new HashMap<>();
-		if(bindingResult.hasErrors()){
+	@RequestMapping(value = "/question/ask", method = RequestMethod.POST)
+	public Map<String, Object> askQuestionController(@RequestBody @Valid QuestionForAsk question,
+			BindingResult bindingResult) {
+		Map<String, Object> theResult = new HashMap<>();
+		if (bindingResult.hasErrors()) {
 			List<String> errInfo = bindingResult.getAllErrors().stream()
 					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
 			theResult.put(ERRINFO, errInfo);
 			return theResult;
 		}
-		ServiceResult serviceResult=questionService.askQuestionService(question.toDTO());
-		if(!serviceResult.isSuccessed()){
+		ServiceResult serviceResult = questionService.askQuestionService(question.toDTO());
+		if (!serviceResult.isSuccessed()) {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
@@ -95,17 +96,18 @@ public class QuestionControllerImpl implements IQuestionController {
 	}
 
 	@Override
-	@RequestMapping(value="/question/answer",method=RequestMethod.POST)
-	public Map<String, Object> answerQuestionController(@RequestBody @Valid QuestionForAnswer question, BindingResult bindingResult) {
-		Map<String, Object> theResult=new HashMap<>();
-		if(bindingResult.hasErrors()){
+	@RequestMapping(value = "/question/answer", method = RequestMethod.POST)
+	public Map<String, Object> answerQuestionController(@RequestBody @Valid QuestionForAnswer question,
+			BindingResult bindingResult) {
+		Map<String, Object> theResult = new HashMap<>();
+		if (bindingResult.hasErrors()) {
 			List<String> errInfo = bindingResult.getAllErrors().stream()
 					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
 			theResult.put(ERRINFO, errInfo);
 			return theResult;
 		}
-		ServiceResult serviceResult=questionService.answerQuestionService(question.toDto());
-		if(!serviceResult.isSuccessed()){
+		ServiceResult serviceResult = questionService.answerQuestionService(question.toDto());
+		if (!serviceResult.isSuccessed()) {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
 			return theResult;
 		}
