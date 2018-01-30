@@ -51,7 +51,7 @@ public class QuestionControllerImpl implements IQuestionController {
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("serviceResult", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName(device.isMobile() ? MOBILE + QUESTION + "question" : QUESTION + "question");
+		modelAndView.setViewName(QUESTION + "question");
 		return modelAndView;
 	}
 
