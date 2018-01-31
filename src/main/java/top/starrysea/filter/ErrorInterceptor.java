@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import static top.starrysea.common.Const.INFO;
-import static top.starrysea.common.Const.SUCCESS_VIEW;
+import static top.starrysea.common.Const.ERRINFO;
+import static top.starrysea.common.Const.ERROR_VIEW;
 
 public class ErrorInterceptor implements HandlerInterceptor {
 
@@ -21,8 +21,8 @@ public class ErrorInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		if (response.getStatus() == 404) {
-			modelAndView.setViewName(SUCCESS_VIEW);
-			modelAndView.addObject(INFO, "找不到该页面哦");
+			modelAndView.setViewName(ERROR_VIEW);
+			modelAndView.addObject(ERRINFO, "找不到该页面哦");
 		}
 	}
 

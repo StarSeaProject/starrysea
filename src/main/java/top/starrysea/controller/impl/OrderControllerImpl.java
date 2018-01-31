@@ -118,7 +118,7 @@ public class OrderControllerImpl implements IOrderController {
 		ModelAndView modelAndView = new ModelAndView();
 		if (!sr.isSuccessed()) {
 			modelAndView.addObject(INFO, sr.getErrInfo());
-			modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
 		modelAndView.addObject("workId", workType.getWorkId());

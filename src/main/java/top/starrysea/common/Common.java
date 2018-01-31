@@ -111,18 +111,18 @@ public class Common {
 		if (object instanceof String) {
 			String temp = (String) object;
 			return !temp.equals("");
-		} 
+		}
 		if (object instanceof Entity) {
 			return true;
-		} 
+		}
 		if (object instanceof List) {
 			List<?> list = List.class.cast(object);
 			return !list.isEmpty();
-		} 
+		}
 		if (object instanceof Integer) {
 			int num = (int) object;
 			return num == 0;
-		} 
+		}
 		if (object instanceof Short) {
 			short num = (short) object;
 			return num == 0;
@@ -162,8 +162,8 @@ public class Common {
 
 	public static ModelAndView handleVaildError(BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView();
-		List<String> errInfo = bindingResult.getAllErrors().stream()
-				.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+		String errInfo = bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
+				.collect(Collectors.joining("\n"));
 		modelAndView.addObject("errInfo", errInfo);
 		modelAndView.setViewName("error");
 		return modelAndView;
