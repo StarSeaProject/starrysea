@@ -117,7 +117,7 @@ public class OrderControllerImpl implements IOrderController {
 		ServiceResult sr = orderService.queryWorkTypeStock(workType.toDTO());
 		ModelAndView modelAndView = new ModelAndView();
 		if (!sr.isSuccessed()) {
-			modelAndView.addObject(INFO, sr.getErrInfo());
+			modelAndView.addObject(ERRINFO, sr.getErrInfo());
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
@@ -125,8 +125,8 @@ public class OrderControllerImpl implements IOrderController {
 		modelAndView.addObject("workTypeId", workType.getWorkTypeId());
 		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(ORDER_ADDRESS));
 		String token = Common.getCharId(10);
-		session.setAttribute("token", token);
-		modelAndView.addObject("token", token);
+		session.setAttribute(TOKEN, token);
+		modelAndView.addObject(TOKEN, token);
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "add_order" : "add_order");
 		return modelAndView;
 	}
@@ -140,12 +140,12 @@ public class OrderControllerImpl implements IOrderController {
 			return Common.handleVaildError(bindingResult);
 		}
 		ModelAndView modelAndView = new ModelAndView();
-		if (!order.getToken().equals(session.getAttribute("token"))) {
-			modelAndView.addObject(INFO, "您已经下单,请勿再次提交");
-			modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
+		if (!order.getToken().equals(session.getAttribute(TOKEN))) {
+			modelAndView.addObject(ERRINFO, "您已经下单,请勿再次提交");
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		session.removeAttribute("token");
+		session.removeAttribute(TOKEN);
 		ServiceResult serviceResult = orderService.addOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());

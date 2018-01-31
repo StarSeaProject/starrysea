@@ -15,4 +15,5 @@ public class Const {
 	public static final double FUNDING_FACTOR = 0.07;
 	public static final String INFO = "info";
 	public static final String QUESTION = "question/";
+	public static final String TOKEN = "token";
 }
