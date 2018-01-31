@@ -22,4 +22,6 @@ public interface IOrderService {
 	ServiceResult queryWorkTypeStock(WorkType workType);
 	
 	ServiceResult exportOrderToXlsService();
+	
+	ServiceResult resendEmailService(Orders order);
 }

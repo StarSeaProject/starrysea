@@ -30,4 +30,6 @@ public interface IOrderController {
 	ModelAndView removeOrderController(OrderForRemove order, BindingResult bindingResult, Device device);
 
 	void exportOrderToXlsController(HttpServletResponse response);
+
+	Map<String, Object> resendEmailController(OrderForRemove order, BindingResult bindingResult);
 }

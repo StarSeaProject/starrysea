@@ -210,4 +210,25 @@ public class OrderControllerImpl implements IOrderController {
 		}
 	}
 
+	@Override
+	@RequestMapping(value = "/order/resend", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> resendEmailController(@RequestBody @Valid OrderForRemove order,
+			BindingResult bindingResult) {
+		Map<String, Object> theResult = new HashMap<>();
+		if (bindingResult.hasErrors()) {
+			List<String> errInfo = bindingResult.getAllErrors().stream()
+					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
+			theResult.put(ERRINFO, errInfo);
+			return theResult;
+		}
+		ServiceResult sr = orderService.resendEmailService(order.toDTO());
+		if (!sr.isSuccessed()) {
+			theResult.put(ERRINFO, sr.getErrInfo());
+			return theResult;
+		}
+		theResult.put("result", "success");
+		return theResult;
+	}
+
 }

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -35,6 +37,7 @@ import top.starrysea.object.dto.WorkType;
 import top.starrysea.object.view.out.AreaForAddOrder;
 import top.starrysea.object.view.out.CityForAddOrder;
 import top.starrysea.object.view.out.ProvinceForAddOrder;
+import top.starrysea.service.IMailService;
 import top.starrysea.service.IOrderService;
 
 import static top.starrysea.dao.impl.OrderDaoImpl.PAGE_LIMIT;
@@ -52,6 +55,10 @@ public class OrderServiceImpl implements IOrderService {
 	private IWorkTypeDao workTypeDao;
 	@Autowired
 	private IProvinceDao provinceDao;
+	@Resource(name = "orderMailService")
+	private IMailService orderMailService;
+	@Resource(name = "sendOrderMailService")
+	private IMailService sendOrderMailService;
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
@@ -119,7 +126,6 @@ public class OrderServiceImpl implements IOrderService {
 			logger.error(e.getMessage(), e);
 			throw new UpdateException(e);
 		}
-
 	}
 
 	@Override
@@ -223,6 +229,17 @@ public class OrderServiceImpl implements IOrderService {
 			logger.error(e.getMessage(), e);
 		}
 		return null;
+	}
+
+	@Override
+	public ServiceResult resendEmailService(Orders order) {
+		Orders result = orderDao.getOrderDao(order).getResult(Orders.class);
+		if (result.getOrderStatus() == 1) {
+			orderMailService.sendMailService(result);
+		} else if (result.getOrderStatus() == 2) {
+			sendOrderMailService.sendMailService(result);
+		}
+		return new ServiceResult(true);
 	}
 
 }
