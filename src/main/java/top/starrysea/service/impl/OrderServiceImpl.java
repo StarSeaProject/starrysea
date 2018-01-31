@@ -1,8 +1,13 @@
 package top.starrysea.service.impl;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -25,9 +30,14 @@ import top.starrysea.dao.IWorkTypeDao;
 import top.starrysea.exception.EmptyResultException;
 import top.starrysea.exception.LogicException;
 import top.starrysea.exception.UpdateException;
+import top.starrysea.object.dto.Area;
+import top.starrysea.object.dto.City;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.Province;
 import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
+import top.starrysea.object.view.out.AreaForAddOrder;
+import top.starrysea.object.view.out.CityForAddOrder;
 import top.starrysea.object.view.out.ProvinceForAddOrder;
 import top.starrysea.service.IOrderService;
 
@@ -45,7 +55,7 @@ public class OrderServiceImpl implements IOrderService {
 	@Autowired
 	private IWorkTypeDao workTypeDao;
 	@Autowired
-	private IProvinceDao areaDao;
+	private IProvinceDao provinceDao;
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
@@ -84,6 +94,9 @@ public class OrderServiceImpl implements IOrderService {
 	@Transactional
 	public ServiceResult addOrderService(Orders order) {
 		try {
+			if (orderDao.isOrderExistDao(order).getResult(Boolean.class)) {
+				throw new LogicException("您已经购买过这个应援物,不能重复购买");
+			}
 			WorkType workType = order.getWorkType();
 			workType.setStock(1);
 			DaoResult daoResult = workTypeDao.getWorkTypeStockDao(workType);
@@ -135,9 +148,29 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	@Cacheable(value = "provinces")
 	public ServiceResult queryAllProvinceService() {
-		Map<Integer, ProvinceForAddOrder> provinces = areaDao.getAllProvinceDao().getResult(Map.class);
+		List<Area> areas = provinceDao.getAllProvinceDao().getResult(List.class);
+		Map<Integer, ProvinceForAddOrder> provinceVos = new HashMap<>();
+		for (Area area : areas) {
+			int provinceId = area.getCity().getProvince().getProvinceId();
+			if (!provinceVos.containsKey(provinceId)) {
+				ProvinceForAddOrder province = new ProvinceForAddOrder(provinceId,
+						area.getCity().getProvince().getProvinceName());
+				province.setCitys(new HashMap<>());
+				provinceVos.put(provinceId, province);
+			}
+			ProvinceForAddOrder provinceVo = provinceVos.get(provinceId);
+			int cityId = area.getCity().getCityId();
+			Map<Integer, CityForAddOrder> cityVos = provinceVo.getCitys();
+			if (!cityVos.containsKey(cityId)) {
+				CityForAddOrder city = new CityForAddOrder(cityId, area.getCity().getCityName());
+				city.setAreas(new ArrayList<>());
+				cityVos.put(cityId, city);
+			}
+			CityForAddOrder cityVo = cityVos.get(cityId);
+			cityVo.getAreas().add(new AreaForAddOrder(area.getAreaId(), area.getAreaName()));
+		}
 		ServiceResult sr = new ServiceResult(true);
-		sr.setResult(ORDER_ADDRESS, provinces);
+		sr.setResult(ORDER_ADDRESS, provinceVos);
 		return sr;
 	}
 

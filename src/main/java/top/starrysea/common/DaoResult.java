@@ -38,6 +38,12 @@ public class DaoResult {
 		this.successed = successed;
 		this.theResult.put(Integer.class, result);
 	}
+	
+	public DaoResult(boolean successed, boolean result) {
+		theResult = new HashMap<>();
+		this.successed = successed;
+		this.theResult.put(Boolean.class, result);
+	}
 
 	public DaoResult(boolean result, String errInfo) {
 		this.successed = result;

@@ -19,4 +19,6 @@ public interface IOrderDao {
 	DaoResult deleteOrderDao(Orders order);
 
 	DaoResult getAllOrderForXls();
+	
+	DaoResult isOrderExistDao(Orders order);
 }

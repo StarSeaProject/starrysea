@@ -49,4 +49,9 @@ public class OrderServiceTest {
 	public void exportOrderToXls() {
 		orderService.exportOrderToXlsService();
 	}
+	
+	@Test
+	public void queryAllProvinceService() {
+		orderService.queryAllProvinceService();
+	}
 }

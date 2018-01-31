@@ -169,4 +169,19 @@ public class OrderDaoImpl implements IOrderDao {
 		return new DaoResult(true, theResult.getResult());
 	}
 
+	@Override
+	public DaoResult isOrderExistDao(Orders order) {
+		kumaSqlDao.selectMode();
+		IntegerSqlResult theResult = kumaSqlDao.select(SelectClause.COUNT).from(Orders.class)
+				.leftjoin(WorkType.class, "wt", "work_type_id", Orders.class, "work_type_id")
+				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
+				.where("order_phone", WhereType.EQUALS, order.getOrderPhone())
+				.where("work_id", "w", WhereType.EQUALS, order.getWorkType().getWork().getWorkId()).endForNumber();
+		int count = theResult.getResult();
+		if (count == 0)
+			return new DaoResult(true, false);
+		else
+			return new DaoResult(true, true);
+	}
+
 }
