@@ -3,11 +3,8 @@ package top.starrysea.service.impl;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -16,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +29,7 @@ import top.starrysea.exception.EmptyResultException;
 import top.starrysea.exception.LogicException;
 import top.starrysea.exception.UpdateException;
 import top.starrysea.object.dto.Area;
-import top.starrysea.object.dto.City;
 import top.starrysea.object.dto.Orders;
-import top.starrysea.object.dto.Province;
 import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
 import top.starrysea.object.view.out.AreaForAddOrder;
@@ -178,13 +174,16 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult queryWorkTypeStock(WorkType workType) {
 		DaoResult daoResult;
 		try {
-			workDao.getWorkDao(workType.getWork());
 			daoResult = workTypeDao.getWorkTypeStockDao(workType);
 			ServiceResult sr = new ServiceResult(true);
 			Integer stock = daoResult.getResult(Integer.class);
 			if (stock <= 0)
 				throw new LogicException("库存不足");
 			sr.setResult(WORK_TYPE_STOCK, stock);
+			return sr;
+		} catch (EmptyResultDataAccessException e) {
+			ServiceResult sr = new ServiceResult(false);
+			sr.setErrInfo("该作品下没有这样的类型");
 			return sr;
 		} catch (Exception e) {
 			ServiceResult sr = new ServiceResult(false);

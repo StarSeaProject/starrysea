@@ -16,6 +16,7 @@ import top.starrysea.kql.facede.EntitySqlResult;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
 
 @Repository("workTypeDao")
@@ -38,18 +39,20 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 	public DaoResult getWorkTypeStockDao(WorkType workType) {
 		kumaSqlDao.selectMode();
 		EntitySqlResult<WorkType> theResult = kumaSqlDao.select("stock").from(WorkType.class)
+				.leftjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("work_type_id", WhereType.EQUALS, workType.getWorkTypeId())
+				.where("work_id", "w", WhereType.EQUALS, workType.getWork().getWorkId())
 				.endForObject((rs, row) -> new WorkType.Builder().stock(rs.getInt("stock")).build());
 		return new DaoResult(true, theResult.getResult().getStock());
 	}
-	
+
 	@Override
 	public DaoResult getWorkTypeNameDao(WorkType workType) {
 		kumaSqlDao.selectMode();
 		EntitySqlResult<WorkType> theResult = kumaSqlDao.select("name").from(WorkType.class)
 				.where("work_type_id", WhereType.EQUALS, workType.getWorkTypeId())
 				.endForObject((rs, row) -> new WorkType.Builder().name(rs.getString("name")).build());
-		WorkType wt=theResult.getResult();
+		WorkType wt = theResult.getResult();
 		wt.setWorkTypeId(workType.getWorkTypeId());
 		return new DaoResult(true, wt);
 	}
@@ -101,9 +104,12 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 	@Override
 	public DaoResult updateWorkTypeStockDao(Orders order) {
 		kumaSqlDao.selectMode();
-		EntitySqlResult<WorkType> theResult=kumaSqlDao.select("work_type_id").from(Orders.class).where("order_id", WhereType.EQUALS, order.getOrderId()).endForObject((rs,row)->new WorkType.Builder().workTypeId(rs.getInt("work_type_id")).build());
+		EntitySqlResult<WorkType> theResult = kumaSqlDao.select("work_type_id").from(Orders.class)
+				.where("order_id", WhereType.EQUALS, order.getOrderId())
+				.endForObject((rs, row) -> new WorkType.Builder().workTypeId(rs.getInt("work_type_id")).build());
 		kumaSqlDao.updateMode();
-		kumaSqlDao.update("stock", UpdateSetType.ADD, 1).table(WorkType.class).where("work_type_id", WhereType.EQUALS, theResult.getResult().getWorkTypeId()).end();
+		kumaSqlDao.update("stock", UpdateSetType.ADD, 1).table(WorkType.class)
+				.where("work_type_id", WhereType.EQUALS, theResult.getResult().getWorkTypeId()).end();
 		return new DaoResult(true);
 	}
 
