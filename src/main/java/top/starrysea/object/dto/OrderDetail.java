@@ -2,6 +2,7 @@ package top.starrysea.object.dto;
 
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.kql.entity.IBuilder;
+import top.starrysea.object.view.out.OrderDetailForOne;
 
 public class OrderDetail implements Entity {
 
@@ -65,4 +66,7 @@ public class OrderDetail implements Entity {
 		this.order = order;
 	}
 
+	public OrderDetailForOne toVoForOne() {
+		return new OrderDetailForOne(this);
+	}
 }

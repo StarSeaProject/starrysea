@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IOrderController;
+import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForAll;
@@ -83,7 +84,9 @@ public class OrderControllerImpl implements IOrderController {
 			return modelAndView;
 		}
 		Orders o = serviceResult.getResult(ORDER_DETAIL);
+		List<OrderDetail> ods = serviceResult.getResult(ORDER_DETAIL_LIST);
 		modelAndView.addObject("order", o.toVoForOne());
+		modelAndView.addObject("orderDetails", ods.stream().map(OrderDetail::toVoForOne).collect(Collectors.toList()));
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "orders_details" : "orders_details");
 		return modelAndView;
 	}
