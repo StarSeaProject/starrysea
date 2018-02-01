@@ -24,7 +24,7 @@ public class WorkForAdd {
 	@URL(message = "作品pdf文件路径不是一个合法的网址")
 	private String workPdfpath;
 	@Valid
-	@NotEmpty(message="没有作品类型")
+	@NotEmpty(message = "没有作品类型")
 	private List<WorkTypeForAdd> workTypes;
 
 	public String getWorkName() {
@@ -60,11 +60,10 @@ public class WorkForAdd {
 	}
 
 	public Work toDTO() {
-		return new Work.Builder().workName(workName).workSummary(workSummary)
-				.workPdfpath(workPdfpath).build();
+		return new Work.Builder().workName(workName).workSummary(workSummary).workPdfpath(workPdfpath).build();
 	}
-	
-	public List<WorkType> toDTOWorkType(){
+
+	public List<WorkType> toDTOWorkType() {
 		return workTypes.stream().map(WorkTypeForAdd::toDTO).collect(Collectors.toList());
 	}
 }

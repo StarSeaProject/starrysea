@@ -25,14 +25,14 @@ import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IProvinceDao;
 import top.starrysea.dao.IOrderDao;
-import top.starrysea.dao.IWorkDao;
+import top.starrysea.dao.IOrderDetailDao;
 import top.starrysea.dao.IWorkTypeDao;
 import top.starrysea.exception.EmptyResultException;
 import top.starrysea.exception.LogicException;
 import top.starrysea.exception.UpdateException;
 import top.starrysea.object.dto.Area;
+import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
-import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
 import top.starrysea.object.view.out.AreaForAddOrder;
 import top.starrysea.object.view.out.CityForAddOrder;
@@ -50,8 +50,6 @@ public class OrderServiceImpl implements IOrderService {
 	@Autowired
 	private IOrderDao orderDao;
 	@Autowired
-	private IWorkDao workDao;
-	@Autowired
 	private IWorkTypeDao workTypeDao;
 	@Autowired
 	private IProvinceDao provinceDao;
@@ -59,6 +57,8 @@ public class OrderServiceImpl implements IOrderService {
 	private IMailService orderMailService;
 	@Resource(name = "sendOrderMailService")
 	private IMailService sendOrderMailService;
+	@Autowired
+	private IOrderDetailDao orderDetailDao;
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
@@ -95,28 +95,28 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	// 用户对一个作品进行下单，同时减少该作品的库存
 	@Transactional
-	public ServiceResult addOrderService(Orders order) {
+	public ServiceResult addOrderService(Orders order, List<OrderDetail> orderDetails) {
 		try {
-			if (orderDao.isOrderExistDao(order).getResult(Boolean.class)) {
-				throw new LogicException("您已经购买过这个应援物,不能重复购买");
+			for (OrderDetail orderDetail : orderDetails) {
+				orderDetail.setOrder(order);
+				if (orderDetailDao.isOrderDetailExistDao(orderDetail).getResult(Boolean.class))
+					throw new LogicException("您已经领取过" + orderDetail.getWorkType().getWork().getWorkName() + ",不能重复领取");
+				WorkType workType = orderDetail.getWorkType();
+				workType.setStock(1);
+				DaoResult daoResult = workTypeDao.getWorkTypeStockDao(workType);
+				int stock = daoResult.getResult(Integer.class);
+				if (stock == 0) {
+					throw new EmptyResultException("该作品已被全部领取");
+				} else if (stock - workType.getStock() < 0) {
+					throw new LogicException("作品库存不足");
+				}
+				workTypeDao.reduceWorkTypeStockDao(workType);
 			}
-			WorkType workType = order.getWorkType();
-			workType.setStock(1);
-			DaoResult daoResult = workTypeDao.getWorkTypeStockDao(workType);
-			int stock = daoResult.getResult(Integer.class);
-			if (stock == 0) {
-				throw new EmptyResultException("该作品已售空");
-			} else if (stock - workType.getStock() < 0) {
-				throw new LogicException("作品库存不足");
-			}
-			workTypeDao.reduceWorkTypeStockDao(workType);
 			order.setOrderId(Common.getCharId("O-", 10));
 			orderDao.saveOrderDao(order);
-			WorkType wt = workTypeDao.getWorkTypeNameDao(workType).getResult(WorkType.class);
-			wt.setWork(workDao.getWorkDao(order.getWorkType().getWork()).getResult(Work.class));
-			order.setWorkType(wt);
+			orderDetailDao.saveOrderDetailsDao(orderDetails);
 			ServiceResult serviceResult = new ServiceResult(true);
-			serviceResult.setResult(ORDER_DETAIL, order);
+			serviceResult.setResult(ORDER_DETAIL_LIST, orderDetails);
 			return serviceResult;
 		} catch (EmptyResultException | LogicException e) {
 			ServiceResult serviceResult = new ServiceResult(false);
@@ -200,7 +200,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult exportOrderToXlsService() {
-		List<Orders> result = orderDao.getAllOrderForXls().getResult(List.class);
+		List<OrderDetail> result = orderDetailDao.getAllOrderDetailForXls().getResult(List.class);
 		HSSFWorkbook excel = new HSSFWorkbook();
 		HSSFSheet sheet = excel.createSheet("发货名单");
 		HSSFRow row = sheet.createRow(0);
@@ -211,17 +211,18 @@ public class OrderServiceImpl implements IOrderService {
 		row.createCell(4).setCellValue("收货人手机");
 		row.createCell(5).setCellValue("备注");
 		for (int i = 0; i < result.size(); i++) {
-			Orders order = result.get(i);
+			OrderDetail orderDetail = result.get(i);
 			HSSFRow dataRow = sheet.createRow(i + 1);
-			dataRow.createCell(0).setCellValue(order.getOrderName());
-			dataRow.createCell(1).setCellValue(order.getWorkType().getWork().getWorkName());
-			dataRow.createCell(2).setCellValue(order.getWorkType().getName());
+			dataRow.createCell(0).setCellValue(orderDetail.getOrder().getOrderName());
+			dataRow.createCell(1).setCellValue(orderDetail.getWorkType().getWork().getWorkName());
+			dataRow.createCell(2).setCellValue(orderDetail.getWorkType().getName());
 			dataRow.createCell(3)
-					.setCellValue(order.getOrderArea().getCity().getProvince().getProvinceName()
-							+ order.getOrderArea().getCity().getCityName() + order.getOrderArea().getAreaName()
-							+ order.getOrderAddress());
-			dataRow.createCell(4).setCellValue(order.getOrderPhone());
-			dataRow.createCell(5).setCellValue(order.getOrderRemark());
+					.setCellValue(orderDetail.getOrder().getOrderArea().getCity().getProvince().getProvinceName()
+							+ orderDetail.getOrder().getOrderArea().getCity().getCityName()
+							+ orderDetail.getOrder().getOrderArea().getAreaName()
+							+ orderDetail.getOrder().getOrderAddress());
+			dataRow.createCell(4).setCellValue(orderDetail.getOrder().getOrderPhone());
+			dataRow.createCell(5).setCellValue(orderDetail.getOrder().getOrderRemark());
 		}
 		try (FileOutputStream fout = new FileOutputStream("/result.xls")) {
 			excel.write(fout);

@@ -8,7 +8,6 @@ import top.starrysea.object.view.out.OrderForOne;
 public class Orders implements Entity {
 
 	private String orderId;
-	private WorkType workType;
 	private String orderNum;
 	private String orderName;
 	private Area orderArea;
@@ -22,7 +21,6 @@ public class Orders implements Entity {
 
 	private Orders(Builder builder) {
 		this.orderId = builder.orderId;
-		this.workType = builder.workType;
 		this.orderNum = builder.orderNum;
 		this.orderName = builder.orderName;
 		this.orderArea = builder.orderArea;
@@ -38,7 +36,6 @@ public class Orders implements Entity {
 	public static class Builder implements IBuilder<Orders> {
 
 		private String orderId;
-		private WorkType workType;
 		private String orderNum;
 		private String orderName;
 		private Area orderArea;
@@ -52,11 +49,6 @@ public class Orders implements Entity {
 
 		public Builder orderId(String orderId) {
 			this.orderId = orderId;
-			return this;
-		}
-
-		public Builder workType(WorkType workType) {
-			this.workType = workType;
 			return this;
 		}
 
@@ -179,14 +171,6 @@ public class Orders implements Entity {
 
 	public void setOrderTime(long orderTime) {
 		this.orderTime = orderTime;
-	}
-
-	public WorkType getWorkType() {
-		return workType;
-	}
-
-	public void setWorkType(WorkType workType) {
-		this.workType = workType;
 	}
 
 	public String getOrderEMail() {

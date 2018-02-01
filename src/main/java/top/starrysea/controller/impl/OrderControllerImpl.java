@@ -146,7 +146,7 @@ public class OrderControllerImpl implements IOrderController {
 			return modelAndView;
 		}
 		session.removeAttribute(TOKEN);
-		ServiceResult serviceResult = orderService.addOrderService(order.toDTO());
+		ServiceResult serviceResult = orderService.addOrderService(order.toDTO(), order.toDTOOrderDetail());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);

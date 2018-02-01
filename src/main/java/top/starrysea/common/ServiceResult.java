@@ -76,8 +76,8 @@ public class ServiceResult {
 	}
 
 	public <T> void setResult(ResultKey resultKey, T result) {
-		if(!resultKey.getClazz().isAssignableFrom(result.getClass()))
-			throw new IllegalArgumentException("传入的result不是"+resultKey.getClazz().getName()+"类型");
+		if (!resultKey.getClazz().isAssignableFrom(result.getClass()))
+			throw new IllegalArgumentException("传入的result不是" + resultKey.getClazz().getName() + "类型");
 		theResult.put(resultKey, result);
 	}
 
