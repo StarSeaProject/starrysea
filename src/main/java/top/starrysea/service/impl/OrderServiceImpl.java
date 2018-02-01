@@ -103,7 +103,7 @@ public class OrderServiceImpl implements IOrderService {
 			for (OrderDetail orderDetail : orderDetails) {
 				orderDetail.setOrder(order);
 				if (orderDetailDao.isOrderDetailExistDao(orderDetail).getResult(Boolean.class))
-					throw new LogicException("您已经领取过" + orderDetail.getWorkType().getWork().getWorkName() + ",不能重复领取");
+					throw new LogicException("您已经领取过该应援物,不能重复领取");
 				WorkType workType = orderDetail.getWorkType();
 				workType.setStock(1);
 				DaoResult daoResult = workTypeDao.getWorkTypeStockDao(workType);
@@ -122,6 +122,7 @@ public class OrderServiceImpl implements IOrderService {
 			serviceResult.setResult(ORDER_DETAIL_LIST, orderDetails);
 			return serviceResult;
 		} catch (EmptyResultException | LogicException e) {
+			logger.error(e.getMessage(), e);
 			ServiceResult serviceResult = new ServiceResult(false);
 			serviceResult.setErrInfo(e.getMessage());
 			return serviceResult;

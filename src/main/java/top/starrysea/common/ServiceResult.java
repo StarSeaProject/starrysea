@@ -34,7 +34,7 @@ public class ServiceResult {
 		this.successed = successed;
 	}
 
-	public Object getTheResult() {
+	public Map<ResultKey, Object> getTheResult() {
 		return theResult;
 	}
 

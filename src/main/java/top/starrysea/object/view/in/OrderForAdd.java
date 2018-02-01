@@ -19,8 +19,6 @@ public class OrderForAdd {
 	@Valid
 	@NotEmpty(message = "购物车中没有物品")
 	private List<OrderDetailForAddOrder> orderDetails;
-	@NotNull(message = "作品Id不能为空")
-	private Integer workId;
 	@NotEmpty(message = "收货人姓名不能为空")
 	@Length(max = 10, message = "姓名长度不能超过10")
 	private String orderName;
@@ -78,14 +76,6 @@ public class OrderForAdd {
 
 	public void setOrderRemark(String orderRemark) {
 		this.orderRemark = orderRemark;
-	}
-
-	public Integer getWorkId() {
-		return workId;
-	}
-
-	public void setWorkId(Integer workId) {
-		this.workId = workId;
 	}
 
 	public String getOrderPhone() {
