@@ -27,4 +27,6 @@ public interface IOrderService {
 	ServiceResult exportOrderToXlsService();
 
 	ServiceResult resendEmailService(Orders order);
+	
+	ServiceResult queryAllWorkTypeForShoppingCarService(List<WorkType> workTypes);
 }

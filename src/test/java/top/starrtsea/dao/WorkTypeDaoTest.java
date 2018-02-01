@@ -50,4 +50,12 @@ public class WorkTypeDaoTest {
 	public void deleteWorkTypeDao() {
 		dao.deleteWorkTypeDao(new WorkType.Builder().workTypeId(4).build());
 	}
+	
+	@Test
+	public void getAllWorkTypeForShoppingCarDao() {
+		List<WorkType> workTypes=new ArrayList<>();
+		workTypes.add(new WorkType.Builder().workTypeId(1).build());
+		workTypes.add(new WorkType.Builder().workTypeId(2).build());
+		System.out.println(dao.getAllWorkTypeForShoppingCarDao(workTypes).getTheResult());
+	}
 }

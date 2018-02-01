@@ -247,4 +247,11 @@ public class OrderServiceImpl implements IOrderService {
 		return new ServiceResult(true);
 	}
 
+	@Override
+	public ServiceResult queryAllWorkTypeForShoppingCarService(List<WorkType> workTypes) {
+		ServiceResult sr = new ServiceResult(true);
+		sr.setResult(WORK_DETAIL_TYPE, workTypeDao.getAllWorkTypeForShoppingCarDao(workTypes).getResult(List.class));
+		return sr;
+	}
+
 }

@@ -23,4 +23,6 @@ public interface IWorkTypeDao {
 	DaoResult reduceWorkTypeStockDao(WorkType workType);
 	
 	DaoResult updateWorkTypeStockDao(Orders order);
+	
+	DaoResult getAllWorkTypeForShoppingCarDao(List<WorkType> workTypes);
 }

@@ -9,6 +9,8 @@ import org.springframework.mobile.device.Device;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import top.starrysea.object.view.in.OrderDetailForAddOrder;
+import top.starrysea.object.view.in.OrderDetailForRemoveOrder;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
@@ -32,4 +34,12 @@ public interface IOrderController {
 	void exportOrderToXlsController(HttpServletResponse response);
 
 	Map<String, Object> resendEmailController(OrderForRemove order, BindingResult bindingResult);
+
+	ModelAndView addWorkToShoppingCarController(HttpSession session, OrderDetailForAddOrder orderDetail,
+			BindingResult bindingResult, Device device);
+
+	ModelAndView removeWorkFromShoppingCarController(HttpSession session, OrderDetailForRemoveOrder orderDetail,
+			BindingResult bindingResult, Device device);
+
+	ModelAndView queryShoppingCarController(HttpSession session, Device device);
 }

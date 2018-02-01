@@ -30,6 +30,9 @@ import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IOrderController;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.WorkType;
+import top.starrysea.object.view.in.OrderDetailForAddOrder;
+import top.starrysea.object.view.in.OrderDetailForRemoveOrder;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
@@ -232,6 +235,54 @@ public class OrderControllerImpl implements IOrderController {
 		}
 		theResult.put("result", "success");
 		return theResult;
+	}
+
+	@Override
+	@RequestMapping(value = "/car/add", method = RequestMethod.POST)
+	public ModelAndView addWorkToShoppingCarController(HttpSession session, @Valid OrderDetailForAddOrder orderDetail,
+			BindingResult bindingResult, Device device) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
+		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
+				.getAttribute("shoppingCar");
+		if (orderDetailMap == null) {
+			orderDetailMap = new HashMap<>();
+		}
+		orderDetailMap.put(Common.getCharId(10), orderDetail);
+		session.setAttribute("shoppingCar", orderDetailMap);
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
+		modelAndView.addObject(INFO, "添加到购物车成功!");
+		return modelAndView;
+	}
+
+	@Override
+	@RequestMapping(value = "/car/remove", method = RequestMethod.POST)
+	public ModelAndView removeWorkFromShoppingCarController(HttpSession session,
+			@Valid OrderDetailForRemoveOrder orderDetail, BindingResult bindingResult, Device device) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
+		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
+				.getAttribute("shoppingCar");
+		orderDetailMap.remove(orderDetail.getOrderDetailId());
+		session.setAttribute("shoppingCar", orderDetailMap);
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
+		modelAndView.addObject(INFO, "从购物车移除作品成功!");
+		return modelAndView;
+	}
+
+	@Override
+	@RequestMapping(value = "/car", method = RequestMethod.GET)
+	public ModelAndView queryShoppingCarController(HttpSession session, Device device) {
+		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
+				.getAttribute("shoppingCar");
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopping_car" : "shopping_car");
+		modelAndView.addObject("workTypes",
+				orderService.queryAllWorkTypeForShoppingCarService(orderDetailMap.values().stream()
+						.map(orderDetail -> new WorkType.Builder().workTypeId(orderDetail.getWorkTypeId()).build())
+						.collect(Collectors.toList())));
+		return modelAndView;
 	}
 
 }
