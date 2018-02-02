@@ -122,12 +122,14 @@ public class ActivityServiceImpl implements IActivityService {
 	@Override
 	// 修改一个众筹活动的状态
 	public ServiceResult modifyActivityService(Activity activity) {
+		activityDao.updateActivityDao(activity);
 		return new ServiceResult(true);
 	}
 
 	@Override
 	// 删除一个众筹活动
 	public ServiceResult removeActivityService(Activity activity) {
+		activityDao.deleteActivityDao(activity);
 		return new ServiceResult(true);
 	}
 

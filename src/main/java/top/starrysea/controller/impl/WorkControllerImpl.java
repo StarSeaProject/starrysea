@@ -45,11 +45,6 @@ public class WorkControllerImpl implements IWorkController {
 	public ModelAndView queryAllWorkController(Condition condition, WorkForAll work, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
 		List<Work> result = serviceResult.getResult(WOKR_LIST);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());
@@ -67,10 +62,6 @@ public class WorkControllerImpl implements IWorkController {
 	public Map<String, Object> queryAllWorkControllerAjax(@RequestBody WorkForAll work) {
 		ServiceResult serviceResult = workService.queryAllWorkService(work.getCondition(), work.toDTO());
 		Map<String, Object> theResult = new HashMap<>();
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			return theResult;
-		}
 		List<Work> result = serviceResult.getResult(WOKR_LIST);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());
@@ -87,11 +78,6 @@ public class WorkControllerImpl implements IWorkController {
 	public ModelAndView queryWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
 		Work w = serviceResult.getResult(WORK_DETAIL);
 		modelAndView.addObject("work", w.toVoForOne());
 		modelAndView.addObject("workId", work.getWorkId());
@@ -109,10 +95,6 @@ public class WorkControllerImpl implements IWorkController {
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			return theResult;
-		}
 		Work w = serviceResult.getResult(WORK_DETAIL);
 		theResult.put("work", w.toVoForOne());
 		theResult.put("workId", work.getWorkId());
@@ -127,13 +109,7 @@ public class WorkControllerImpl implements IWorkController {
 			@RequestParam("imageFiles") MultipartFile[] imageFiles, @Valid WorkForAdd work, BindingResult bindingResult,
 			Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = workService.addWorkService(coverFile, imageFiles, work.toDTO(),
-				work.toDTOWorkType());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
+		workService.addWorkService(coverFile, imageFiles, work.toDTO(), work.toDTOWorkType());
 		modelAndView.addObject(INFO, "添加成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
@@ -144,12 +120,7 @@ public class WorkControllerImpl implements IWorkController {
 	@RequestMapping(value = "/work/remove", method = RequestMethod.POST)
 	public ModelAndView removeWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = workService.removeWorkService(work.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
+		workService.removeWorkService(work.toDTO());
 		modelAndView.addObject(INFO, "删除成功！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
@@ -160,12 +131,7 @@ public class WorkControllerImpl implements IWorkController {
 	public ModelAndView removeWorkTypeController(WorkTypeForRemove workType, BindingResult bindingResult,
 			Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = workService.removeWorkTypeService(workType.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
+		workService.removeWorkTypeService(workType.toDTO());
 		modelAndView.addObject(INFO, "删除作品类型成功！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
@@ -176,12 +142,7 @@ public class WorkControllerImpl implements IWorkController {
 	public ModelAndView modifyWorkTypeController(@Valid WorkTypeForModify workType, BindingResult bindingResult,
 			Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = workService.modifyWorkTypeService(workType.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
+		workService.modifyWorkTypeService(workType.toDTO());
 		modelAndView.addObject(INFO, "修改库存成功！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;

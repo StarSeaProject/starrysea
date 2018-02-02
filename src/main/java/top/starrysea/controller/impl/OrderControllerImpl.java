@@ -53,10 +53,6 @@ public class OrderControllerImpl implements IOrderController {
 	public Map<String, Object> queryAllOrderController(@RequestBody OrderForAll order) {
 		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = orderService.queryAllOrderService(order.getCondition(), order.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			return theResult;
-		}
 		List<Orders> result = serviceResult.getResult(ORDER_LIST);
 		List<top.starrysea.object.view.out.OrderForAll> voResult = result.stream().map(Orders::toVoForAll)
 				.collect(Collectors.toList());
@@ -73,11 +69,6 @@ public class OrderControllerImpl implements IOrderController {
 	public ModelAndView queryOrderController(@Valid OrderForOne order, BindingResult bindingResult, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
 		Orders o = serviceResult.getResult(ORDER_DETAIL);
 		modelAndView.addObject("order", o.toVoForOne());
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "orders_details" : "orders_details");
@@ -92,10 +83,6 @@ public class OrderControllerImpl implements IOrderController {
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			return theResult;
-		}
 		Orders o = serviceResult.getResult(ORDER_DETAIL);
 		theResult.put("orders", o.toVoForOne());
 		theResult.put("orderId", order.getOrderId());
@@ -103,7 +90,8 @@ public class OrderControllerImpl implements IOrderController {
 	}
 
 	@RequestMapping(value = "/order/toAddOrder/{workId}/{workTypeId}", method = RequestMethod.GET)
-	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType,BindingResult bindingResult, Device device, HttpSession session) {
+	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType, BindingResult bindingResult, Device device,
+			HttpSession session) {
 		ServiceResult sr = orderService.queryWorkTypeStock(workType.toDTO());
 		ModelAndView modelAndView = new ModelAndView();
 		if (!sr.isSuccessed()) {
@@ -149,12 +137,7 @@ public class OrderControllerImpl implements IOrderController {
 	@RequestMapping(value = "/order/modify/{orderId}", method = RequestMethod.POST)
 	public ModelAndView modifyOrderController(@Valid OrderForModify order, BindingResult bindingResult, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = orderService.modifyOrderService(order.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
+		orderService.modifyOrderService(order.toDTO());
 		modelAndView.addObject(INFO, "发货成功！");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
@@ -165,12 +148,7 @@ public class OrderControllerImpl implements IOrderController {
 	@RequestMapping(value = "/order/remove/{orderId}", method = RequestMethod.POST)
 	public ModelAndView removeOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = orderService.removeOrderService(order.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
+		orderService.removeOrderService(order.toDTO());
 		modelAndView.addObject(INFO, "删除成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
@@ -197,11 +175,7 @@ public class OrderControllerImpl implements IOrderController {
 	public Map<String, Object> resendEmailController(@RequestBody @Valid OrderForRemove order,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		ServiceResult sr = orderService.resendEmailService(order.toDTO());
-		if (!sr.isSuccessed()) {
-			theResult.put(ERRINFO, sr.getErrInfo());
-			return theResult;
-		}
+		orderService.resendEmailService(order.toDTO());
 		theResult.put("result", "success");
 		return theResult;
 	}

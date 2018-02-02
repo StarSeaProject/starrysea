@@ -47,12 +47,6 @@ public class ActivityControllerImpl implements IActivityController {
 	public ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			// 查询失败则返回错误页面
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
 		List<Activity> result = serviceResult.getResult(ACTIVITY_LIST);
 		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
 				.collect(Collectors.toList());
@@ -74,10 +68,6 @@ public class ActivityControllerImpl implements IActivityController {
 		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = activityService.queryAllActivityService(activity.getCondition(),
 				activity.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			return theResult;
-		}
 		List<Activity> result = serviceResult.getResult(ACTIVITY_LIST);
 		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
 				.collect(Collectors.toList());
@@ -95,12 +85,6 @@ public class ActivityControllerImpl implements IActivityController {
 			Device device) {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			// 查询失败则返回错误页面
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
 		Activity a = serviceResult.getResult(ACTIVITY_DETAIL);
 		modelAndView.addObject("activity", a.toVoForOne());
 		modelAndView.addObject("fundings", serviceResult.getResult(ACTIVITY_FUNDING_LIST));
@@ -118,11 +102,6 @@ public class ActivityControllerImpl implements IActivityController {
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			// 查询失败则返回错误页面
-			return theResult;
-		}
 		Activity a = serviceResult.getResult(ACTIVITY_DETAIL);
 		theResult.put("activityId", activity.getActivityId());
 		theResult.put("activity", a.toVoForOne());
@@ -137,14 +116,7 @@ public class ActivityControllerImpl implements IActivityController {
 	public ModelAndView addActivityController(@RequestParam("coverFile") MultipartFile coverFile,
 			@Valid ActivityForAdd activity, BindingResult bindingResult, Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = activityService.addActivityService(coverFile, activity.toDTO(),
-				activity.toDTOImage());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			// 添加失败则返回错误页面
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
+		activityService.addActivityService(coverFile, activity.toDTO(), activity.toDTOImage());
 		modelAndView.addObject(INFO, "添加成功！");
 		// 添加成功则返回成功页面
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
@@ -157,13 +129,7 @@ public class ActivityControllerImpl implements IActivityController {
 	public ModelAndView modifyActivityController(@Valid ActivityForModify activity, BindingResult bindingResult,
 			Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = activityService.modifyActivityService(activity.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			// 修改失败则返回错误页面
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
+		activityService.modifyActivityService(activity.toDTO());
 		modelAndView.addObject(INFO, "修改成功!");
 		// 修改成功则返回成功页面
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
@@ -176,13 +142,7 @@ public class ActivityControllerImpl implements IActivityController {
 	public ModelAndView removeActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
 			Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = activityService.removeActivityService(activity.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			// 删除失败则返回错误页面
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
+		activityService.removeActivityService(activity.toDTO());
 		// 删除成功则返回成功页面
 		modelAndView.addObject(INFO, "删除成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
@@ -197,14 +157,8 @@ public class ActivityControllerImpl implements IActivityController {
 		for (FundingForAdd funding : fundings.getFundings()) {
 			funding.setActivityId(fundings.getActivityId());
 		}
-		ServiceResult serviceResult = activityService.addFundingService(
+		activityService.addFundingService(
 				fundings.getFundings().stream().map(FundingForAdd::toDTO).collect(Collectors.toList()));
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			// 添加失败则返回错误页面
-			modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
 		// 添加成功则返回成功页面
 		modelAndView.addObject(INFO, "添加成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : SUCCESS_VIEW);
@@ -216,13 +170,7 @@ public class ActivityControllerImpl implements IActivityController {
 	public ModelAndView removeFundingController(@Valid FundingForRemove funding, BindingResult bindingResult,
 			Device device) {
 		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = activityService.removeFundingService(funding.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			// 添加失败则返回错误页面
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
+		activityService.removeFundingService(funding.toDTO());
 		// 添加成功则返回成功页面
 		modelAndView.addObject(INFO, "删除成功!");
 		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);

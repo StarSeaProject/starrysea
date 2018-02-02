@@ -39,11 +39,6 @@ public class QuestionControllerImpl implements IQuestionController {
 		ModelAndView modelAndView = new ModelAndView();
 		question.setQuestionStatus((short) 2);
 		ServiceResult serviceResult = questionService.queryAllQuestionService(condition, question.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
-		}
 		List<Question> result = serviceResult.getResult(QUESTION_LIST);
 		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());
@@ -61,10 +56,6 @@ public class QuestionControllerImpl implements IQuestionController {
 		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = questionService.queryAllQuestionService(question.getCondition(),
 				question.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			return theResult;
-		}
 		List<Question> result = serviceResult.getResult(QUESTION_LIST);
 		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());
@@ -79,11 +70,7 @@ public class QuestionControllerImpl implements IQuestionController {
 	public Map<String, Object> askQuestionController(@RequestBody @Valid QuestionForAsk question,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		ServiceResult serviceResult = questionService.askQuestionService(question.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			return theResult;
-		}
+		questionService.askQuestionService(question.toDTO());
 		theResult.put(INFO, "提问成功！");
 		return theResult;
 	}
@@ -93,11 +80,7 @@ public class QuestionControllerImpl implements IQuestionController {
 	public Map<String, Object> answerQuestionController(@RequestBody @Valid QuestionForAnswer question,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		ServiceResult serviceResult = questionService.answerQuestionService(question.toDto());
-		if (!serviceResult.isSuccessed()) {
-			theResult.put(ERRINFO, serviceResult.getErrInfo());
-			return theResult;
-		}
+		questionService.answerQuestionService(question.toDto());
 		theResult.put(INFO, "回复成功！");
 		return theResult;
 	}
