@@ -245,12 +245,12 @@ public class OrderControllerImpl implements IOrderController {
 			return Common.handleVaildError(bindingResult);
 		}
 		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
-				.getAttribute("shoppingCar");
+				.getAttribute(SHOPPINGCAR);
 		if (orderDetailMap == null) {
 			orderDetailMap = new HashMap<>();
 		}
 		orderDetailMap.put(Common.getCharId(10), orderDetail);
-		session.setAttribute("shoppingCar", orderDetailMap);
+		session.setAttribute(SHOPPINGCAR, orderDetailMap);
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		modelAndView.addObject(INFO, "添加到购物车成功!");
 		return modelAndView;
@@ -264,9 +264,9 @@ public class OrderControllerImpl implements IOrderController {
 			return Common.handleVaildError(bindingResult);
 		}
 		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
-				.getAttribute("shoppingCar");
+				.getAttribute(SHOPPINGCAR);
 		orderDetailMap.remove(orderDetail.getOrderDetailId());
-		session.setAttribute("shoppingCar", orderDetailMap);
+		session.setAttribute(SHOPPINGCAR, orderDetailMap);
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		modelAndView.addObject(INFO, "从购物车移除作品成功!");
 		return modelAndView;
@@ -276,7 +276,7 @@ public class OrderControllerImpl implements IOrderController {
 	@RequestMapping(value = "/car", method = RequestMethod.GET)
 	public ModelAndView queryShoppingCarController(HttpSession session, Device device) {
 		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
-				.getAttribute("shoppingCar");
+				.getAttribute(SHOPPINGCAR);
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopping_car" : "shopping_car");
 		modelAndView.addObject("workTypes",
 				orderService.queryAllWorkTypeForShoppingCarService(orderDetailMap.values().stream()
