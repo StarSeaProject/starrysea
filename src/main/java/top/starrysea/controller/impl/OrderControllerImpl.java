@@ -113,7 +113,10 @@ public class OrderControllerImpl implements IOrderController {
 	}
 
 	@RequestMapping(value = "/order/toAddOrder/{workId}/{workTypeId}", method = RequestMethod.GET)
-	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType, Device device, HttpSession session) {
+	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType,BindingResult bindingResult, Device device, HttpSession session) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildError(bindingResult);
+		}
 		ServiceResult sr = orderService.queryWorkTypeStock(workType.toDTO());
 		ModelAndView modelAndView = new ModelAndView();
 		if (!sr.isSuccessed()) {
