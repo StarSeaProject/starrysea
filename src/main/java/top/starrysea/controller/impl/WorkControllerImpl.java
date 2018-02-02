@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IWorkController;
@@ -87,9 +85,6 @@ public class WorkControllerImpl implements IWorkController {
 	// 查询一个作品的详情页，此方法可用于作品管理，也可用于查看旧货
 	@RequestMapping(value = "/work/{workId}", method = RequestMethod.GET)
 	public ModelAndView queryWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -113,12 +108,6 @@ public class WorkControllerImpl implements IWorkController {
 	public Map<String, Object> queryWorkControllerAjax(@RequestBody @Valid WorkForOne work,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		if (bindingResult.hasErrors()) {
-			List<String> errInfo = bindingResult.getAllErrors().stream()
-					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put(ERRINFO, errInfo);
-			return theResult;
-		}
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
@@ -137,9 +126,6 @@ public class WorkControllerImpl implements IWorkController {
 	public ModelAndView addWorkController(@RequestParam("coverFile") MultipartFile coverFile,
 			@RequestParam("imageFiles") MultipartFile[] imageFiles, @Valid WorkForAdd work, BindingResult bindingResult,
 			Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.addWorkService(coverFile, imageFiles, work.toDTO(),
 				work.toDTOWorkType());
@@ -157,9 +143,6 @@ public class WorkControllerImpl implements IWorkController {
 	// 删除一个作品
 	@RequestMapping(value = "/work/remove", method = RequestMethod.POST)
 	public ModelAndView removeWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.removeWorkService(work.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -176,9 +159,6 @@ public class WorkControllerImpl implements IWorkController {
 	@RequestMapping(value = "/worktype/remove", method = RequestMethod.POST)
 	public ModelAndView removeWorkTypeController(WorkTypeForRemove workType, BindingResult bindingResult,
 			Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.removeWorkTypeService(workType.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -195,9 +175,6 @@ public class WorkControllerImpl implements IWorkController {
 	@RequestMapping(value = "/worktype/modifystock", method = RequestMethod.POST)
 	public ModelAndView modifyWorkTypeController(@Valid WorkTypeForModify workType, BindingResult bindingResult,
 			Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.modifyWorkTypeService(workType.toDTO());
 		if (!serviceResult.isSuccessed()) {

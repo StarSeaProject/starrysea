@@ -15,7 +15,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -72,9 +71,6 @@ public class OrderControllerImpl implements IOrderController {
 	// 根据订单号查询一个订单的具体信息以及发货情况
 	@RequestMapping(value = "/order/{orderNum}", method = RequestMethod.GET)
 	public ModelAndView queryOrderController(@Valid OrderForOne order, BindingResult bindingResult, Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -95,12 +91,6 @@ public class OrderControllerImpl implements IOrderController {
 	public Map<String, Object> queryOrderControllerAjax(@RequestBody @Valid OrderForRemove order,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		if (bindingResult.hasErrors()) {
-			List<String> errInfo = bindingResult.getAllErrors().stream()
-					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put(ERRINFO, errInfo);
-			return theResult;
-		}
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
@@ -114,9 +104,6 @@ public class OrderControllerImpl implements IOrderController {
 
 	@RequestMapping(value = "/order/toAddOrder/{workId}/{workTypeId}", method = RequestMethod.GET)
 	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType,BindingResult bindingResult, Device device, HttpSession session) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ServiceResult sr = orderService.queryWorkTypeStock(workType.toDTO());
 		ModelAndView modelAndView = new ModelAndView();
 		if (!sr.isSuccessed()) {
@@ -139,9 +126,6 @@ public class OrderControllerImpl implements IOrderController {
 	@RequestMapping(value = "/order/add/{workId}/{workTypeId}", method = RequestMethod.POST)
 	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device,
 			HttpSession session) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		if (!order.getToken().equals(session.getAttribute(TOKEN))) {
 			modelAndView.addObject(ERRINFO, "您已经下单,请勿再次提交");
@@ -164,9 +148,6 @@ public class OrderControllerImpl implements IOrderController {
 	// 修改一个订单的状态
 	@RequestMapping(value = "/order/modify/{orderId}", method = RequestMethod.POST)
 	public ModelAndView modifyOrderController(@Valid OrderForModify order, BindingResult bindingResult, Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = orderService.modifyOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -183,9 +164,6 @@ public class OrderControllerImpl implements IOrderController {
 	// 删除一个订单
 	@RequestMapping(value = "/order/remove/{orderId}", method = RequestMethod.POST)
 	public ModelAndView removeOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = orderService.removeOrderService(order.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -219,12 +197,6 @@ public class OrderControllerImpl implements IOrderController {
 	public Map<String, Object> resendEmailController(@RequestBody @Valid OrderForRemove order,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		if (bindingResult.hasErrors()) {
-			List<String> errInfo = bindingResult.getAllErrors().stream()
-					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put(ERRINFO, errInfo);
-			return theResult;
-		}
 		ServiceResult sr = orderService.resendEmailService(order.toDTO());
 		if (!sr.isSuccessed()) {
 			theResult.put(ERRINFO, sr.getErrInfo());

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IOnlineController;
 import top.starrysea.object.view.in.OnlineForAdd;
@@ -26,9 +25,6 @@ public class OnlineControllerImpl implements IOnlineController {
 	@Override
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView addOnlineController(OnlineForAdd online, BindingResult bindingResult, Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = onlineService.addMailService(online.toDTO());
 		if (!serviceResult.isSuccessed()) {

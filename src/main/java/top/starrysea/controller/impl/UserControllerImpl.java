@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IUserController;
 import top.starrysea.object.dto.Admin;
@@ -31,9 +30,6 @@ public class UserControllerImpl implements IUserController {
 	// 管理员登陆
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView loginController(@Valid AdminForLogin admin, BindingResult bindingResult, Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = userService.loginService(admin.toDTO());
 		if (serviceResult.isSuccessed()) {

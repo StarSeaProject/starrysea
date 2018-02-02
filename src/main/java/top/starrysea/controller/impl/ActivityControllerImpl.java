@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IActivityController;
@@ -95,9 +93,6 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/{activityId}", method = RequestMethod.GET)
 	public ModelAndView queryActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
 			Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -122,12 +117,6 @@ public class ActivityControllerImpl implements IActivityController {
 	public Map<String, Object> queryActivityControllerAjax(@RequestBody @Valid ActivityForOne activity,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		if (bindingResult.hasErrors()) {
-			List<String> errInfo = bindingResult.getAllErrors().stream()
-					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put(ERRINFO, errInfo);
-			return theResult;
-		}
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
@@ -147,9 +136,6 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/add", method = RequestMethod.POST)
 	public ModelAndView addActivityController(@RequestParam("coverFile") MultipartFile coverFile,
 			@Valid ActivityForAdd activity, BindingResult bindingResult, Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.addActivityService(coverFile, activity.toDTO(),
 				activity.toDTOImage());
@@ -170,9 +156,6 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/modify", method = RequestMethod.POST)
 	public ModelAndView modifyActivityController(@Valid ActivityForModify activity, BindingResult bindingResult,
 			Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.modifyActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -192,9 +175,6 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/remove", method = RequestMethod.POST)
 	public ModelAndView removeActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
 			Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.removeActivityService(activity.toDTO());
 		if (!serviceResult.isSuccessed()) {
@@ -213,9 +193,6 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/funding/add", method = RequestMethod.POST)
 	public ModelAndView addFundingController(@Valid FundingForAddList fundings, BindingResult bindingResult,
 			Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		for (FundingForAdd funding : fundings.getFundings()) {
 			funding.setActivityId(fundings.getActivityId());
@@ -238,9 +215,6 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/funding/remove", method = RequestMethod.POST)
 	public ModelAndView removeFundingController(@Valid FundingForRemove funding, BindingResult bindingResult,
 			Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
-		}
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.removeFundingService(funding.toDTO());
 		if (!serviceResult.isSuccessed()) {

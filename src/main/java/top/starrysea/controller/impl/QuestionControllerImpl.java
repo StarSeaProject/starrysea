@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -80,12 +79,6 @@ public class QuestionControllerImpl implements IQuestionController {
 	public Map<String, Object> askQuestionController(@RequestBody @Valid QuestionForAsk question,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		if (bindingResult.hasErrors()) {
-			List<String> errInfo = bindingResult.getAllErrors().stream()
-					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put(ERRINFO, errInfo);
-			return theResult;
-		}
 		ServiceResult serviceResult = questionService.askQuestionService(question.toDTO());
 		if (!serviceResult.isSuccessed()) {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
@@ -100,12 +93,6 @@ public class QuestionControllerImpl implements IQuestionController {
 	public Map<String, Object> answerQuestionController(@RequestBody @Valid QuestionForAnswer question,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		if (bindingResult.hasErrors()) {
-			List<String> errInfo = bindingResult.getAllErrors().stream()
-					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put(ERRINFO, errInfo);
-			return theResult;
-		}
 		ServiceResult serviceResult = questionService.answerQuestionService(question.toDto());
 		if (!serviceResult.isSuccessed()) {
 			theResult.put(ERRINFO, serviceResult.getErrInfo());
