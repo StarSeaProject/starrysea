@@ -276,7 +276,10 @@ public class OrderControllerImpl implements IOrderController {
 	public ModelAndView queryShoppingCarController(HttpSession session, Device device) {
 		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
 				.getAttribute(SHOPPINGCAR);
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopping_car" : "shopping_car");
+		if (orderDetailMap == null) {
+			orderDetailMap = new HashMap<>();
+		}
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopcar" : "shopcar");
 		modelAndView.addObject("workTypes",
 				orderService.queryAllWorkTypeForShoppingCarService(orderDetailMap.values().stream()
 						.map(orderDetail -> new WorkType.Builder().workTypeId(orderDetail.getWorkTypeId()).build())
