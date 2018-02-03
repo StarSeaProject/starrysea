@@ -12,13 +12,27 @@ import top.starrysea.common.Common;
 @Aspect
 public class ValidParamsAspect {
 
-	@Around("execution(* top.starrysea.controller.impl.*.*(..))")
+	@Around("execution(org.springframework.web.servlet.ModelAndView top.starrysea.controller.impl.*.*(..))")
 	public Object vaildParams(ProceedingJoinPoint pjp) throws Throwable {
 		for (Object param : pjp.getArgs()) {
 			if (param instanceof BindingResult) {
 				BindingResult bindingResult = BindingResult.class.cast(param);
 				if (bindingResult.hasErrors()) {
 					return Common.handleVaildError(bindingResult);
+				}
+				break;
+			}
+		}
+		return pjp.proceed();
+	}
+
+	@Around("execution(java.util.Map top.starrysea.controller.impl.*.*(..))")
+	public Object vaildParamsAjax(ProceedingJoinPoint pjp) throws Throwable {
+		for (Object param : pjp.getArgs()) {
+			if (param instanceof BindingResult) {
+				BindingResult bindingResult = BindingResult.class.cast(param);
+				if (bindingResult.hasErrors()) {
+					return Common.handleVaildErrorForAjax(bindingResult);
 				}
 				break;
 			}
