@@ -138,10 +138,10 @@
         <!--Form Element-->
         <div class="row">
             <div class="col-sm-12">
-            	<form>
+            	<form id="askQuestion"  action="/question/ask" method="post">
                 	<div class="form-group center-block">
                     	<label for="message">您的消息:</label>
-                        <textarea class="form-control" name="message" rows="7"></textarea>
+                        <textarea class="form-control" name="question" rows="7"></textarea>
                         <p class="text-center text-muted">提问是完全匿名，不符合社会主义核心价值观和让人感到伤心的问题还是请不要提出，谢谢茄子</p>
                     </div>
                     <button type="submit" id="submitBtn" class="btn">确认送出</button>
@@ -149,24 +149,27 @@
             </div>
         </div>
         <!--QA Box-->
+        <p class="h3 qaText">已回答的问题一览</p>
+        <div id="questions">
+        <div th:each="question:${result}">
         <div class="row qaBox">
-            <p class="h3 qaText">已回答的问题一览</p>
             <div class="col-sm-12 col-md-10 qBox">
-                    <p class="qText">
-                        Q:什么什么问题
+                    <p class="qText" th:text="'Q:'+${question.question}">
                     </p>
             </div>
             <div class="col-sm-12 col-md-10 aBox">
-                <p class="aText">
-                    A:什么什么回答
+                <p class="aText" th:text="'A:'+${question.answer}">
                 </p>
             </div>
         </div>
+    </div>
     </div>
     <!--Footer-->
     <div class="footbar text-center">
         <p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
     </div>
+</div>
+    <script type="text/javascript" src="/question.js"></script>
 </body>
 
 </html>
