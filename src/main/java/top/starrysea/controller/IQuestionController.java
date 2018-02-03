@@ -12,12 +12,13 @@ import top.starrysea.object.view.in.QuestionForAnswer;
 import top.starrysea.object.view.in.QuestionForAsk;
 
 public interface IQuestionController {
-	
-	ModelAndView queryQuestionController(Condition condition,QuestionForAll question, Device device);
-	
+
+	ModelAndView queryQuestionController(Condition condition, QuestionForAll question, Device device);
+
 	Map<String, Object> queryQuestionControllerAjax(QuestionForAll question);
 
-	Map<String, Object> askQuestionController(QuestionForAsk question, BindingResult bindingResult);
+	ModelAndView askQuestionController(QuestionForAsk question, BindingResult bindingResult);
 
 	Map<String, Object> answerQuestionController(QuestionForAnswer question, BindingResult bindingResult);
+
 }

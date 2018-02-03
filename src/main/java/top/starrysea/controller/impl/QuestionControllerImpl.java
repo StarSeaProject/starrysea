@@ -67,12 +67,17 @@ public class QuestionControllerImpl implements IQuestionController {
 
 	@Override
 	@RequestMapping(value = "/question/ask", method = RequestMethod.POST)
-	public Map<String, Object> askQuestionController(@RequestBody @Valid QuestionForAsk question,
-			BindingResult bindingResult) {
-		Map<String, Object> theResult = new HashMap<>();
-		questionService.askQuestionService(question.toDTO());
-		theResult.put(INFO, "提问成功！");
-		return theResult;
+	public ModelAndView askQuestionController(@Valid QuestionForAsk question, BindingResult bindingResult) {
+		ModelAndView modelAndView = new ModelAndView();
+		ServiceResult serviceResult = questionService.askQuestionService(question.toDTO());
+		if (!serviceResult.isSuccessed()) {
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.setViewName(ERROR_VIEW);
+			return modelAndView;
+		}
+		modelAndView.addObject(INFO, "提问成功！");
+		modelAndView.setViewName(SUCCESS_VIEW);
+		return modelAndView;
 	}
 
 	@Override
