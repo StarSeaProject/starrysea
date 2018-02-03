@@ -69,6 +69,8 @@
         .formdata{
             border: 2px solid #999999;
             border-radius: 10px;
+            height:150px;
+            clear:both;
         }
         .navimg {
             transition: all 0.6s;
@@ -76,6 +78,12 @@
 
         .navimg:hover {
             transform: scale(1.4);
+        }
+        .worknamep{
+            font-weight:bold;
+        }
+        .worktypep{
+            color: #999999;
         }
     </style>
 </head>
@@ -117,14 +125,14 @@
         <div class="col-xs-3 "><p>全选</p></div>
         <div class="col-xs-3 "><p>商品信息</p></div>
         <div class="col-xs-2 "><p> </p></div>
-        <div class="col-xs-3 "><p>操作</p></div>
+        <div class="col-xs-2 "><p>操作</p></div>
     </div>
     <div class="formdata">
         <div class="col-xs-1 selectwork"><input type="radio"/></div>
         <div class="col-xs-3 workimg"><img src="" class="img-reponsive"/></div>
-        <div class="col-xs-3 workname"><p > </p></div>
-        <div class="col-xs-2 worktype"><p > </p></div>
-        <div class="col-xs-3 workdel"><a style="color: red" href="*">删除</a></div>
+        <div class="col-xs-3 workname"><p class="worknamep">kk女装</p></div>
+        <div class="col-xs-2 worktype"><p class="worktypep">op2 riko</p></div>
+        <div class="col-xs-2 workdel"><a style="color: red" href="*">删除</a></div>
     </div>
 </form>
 <div class="addheight" style="height: 140px;"></div>
