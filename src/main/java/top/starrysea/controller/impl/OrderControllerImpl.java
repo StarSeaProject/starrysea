@@ -223,10 +223,7 @@ public class OrderControllerImpl implements IOrderController {
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
 		if (bindingResult.hasErrors()) {
-			List<String> errInfo = bindingResult.getAllErrors().stream()
-					.map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.toList());
-			theResult.put(ERRINFO, errInfo);
-			return theResult;
+			return Common.handleVaildErrorForAjax(bindingResult);
 		}
 		ServiceResult sr = orderService.resendEmailService(order.toDTO());
 		if (!sr.isSuccessed()) {
@@ -239,10 +236,11 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	@RequestMapping(value = "/car/add", method = RequestMethod.POST)
-	public ModelAndView addWorkToShoppingCarController(HttpSession session, @Valid OrderDetailForAddOrder orderDetail,
-			BindingResult bindingResult, Device device) {
+	@ResponseBody
+	public Map<String, Object> addWorkToShoppingCarController(HttpSession session,
+			@RequestBody @Valid OrderDetailForAddOrder orderDetail, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
+			return Common.handleVaildErrorForAjax(bindingResult);
 		}
 		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
 				.getAttribute(SHOPPINGCAR);
@@ -251,25 +249,26 @@ public class OrderControllerImpl implements IOrderController {
 		}
 		orderDetailMap.put(Common.getCharId(10), orderDetail);
 		session.setAttribute(SHOPPINGCAR, orderDetailMap);
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "添加到购物车成功!");
-		return modelAndView;
+		Map<String, Object> theResult = new HashMap<>();
+		theResult.put(INFO, "添加到购物车成功!");
+		return theResult;
 	}
 
 	@Override
 	@RequestMapping(value = "/car/remove", method = RequestMethod.POST)
-	public ModelAndView removeWorkFromShoppingCarController(HttpSession session,
-			@Valid OrderDetailForRemoveOrder orderDetail, BindingResult bindingResult, Device device) {
+	@ResponseBody
+	public Map<String, Object> removeWorkFromShoppingCarController(HttpSession session,
+			@RequestBody @Valid OrderDetailForRemoveOrder orderDetail, BindingResult bindingResult, Device device) {
 		if (bindingResult.hasErrors()) {
-			return Common.handleVaildError(bindingResult);
+			return Common.handleVaildErrorForAjax(bindingResult);
 		}
 		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
 				.getAttribute(SHOPPINGCAR);
 		orderDetailMap.remove(orderDetail.getOrderDetailId());
 		session.setAttribute(SHOPPINGCAR, orderDetailMap);
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "从购物车移除作品成功!");
-		return modelAndView;
+		Map<String, Object> theResult = new HashMap<>();
+		theResult.put(INFO, "从购物车移除作品成功!");
+		return theResult;
 	}
 
 	@Override

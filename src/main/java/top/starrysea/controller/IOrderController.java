@@ -35,10 +35,10 @@ public interface IOrderController {
 
 	Map<String, Object> resendEmailController(OrderForRemove order, BindingResult bindingResult);
 
-	ModelAndView addWorkToShoppingCarController(HttpSession session, OrderDetailForAddOrder orderDetail,
+	Map<String, Object> addWorkToShoppingCarController(HttpSession session, OrderDetailForAddOrder orderDetail,
 			BindingResult bindingResult, Device device);
 
-	ModelAndView removeWorkFromShoppingCarController(HttpSession session, OrderDetailForRemoveOrder orderDetail,
+	Map<String, Object> removeWorkFromShoppingCarController(HttpSession session, OrderDetailForRemoveOrder orderDetail,
 			BindingResult bindingResult, Device device);
 
 	ModelAndView queryShoppingCarController(HttpSession session, Device device);
