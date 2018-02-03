@@ -41,6 +41,7 @@
         a:hover {
             color: rgb(7, 251, 251);
         }
+
         .footbar {
             background-image: url("/wavew.png");
             background-repeat: repeat-x;
@@ -66,12 +67,15 @@
             margin: 0px;
             color: #999999;
         }
-        .formdata{
+
+        .formdata {
             border: 2px solid #999999;
             border-radius: 10px;
-            height:150px;
-            clear:both;
+            height: 150px;
+            clear: both;
+            display: table;
         }
+
         .navimg {
             transition: all 0.6s;
         }
@@ -79,10 +83,19 @@
         .navimg:hover {
             transform: scale(1.4);
         }
-        .worknamep{
-            font-weight:bold;
+
+        .worktype, .workname, .selectwork, .workimg, .workdel {
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            text-align: center;
         }
-        .worktypep{
+
+        .worknamep {
+            font-weight: bold;
+        }
+
+        .worktypep {
             color: #999999;
         }
     </style>
@@ -118,24 +131,26 @@
     <h1 class="h1 pagetitleh1">购物车</h1>
     <h2 class="h2 pagetitleh2">Shopping Cart</h2>
 </div>
-<div class="addheight" style="height: 100px;"><hr style="border-top: 2px solid #999"/></div>
+<div class="addheight" style="height: 100px;">
+    <hr style="border-top: 2px solid #999"/>
+</div>
 <form class="form ">
-    <div class="container">
-    <div class="formtitle">
-        <div class="col-xs-1 "><input type="radio" id="selectall"/></div>
-        <div class="col-xs-3 "><p>全选</p></div>
-        <div class="col-xs-3 "><p>商品信息</p></div>
-        <div class="col-xs-2 "><p> </p></div>
-        <div class="col-xs-2 "><p>操作</p></div>
-    </div>
-    <div class="formdata">
-        <div class="col-xs-1 selectwork"><input type="radio"/></div>
-        <div class="col-xs-3 workimg"><img src="" class="img-reponsive"/></div>
-        <div class="col-xs-3 workname"><p class="worknamep">kk女装</p></div>
-        <div class="col-xs-2 worktype"><p class="worktypep">op2 riko</p></div>
-        <div class="col-xs-2 workdel"><a style="color: red" href="*">删除</a></div>
-    </div>
+    <div class="container " style="width: 95%;">
+        <div class="formtitle">
+            <div class="col-xs-1  text-center"><input type="radio" id="selectall"/></div>
+            <div class="col-xs-3  text-center"><p>全选</p></div>
+            <div class="col-xs-3  text-center"><p>商品信息</p></div>
+            <div class="col-xs-2  text-center"><p></p></div>
+            <div class="col-xs-2  text-center"><p>操作</p></div>
         </div>
+        <div class="formdata" style="width:100%;">
+            <div class="col-xs-1 selectwork text-center"><input type="radio"/></div>
+            <div class="col-xs-3 workimg text-center"><img src="" class="img-reponsive"/></div>
+            <div class="col-xs-3 workname text-center"><p class="worknamep">kk女装</p></div>
+            <div class="col-xs-2 worktype text-center"><p class="worktypep">op2 riko</p></div>
+            <div class="col-xs-2 workdel text-center"><a style="color: red" href="*">删除</a></div>
+        </div>
+    </div>
 </form>
 <div class="addheight" style="height: 140px;"></div>
 <div class="footbar text-center">
