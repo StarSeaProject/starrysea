@@ -188,9 +188,27 @@
     <p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
 <script>
+    //全选功能
     $("#selectall").click(function () {
         var isall = $(this).prop("checked");
         var status = $(".selectallinput").prop("checked", isall);
+    })
+</script>
+<script>
+    var footer= document.querySelector("div#jiesuanbar");
+    isfoot = false;
+    window.addEventListener("scroll", function() {
+        var y=document.body.scrollHeight;
+        var pos=document.getElementById("jiesuanbar").offsetTop+60;
+        var last=y-pos;
+        if(last<=80){
+            isfoot = true;
+            document.getElementById("jiesuanbar").style.marginBottom=last+"px";
+        }
+        if(last>80){
+            isfoot = false;
+            document.getElementById("jiesuanbar").style.marginBottom=0;
+        }
     })
 </script>
 </body>
