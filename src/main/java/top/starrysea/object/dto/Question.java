@@ -5,7 +5,7 @@ import top.starrysea.kql.entity.IBuilder;
 import top.starrysea.object.view.out.QuestionForAll;
 
 public class Question implements Entity {
-	
+
 	private String questionId;
 	private String question;
 	private long questionCreateTime;
@@ -114,8 +114,9 @@ public class Question implements Entity {
 	public void setQuestionStatus(short questionStatus) {
 		this.questionStatus = questionStatus;
 	}
-	public QuestionForAll toVoForAll(){
-		return new QuestionForAll(questionId, question, questionUpdateTime, answer, questionStatus);
+
+	public QuestionForAll toVoForAll() {
+		return new QuestionForAll(questionId, question, questionCreateTime, answer, questionStatus);
 	}
 
 }
