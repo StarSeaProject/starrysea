@@ -26,13 +26,13 @@ public class QuestionDaoImpl implements IQuestionDao {
 	@Override
 	public DaoResult getAllQuestionDao(Condition condition, Question question) {
 		kumaSqlDao.selectMode();
-		ListSqlResult theresult = kumaSqlDao.select("question_id").select("question").select("question_update_time")
+		ListSqlResult theresult = kumaSqlDao.select("question_id").select("question").select("question_create_time")
 				.select("answer").select("question_status").from(Question.class)
 				.where("question_status", WhereType.EQUALS, question.getQuestionStatus())
 				.orderBy("question_update_time", OrderByType.DESC)
 				.limit((condition.getPage() - 1) * PAGE_LIMIT, PAGE_LIMIT)
 				.endForList((rs, row) -> new Question.Builder().questionId(rs.getString("question_id"))
-						.question(rs.getString("question")).questionUpdateTime(rs.getLong("question_update_time"))
+						.question(rs.getString("question")).questionCreateTime(rs.getLong("question_create_time"))
 						.answer(rs.getString("answer")).questionStatus(rs.getShort("question_status")).build());
 		return new DaoResult(true, theresult.getResult());
 	}
@@ -62,7 +62,7 @@ public class QuestionDaoImpl implements IQuestionDao {
 	public DaoResult getQuestionCountDao(Question question) {
 		kumaSqlDao.selectMode();
 		IntegerSqlResult theResult = kumaSqlDao.select(SelectClause.COUNT).from(Question.class)
-				.where("question_status", WhereType.EQUALS, question.getQuestionId()).endForNumber();
+				.where("question_status", WhereType.EQUALS, question.getQuestionStatus()).endForNumber();
 		return new DaoResult(true, theResult.getResult());
 	}
 
