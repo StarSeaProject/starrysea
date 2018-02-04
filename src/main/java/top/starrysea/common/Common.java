@@ -1,5 +1,7 @@
 package top.starrysea.common;
 
+import static top.starrysea.common.Const.ERRINFO;
+
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -7,7 +9,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -167,5 +171,13 @@ public class Common {
 		modelAndView.addObject("errInfo", errInfo);
 		modelAndView.setViewName("error");
 		return modelAndView;
+	}
+
+	public static Map<String, Object> handleVaildErrorForAjax(BindingResult bindingResult) {
+		Map<String, Object> theResult = new HashMap<>();
+		String errInfo = bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
+				.collect(Collectors.joining("\n"));
+		theResult.put(ERRINFO, errInfo);
+		return theResult;
 	}
 }
