@@ -2,18 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8"></meta>
+    <meta charset="utf-8"/>
 
     <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
     <title>星之海志愿者公会</title>
     <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
     <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/mycss.css"></link>
+    <link rel="stylesheet" href="/mycss.css"/>
 
     <style>
         .navbartop {
@@ -102,7 +102,7 @@
 <div class="navbartop" style="clear: both">
     <div class="navbar-header col-xs-3">
         <a href="/"><img src="/starsea.png" style="width: 70px;"
-                         class="img-reponsive"></img></a>
+                         class="img-reponsive"/></a>
     </div>
     <div class="navbar-right col-xs-9 text-right">
         <a href="/work" class="ma text-right">作品</a>
@@ -122,7 +122,7 @@
                 <div class="row workbox">
                     <div class="col-xs-5 workimage">
                         <img th:attr="src=${work.workCover},data-workid=${work.workId}"
-                             class="workimg img-reponsive"></img>
+                             class="workimg img-reponsive"/>
                     </div>
                     <div class="col-xs-7 workdetail">
                         <a th:text="${work.workName}" class="h3 worktitle" th:href="@{'/work/'+${work.workId}}"></a>
