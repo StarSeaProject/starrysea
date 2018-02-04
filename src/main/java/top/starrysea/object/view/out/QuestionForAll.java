@@ -1,20 +1,30 @@
 package top.starrysea.object.view.out;
 
+import java.util.Date;
+
+import top.starrysea.common.Common;
+
 public class QuestionForAll {
 	private String questionId;
 	private String question;
-	private long questionUpdateTime;
+	private String questionCreateTime;
 	private String answer;
-	private short questionStatus;
+	private String questionStatus;
 
-	public QuestionForAll(String questionId, String question, long questionUpdateTime, String answer,
+	public QuestionForAll(String questionId, String question, long questionCreateTime, String answer,
 			short questionStatus) {
 		super();
 		this.questionId = questionId;
 		this.question = question;
-		this.questionUpdateTime = questionUpdateTime;
+		this.questionCreateTime = Common.time2String(new Date(questionCreateTime));
 		this.answer = answer;
-		this.questionStatus = questionStatus;
+		String status = "";
+		if (questionStatus == (short) 1) {
+			status = "未回答";
+		} else if (questionStatus == (short) 2) {
+			status = "已回答";
+		}
+		this.questionStatus = status;
 	}
 
 	public String getQuestionId() {
@@ -25,15 +35,15 @@ public class QuestionForAll {
 		return question;
 	}
 
-	public long getQuestionUpdateTime() {
-		return questionUpdateTime;
+	public String getQuestionCreateTime() {
+		return questionCreateTime;
 	}
 
 	public String getAnswer() {
 		return answer;
 	}
 
-	public short getQuestionStatus() {
+	public String getQuestionStatus() {
 		return questionStatus;
 	}
 
