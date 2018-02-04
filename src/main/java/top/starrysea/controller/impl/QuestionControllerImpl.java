@@ -86,7 +86,7 @@ public class QuestionControllerImpl implements IQuestionController {
 	public Map<String, Object> answerQuestionController(@RequestBody @Valid QuestionForAnswer question,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		theResult.put("result",questionService.answerQuestionService(question.toDto()).isSuccessed());
+		theResult.put("result", questionService.answerQuestionService(question.toDto()).isSuccessed());
 		return theResult;
 	}
 
