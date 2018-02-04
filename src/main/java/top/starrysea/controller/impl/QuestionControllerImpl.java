@@ -43,7 +43,7 @@ public class QuestionControllerImpl implements IQuestionController {
 		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());
 		modelAndView.addObject("result", voResult);
-		modelAndView.addObject("serviceResult", serviceResult.getNowPage());
+		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
 		modelAndView.setViewName(QUESTION + "question");
 		return modelAndView;
@@ -82,11 +82,11 @@ public class QuestionControllerImpl implements IQuestionController {
 
 	@Override
 	@RequestMapping(value = "/question/answer", method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> answerQuestionController(@RequestBody @Valid QuestionForAnswer question,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		questionService.answerQuestionService(question.toDto());
-		theResult.put(INFO, "回复成功！");
+		theResult.put("result",questionService.answerQuestionService(question.toDto()).isSuccessed());
 		return theResult;
 	}
 
