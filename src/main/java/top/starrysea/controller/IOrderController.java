@@ -10,12 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
-import top.starrysea.object.view.in.OrderDetailForRemoveOrder;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
+import top.starrysea.object.view.out.WorkTypeForRemoveCar;
 
 public interface IOrderController {
 
@@ -38,7 +38,7 @@ public interface IOrderController {
 	Map<String, Object> addWorkToShoppingCarController(HttpSession session, OrderDetailForAddOrder orderDetail,
 			BindingResult bindingResult, Device device);
 
-	Map<String, Object> removeWorkFromShoppingCarController(HttpSession session, OrderDetailForRemoveOrder orderDetail,
+	ModelAndView removeWorkFromShoppingCarController(HttpSession session, WorkTypeForRemoveCar workType,
 			BindingResult bindingResult, Device device);
 
 	ModelAndView queryShoppingCarController(HttpSession session, Device device);

@@ -2,6 +2,7 @@ package top.starrysea.object.dto;
 
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.kql.entity.IBuilder;
+import top.starrysea.object.view.out.WorkTypeForCar;
 
 public class WorkType implements Entity {
 
@@ -83,4 +84,7 @@ public class WorkType implements Entity {
 		this.stock = stock;
 	}
 
+	public WorkTypeForCar toVoForCar() {
+		return new WorkTypeForCar(work.getWorkCover(), work.getWorkName(), name);
+	}
 }

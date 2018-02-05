@@ -3,6 +3,7 @@ package top.starrysea.controller.impl;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +33,13 @@ import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.WorkType;
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
-import top.starrysea.object.view.in.OrderDetailForRemoveOrder;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
 import top.starrysea.object.view.in.WorkTypeForToAddOrder;
+import top.starrysea.object.view.out.WorkTypeForRemoveCar;
 import top.starrysea.service.IOrderService;
 
 import static top.starrysea.common.Const.*;
@@ -242,49 +243,58 @@ public class OrderControllerImpl implements IOrderController {
 		if (bindingResult.hasErrors()) {
 			return Common.handleVaildErrorForAjax(bindingResult);
 		}
-		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
-				.getAttribute(SHOPPINGCAR);
-		if (orderDetailMap == null) {
-			orderDetailMap = new HashMap<>();
+		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		if (orderDetailList == null) {
+			orderDetailList = new ArrayList<>();
 		}
-		orderDetailMap.put(Common.getCharId(10), orderDetail);
-		session.setAttribute(SHOPPINGCAR, orderDetailMap);
 		Map<String, Object> theResult = new HashMap<>();
+		for (OrderDetailForAddOrder orderDetailForAddOrder : orderDetailList) {
+			if (orderDetailForAddOrder.getWorkId() == orderDetail.getWorkId()) {
+				theResult.put(INFO, "您已经将该作品放入购物车,不能重复放入");
+				return theResult;
+			}
+		}
+		orderDetailList.add(orderDetail);
+		session.setAttribute(SHOPPINGCAR, orderDetailList);
 		theResult.put(INFO, "添加到购物车成功!");
 		return theResult;
 	}
 
 	@Override
-	@RequestMapping(value = "/car/remove", method = RequestMethod.POST)
+	@RequestMapping(value = "/car/remove/{index}", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> removeWorkFromShoppingCarController(HttpSession session,
-			@RequestBody @Valid OrderDetailForRemoveOrder orderDetail, BindingResult bindingResult, Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildErrorForAjax(bindingResult);
+	public ModelAndView removeWorkFromShoppingCarController(HttpSession session, @Valid WorkTypeForRemoveCar workType,
+			BindingResult bindingResult, Device device) {
+		ModelAndView modelAndView = new ModelAndView();
+		if (session.getAttribute(TOKEN) == null || !session.getAttribute(TOKEN).equals(workType.getToken())) {
+			modelAndView.addObject(ERRINFO, "您已经删除该作品,请勿再次提交");
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
+			return modelAndView;
 		}
-		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
-				.getAttribute(SHOPPINGCAR);
-		orderDetailMap.remove(orderDetail.getOrderDetailId());
-		session.setAttribute(SHOPPINGCAR, orderDetailMap);
-		Map<String, Object> theResult = new HashMap<>();
-		theResult.put(INFO, "从购物车移除作品成功!");
-		return theResult;
+		session.removeAttribute(TOKEN);
+		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		orderDetailList.remove((int) workType.getIndex());
+		session.setAttribute(SHOPPINGCAR, orderDetailList);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
+		modelAndView.addObject(INFO, "从购物车移除作品成功!");
+		return modelAndView;
 	}
 
 	@Override
 	@RequestMapping(value = "/car", method = RequestMethod.GET)
 	public ModelAndView queryShoppingCarController(HttpSession session, Device device) {
-		Map<String, OrderDetailForAddOrder> orderDetailMap = (Map<String, OrderDetailForAddOrder>) session
-				.getAttribute(SHOPPINGCAR);
-		if (orderDetailMap == null) {
-			orderDetailMap = new HashMap<>();
+		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		if (orderDetailList == null) {
+			orderDetailList = new ArrayList<>();
 		}
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopcar" : "shopcar");
-		modelAndView.addObject("workTypes",
-				orderService.queryAllWorkTypeForShoppingCarService(orderDetailMap.values().stream()
-						.map(orderDetail -> new WorkType.Builder().workTypeId(orderDetail.getWorkTypeId()).build())
-						.collect(Collectors.toList())));
+		List<WorkType> workTypes = orderService.queryAllWorkTypeForShoppingCarService(orderDetailList.stream()
+				.map(orderDetail -> new WorkType.Builder().workTypeId(orderDetail.getWorkTypeId()).build())
+				.collect(Collectors.toList())).getResult(WORK_DETAIL_TYPE);
+		modelAndView.addObject("workTypes", workTypes.stream().map(WorkType::toVoForCar).collect(Collectors.toList()));
+		String token = Common.getCharId(10);
+		session.setAttribute(TOKEN, token);
+		modelAndView.addObject(TOKEN, token);
 		return modelAndView;
 	}
-
 }

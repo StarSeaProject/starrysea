@@ -195,7 +195,7 @@ a:hover {
 					</div>
 					<br /> <br />
 					<button th:attr="data-workid=${workId}" id="gotoOrder"
-						type="submit" class="btn btn-info" disabled="disabled">下单</button>
+						class="btn btn-info" disabled="disabled">放入购物车</button>
 				</div>
 			</div>
 		</div>
@@ -221,15 +221,22 @@ a:hover {
         });
     	
         $("#gotoOrder").on("click", function (event) {
-            let workId = $(event.target).data("workid");
-           	typeid = $(".active").data("worktypeid");
-            window.location.href = "/order/toAddOrder/" +workId+"/"+ typeid;
+            $.ajax({
+            	url:"/car/add",
+            	type:"post",
+            	contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                data: '{"workId":"' + $(event.target).data("workid") + '","workTypeId":"' + $(".active").data("worktypeid") + '"}',
+                async: false,
+                success: function(data){
+                	alert(data.info);
+                }
+            });
         });
         
         let workTypes=[[${workTypes}]];
         let sum = 0;
         for(let workType of workTypes){
-        	console.log(workType);
         	sum+=workType.stock;
         }
         $("#stock").data("sum",sum);

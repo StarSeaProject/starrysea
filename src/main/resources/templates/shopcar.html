@@ -1,201 +1,213 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"></meta>
-    <title>购物车</title>
-    <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-    <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/mycss.css"></link>
-    <style>
-        .heading {
-            background-image: url("/navbar.jpg");
-            height: 360px;
-            background-repeat: no-repeat;
-        }
+<meta charset="UTF-8"></meta>
+<title>购物车</title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/mycss.css"></link>
+<style>
+.heading {
+	background-image: url("/navbar.jpg");
+	height: 360px;
+	background-repeat: no-repeat;
+}
 
-        #btnnav {
-            float: right;
-        }
+#btnnav {
+	float: right;
+}
 
-        .myli {
-            color: #fff;
-        }
+.myli {
+	color: #fff;
+}
 
-        .myli:hover {
-            text-decoration: underline;
-        }
+.myli:hover {
+	text-decoration: underline;
+}
 
-        #shownav {
-            float: right;
-        }
+#shownav {
+	float: right;
+}
 
-        .abnav {
-            color: #FFFFFF;
-            font-size: 1.5em;
-        }
+.abnav {
+	color: #FFFFFF;
+	font-size: 1.5em;
+}
 
-        a:hover {
-            color: rgb(7, 251, 251);
-        }
+a:hover {
+	color: rgb(7, 251, 251);
+}
 
-        .footbar {
-            background-image: url("/wavew.png");
-            background-repeat: repeat-x;
-            height: 80px;
-            backgroud: #409cc3;
-        }
+.footbar {
+	background-image: url("/wavew.png");
+	background-repeat: repeat-x;
+	height: 80px;
+	backgroud: #409cc3;
+}
 
-        .pagetitle {
-            color: #238acb;
-            padding-top: 35px;
-            padding-bottom: 35px;
-            margin-top: 0px;
-            margin-bottom: 10px;
-        }
+.pagetitle {
+	color: #238acb;
+	padding-top: 35px;
+	padding-bottom: 35px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
 
-        .pagetitleh1 {
-            padding-left: 100px;
-            margin: 0px;
-        }
+.pagetitleh1 {
+	padding-left: 100px;
+	margin: 0px;
+}
 
-        .pagetitleh2 {
-            padding-left: 100px;
-            margin: 0px;
-            color: #999999;
-        }
+.pagetitleh2 {
+	padding-left: 100px;
+	margin: 0px;
+	color: #999999;
+}
 
-        .formtitle {
-            padding-bottom: 40px;
-        }
+.formtitle {
+	padding-bottom: 40px;
+}
 
-        .formdata {
-            border: 2px solid #999999;
-            border-radius: 10px;
-            height: 100px;
-            clear: both;
-            display: table;
-            margin-bottom: 20px;
-        }
+.formdata {
+	border: 2px solid #999999;
+	border-radius: 10px;
+	height: 100px;
+	clear: both;
+	display: table;
+	margin-bottom: 20px;
+}
 
-        .navimg {
-            transition: all 0.6s;
-        }
+.navimg {
+	transition: all 0.6s;
+}
 
-        .navimg:hover {
-            transform: scale(1.4);
-        }
+.navimg:hover {
+	transform: scale(1.4);
+}
 
-        .worktype, .workname, .selectwork, .workimg, .workdel {
-            display: table-cell;
-            vertical-align: middle;
-            height: 100%;
-            text-align: center;
-        }
+.worktype, .workname, .selectwork, .workimg, .workdel {
+	display: table-cell;
+	vertical-align: middle;
+	height: 100%;
+	text-align: center;
+}
 
-        .workimgimg {
-            height: 100px;
-        }
+.workimgimg {
+	height: 100px;
+}
 
-        .worknamep {
-            font-weight: bold;
-            font-size: 1.6em;
-        }
+.worknamep {
+	font-weight: bold;
+	font-size: 1.6em;
+}
 
-        .worktypep {
-            color: #999999;
-            font-size: 1.6em;
-        }
+.worktypep {
+	color: #999999;
+	font-size: 1.6em;
+}
 
-        .workdela {
-            color: red;
-            font-size: 1.6em;
-        }
+.workdela {
+	color: red;
+	font-size: 1.6em;
+}
 
-        .selectwork, .workdel, .worktypep, .worknamep {
-            padding-top: 15px;
-        }
-    </style>
+.selectwork, .workdel, .worktypep, .worknamep {
+	padding-top: 15px;
+}
+</style>
 
 </head>
 <body>
-<div class="container"
-     style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
-    <nav class="navbar navbar-brand navbar-static-top heading"
-         role="navigation" id="mybar"
-         style="background-size: 99%; margin: 15px; padding: 10px;">
+	<div class="container"
+		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
+		<nav class="navbar navbar-brand navbar-static-top heading"
+			role="navigation" id="mybar"
+			style="background-size: 99%; margin: 15px; padding: 10px;">
 
-        <div class="navbar-header"
-             style="padding-left: 25px; padding-top: 10px;">
-            <a href="/" class="navimg"> <img src="/starsea.png"
-                                             style="width: 70px;" class="col-sms-4 navimg"/>
-            </a>
-            <button class="navbar-toggle col-sm-4" data-toggle="collapse"
-                    data-target="#shownav" id="btnnav">
-                <span class="glyphicon glyphicon-menu-hamburger"></span>
+			<div class="navbar-header"
+				style="padding-left: 25px; padding-top: 10px;">
+				<a href="/" class="navimg"> <img src="/starsea.png"
+					style="width: 70px;" class="col-sms-4 navimg" />
+				</a>
+				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
+					data-target="#shownav" id="btnnav">
+					<span class="glyphicon glyphicon-menu-hamburger"></span>
 
-            </button>
-        </div>
-        <div class="collapse navbar-collapse navbar-right" id="shownav">
-            <ul class="nav navbar-nav mynavul">
-                <li class="myli"><a href="/work" class="anav">作品阅览</a></li>
-                <li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
-                <li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
-            </ul>
-        </div>
-    </nav>
-</div>
-<div class="pagetitle">
-    <h1 class="h1 pagetitleh1">购物车</h1>
-    <h2 class="h2 pagetitleh2">Shopping Cart</h2>
-</div>
-<div class="addheight" style="height: 100px;">
-    <hr style="border-top: 2px solid #999"/>
-</div>
-<form class="form ">
-    <div class="container " style="width: 95%;">
-        <div class="formtitle">
-            <div class="col-xs-2  text-center" style="font-size:1.6em;">
-                <input type="checkbox" id="selectall"/> 全选
-            </div>
-            <div class="col-xs-3  text-center"><p style="font-size: 1.6em"></p></div>
-            <div class="col-xs-3  text-center"><p style="font-size: 1.6em">商品信息</p></div>
-            <div class="col-xs-2  text-center"><p style="font-size: 1.6em"></p></div>
-            <div class="col-xs-2  text-center"><p style="font-size: 1.6em">操作</p></div>
-        </div>
-
-        <div class="formdata" style="width:100%;">
-            <div class="col-xs-1 selectwork text-center"><input type="checkbox" class="selectallinput"/></div>
-            <div class="col-xs-3 workimg text-center"><img src="http://via.placeholder.com/350x150" class="workimgimg "/></div>
-            <div class="col-xs-3 workname text-center"><p class="worknamep">kk女装</p></div>
-            <div class="col-xs-2 worktype text-center"><p class="worktypep">op2 riko</p></div>
-            <div class="col-xs-2 workdel text-center"><a href="*" class="workdela">删除</a></div>
-        </div>
-        <div class="formdata" style="width:100%;">
-            <div class="col-xs-1 selectwork text-center"><input type="checkbox" class="selectallinput"/></div>
-            <div class="col-xs-3 workimg text-center"><img src="http://via.placeholder.com/350x150" class="workimgimg "/></div>
-            <div class="col-xs-3 workname text-center"><p class="worknamep">kk第二套女装</p></div>
-            <div class="col-xs-2 worktype text-center"><p class="worktypep">2223 riko</p></div>
-            <div class="col-xs-2 workdel text-center"><a href="*" class="workdela">删除</a></div>
-        </div>
-    </div>
-</form>
-<div class="addheight" style="height: 140px;"></div>
-<div class="footbar text-center">
-    <p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
-</div>
-<div class="navbar-fixed-bottom" style="height:50px;background:#999999;" id="jiesuanbar">结算页面</div>
-<script>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse navbar-right" id="shownav">
+				<ul class="nav navbar-nav mynavul">
+					<li class="myli"><a href="/work" class="anav">作品阅览</a></li>
+					<li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
+					<li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<div class="pagetitle">
+		<h1 class="h1 pagetitleh1">购物车</h1>
+		<h2 class="h2 pagetitleh2">Shopping Cart</h2>
+	</div>
+	<div class="addheight" style="height: 100px;">
+		<hr style="border-top: 2px solid #999" />
+	</div>
+	<form class="form ">
+		<div class="container " style="width: 95%;">
+			<div class="formtitle">
+				<div class="col-xs-2  text-center" style="font-size: 1.6em;">
+					<input type="checkbox" id="selectall" /> 全选
+				</div>
+				<div class="col-xs-3  text-center">
+					<p style="font-size: 1.6em"></p>
+				</div>
+				<div class="col-xs-3  text-center">
+					<p style="font-size: 1.6em">商品信息</p>
+				</div>
+				<div class="col-xs-2  text-center">
+					<p style="font-size: 1.6em"></p>
+				</div>
+				<div class="col-xs-2  text-center">
+					<p style="font-size: 1.6em">操作</p>
+				</div>
+			</div>
+			<div class="formdata" style="width: 100%;"
+				th:each="workType,status:${workTypes}">
+				<div class="col-xs-1 selectwork text-center">
+					<input type="checkbox" class="selectallinput" />
+				</div>
+				<div class="col-xs-3 workimg text-center">
+					<img th:attr="src=${workType.workCover}" class="workimgimg " />
+				</div>
+				<div class="col-xs-3 workname text-center">
+					<p th:text="${workType.workName}" class="worknamep"></p>
+				</div>
+				<div class="col-xs-2 worktype text-center">
+					<p th:text="${workType.workTypeName}" class="worktypep"></p>
+				</div>
+				<div class="col-xs-2 workdel text-center">
+					<a th:href="@{'/car/remove/'+${status.index}}+'?token='+${token}" class="workdela">删除</a>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="addheight" style="height: 140px;"></div>
+	<div class="footbar text-center">
+		<p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
+	</div>
+	<div class="navbar-fixed-bottom"
+		style="height: 50px; background: #999999;" id="jiesuanbar">结算页面</div>
+	<script>
     //全选功能
     $("#selectall").click(function () {
         var isall = $(this).prop("checked");
         var status = $(".selectallinput").prop("checked", isall);
-    })
-</script>
-<script>
+    });
+	</script>
+	<script>
     var footer= document.querySelector("div#jiesuanbar");
     window.onload = ()=>{
         const maxY = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -203,8 +215,6 @@
             "use strict";
         const y=window.scrollY;
         const trigger = maxY-25;
-        console.log(trigger)
-        console.log(y)
         if(y >= trigger){
             footer.style.marginBottom = "80px";
             footer.style.transition = "margin-bottom 0.25s"
