@@ -39,6 +39,7 @@ import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
 import top.starrysea.object.view.in.WorkTypeForToAddOrder;
+import top.starrysea.object.view.in.WorkTypeForToAddOrders;
 import top.starrysea.object.view.out.WorkTypeForRemoveCar;
 import top.starrysea.service.IOrderService;
 
@@ -119,17 +120,16 @@ public class OrderControllerImpl implements IOrderController {
 		return theResult;
 	}
 
-	@RequestMapping(value = "/order/toAddOrder/{workId}/{workTypeId}", method = RequestMethod.GET)
-	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType, Device device, HttpSession session) {
-		ServiceResult sr = orderService.queryWorkTypeStock(workType.toDTO());
+	@RequestMapping(value = "/order/toAddOrder", method = RequestMethod.POST)
+	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrders workTypes, Device device, HttpSession session) {
+		ServiceResult sr = orderService.queryWorkTypeStock(workTypes.toDTO());
 		ModelAndView modelAndView = new ModelAndView();
 		if (!sr.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, sr.getErrInfo());
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("workId", workType.getWorkId());
-		modelAndView.addObject("workTypeId", workType.getWorkTypeId());
+		modelAndView.addObject("workTypes", workTypes);
 		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(ORDER_ADDRESS));
 		String token = Common.getCharId(10);
 		session.setAttribute(TOKEN, token);
@@ -140,7 +140,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 对一个作品进行下单
-	@RequestMapping(value = "/order/add/{workId}/{workTypeId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/order/add", method = RequestMethod.POST)
 	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device,
 			HttpSession session) {
 		if (bindingResult.hasErrors()) {

@@ -118,13 +118,14 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 	public DaoResult getAllWorkTypeForShoppingCarDao(List<WorkType> workTypes) {
 		kumaSqlDao.selectMode();
 		ListSqlResult theResult = kumaSqlDao.select("work_type_id").select("name").select("work_id", "w")
-				.select("work_name", "w").select("work_cover", "w").from(WorkType.class, "wt")
+				.select("work_name", "w").select("work_cover", "w").select("stock").from(WorkType.class, "wt")
 				.innerjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
 				.where("work_type_id", WhereType.IN,
 						workTypes.stream().map(WorkType::getWorkTypeId).collect(Collectors.toList()))
 				.endForList((rs, row) -> new WorkType.Builder().workTypeId(rs.getInt("work_type_id"))
-						.name(rs.getString("name")).work(new Work.Builder().workId(rs.getInt("w.work_id"))
-								.workName(rs.getString("w.work_name")).workCover(rs.getString("w.work_cover")).build())
+						.name(rs.getString("name")).stock(rs.getInt("stock"))
+						.work(new Work.Builder().workId(rs.getInt("w.work_id")).workName(rs.getString("w.work_name"))
+								.workCover(rs.getString("w.work_cover")).build())
 						.build());
 		return new DaoResult(true, theResult.getResult());
 	}

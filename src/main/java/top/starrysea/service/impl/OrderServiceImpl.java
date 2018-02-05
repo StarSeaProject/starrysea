@@ -103,15 +103,15 @@ public class OrderServiceImpl implements IOrderService {
 			for (OrderDetail orderDetail : orderDetails) {
 				orderDetail.setOrder(order);
 				if (orderDetailDao.isOrderDetailExistDao(orderDetail).getResult(Boolean.class))
-					throw new LogicException("您已经领取过该应援物,不能重复领取");
+					throw new LogicException("购物车中有已经领取过的应援物,不能重复领取");
 				WorkType workType = orderDetail.getWorkType();
 				workType.setStock(1);
 				DaoResult daoResult = workTypeDao.getWorkTypeStockDao(workType);
 				int stock = daoResult.getResult(Integer.class);
 				if (stock == 0) {
-					throw new EmptyResultException("该作品已被全部领取");
+					throw new EmptyResultException("购物车中有作品已被全部领取");
 				} else if (stock - workType.getStock() < 0) {
-					throw new LogicException("作品库存不足");
+					throw new LogicException("购物车中有作品库存不足");
 				}
 				workTypeDao.reduceWorkTypeStockDao(workType);
 			}
@@ -181,16 +181,17 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public ServiceResult queryWorkTypeStock(WorkType workType) {
+	public ServiceResult queryWorkTypeStock(List<WorkType> workTypes) {
 		DaoResult daoResult;
 		try {
-			daoResult = workTypeDao.getWorkTypeStockDao(workType);
-			ServiceResult sr = new ServiceResult(true);
-			Integer stock = daoResult.getResult(Integer.class);
-			if (stock <= 0)
-				throw new LogicException("库存不足");
-			sr.setResult(WORK_TYPE_STOCK, stock);
-			return sr;
+			for(WorkType workType:workTypes) {
+				daoResult = workTypeDao.getWorkTypeStockDao(workType);
+				
+				Integer stock = daoResult.getResult(Integer.class);
+				if (stock <= 0)
+					throw new LogicException("库存不足");
+			}
+			return new ServiceResult(true);
 		} catch (EmptyResultDataAccessException e) {
 			ServiceResult sr = new ServiceResult(false);
 			sr.setErrInfo("该作品下没有这样的类型");

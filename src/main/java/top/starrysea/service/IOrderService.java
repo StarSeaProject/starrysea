@@ -22,7 +22,7 @@ public interface IOrderService {
 
 	ServiceResult queryAllProvinceService();
 
-	ServiceResult queryWorkTypeStock(WorkType workType);
+	ServiceResult queryWorkTypeStock(List<WorkType> workType);
 
 	ServiceResult exportOrderToXlsService();
 
