@@ -45,18 +45,14 @@ public class ActivityControllerImpl implements IActivityController {
 	// 查询所有众筹活动
 	@RequestMapping(value = "/activity", method = RequestMethod.GET)
 	public ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
 		List<Activity> result = serviceResult.getResult(ACTIVITY_LIST);
-		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
-				.collect(Collectors.toList());
 		Activity newestActivity = serviceResult.getResult(NEWEST_ACTIVITY);
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "all_activity" : "all_activity");
 		modelAndView.addObject("newResult", newestActivity.toVoForAll());
-		modelAndView.addObject("result", voResult);
+		modelAndView.addObject("result", result.stream().map(Activity::toVoForAll).collect(Collectors.toList()));
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		// 返回众筹活动的列表页
-		modelAndView.setViewName(device.isMobile() ? MOBILE + "all_activity" : "all_activity");
 		return modelAndView;
 	}
 
@@ -65,14 +61,12 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> queryAllActivityControllerAjax(@RequestBody ActivityForAll activity) {
-		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = activityService.queryAllActivityService(activity.getCondition(),
 				activity.toDTO());
 		List<Activity> result = serviceResult.getResult(ACTIVITY_LIST);
-		List<top.starrysea.object.view.out.ActivityForAll> voResult = result.stream().map(Activity::toVoForAll)
-				.collect(Collectors.toList());
+		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("activityName", activity.getActivityName());
-		theResult.put("result", voResult);
+		theResult.put("result", result.stream().map(Activity::toVoForAll).collect(Collectors.toList()));
 		theResult.put("nowPage", serviceResult.getNowPage());
 		theResult.put("totalPage", serviceResult.getTotalPage());
 		return theResult;
@@ -83,14 +77,13 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/{activityId}", method = RequestMethod.GET)
 	public ModelAndView queryActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
 			Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
 		Activity a = serviceResult.getResult(ACTIVITY_DETAIL);
+		ModelAndView modelAndView = new ModelAndView(
+				device.isMobile() ? MOBILE + "activity_detail" : "activity_detail");
 		modelAndView.addObject("activity", a.toVoForOne());
 		modelAndView.addObject("fundings", serviceResult.getResult(ACTIVITY_FUNDING_LIST));
 		modelAndView.addObject("fundingFactor", serviceResult.getResult(ACTIVITY_FUNDING_THRESHOLD));
-		// 返回众筹活动的详细页
-		modelAndView.setViewName(device.isMobile() ? MOBILE + "activity_detail" : "activity_detail");
 		return modelAndView;
 	}
 
@@ -100,13 +93,12 @@ public class ActivityControllerImpl implements IActivityController {
 	@ResponseBody
 	public Map<String, Object> queryActivityControllerAjax(@RequestBody @Valid ActivityForOne activity,
 			BindingResult bindingResult) {
-		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
 		Activity a = serviceResult.getResult(ACTIVITY_DETAIL);
+		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("activityId", activity.getActivityId());
 		theResult.put("activity", a.toVoForOne());
 		theResult.put("fundings", serviceResult.getResult(ACTIVITY_FUNDING_LIST));
-		// 返回众筹活动的详细页
 		return theResult;
 	}
 
@@ -115,11 +107,9 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/add", method = RequestMethod.POST)
 	public ModelAndView addActivityController(@RequestParam("coverFile") MultipartFile coverFile,
 			@Valid ActivityForAdd activity, BindingResult bindingResult, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		activityService.addActivityService(coverFile, activity.toDTO(), activity.toDTOImage());
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		modelAndView.addObject(INFO, "添加成功！");
-		// 添加成功则返回成功页面
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -128,11 +118,9 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/modify", method = RequestMethod.POST)
 	public ModelAndView modifyActivityController(@Valid ActivityForModify activity, BindingResult bindingResult,
 			Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		activityService.modifyActivityService(activity.toDTO());
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		modelAndView.addObject(INFO, "修改成功!");
-		// 修改成功则返回成功页面
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -141,11 +129,9 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/remove", method = RequestMethod.POST)
 	public ModelAndView removeActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
 			Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		activityService.removeActivityService(activity.toDTO());
-		// 删除成功则返回成功页面
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		modelAndView.addObject(INFO, "删除成功!");
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -153,15 +139,13 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/funding/add", method = RequestMethod.POST)
 	public ModelAndView addFundingController(@Valid FundingForAddList fundings, BindingResult bindingResult,
 			Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		for (FundingForAdd funding : fundings.getFundings()) {
 			funding.setActivityId(fundings.getActivityId());
 		}
 		activityService.addFundingService(
 				fundings.getFundings().stream().map(FundingForAdd::toDTO).collect(Collectors.toList()));
-		// 添加成功则返回成功页面
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		modelAndView.addObject(INFO, "添加成功!");
-		modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -169,11 +153,10 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity/funding/remove", method = RequestMethod.POST)
 	public ModelAndView removeFundingController(@Valid FundingForRemove funding, BindingResult bindingResult,
 			Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		activityService.removeFundingService(funding.toDTO());
 		// 添加成功则返回成功页面
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		modelAndView.addObject(INFO, "删除成功!");
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 

@@ -30,8 +30,8 @@ public class UserControllerImpl implements IUserController {
 	// 管理员登陆
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView loginController(@Valid AdminForLogin admin, BindingResult bindingResult, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = userService.loginService(admin.toDTO());
+		ModelAndView modelAndView = new ModelAndView();
 		if (serviceResult.isSuccessed()) {
 			Admin admin1 = serviceResult.getResult(ADMIN);
 			// 登陆成功,返回管理员的主页

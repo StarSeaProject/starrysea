@@ -17,7 +17,7 @@ public interface IQuestionController {
 
 	Map<String, Object> queryQuestionControllerAjax(QuestionForAll question);
 
-	ModelAndView askQuestionController(QuestionForAsk question, BindingResult bindingResult);
+	ModelAndView askQuestionController(QuestionForAsk question, BindingResult bindingResult, Device device);
 
 	Map<String, Object> answerQuestionController(QuestionForAnswer question, BindingResult bindingResult);
 

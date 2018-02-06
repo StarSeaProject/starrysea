@@ -43,15 +43,14 @@ public class WorkControllerImpl implements IWorkController {
 	@RequestMapping(value = "/work", method = RequestMethod.GET)
 	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
 	public ModelAndView queryAllWorkController(Condition condition, WorkForAll work, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
 		List<Work> result = serviceResult.getResult(WOKR_LIST);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "work" : "work");
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName(device.isMobile() ? MOBILE + "work" : "work");
 		return modelAndView;
 	}
 
@@ -61,10 +60,10 @@ public class WorkControllerImpl implements IWorkController {
 	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
 	public Map<String, Object> queryAllWorkControllerAjax(@RequestBody WorkForAll work) {
 		ServiceResult serviceResult = workService.queryAllWorkService(work.getCondition(), work.toDTO());
-		Map<String, Object> theResult = new HashMap<>();
 		List<Work> result = serviceResult.getResult(WOKR_LIST);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());
+		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("workName", work.getWorkName());
 		theResult.put("result", voResult);
 		theResult.put("nowPage", serviceResult.getNowPage());
@@ -76,14 +75,13 @@ public class WorkControllerImpl implements IWorkController {
 	// 查询一个作品的详情页，此方法可用于作品管理，也可用于查看旧货
 	@RequestMapping(value = "/work/{workId}", method = RequestMethod.GET)
 	public ModelAndView queryWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
 		Work w = serviceResult.getResult(WORK_DETAIL);
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "work_detail" : "work_detail");
 		modelAndView.addObject("work", w.toVoForOne());
 		modelAndView.addObject("workId", work.getWorkId());
 		modelAndView.addObject("workImages", serviceResult.getResult(WORK_DETAIL_IMAGE));
 		modelAndView.addObject("workTypes", serviceResult.getResult(WORK_DETAIL_TYPE));
-		modelAndView.setViewName(device.isMobile() ? MOBILE + "work_detail" : "work_detail");
 		return modelAndView;
 	}
 
@@ -93,9 +91,9 @@ public class WorkControllerImpl implements IWorkController {
 	@ResponseBody
 	public Map<String, Object> queryWorkControllerAjax(@RequestBody @Valid WorkForOne work,
 			BindingResult bindingResult) {
-		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
 		Work w = serviceResult.getResult(WORK_DETAIL);
+		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("work", w.toVoForOne());
 		theResult.put("workId", work.getWorkId());
 		theResult.put("workImages", serviceResult.getResult(WORK_DETAIL_IMAGE));
@@ -108,10 +106,9 @@ public class WorkControllerImpl implements IWorkController {
 	public ModelAndView addWorkController(@RequestParam("coverFile") MultipartFile coverFile,
 			@RequestParam("imageFiles") MultipartFile[] imageFiles, @Valid WorkForAdd work, BindingResult bindingResult,
 			Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		workService.addWorkService(coverFile, imageFiles, work.toDTO(), work.toDTOWorkType());
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		modelAndView.addObject(INFO, "添加成功!");
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -119,10 +116,9 @@ public class WorkControllerImpl implements IWorkController {
 	// 删除一个作品
 	@RequestMapping(value = "/work/remove", method = RequestMethod.POST)
 	public ModelAndView removeWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		workService.removeWorkService(work.toDTO());
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		modelAndView.addObject(INFO, "删除成功！");
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -130,10 +126,9 @@ public class WorkControllerImpl implements IWorkController {
 	@RequestMapping(value = "/worktype/remove", method = RequestMethod.POST)
 	public ModelAndView removeWorkTypeController(WorkTypeForRemove workType, BindingResult bindingResult,
 			Device device) {
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		workService.removeWorkTypeService(workType.toDTO());
 		modelAndView.addObject(INFO, "删除作品类型成功！");
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -141,10 +136,9 @@ public class WorkControllerImpl implements IWorkController {
 	@RequestMapping(value = "/worktype/modifystock", method = RequestMethod.POST)
 	public ModelAndView modifyWorkTypeController(@Valid WorkTypeForModify workType, BindingResult bindingResult,
 			Device device) {
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		workService.modifyWorkTypeService(workType.toDTO());
 		modelAndView.addObject(INFO, "修改库存成功！");
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 

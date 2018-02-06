@@ -30,22 +30,23 @@ import static top.starrysea.common.ResultKey.*;
 
 @Controller
 public class QuestionControllerImpl implements IQuestionController {
+
 	@Autowired
 	private IQuestionService questionService;
 
 	@Override
 	@RequestMapping(value = "/question", method = RequestMethod.GET)
 	public ModelAndView queryQuestionController(Condition condition, QuestionForAll question, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
+
 		question.setQuestionStatus((short) 2);
 		ServiceResult serviceResult = questionService.queryAllQuestionService(condition, question.toDTO());
 		List<Question> result = serviceResult.getResult(QUESTION_LIST);
 		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());
+		ModelAndView modelAndView = new ModelAndView(QUESTION + "question");
 		modelAndView.addObject("result", voResult);
 		modelAndView.addObject("nowPage", serviceResult.getNowPage());
 		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		modelAndView.setViewName(QUESTION + "question");
 		return modelAndView;
 	}
 
@@ -53,12 +54,12 @@ public class QuestionControllerImpl implements IQuestionController {
 	@RequestMapping(value = "/question/ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> queryQuestionControllerAjax(@RequestBody QuestionForAll question) {
-		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = questionService.queryAllQuestionService(question.getCondition(),
 				question.toDTO());
 		List<Question> result = serviceResult.getResult(QUESTION_LIST);
 		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());
+		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("result", voResult);
 		theResult.put("nowPage", serviceResult.getNowPage());
 		theResult.put("totalPage", serviceResult.getTotalPage());
@@ -67,16 +68,11 @@ public class QuestionControllerImpl implements IQuestionController {
 
 	@Override
 	@RequestMapping(value = "/question/ask", method = RequestMethod.POST)
-	public ModelAndView askQuestionController(@Valid QuestionForAsk question, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
-		ServiceResult serviceResult = questionService.askQuestionService(question.toDTO());
-		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(ERROR_VIEW);
-			return modelAndView;
-		}
+	public ModelAndView askQuestionController(@Valid QuestionForAsk question, BindingResult bindingResult,
+			Device device) {
+		questionService.askQuestionService(question.toDTO());
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		modelAndView.addObject(INFO, "提问成功！");
-		modelAndView.setViewName(SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -85,8 +81,9 @@ public class QuestionControllerImpl implements IQuestionController {
 	@ResponseBody
 	public Map<String, Object> answerQuestionController(@RequestBody @Valid QuestionForAnswer question,
 			BindingResult bindingResult) {
+		questionService.answerQuestionService(question.toDto());
 		Map<String, Object> theResult = new HashMap<>();
-		theResult.put("result", questionService.answerQuestionService(question.toDto()).isSuccessed());
+		theResult.put("result", true);
 		return theResult;
 	}
 

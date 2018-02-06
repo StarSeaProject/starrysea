@@ -56,11 +56,11 @@ public class OrderControllerImpl implements IOrderController {
 	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> queryAllOrderController(@RequestBody OrderForAll order) {
-		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = orderService.queryAllOrderService(order.getCondition(), order.toDTO());
 		List<Orders> result = serviceResult.getResult(ORDER_LIST);
 		List<top.starrysea.object.view.out.OrderForAll> voResult = result.stream().map(Orders::toVoForAll)
 				.collect(Collectors.toList());
+		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("orderName", order.getOrderName());
 		theResult.put("result", voResult);
 		theResult.put("nowPage", serviceResult.getNowPage());
@@ -72,13 +72,12 @@ public class OrderControllerImpl implements IOrderController {
 	// 根据订单号查询一个订单的具体信息以及发货情况
 	@RequestMapping(value = "/order/{orderNum}", method = RequestMethod.GET)
 	public ModelAndView queryOrderController(@Valid OrderForOne order, BindingResult bindingResult, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		Orders o = serviceResult.getResult(ORDER_DETAIL);
 		List<OrderDetail> ods = serviceResult.getResult(ORDER_DETAIL_LIST);
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "orders_details" : "orders_details");
 		modelAndView.addObject("order", o.toVoForOne());
 		modelAndView.addObject("orderDetails", ods.stream().map(OrderDetail::toVoForOne).collect(Collectors.toList()));
-		modelAndView.setViewName(device.isMobile() ? MOBILE + "orders_details" : "orders_details");
 		return modelAndView;
 	}
 
@@ -88,9 +87,9 @@ public class OrderControllerImpl implements IOrderController {
 	@ResponseBody
 	public Map<String, Object> queryOrderControllerAjax(@RequestBody @Valid OrderForRemove order,
 			BindingResult bindingResult) {
-		Map<String, Object> theResult = new HashMap<>();
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		Orders o = serviceResult.getResult(ORDER_DETAIL);
+		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("orders", o.toVoForOne());
 		theResult.put("orderId", order.getOrderId());
 		return theResult;
@@ -141,10 +140,9 @@ public class OrderControllerImpl implements IOrderController {
 	// 修改一个订单的状态
 	@RequestMapping(value = "/order/modify/{orderId}", method = RequestMethod.POST)
 	public ModelAndView modifyOrderController(@Valid OrderForModify order, BindingResult bindingResult, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		orderService.modifyOrderService(order.toDTO());
 		modelAndView.addObject(INFO, "发货成功！");
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -152,10 +150,9 @@ public class OrderControllerImpl implements IOrderController {
 	// 删除一个订单
 	@RequestMapping(value = "/order/remove/{orderId}", method = RequestMethod.POST)
 	public ModelAndView removeOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		orderService.removeOrderService(order.toDTO());
 		modelAndView.addObject(INFO, "删除成功!");
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		return modelAndView;
 	}
 
@@ -179,15 +176,8 @@ public class OrderControllerImpl implements IOrderController {
 	@ResponseBody
 	public Map<String, Object> resendEmailController(@RequestBody @Valid OrderForRemove order,
 			BindingResult bindingResult) {
+		orderService.resendEmailService(order.toDTO());
 		Map<String, Object> theResult = new HashMap<>();
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildErrorForAjax(bindingResult);
-		}
-		ServiceResult sr = orderService.resendEmailService(order.toDTO());
-		if (!sr.isSuccessed()) {
-			theResult.put(ERRINFO, sr.getErrInfo());
-			return theResult;
-		}
 		theResult.put("result", "success");
 		return theResult;
 	}
@@ -197,9 +187,6 @@ public class OrderControllerImpl implements IOrderController {
 	@ResponseBody
 	public Map<String, Object> addWorkToShoppingCarController(HttpSession session,
 			@RequestBody @Valid OrderDetailForAddOrder orderDetail, BindingResult bindingResult, Device device) {
-		if (bindingResult.hasErrors()) {
-			return Common.handleVaildErrorForAjax(bindingResult);
-		}
 		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
 		if (orderDetailList == null) {
 			orderDetailList = new ArrayList<>();
@@ -244,10 +231,10 @@ public class OrderControllerImpl implements IOrderController {
 		if (orderDetailList == null) {
 			orderDetailList = new ArrayList<>();
 		}
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopcar" : "shopcar");
 		List<WorkType> workTypes = orderService.queryAllWorkTypeForShoppingCarService(orderDetailList.stream()
 				.map(orderDetail -> new WorkType.Builder().workTypeId(orderDetail.getWorkTypeId()).build())
 				.collect(Collectors.toList())).getResult(WORK_DETAIL_TYPE);
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopcar" : "shopcar");
 		modelAndView.addObject("workTypes", workTypes.stream().map(WorkType::toVoForCar).collect(Collectors.toList()));
 		String token = Common.getCharId(10);
 		session.setAttribute(TOKEN, token);
