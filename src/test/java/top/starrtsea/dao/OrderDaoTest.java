@@ -9,12 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import top.starrysea.StarrtseaApplication;
-import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.dao.IOrderDao;
-import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.Orders;
-import top.starrysea.object.dto.Work;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)
@@ -58,10 +55,5 @@ public class OrderDaoTest {
 		condition.setPage(1);
 		System.out.println(orderDao.getOrderCountDao(condition, new Orders.Builder().orderStatus((short) 1).build())
 				.getResult(Integer.class));
-	}
-	
-	@Test
-	public void getAllOrderForXls() {
-		System.out.println(orderDao.getAllOrderForXls().getResult(List.class));
 	}
 }

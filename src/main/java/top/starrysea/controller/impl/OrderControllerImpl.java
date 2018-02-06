@@ -3,6 +3,7 @@ package top.starrysea.controller.impl;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +28,17 @@ import org.springframework.web.servlet.ModelAndView;
 import top.starrysea.common.Common;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IOrderController;
+import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.WorkType;
+import top.starrysea.object.view.in.OrderDetailForAddOrder;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
-import top.starrysea.object.view.in.WorkTypeForToAddOrder;
+import top.starrysea.object.view.in.WorkTypeForToAddOrders;
+import top.starrysea.object.view.out.WorkTypeForRemoveCar;
 import top.starrysea.service.IOrderService;
 
 import static top.starrysea.common.Const.*;
@@ -70,7 +75,9 @@ public class OrderControllerImpl implements IOrderController {
 		ModelAndView modelAndView = new ModelAndView();
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		Orders o = serviceResult.getResult(ORDER_DETAIL);
+		List<OrderDetail> ods = serviceResult.getResult(ORDER_DETAIL_LIST);
 		modelAndView.addObject("order", o.toVoForOne());
+		modelAndView.addObject("orderDetails", ods.stream().map(OrderDetail::toVoForOne).collect(Collectors.toList()));
 		modelAndView.setViewName(device.isMobile() ? MOBILE + "orders_details" : "orders_details");
 		return modelAndView;
 	}
@@ -89,18 +96,16 @@ public class OrderControllerImpl implements IOrderController {
 		return theResult;
 	}
 
-	@RequestMapping(value = "/order/toAddOrder/{workId}/{workTypeId}", method = RequestMethod.GET)
-	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrder workType, BindingResult bindingResult, Device device,
-			HttpSession session) {
-		ServiceResult sr = orderService.queryWorkTypeStock(workType.toDTO());
+	@RequestMapping(value = "/order/toAddOrder", method = RequestMethod.POST)
+	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrders workTypes, Device device, HttpSession session) {
+		ServiceResult sr = orderService.queryWorkTypeStock(workTypes.toDTO());
 		ModelAndView modelAndView = new ModelAndView();
 		if (!sr.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, sr.getErrInfo());
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
 			return modelAndView;
 		}
-		modelAndView.addObject("workId", workType.getWorkId());
-		modelAndView.addObject("workTypeId", workType.getWorkTypeId());
+		modelAndView.addObject("workTypes", workTypes);
 		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(ORDER_ADDRESS));
 		String token = Common.getCharId(10);
 		session.setAttribute(TOKEN, token);
@@ -111,7 +116,7 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	// 对一个作品进行下单
-	@RequestMapping(value = "/order/add/{workId}/{workTypeId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/order/add", method = RequestMethod.POST)
 	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device,
 			HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
@@ -121,7 +126,7 @@ public class OrderControllerImpl implements IOrderController {
 			return modelAndView;
 		}
 		session.removeAttribute(TOKEN);
-		ServiceResult serviceResult = orderService.addOrderService(order.toDTO());
+		ServiceResult serviceResult = orderService.addOrderService(order.toDTO(), order.toDTOOrderDetail());
 		if (!serviceResult.isSuccessed()) {
 			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
 			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
@@ -175,9 +180,78 @@ public class OrderControllerImpl implements IOrderController {
 	public Map<String, Object> resendEmailController(@RequestBody @Valid OrderForRemove order,
 			BindingResult bindingResult) {
 		Map<String, Object> theResult = new HashMap<>();
-		orderService.resendEmailService(order.toDTO());
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildErrorForAjax(bindingResult);
+		}
+		ServiceResult sr = orderService.resendEmailService(order.toDTO());
+		if (!sr.isSuccessed()) {
+			theResult.put(ERRINFO, sr.getErrInfo());
+			return theResult;
+		}
 		theResult.put("result", "success");
 		return theResult;
 	}
 
+	@Override
+	@RequestMapping(value = "/car/add", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addWorkToShoppingCarController(HttpSession session,
+			@RequestBody @Valid OrderDetailForAddOrder orderDetail, BindingResult bindingResult, Device device) {
+		if (bindingResult.hasErrors()) {
+			return Common.handleVaildErrorForAjax(bindingResult);
+		}
+		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		if (orderDetailList == null) {
+			orderDetailList = new ArrayList<>();
+		}
+		Map<String, Object> theResult = new HashMap<>();
+		for (OrderDetailForAddOrder orderDetailForAddOrder : orderDetailList) {
+			if (orderDetailForAddOrder.getWorkId() == orderDetail.getWorkId()) {
+				theResult.put(INFO, "您已经将该作品放入购物车,不能重复放入");
+				return theResult;
+			}
+		}
+		orderDetailList.add(orderDetail);
+		session.setAttribute(SHOPPINGCAR, orderDetailList);
+		theResult.put(INFO, "添加到购物车成功!");
+		return theResult;
+	}
+
+	@Override
+	@RequestMapping(value = "/car/remove/{index}", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView removeWorkFromShoppingCarController(HttpSession session, @Valid WorkTypeForRemoveCar workType,
+			BindingResult bindingResult, Device device) {
+		ModelAndView modelAndView = new ModelAndView();
+		if (session.getAttribute(TOKEN) == null || !session.getAttribute(TOKEN).equals(workType.getToken())) {
+			modelAndView.addObject(ERRINFO, "您已经删除该作品,请勿再次提交");
+			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
+			return modelAndView;
+		}
+		session.removeAttribute(TOKEN);
+		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		orderDetailList.remove((int) workType.getIndex());
+		session.setAttribute(SHOPPINGCAR, orderDetailList);
+		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
+		modelAndView.addObject(INFO, "从购物车移除作品成功!");
+		return modelAndView;
+	}
+
+	@Override
+	@RequestMapping(value = "/car", method = RequestMethod.GET)
+	public ModelAndView queryShoppingCarController(HttpSession session, Device device) {
+		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		if (orderDetailList == null) {
+			orderDetailList = new ArrayList<>();
+		}
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopcar" : "shopcar");
+		List<WorkType> workTypes = orderService.queryAllWorkTypeForShoppingCarService(orderDetailList.stream()
+				.map(orderDetail -> new WorkType.Builder().workTypeId(orderDetail.getWorkTypeId()).build())
+				.collect(Collectors.toList())).getResult(WORK_DETAIL_TYPE);
+		modelAndView.addObject("workTypes", workTypes.stream().map(WorkType::toVoForCar).collect(Collectors.toList()));
+		String token = Common.getCharId(10);
+		session.setAttribute(TOKEN, token);
+		modelAndView.addObject(TOKEN, token);
+		return modelAndView;
+	}
 }

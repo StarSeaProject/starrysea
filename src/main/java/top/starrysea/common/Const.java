@@ -16,4 +16,5 @@ public class Const {
 	public static final String INFO = "info";
 	public static final String QUESTION = "question/";
 	public static final String TOKEN = "token";
+	public static final String SHOPPINGCAR = "shoppingCar";
 }

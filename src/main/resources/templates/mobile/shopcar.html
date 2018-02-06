@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <title>星之海志愿者公会</title>
+    <link rel="stylesheet"
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+    <link rel="stylesheet"
+          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/mycss.css"></link>
+    <style>
+        <style>
+        .navbartop {
+            width: 100%;
+            background: #1e93f3;
+        }
+
+        .ma {
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-bottom: -4px;
+            color: white;
+            display: inline-block;
+            font-size: 1.2em;
+        }
+
+        .pagetitle {
+            background-color: #f69163;
+            color: #ffffff;
+            padding-top: 20px;
+            padding-bottom: 35px;
+            margin-top: 0px;
+
+        }
+
+        .pagetitleh1 {
+            padding-left: 40px;
+            margin: 0px;
+            font-size: 1.7em;
+        }
+
+        .pagetitleh2 {
+            padding-left: 40px;
+            margin: 0px;
+            color: #000;
+            font-size: 1.3em;
+        }
+        .worktype, .workname, .selectwork, .workimg, .workdel {
+            display: table-cell;
+            vertical-align: middle;
+            height: 100%;
+            text-align: center;
+        }
+
+        .workimgimg {
+            height: 100px;
+        }
+
+        .worknamep {
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .worktypep {
+            color: #999999;
+            font-size: 1.3em;
+        }
+
+        .workdela {
+            color: red;
+            font-size: 1.3em;
+        }
+        .formdata{
+            clear:both;
+            background-color:white !important;
+            height:100px;
+            margin-bottom:10px;
+        }
+        .selectwork, .workdel, .worktypep, .worknamep {
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbartop" style="clear: both">
+    <div class="navbar-header col-xs-3">
+        <a href="/"><img src="/starsea.png" style="width: 70px;"
+                         class="img-reponsive"></img></a>
+    </div>
+    <div class="navbar-right col-xs-9 text-right">
+        <a href="/work" class="ma text-right">作品</a>
+        <a href="/activity" class="ma text-right">活动</a>
+        <a href="/mintro.html" class="ma text-right">关于</a>
+    </div>
+    <img class="img-reponsive" src="/navbar.jpg"></img>
+</div>
+<div class="pagetitle">
+    <h1 class="h1 pagetitleh1">购物车</h1>
+    <h2 class="h2 pagetitleh2">Shopping Cart</h2>
+
+</div>
+<div style="background:#a9d6f5; padding-bottom:60px;">
+    <form class="form ">
+
+        <div class="formtitle">
+            <div class="col-xs-2  text-center" style="font-size:1.3em;">
+                <input type="checkbox" id="selectall"/>
+            </div>
+            <div class="col-xs-3  text-center"><p style="font-size: 1.3em">全选</p></div>
+
+        </div>
+		<div class="formdata" style="width:100%;" th:each="workType,status:${workTypes}">
+            <hr style="border-top:1px solid #999999; margin:0;"/>
+            <div class="col-xs-1 selectwork text-center"><input type="checkbox" class="selectallinput"/></div>
+            <div class="col-xs-3 workimg text-center"><img th:attr="src=${workType.workCover}" class="workimgimg img-reponsive"/></div>
+            <div class="col-xs-3 workname text-center"><p th:text="${workType.workName}" class="worknamep"></p></div>
+            <div class="col-xs-2 worktype text-center"><p th:text="${workType.workTypeName}" class="worktypep"></p></div>
+            <div class="col-xs-2 workdel text-center"><a th:href="@{'/car/remove/'+${status.index}}+'?token='+${token}" class="workdela">删除</a></div>
+        </div>
+
+    </form>
+</div>
+<div class="statusdiv" style="height:50px;background:#ffffff;" id="jiesuanbar">结算页面</div>
+<div class="mfoot text-center">
+    <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
+</div>
+<script>
+    $("#selectall").click(function () {
+        var isall = $(this).prop("checked");
+        var status = $(".selectallinput").prop("checked", isall);
+    });
+</script>
+</body>
+</html>

@@ -1,5 +1,9 @@
 package top.starrysea.object.view.in;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
@@ -7,16 +11,14 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import top.starrysea.object.dto.Area;
+import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
-import top.starrysea.object.dto.Work;
-import top.starrysea.object.dto.WorkType;
 
 public class OrderForAdd {
 
-	@NotNull(message = "作品类型Id不能为空")
-	private Integer workTypeId;
-	@NotNull(message = "作品Id不能为空")
-	private Integer workId;
+	@Valid
+	@NotEmpty(message = "购物车中没有物品")
+	private List<OrderDetailForAddOrder> orderDetails;
 	@NotEmpty(message = "收货人姓名不能为空")
 	@Length(max = 10, message = "姓名长度不能超过10")
 	private String orderName;
@@ -35,14 +37,6 @@ public class OrderForAdd {
 	private String orderPhone;
 	@NotEmpty(message = "token序列不能为空!这是二次提交!")
 	private String token;
-
-	public Integer getWorkTypeId() {
-		return workTypeId;
-	}
-
-	public void setWorkTypeId(Integer workTypeId) {
-		this.workTypeId = workTypeId;
-	}
 
 	public String getOrderName() {
 		return orderName;
@@ -84,14 +78,6 @@ public class OrderForAdd {
 		this.orderRemark = orderRemark;
 	}
 
-	public Integer getWorkId() {
-		return workId;
-	}
-
-	public void setWorkId(Integer workId) {
-		this.workId = workId;
-	}
-
 	public String getOrderPhone() {
 		return orderPhone;
 	}
@@ -108,11 +94,21 @@ public class OrderForAdd {
 		this.token = token;
 	}
 
+	public List<OrderDetailForAddOrder> getOrderDetails() {
+		return orderDetails;
+	}
+
+	public void setOrderDetails(List<OrderDetailForAddOrder> orderDetails) {
+		this.orderDetails = orderDetails;
+	}
+
 	public Orders toDTO() {
-		return new Orders.Builder()
-				.workType(new WorkType.Builder().workTypeId(workTypeId).work(new Work.Builder().workId(workId).build())
-						.build())
-				.orderName(orderName).orderArea(new Area.Builder().areaId(orderArea).build()).orderAddress(orderAddress)
-				.orderEMail(orderEmail).orderRemark(orderRemark).orderPhone(orderPhone).build();
+		return new Orders.Builder().orderName(orderName).orderArea(new Area.Builder().areaId(orderArea).build())
+				.orderAddress(orderAddress).orderEMail(orderEmail).orderRemark(orderRemark).orderPhone(orderPhone)
+				.build();
+	}
+
+	public List<OrderDetail> toDTOOrderDetail() {
+		return orderDetails.stream().map(OrderDetailForAddOrder::toDTO).collect(Collectors.toList());
 	}
 }
