@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Common;
+import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IOrderController;
 import top.starrysea.object.dto.OrderDetail;
@@ -98,18 +99,15 @@ public class OrderControllerImpl implements IOrderController {
 	@RequestMapping(value = "/order/toAddOrder", method = RequestMethod.POST)
 	public ModelAndView gotoAddOrder(@Valid WorkTypeForToAddOrders workTypes, Device device, HttpSession session) {
 		ServiceResult sr = orderService.queryWorkTypeStock(workTypes.toDTO());
-		ModelAndView modelAndView = new ModelAndView();
 		if (!sr.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, sr.getErrInfo());
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
+			return ModelAndViewFactory.newErrorMav(sr.getErrInfo(), device);
 		}
+		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "add_order" : "add_order");
 		modelAndView.addObject("workTypes", workTypes);
 		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(ORDER_ADDRESS));
 		String token = Common.getCharId(10);
 		session.setAttribute(TOKEN, token);
 		modelAndView.addObject(TOKEN, token);
-		modelAndView.setViewName(device.isMobile() ? MOBILE + "add_order" : "add_order");
 		return modelAndView;
 	}
 
@@ -118,42 +116,31 @@ public class OrderControllerImpl implements IOrderController {
 	@RequestMapping(value = "/order/add", method = RequestMethod.POST)
 	public ModelAndView addOrderController(@Valid OrderForAdd order, BindingResult bindingResult, Device device,
 			HttpSession session) {
-		ModelAndView modelAndView = new ModelAndView();
 		if (!order.getToken().equals(session.getAttribute(TOKEN))) {
-			modelAndView.addObject(ERRINFO, "您已经下单,请勿再次提交");
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
+			return ModelAndViewFactory.newErrorMav("您已经下单,请勿再次提交", device);
 		}
 		session.removeAttribute(TOKEN);
 		ServiceResult serviceResult = orderService.addOrderService(order.toDTO(), order.toDTOOrderDetail());
 		if (!serviceResult.isSuccessed()) {
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
+			return ModelAndViewFactory.newErrorMav(serviceResult.getErrInfo(), device);
 		}
-		modelAndView.addObject(INFO, "您已下单成功，之后将会为您派送！");
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("您已下单成功，之后将会为您派送！", device);
 	}
 
 	@Override
 	// 修改一个订单的状态
 	@RequestMapping(value = "/order/modify/{orderId}", method = RequestMethod.POST)
 	public ModelAndView modifyOrderController(@Valid OrderForModify order, BindingResult bindingResult, Device device) {
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		orderService.modifyOrderService(order.toDTO());
-		modelAndView.addObject(INFO, "发货成功！");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("发货成功！", device);
 	}
 
 	@Override
 	// 删除一个订单
 	@RequestMapping(value = "/order/remove/{orderId}", method = RequestMethod.POST)
 	public ModelAndView removeOrderController(@Valid OrderForRemove order, BindingResult bindingResult, Device device) {
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		orderService.removeOrderService(order.toDTO());
-		modelAndView.addObject(INFO, "删除成功!");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("删除成功!", device);
 	}
 
 	@Override
@@ -209,19 +196,14 @@ public class OrderControllerImpl implements IOrderController {
 	@ResponseBody
 	public ModelAndView removeWorkFromShoppingCarController(HttpSession session, @Valid WorkTypeForRemoveCar workType,
 			BindingResult bindingResult, Device device) {
-		ModelAndView modelAndView = new ModelAndView();
 		if (session.getAttribute(TOKEN) == null || !session.getAttribute(TOKEN).equals(workType.getToken())) {
-			modelAndView.addObject(ERRINFO, "您已经删除该作品,请勿再次提交");
-			modelAndView.setViewName(device.isMobile() ? MOBILE + ERROR_VIEW : ERROR_VIEW);
-			return modelAndView;
+			return ModelAndViewFactory.newErrorMav("您已经删除该作品,请勿再次提交", device);
 		}
 		session.removeAttribute(TOKEN);
 		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
 		orderDetailList.remove((int) workType.getIndex());
 		session.setAttribute(SHOPPINGCAR, orderDetailList);
-		modelAndView.setViewName(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "从购物车移除作品成功!");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("从购物车移除作品成功!", device);
 	}
 
 	@Override

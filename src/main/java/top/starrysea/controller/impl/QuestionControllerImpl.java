@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Condition;
+import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IQuestionController;
 import top.starrysea.object.dto.Question;
@@ -71,9 +72,7 @@ public class QuestionControllerImpl implements IQuestionController {
 	public ModelAndView askQuestionController(@Valid QuestionForAsk question, BindingResult bindingResult,
 			Device device) {
 		questionService.askQuestionService(question.toDTO());
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "提问成功！");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("提问成功！", device);
 	}
 
 	@Override

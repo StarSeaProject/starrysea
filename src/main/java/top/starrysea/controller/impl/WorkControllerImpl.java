@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Condition;
+import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IWorkController;
 import top.starrysea.object.dto.Work;
@@ -107,9 +108,7 @@ public class WorkControllerImpl implements IWorkController {
 			@RequestParam("imageFiles") MultipartFile[] imageFiles, @Valid WorkForAdd work, BindingResult bindingResult,
 			Device device) {
 		workService.addWorkService(coverFile, imageFiles, work.toDTO(), work.toDTOWorkType());
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "添加成功!");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("添加成功!", device);
 	}
 
 	@Override
@@ -117,29 +116,23 @@ public class WorkControllerImpl implements IWorkController {
 	@RequestMapping(value = "/work/remove", method = RequestMethod.POST)
 	public ModelAndView removeWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
 		workService.removeWorkService(work.toDTO());
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "删除成功！");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("删除成功！", device);
 	}
 
 	@Override
 	@RequestMapping(value = "/worktype/remove", method = RequestMethod.POST)
 	public ModelAndView removeWorkTypeController(WorkTypeForRemove workType, BindingResult bindingResult,
 			Device device) {
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		workService.removeWorkTypeService(workType.toDTO());
-		modelAndView.addObject(INFO, "删除作品类型成功！");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("删除作品类型成功！", device);
 	}
 
 	@Override
 	@RequestMapping(value = "/worktype/modifystock", method = RequestMethod.POST)
 	public ModelAndView modifyWorkTypeController(@Valid WorkTypeForModify workType, BindingResult bindingResult,
 			Device device) {
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
 		workService.modifyWorkTypeService(workType.toDTO());
-		modelAndView.addObject(INFO, "修改库存成功！");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("修改库存成功！", device);
 	}
 
 }

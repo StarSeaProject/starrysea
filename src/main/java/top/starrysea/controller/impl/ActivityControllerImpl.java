@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.common.Condition;
+import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IActivityController;
 import top.starrysea.object.dto.Activity;
@@ -108,9 +109,7 @@ public class ActivityControllerImpl implements IActivityController {
 	public ModelAndView addActivityController(@RequestParam("coverFile") MultipartFile coverFile,
 			@Valid ActivityForAdd activity, BindingResult bindingResult, Device device) {
 		activityService.addActivityService(coverFile, activity.toDTO(), activity.toDTOImage());
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "添加成功！");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("添加成功！", device);
 	}
 
 	@Override
@@ -119,9 +118,7 @@ public class ActivityControllerImpl implements IActivityController {
 	public ModelAndView modifyActivityController(@Valid ActivityForModify activity, BindingResult bindingResult,
 			Device device) {
 		activityService.modifyActivityService(activity.toDTO());
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "修改成功!");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("修改成功!", device);
 	}
 
 	@Override
@@ -130,9 +127,7 @@ public class ActivityControllerImpl implements IActivityController {
 	public ModelAndView removeActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
 			Device device) {
 		activityService.removeActivityService(activity.toDTO());
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "删除成功!");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("删除成功!", device);
 	}
 
 	@Override
@@ -144,9 +139,7 @@ public class ActivityControllerImpl implements IActivityController {
 		}
 		activityService.addFundingService(
 				fundings.getFundings().stream().map(FundingForAdd::toDTO).collect(Collectors.toList()));
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "添加成功!");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("添加成功!", device);
 	}
 
 	@Override
@@ -154,10 +147,7 @@ public class ActivityControllerImpl implements IActivityController {
 	public ModelAndView removeFundingController(@Valid FundingForRemove funding, BindingResult bindingResult,
 			Device device) {
 		activityService.removeFundingService(funding.toDTO());
-		// 添加成功则返回成功页面
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + SUCCESS_VIEW : SUCCESS_VIEW);
-		modelAndView.addObject(INFO, "删除成功!");
-		return modelAndView;
+		return ModelAndViewFactory.newSuccessMav("删除成功!", device);
 	}
 
 }
