@@ -1,7 +1,5 @@
 package top.starrysea.strategy;
 
-import java.util.List;
-
 import org.springframework.validation.BindingResult;
 import static top.starrysea.common.Common.getFieldErrors;
 
