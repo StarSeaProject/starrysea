@@ -24,6 +24,7 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IProvinceDao;
+import top.starrysea.dao.IWorkDao;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.dao.IOrderDetailDao;
 import top.starrysea.dao.IWorkTypeDao;
@@ -33,6 +34,7 @@ import top.starrysea.exception.UpdateException;
 import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
+import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
 import top.starrysea.object.view.out.AreaForAddOrder;
 import top.starrysea.object.view.out.CityForAddOrder;
@@ -49,6 +51,8 @@ public class OrderServiceImpl implements IOrderService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IOrderDao orderDao;
+	@Autowired
+	private IWorkDao workDao;
 	@Autowired
 	private IWorkTypeDao workTypeDao;
 	@Autowired
