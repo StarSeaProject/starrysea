@@ -93,9 +93,7 @@ a:hover {
 	<div class="container">
 		<h1 class="h2">收货人信息</h1>
 
-		<form id="addOrderForm"
-			th:attr="action='/order/add/'+${workId}+'/'+${workTypeId}"
-			method="post">
+		<form id="addOrderForm" action="/order/add" method="post">
 
 
 			<div class="col-xs-6" style="margin-top: 15px;">
@@ -149,6 +147,10 @@ a:hover {
 				<p style="font-size: 12px">(*您有什么想对我们说的？或者有什么特殊要求？请在这里告诉我们)</p>
 			</div>
 			<div class="col-xs-6" style="margin-top: 15px;"></div>
+			<div th:each="workType,status:${workTypes.workTypes}">
+				<input type="hidden" th:name="'orderDetails['+${status.index}+'].workId'" th:value="${workType.workId}"/>
+				<input type="hidden" th:name="'orderDetails['+${status.index}+'].workTypeId'" th:value="${workType.workTypeId}"/>
+			</div>
 			<input type="hidden" name="token" th:value="${token}" />
 
 		</form>

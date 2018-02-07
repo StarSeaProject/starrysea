@@ -218,6 +218,7 @@ public class OrderControllerImpl implements IOrderController {
 				.collect(Collectors.toList())).getResult(LIST_1);
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopcar" : "shopcar");
 		modelAndView.addObject("workTypes", workTypes.stream().map(WorkType::toVoForCar).collect(Collectors.toList()));
+		modelAndView.addObject("orderDetails", orderDetailList);
 		String token = Common.getCharId(10);
 		session.setAttribute(TOKEN, token);
 		modelAndView.addObject(TOKEN, token);

@@ -114,6 +114,7 @@ public class OrderServiceImpl implements IOrderService {
 					throw new LogicException("购物车中有作品库存不足");
 				}
 				workTypeDao.reduceWorkTypeStockDao(workType);
+				orderDetail.setId(Common.getCharId("OD-", 10));
 			}
 			order.setOrderId(Common.getCharId("O-", 10));
 			orderDao.saveOrderDao(order);
