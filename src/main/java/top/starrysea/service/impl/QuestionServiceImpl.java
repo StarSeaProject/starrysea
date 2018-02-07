@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static top.starrysea.dao.impl.QuestionDaoImpl.PAGE_LIMIT;
-import static top.starrysea.common.ResultKey.QUESTION_LIST;
+import static top.starrysea.common.ResultKey.LIST_1;
 
 import java.util.List;
 import top.starrysea.common.Condition;
@@ -33,7 +33,7 @@ public class QuestionServiceImpl implements IQuestionService {
 			totalPage = (count / PAGE_LIMIT) + 1;
 		}
 		result.setSuccessed(true);
-		result.setResult(QUESTION_LIST, questionsList);
+		result.setResult(LIST_1, questionsList);
 		result.setNowPage(condition.getPage());
 		result.setTotalPage(totalPage);
 		return result;

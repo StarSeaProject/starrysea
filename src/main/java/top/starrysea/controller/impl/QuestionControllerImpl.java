@@ -41,7 +41,7 @@ public class QuestionControllerImpl implements IQuestionController {
 
 		question.setQuestionStatus((short) 2);
 		ServiceResult serviceResult = questionService.queryAllQuestionService(condition, question.toDTO());
-		List<Question> result = serviceResult.getResult(QUESTION_LIST);
+		List<Question> result = serviceResult.getResult(LIST_1);
 		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());
 		ModelAndView modelAndView = new ModelAndView(QUESTION + "question");
@@ -57,7 +57,7 @@ public class QuestionControllerImpl implements IQuestionController {
 	public Map<String, Object> queryQuestionControllerAjax(@RequestBody QuestionForAll question) {
 		ServiceResult serviceResult = questionService.queryAllQuestionService(question.getCondition(),
 				question.toDTO());
-		List<Question> result = serviceResult.getResult(QUESTION_LIST);
+		List<Question> result = serviceResult.getResult(LIST_1);
 		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());
 		Map<String, Object> theResult = new HashMap<>();

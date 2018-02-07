@@ -28,30 +28,34 @@ public class ActivityServiceTest {
 	public void queryAllActivityService() {
 		Condition condition = new Condition();
 		condition.setPage(2);
-		System.out.println(service.queryAllActivityService(condition, new Activity.Builder().activityName("qweqwe").build()));
+		System.out.println(
+				service.queryAllActivityService(condition, new Activity.Builder().activityName("qweqwe").build()));
 	}
 
 	@Test
 	public void queryActivityService() {
-		ServiceResult serviceResult=service.queryActivityService(new Activity.Builder().activityId(190).build());
-		Activity a=serviceResult.getResult(ACTIVITY_DETAIL);
+		ServiceResult serviceResult = service.queryActivityService(new Activity.Builder().activityId(190).build());
+		Activity a = serviceResult.getResult(ACTIVITY);
 		System.out.println(a);
-		List<Funding> list=serviceResult.getResult(ACTIVITY_FUNDING_LIST);
+		List<Funding> list = serviceResult.getResult(LIST_1);
 		System.out.println(list);
+		double richThreshold = serviceResult.getResult(DOUBLE);
+		System.out.println(richThreshold);
 	}
 
-//	@Test
-//	public void addActivityService() {
-//		Activity activity = new Activity.Builder().activityName("asd").activityStatus((short) 1)
-//				.activitySummary("qweqwe").activityContent("21qw2e1qwe").build();
-//		try {
-//			MockMultipartFile coverFile = new MockMultipartFile("1.jpg",
-//					new FileInputStream(new File("D:/develop/nginx-1.12.1/img/starsea.png")));
-//			service.addActivityService(coverFile, activity, new ArrayList<>());
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	// @Test
+	// public void addActivityService() {
+	// Activity activity = new
+	// Activity.Builder().activityName("asd").activityStatus((short) 1)
+	// .activitySummary("qweqwe").activityContent("21qw2e1qwe").build();
+	// try {
+	// MockMultipartFile coverFile = new MockMultipartFile("1.jpg",
+	// new FileInputStream(new File("D:/develop/nginx-1.12.1/img/starsea.png")));
+	// service.addActivityService(coverFile, activity, new ArrayList<>());
+	// } catch (FileNotFoundException e) {
+	// e.printStackTrace();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
 }

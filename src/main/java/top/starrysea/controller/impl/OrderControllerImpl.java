@@ -58,7 +58,7 @@ public class OrderControllerImpl implements IOrderController {
 	@ResponseBody
 	public Map<String, Object> queryAllOrderController(@RequestBody OrderForAll order) {
 		ServiceResult serviceResult = orderService.queryAllOrderService(order.getCondition(), order.toDTO());
-		List<Orders> result = serviceResult.getResult(ORDER_LIST);
+		List<Orders> result = serviceResult.getResult(LIST_1);
 		List<top.starrysea.object.view.out.OrderForAll> voResult = result.stream().map(Orders::toVoForAll)
 				.collect(Collectors.toList());
 		Map<String, Object> theResult = new HashMap<>();
@@ -74,8 +74,8 @@ public class OrderControllerImpl implements IOrderController {
 	@RequestMapping(value = "/order/{orderNum}", method = RequestMethod.GET)
 	public ModelAndView queryOrderController(@Valid OrderForOne order, BindingResult bindingResult, Device device) {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
-		Orders o = serviceResult.getResult(ORDER_DETAIL);
-		List<OrderDetail> ods = serviceResult.getResult(ORDER_DETAIL_LIST);
+		Orders o = serviceResult.getResult(ORDER);
+		List<OrderDetail> ods = serviceResult.getResult(LIST_1);
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "orders_details" : "orders_details");
 		modelAndView.addObject("order", o.toVoForOne());
 		modelAndView.addObject("orderDetails", ods.stream().map(OrderDetail::toVoForOne).collect(Collectors.toList()));
@@ -89,7 +89,7 @@ public class OrderControllerImpl implements IOrderController {
 	public Map<String, Object> queryOrderControllerAjax(@RequestBody @Valid OrderForRemove order,
 			BindingResult bindingResult) {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
-		Orders o = serviceResult.getResult(ORDER_DETAIL);
+		Orders o = serviceResult.getResult(ORDER);
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("orders", o.toVoForOne());
 		theResult.put("orderId", order.getOrderId());
@@ -104,7 +104,7 @@ public class OrderControllerImpl implements IOrderController {
 		}
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "add_order" : "add_order");
 		modelAndView.addObject("workTypes", workTypes);
-		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(ORDER_ADDRESS));
+		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(MAP));
 		String token = Common.getCharId(10);
 		session.setAttribute(TOKEN, token);
 		modelAndView.addObject(TOKEN, token);
@@ -215,7 +215,7 @@ public class OrderControllerImpl implements IOrderController {
 		}
 		List<WorkType> workTypes = orderService.queryAllWorkTypeForShoppingCarService(orderDetailList.stream()
 				.map(orderDetail -> new WorkType.Builder().workTypeId(orderDetail.getWorkTypeId()).build())
-				.collect(Collectors.toList())).getResult(WORK_DETAIL_TYPE);
+				.collect(Collectors.toList())).getResult(LIST_1);
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopcar" : "shopcar");
 		modelAndView.addObject("workTypes", workTypes.stream().map(WorkType::toVoForCar).collect(Collectors.toList()));
 		String token = Common.getCharId(10);

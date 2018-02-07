@@ -58,7 +58,7 @@ public class WorkServiceImpl implements IWorkService {
 			totalPage = (count / PAGE_LIMIT) + 1;
 		}
 		result.setSuccessed(true);
-		result.setResult(WOKR_LIST, workList);
+		result.setResult(LIST_1, workList);
 		result.setNowPage(condition.getPage());
 		result.setTotalPage(totalPage);
 		return result;
@@ -71,11 +71,11 @@ public class WorkServiceImpl implements IWorkService {
 		workDao.addWorkClick(work);
 		DaoResult daoResult = workDao.getWorkDao(work);
 		result.setSuccessed(true);
-		result.setResult(WORK_DETAIL, daoResult.getResult(Work.class));
+		result.setResult(WORK, daoResult.getResult(Work.class));
 		daoResult = workImageDao.getAllWorkImageDao(new WorkImage.Builder().work(work).build());
-		result.setResult(WORK_DETAIL_IMAGE, daoResult.getResult(List.class));
+		result.setResult(LIST_1, daoResult.getResult(List.class));
 		daoResult = workTypeDao.getAllWorkTypeDao(new WorkType.Builder().work(work).build());
-		result.setResult(WORK_DETAIL_TYPE, daoResult.getResult(List.class));
+		result.setResult(LIST_2, daoResult.getResult(List.class));
 		return result;
 	}
 
@@ -103,7 +103,7 @@ public class WorkServiceImpl implements IWorkService {
 			}
 			workTypeDao.saveWorkTypeDao(workTypes);
 			ServiceResult serviceResult = new ServiceResult(true);
-			serviceResult.setResult(WORK_DETAIL, work);
+			serviceResult.setResult(WORK, work);
 			return serviceResult;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

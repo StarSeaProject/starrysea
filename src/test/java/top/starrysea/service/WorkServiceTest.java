@@ -34,9 +34,9 @@ public class WorkServiceTest {
 	@Test
 	public void queryWorkService() {
 		ServiceResult serviceResult = workService.queryWorkService(new Work.Builder().workId(6).build());
-		Work w=serviceResult.getResult(WORK_DETAIL);
-		List<WorkImage> wis=serviceResult.getResult(WORK_DETAIL_IMAGE);
-		List<WorkType> wts=serviceResult.getResult(WORK_DETAIL_TYPE);
+		Work w=serviceResult.getResult(WORK);
+		List<WorkImage> wis=serviceResult.getResult(LIST_1);
+		List<WorkType> wts=serviceResult.getResult(LIST_2);
 		System.out.println(w);
 		System.out.println(wis);
 		System.out.println(wts);

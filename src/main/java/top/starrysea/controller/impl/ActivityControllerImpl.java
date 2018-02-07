@@ -47,8 +47,8 @@ public class ActivityControllerImpl implements IActivityController {
 	@RequestMapping(value = "/activity", method = RequestMethod.GET)
 	public ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity, Device device) {
 		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
-		List<Activity> result = serviceResult.getResult(ACTIVITY_LIST);
-		Activity newestActivity = serviceResult.getResult(NEWEST_ACTIVITY);
+		List<Activity> result = serviceResult.getResult(LIST_1);
+		Activity newestActivity = serviceResult.getResult(ACTIVITY);
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "all_activity" : "all_activity");
 		modelAndView.addObject("newResult", newestActivity.toVoForAll());
 		modelAndView.addObject("result", result.stream().map(Activity::toVoForAll).collect(Collectors.toList()));
@@ -64,7 +64,7 @@ public class ActivityControllerImpl implements IActivityController {
 	public Map<String, Object> queryAllActivityControllerAjax(@RequestBody ActivityForAll activity) {
 		ServiceResult serviceResult = activityService.queryAllActivityService(activity.getCondition(),
 				activity.toDTO());
-		List<Activity> result = serviceResult.getResult(ACTIVITY_LIST);
+		List<Activity> result = serviceResult.getResult(LIST_1);
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("activityName", activity.getActivityName());
 		theResult.put("result", result.stream().map(Activity::toVoForAll).collect(Collectors.toList()));
@@ -79,12 +79,12 @@ public class ActivityControllerImpl implements IActivityController {
 	public ModelAndView queryActivityController(@Valid ActivityForOne activity, BindingResult bindingResult,
 			Device device) {
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
-		Activity a = serviceResult.getResult(ACTIVITY_DETAIL);
+		Activity a = serviceResult.getResult(ACTIVITY);
 		ModelAndView modelAndView = new ModelAndView(
 				device.isMobile() ? MOBILE + "activity_detail" : "activity_detail");
 		modelAndView.addObject("activity", a.toVoForOne());
-		modelAndView.addObject("fundings", serviceResult.getResult(ACTIVITY_FUNDING_LIST));
-		modelAndView.addObject("fundingFactor", serviceResult.getResult(ACTIVITY_FUNDING_THRESHOLD));
+		modelAndView.addObject("fundings", serviceResult.getResult(LIST_1));
+		modelAndView.addObject("fundingFactor", serviceResult.getResult(DOUBLE));
 		return modelAndView;
 	}
 
@@ -95,11 +95,11 @@ public class ActivityControllerImpl implements IActivityController {
 	public Map<String, Object> queryActivityControllerAjax(@RequestBody @Valid ActivityForOne activity,
 			BindingResult bindingResult) {
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
-		Activity a = serviceResult.getResult(ACTIVITY_DETAIL);
+		Activity a = serviceResult.getResult(ACTIVITY);
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("activityId", activity.getActivityId());
 		theResult.put("activity", a.toVoForOne());
-		theResult.put("fundings", serviceResult.getResult(ACTIVITY_FUNDING_LIST));
+		theResult.put("fundings", serviceResult.getResult(LIST_1));
 		return theResult;
 	}
 

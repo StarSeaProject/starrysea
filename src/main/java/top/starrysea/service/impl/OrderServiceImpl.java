@@ -75,7 +75,7 @@ public class OrderServiceImpl implements IOrderService {
 			totalPage = (count / PAGE_LIMIT) + 1;
 		}
 		result.setSuccessed(true);
-		result.setResult(ORDER_LIST, ordersList);
+		result.setResult(LIST_1, ordersList);
 		result.setNowPage(condition.getPage());
 		result.setTotalPage(totalPage);
 		return result;
@@ -90,8 +90,8 @@ public class OrderServiceImpl implements IOrderService {
 		List<OrderDetail> ods = orderDetailDao.getAllOrderDetailDao(new OrderDetail.Builder().order(order).build())
 				.getResult(List.class);
 		result.setSuccessed(true);
-		result.setResult(ORDER_DETAIL, o);
-		result.setResult(ORDER_DETAIL_LIST, ods);
+		result.setResult(ORDER, o);
+		result.setResult(LIST_1, ods);
 		return result;
 	}
 
@@ -119,7 +119,7 @@ public class OrderServiceImpl implements IOrderService {
 			orderDao.saveOrderDao(order);
 			orderDetailDao.saveOrderDetailsDao(orderDetails);
 			ServiceResult serviceResult = new ServiceResult(true);
-			serviceResult.setResult(ORDER_DETAIL_LIST, orderDetails);
+			serviceResult.setResult(LIST_1, orderDetails);
 			return serviceResult;
 		} catch (EmptyResultException | LogicException e) {
 			logger.error(e.getMessage(), e);
@@ -138,7 +138,7 @@ public class OrderServiceImpl implements IOrderService {
 		order.setOrderStatus((short) 2);
 		orderDao.updateOrderDao(order);
 		ServiceResult sr = new ServiceResult(true);
-		sr.setResult(ORDER_DETAIL, orderDao.getOrderDao(order).getResult(Orders.class));
+		sr.setResult(ORDER, orderDao.getOrderDao(order).getResult(Orders.class));
 		return sr;
 	}
 
@@ -176,7 +176,7 @@ public class OrderServiceImpl implements IOrderService {
 			cityVo.getAreas().add(new AreaForAddOrder(area.getAreaId(), area.getAreaName()));
 		}
 		ServiceResult sr = new ServiceResult(true);
-		sr.setResult(ORDER_ADDRESS, provinceVos);
+		sr.setResult(MAP, provinceVos);
 		return sr;
 	}
 
@@ -252,11 +252,11 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult queryAllWorkTypeForShoppingCarService(List<WorkType> workTypes) {
 		if(workTypes.isEmpty()) {
 			ServiceResult sr = new ServiceResult(false);
-			sr.setResult(WORK_DETAIL_TYPE, new ArrayList<>());
+			sr.setResult(LIST_1, new ArrayList<>());
 			return sr;
 		}
 		ServiceResult sr = new ServiceResult(true);
-		sr.setResult(WORK_DETAIL_TYPE, workTypeDao.getAllWorkTypeForShoppingCarDao(workTypes).getResult(List.class));
+		sr.setResult(LIST_1, workTypeDao.getAllWorkTypeForShoppingCarDao(workTypes).getResult(List.class));
 		return sr;
 	}
 

@@ -36,18 +36,18 @@ public class EMailAspect {
 
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.WorkServiceImpl.addWorkService(..))", returning = "serviceResult")
 	public void sendWorkEmail(ServiceResult serviceResult) {
-		workMailService.sendMailService((Work)serviceResult.getResult(WORK_DETAIL));
+		workMailService.sendMailService((Work)serviceResult.getResult(WORK));
 	}
 
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.addOrderService(..))", returning = "serviceResult")
 	public void sendOrderEmail(ServiceResult serviceResult) {
 		if(serviceResult.isSuccessed())
-			orderMailService.sendMailService((List<OrderDetail>)serviceResult.getResult(ORDER_DETAIL_LIST));
+			orderMailService.sendMailService((List<OrderDetail>)serviceResult.getResult(LIST_1));
 	}
 
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.modifyOrderService(..))", returning = "serviceResult")
 	public void sendSendOrderEmail(ServiceResult serviceResult) {
-		sendOrderMailService.sendMailService((Orders)serviceResult.getResult(ORDER_DETAIL));
+		sendOrderMailService.sendMailService((Orders)serviceResult.getResult(ORDER));
 	}
 	
 	@Before(value="execution(* top.starrysea.service.impl.OrderServiceImpl.removeOrderService(..))")

@@ -45,7 +45,7 @@ public class WorkControllerImpl implements IWorkController {
 	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
 	public ModelAndView queryAllWorkController(Condition condition, WorkForAll work, Device device) {
 		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
-		List<Work> result = serviceResult.getResult(WOKR_LIST);
+		List<Work> result = serviceResult.getResult(LIST_1);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "work" : "work");
@@ -61,7 +61,7 @@ public class WorkControllerImpl implements IWorkController {
 	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
 	public Map<String, Object> queryAllWorkControllerAjax(@RequestBody WorkForAll work) {
 		ServiceResult serviceResult = workService.queryAllWorkService(work.getCondition(), work.toDTO());
-		List<Work> result = serviceResult.getResult(WOKR_LIST);
+		List<Work> result = serviceResult.getResult(LIST_1);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());
 		Map<String, Object> theResult = new HashMap<>();
@@ -77,12 +77,12 @@ public class WorkControllerImpl implements IWorkController {
 	@RequestMapping(value = "/work/{workId}", method = RequestMethod.GET)
 	public ModelAndView queryWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
-		Work w = serviceResult.getResult(WORK_DETAIL);
+		Work w = serviceResult.getResult(WORK);
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "work_detail" : "work_detail");
 		modelAndView.addObject("work", w.toVoForOne());
 		modelAndView.addObject("workId", work.getWorkId());
-		modelAndView.addObject("workImages", serviceResult.getResult(WORK_DETAIL_IMAGE));
-		modelAndView.addObject("workTypes", serviceResult.getResult(WORK_DETAIL_TYPE));
+		modelAndView.addObject("workImages", serviceResult.getResult(LIST_1));
+		modelAndView.addObject("workTypes", serviceResult.getResult(LIST_2));
 		return modelAndView;
 	}
 
@@ -93,12 +93,12 @@ public class WorkControllerImpl implements IWorkController {
 	public Map<String, Object> queryWorkControllerAjax(@RequestBody @Valid WorkForOne work,
 			BindingResult bindingResult) {
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
-		Work w = serviceResult.getResult(WORK_DETAIL);
+		Work w = serviceResult.getResult(WORK);
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("work", w.toVoForOne());
 		theResult.put("workId", work.getWorkId());
-		theResult.put("workImages", serviceResult.getResult(WORK_DETAIL_IMAGE));
-		theResult.put("workTypes", serviceResult.getResult(WORK_DETAIL_TYPE));
+		theResult.put("workImages", serviceResult.getResult(LIST_1));
+		theResult.put("workTypes", serviceResult.getResult(LIST_2));
 		return theResult;
 	}
 

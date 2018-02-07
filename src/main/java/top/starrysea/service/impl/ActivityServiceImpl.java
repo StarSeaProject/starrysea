@@ -61,8 +61,8 @@ public class ActivityServiceImpl implements IActivityService {
 			totalPage = (count / PAGE_LIMIT) + 1;
 
 		result.setSuccessed(true);
-		result.setResult(ACTIVITY_LIST, activitylist);
-		result.setResult(NEWEST_ACTIVITY, a);
+		result.setResult(LIST_1, activitylist);
+		result.setResult(ACTIVITY, a);
 		result.setNowPage(condition.getPage());
 		result.setTotalPage(totalPage);
 		return result;
@@ -75,7 +75,7 @@ public class ActivityServiceImpl implements IActivityService {
 		DaoResult daoResult = activityDao.getActivityDao(activity);
 		Activity a = daoResult.getResult(Activity.class);
 		result.setSuccessed(true);
-		result.setResult(ACTIVITY_DETAIL, a);
+		result.setResult(ACTIVITY, a);
 		daoResult = fundingDao.getAllFundingDao(new Funding.Builder().activity(activity).build());
 		@SuppressWarnings("unchecked")
 		List<Funding> fundings = daoResult.getResult(List.class);
@@ -91,8 +91,8 @@ public class ActivityServiceImpl implements IActivityService {
 			}
 		}
 		richFundings.addAll(normalFundings);
-		result.setResult(ACTIVITY_FUNDING_LIST, richFundings);
-		result.setResult(ACTIVITY_FUNDING_THRESHOLD, richThreshold);
+		result.setResult(LIST_1, richFundings);
+		result.setResult(DOUBLE, richThreshold);
 		return result;
 	}
 
