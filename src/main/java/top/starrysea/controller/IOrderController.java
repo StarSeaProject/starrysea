@@ -1,5 +1,6 @@
 package top.starrysea.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +16,8 @@ import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
-import top.starrysea.object.view.out.WorkTypeForRemoveCar;
+import top.starrysea.object.view.in.WorkTypeForRemoveCar;
+import top.starrysea.object.view.in.WorkTypesForRemoveCar;
 
 public interface IOrderController {
 
@@ -39,6 +41,9 @@ public interface IOrderController {
 			BindingResult bindingResult, Device device);
 
 	ModelAndView removeWorkFromShoppingCarController(HttpSession session, WorkTypeForRemoveCar workType,
+			BindingResult bindingResult, Device device);
+	
+	ModelAndView removeWorksFromShoppingCarController(HttpSession session, WorkTypesForRemoveCar workTypes,
 			BindingResult bindingResult, Device device);
 
 	ModelAndView queryShoppingCarController(HttpSession session, Device device);

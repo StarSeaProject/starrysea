@@ -1,4 +1,4 @@
-package top.starrysea.object.view.out;
+package top.starrysea.object.view.in;
 
 import javax.validation.constraints.NotNull;
 

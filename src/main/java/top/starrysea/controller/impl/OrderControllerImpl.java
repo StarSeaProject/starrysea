@@ -39,7 +39,8 @@ import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
 import top.starrysea.object.view.in.WorkTypeForToAddOrders;
-import top.starrysea.object.view.out.WorkTypeForRemoveCar;
+import top.starrysea.object.view.in.WorkTypesForRemoveCar;
+import top.starrysea.object.view.in.WorkTypeForRemoveCar;
 import top.starrysea.service.IOrderService;
 
 import static top.starrysea.common.Const.*;
@@ -223,5 +224,21 @@ public class OrderControllerImpl implements IOrderController {
 		session.setAttribute(TOKEN, token);
 		modelAndView.addObject(TOKEN, token);
 		return modelAndView;
+	}
+
+	@Override
+	@RequestMapping(value = "/car/removes", method = RequestMethod.POST)
+	public ModelAndView removeWorksFromShoppingCarController(HttpSession session,@Valid WorkTypesForRemoveCar workTypes,
+			BindingResult bindingResult, Device device) {
+		if (session.getAttribute(TOKEN) == null || !session.getAttribute(TOKEN).equals(workTypes.getToken())) {
+			return ModelAndViewFactory.newErrorMav("您已经删除过这些作品,请勿再次提交", device);
+		}
+		session.removeAttribute(TOKEN);
+		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		for (WorkTypeForRemoveCar workType : workTypes.getWorkTypes()) {
+			orderDetailList.remove((int) workType.getIndex());
+		}
+		session.setAttribute(SHOPPINGCAR, orderDetailList);
+		return ModelAndViewFactory.newSuccessMav("从购物车移除作品成功!", device);
 	}
 }
