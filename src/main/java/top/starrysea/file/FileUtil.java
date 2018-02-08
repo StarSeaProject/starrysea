@@ -4,10 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
@@ -16,12 +20,13 @@ import org.springframework.web.multipart.MultipartFile;
 import top.starrysea.common.Common;
 
 @Component
-public class FileUtil {
+public class FileUtil implements InitializingBean {
 
 	@Value("${ss.fileroot}")
 	private String fileRoot;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static List<String> cucuImgNames;
 
 	public String saveFile(MultipartFile file, FileCondition fileCondition) throws IOException {
 		if (file == null || file.isEmpty())
@@ -73,4 +78,16 @@ public class FileUtil {
 		} else
 			return "";
 	}
+	
+	public static String getCucuImg() {
+		Random random=new Random();
+		return cucuImgNames.get(random.nextInt(cucuImgNames.size()));
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		File cucu=new File(fileRoot+"img/cucu");
+		cucuImgNames=Arrays.asList(cucu.list());
+	}
+	
 }
