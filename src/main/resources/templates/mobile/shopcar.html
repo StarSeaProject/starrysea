@@ -150,12 +150,34 @@
 <div class="mfoot text-center">
     <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
-<script>
-
-    $("#selectall").click(function () {
-        var isall = $(this).prop("checked");
-        var status = $(".selectallinput").prop("checked", isall);
-    })
+<script th:inline="javascript">
+	$(function(){
+		const orderDetails=[[${orderDetails}]];
+		$("#confbut").on("click",function(e){
+			let gotoOrderForm=$(`<form action="/order/toAddOrder" method="post"></form>`);
+			let workTypes="";
+			let count=0;
+			$(".formdata").each(function(i,div){
+				let selected=$(div).eq(0).find("input").is(':checked');
+				if(selected){
+					const workId=orderDetails[i].workId;
+					const workTypeId=orderDetails[i].workTypeId;
+					workTypes+=`<input type="hidden" name="workTypes[${count}].workId" value="${workId}"/>`;
+					workTypes+=`<input type="hidden" name="workTypes[${count}].workTypeId" value="${workTypeId}"/>`;
+					count++;
+				}
+			});
+			gotoOrderForm.append(workTypes);
+			gotoOrderForm.appendTo(document.body);
+			gotoOrderForm.submit();
+			document.body.removeChild(gotoOrderForm[0]);
+			return false;
+		});
+	    $("#selectall").click(function () {
+	        var isall = $(this).prop("checked");
+	        var status = $(".selectallinput").prop("checked", isall);
+	    });
+	});
 </script>
 
 </body>
