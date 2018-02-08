@@ -19,4 +19,10 @@ public class Const {
 	public static final String SHOPPINGCAR = "shoppingCar";
 	public static final String NOT_FOUND_VIEW = "not_found";
 	public static final String CUCUIMG = "cucuImg";
+
+	public static class HttpCode {
+		public static final int BAD_REQUEST = 400;
+		public static final int NOT_FOUND = 404;
+		public static final int SERVER_ERROR = 500;
+	}
 }

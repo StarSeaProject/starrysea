@@ -10,9 +10,10 @@ import top.starrysea.file.FileUtil;
 
 import static top.starrysea.common.Const.CUCUIMG;
 import static top.starrysea.common.Const.NOT_FOUND_VIEW;
+import static top.starrysea.common.Const.HttpCode.*;
 
 public class ErrorInterceptor implements HandlerInterceptor {
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -22,7 +23,8 @@ public class ErrorInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		if (response.getStatus() == 404) {
+		int status = response.getStatus();
+		if (status == NOT_FOUND || status == BAD_REQUEST || status == SERVER_ERROR) {
 			modelAndView.setViewName(NOT_FOUND_VIEW);
 			modelAndView.addObject(CUCUIMG, FileUtil.getCucuImg());
 		}
