@@ -78,16 +78,19 @@ public class FileUtil implements InitializingBean {
 		} else
 			return "";
 	}
-	
+
 	public static String getCucuImg() {
-		Random random=new Random();
+		Random random = new Random();
 		return cucuImgNames.get(random.nextInt(cucuImgNames.size()));
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		File cucu=new File(fileRoot+"img/cucu");
-		cucuImgNames=Arrays.asList(cucu.list());
+		File cucu = new File(fileRoot + "img/cucu");
+		if (cucu.exists()) {
+			cucuImgNames = Arrays.asList(cucu.list());
+		}
+
 	}
-	
+
 }
