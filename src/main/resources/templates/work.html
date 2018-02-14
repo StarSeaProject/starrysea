@@ -120,10 +120,19 @@ a.detailhref:link {
 .navimg:hover {
 	transform: scale(1.4);
 }
+#gotocar{
+border:1px solid orange;
+border-radius:40px;
+height:80px;
+width:80px;
+background:#fff;
+
+}
 </style>
 </head>
 
 <body>
+<div style="visibility:hidden;position:absolute;"></div>
 	<div class="container"
 		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
 		<nav class="navbar navbar-brand navbar-static-top heading"
@@ -176,13 +185,12 @@ a.detailhref:link {
 				</div>
 			</div>
 		</div>
-		<div class="weibo col-md-3">
-			<iframe id="weibo" style="width: 80%; height: 500px;" frameborder="0"
-				scrolling="no"
-				src="http://v.t.sina.com.cn/widget/widget_blog.php?uid=6241874149"></iframe>
-		</div>
 	</div>
 	<div class="addheight" style="height: 140px;"></div>
+	<div id="cardiv">
+		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart" style="font-size:1.6em;color:orange;"></span>
+          </button>
+	</div>
 	<div class="footbar text-center">
 		<p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
@@ -192,6 +200,17 @@ a.detailhref:link {
 	</script>
 	<script src="/read.js"></script>
 	<script src="/navbar.js"></script>
+	<script>
+	 window.onload = () => {
+		window.addEventListener("scroll",function(){
+			y = document.body.clientHeight;
+			cury = $(window).scrollTop()-160;
+			console.log(cury);
+			$('#cardiv').css({'left':'800px','top':cury+'px'});
+	        });
+	 }
+	</script>
+	
 </body>
 
 </html>
