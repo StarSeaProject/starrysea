@@ -75,6 +75,16 @@
         .active{
         color:#238acb;
         }
+        #gotocar{
+	border:1px solid orange;
+	border-radius:20px;
+	height:40px;
+	width:40px;
+	background:#fff;
+}
+#cardiv{
+	position:absolute;
+}
     </style>
 </head>
 <body>
@@ -132,6 +142,10 @@
 <div id="workImages" style="text-align: center" class="pdfcontainer">
     <button id="more_image" class="btn btn-info">更多</button>
 </div>
+<div id="cardiv">
+		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart" style="font-size:1.6em;color:orange;"></span>
+          </button>
+	</div>
 <div class="mfoot text-center">
     <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
@@ -184,5 +198,13 @@
         });
     });
 </script>
+	<script>
+	$(window).scroll(function () {
+		y = $(window).height();
+		cury = $(window).scrollTop()+y-100;
+		console.log(cury);
+		$('#cardiv').css("left","90%").css("top",cury+"px");
+	});
+	</script>
 </body>
 </html>
