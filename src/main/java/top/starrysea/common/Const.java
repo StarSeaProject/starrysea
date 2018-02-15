@@ -21,6 +21,9 @@ public class Const {
 	public static final String CUCUIMG = "cucuImg";
 
 	public static class HttpCode {
+		private HttpCode() {
+		}
+
 		public static final int BAD_REQUEST = 400;
 		public static final int NOT_FOUND = 404;
 		public static final int SERVER_ERROR = 500;
