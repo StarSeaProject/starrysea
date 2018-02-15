@@ -120,21 +120,23 @@ a.detailhref:link {
 .navimg:hover {
 	transform: scale(1.4);
 }
-#gotocar{
-	border:1px solid orange;
-	border-radius:40px;
-	height:80px;
-	width:80px;
-	background:#fff;
+
+#gotocar {
+	border: 1px solid orange;
+	border-radius: 40px;
+	height: 80px;
+	width: 80px;
+	background: #fff;
 }
-#cardiv{
-	position:absolute;
+
+#cardiv {
+	position: absolute;
 }
 </style>
 </head>
 
 <body>
-<div style="visibility:hidden;position:absolute;"></div>
+	<div style="visibility: hidden; position: absolute;"></div>
 	<div class="container"
 		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
 		<nav class="navbar navbar-brand navbar-static-top heading"
@@ -190,7 +192,10 @@ a.detailhref:link {
 	</div>
 	<div class="addheight" style="height: 140px;"></div>
 	<div id="cardiv">
-		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart" style="font-size:1.6em;color:orange;"></span></button>
+		<button id="gotocar" onclick="window.location.href='/car'">
+			<span class="glyphicon glyphicon-shopping-cart"
+				style="font-size: 1.6em; color: orange;"></span>
+		</button>
 	</div>
 	<div class="footbar text-center">
 		<p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
@@ -209,7 +214,7 @@ a.detailhref:link {
 		$('#cardiv').css("left","90%").css("top",cury+"px");
 	});
 	</script>
-	
+
 </body>
 
 </html>

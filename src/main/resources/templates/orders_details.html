@@ -96,17 +96,20 @@ a:hover {
 			<div class="col-xs-6" style="margin-top: 15px;" th:text="${order.orderName}">
 			</div>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div th:each="orderDetail:${orderDetails}">
+				<div class="col-xs-6" style="margin-top: 15px;">
 				<p>作品名称:</p>
-			</div>
-			<div class="col-xs-6" style="margin-top: 15px;" th:text="${order.workName}">
-			</div>
+				</div>
+				<div class="col-xs-6" style="margin-top: 15px;" th:text="${orderDetail.workName}">
+				</div>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
-				<p>作品类型:</p>
+				<div class="col-xs-6" style="margin-top: 15px;">
+					<p>作品类型:</p>
+				</div>
+				<div class="col-xs-6" style="margin-top: 15px;" th:text="${orderDetail.workTypeName}">
+				</div>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;" th:text="${order.workTypeName}">
-			</div>
+			
 			
 			<div class="col-xs-6" style="margin-top: 15px;">
 				<p>收获详细地址:</p>

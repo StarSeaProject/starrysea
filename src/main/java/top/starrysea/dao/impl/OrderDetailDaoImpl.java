@@ -32,12 +32,12 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 	@Override
 	public DaoResult getAllOrderDetailDao(OrderDetail orderDetail) {
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("name", "wt").select("work_name", "w").from(OrderDetail.class)
+		ListSqlResult theResult = kumaSqlDao.select("name", "wt").select("work_name", "w").from(OrderDetail.class, "od")
 				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class,
 						"order_id")
 				.innerjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.innerjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
-				.where("order_id", WhereType.EQUALS, orderDetail.getOrder().getOrderId())
+				.where("order_id", "od", WhereType.EQUALS, orderDetail.getOrder().getOrderId())
 				.where("order_num", "o", WhereType.EQUALS, orderDetail.getOrder().getOrderNum()).endForList(
 						(rs, row) -> new OrderDetail.Builder()
 								.workType(new WorkType.Builder().name(rs.getString("name"))

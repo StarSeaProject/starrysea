@@ -91,9 +91,11 @@ public class OrderControllerImpl implements IOrderController {
 			BindingResult bindingResult) {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		Orders o = serviceResult.getResult(ORDER);
+		List<OrderDetail> ods = serviceResult.getResult(LIST_1);
 		Map<String, Object> theResult = new HashMap<>();
 		theResult.put("orders", o.toVoForOne());
 		theResult.put("orderId", order.getOrderId());
+		theResult.put("orderDetails", ods.stream().map(OrderDetail::toVoForOne).collect(Collectors.toList()));
 		return theResult;
 	}
 
@@ -228,8 +230,8 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	@RequestMapping(value = "/car/removes", method = RequestMethod.POST)
-	public ModelAndView removeWorksFromShoppingCarController(HttpSession session,@Valid WorkTypesForRemoveCar workTypes,
-			BindingResult bindingResult, Device device) {
+	public ModelAndView removeWorksFromShoppingCarController(HttpSession session,
+			@Valid WorkTypesForRemoveCar workTypes, BindingResult bindingResult, Device device) {
 		if (session.getAttribute(TOKEN) == null || !session.getAttribute(TOKEN).equals(workTypes.getToken())) {
 			return ModelAndViewFactory.newErrorMav("您已经删除过这些作品,请勿再次提交", device);
 		}
