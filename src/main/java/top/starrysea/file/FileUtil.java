@@ -80,6 +80,8 @@ public class FileUtil implements InitializingBean {
 	}
 
 	public static String getCucuImg() {
+		if (cucuImgNames == null)
+			return "";
 		Random random = new Random();
 		return cucuImgNames.get(random.nextInt(cucuImgNames.size()));
 	}
