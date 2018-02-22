@@ -34,8 +34,8 @@ public class ActivityDaoImpl implements IActivityDao {
 	@Override
 	public DaoResult getNewestActivityDao() {
 		kumaSqlDao.selectMode();
-		EntitySqlResult<Activity> theResult = kumaSqlDao.select("activity_id").select("activity_name").select("activity_cover")
-				.select("activity_summary").select("activity_endtime").from(Activity.class)
+		EntitySqlResult<Activity> theResult = kumaSqlDao.select("activity_id").select("activity_name")
+				.select("activity_cover").select("activity_summary").select("activity_endtime").from(Activity.class)
 				.orderBy("activity_id", OrderByType.DESC).limit(1)
 				.endForObject((rs, row) -> new Activity.Builder().activityId(rs.getInt("activity_id"))
 						.activityName(rs.getString("activity_name")).activityCover(rs.getString("activity_cover"))
@@ -54,8 +54,8 @@ public class ActivityDaoImpl implements IActivityDao {
 			start = (condition.getPage() - 1) * PAGE_LIMIT;
 		}
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("activity_id").select("activity_name").select("activity_cover")
-				.select("activity_summary").select("activity_endtime").from(Activity.class)
+		ListSqlResult<Activity> theResult = kumaSqlDao.select("activity_id").select("activity_name")
+				.select("activity_cover").select("activity_summary").select("activity_endtime").from(Activity.class)
 				.where("activity_name", WhereType.FUZZY, activity.getActivityName())
 				.orderBy("activity_id", OrderByType.DESC).limit(start, PAGE_LIMIT)
 				.endForList((rs, row) -> new Activity.Builder().activityId(rs.getInt("activity_id"))

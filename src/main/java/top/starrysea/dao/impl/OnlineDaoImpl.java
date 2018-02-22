@@ -35,7 +35,7 @@ public class OnlineDaoImpl implements IOnlineDao {
 	@Override
 	public DaoResult getAllOnlineDao() {
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("online_email").from(Online.class)
+		ListSqlResult<Online> theResult = kumaSqlDao.select("online_email").from(Online.class)
 				.endForList((rs, row) -> new Online.Builder().onlineEmail(rs.getString("online_email")).build());
 		return new DaoResult(true, theResult.getResult());
 	}

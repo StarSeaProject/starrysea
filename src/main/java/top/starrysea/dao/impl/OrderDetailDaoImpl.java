@@ -32,8 +32,8 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 	@Override
 	public DaoResult getAllOrderDetailDao(OrderDetail orderDetail) {
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("name", "wt").select("work_name", "w").from(OrderDetail.class, "od")
-				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class,
+		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("name", "wt").select("work_name", "w")
+				.from(OrderDetail.class, "od").innerjoin(Orders.class, "o", "order_id", OrderDetail.class,
 						"order_id")
 				.innerjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
 				.innerjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
@@ -87,9 +87,9 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 	@Override
 	public DaoResult getAllOrderDetailForXls() {
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("order_name").select("province_name", "p").select("city_name", "c")
-				.select("area_name", "a").select("order_address").select("order_remark").select("order_phone")
-				.select("name", "wt").select("work_name", "w").from(Orders.class, "o")
+		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("order_name").select("province_name", "p")
+				.select("city_name", "c").select("area_name", "a").select("order_address").select("order_remark")
+				.select("order_phone").select("name", "wt").select("work_name", "w").from(Orders.class, "o")
 				.leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
 				.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
 				.leftjoin(Province.class, "p", "province_id", City.class, "province_id")

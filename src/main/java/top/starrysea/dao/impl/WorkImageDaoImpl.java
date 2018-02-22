@@ -24,7 +24,7 @@ public class WorkImageDaoImpl implements IWorkImageDao {
 	@Override
 	public DaoResult getAllWorkImageDao(WorkImage workImage) {
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("work_image_path").from(WorkImage.class)
+		ListSqlResult<WorkImage> theResult = kumaSqlDao.select("work_image_path").from(WorkImage.class)
 				.where("work_id", WhereType.EQUALS, workImage.getWork().getWorkId()).endForList(
 						(rs, row) -> new WorkImage.Builder().workImagePath(rs.getString("work_image_path")).build());
 		return new DaoResult(true, theResult.getResult());

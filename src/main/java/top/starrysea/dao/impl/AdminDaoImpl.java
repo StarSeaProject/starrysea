@@ -23,17 +23,17 @@ public class AdminDaoImpl implements IAdminDao {
 	// 管理员登陆
 	public DaoResult loginDao(Admin admin) {
 		kumaSqlDao.selectMode();
-		ListSqlResult list = kumaSqlDao.select("1").from(Admin.class)
+		ListSqlResult<String> list = kumaSqlDao.select("1").from(Admin.class)
 				.where("admin_useraccount", WhereType.EQUALS, admin.getAdminUseraccount()).endForList(String.class);
 		if (list.getResult().isEmpty()) {
 			return new DaoResult(false, "管理员账号不存在");
 		}
-		ListSqlResult theResult = kumaSqlDao.select("admin_id").from(Admin.class)
+		ListSqlResult<Admin> theResult = kumaSqlDao.select("admin_id").from(Admin.class)
 				.where("admin_useraccount", WhereType.EQUALS, admin.getAdminUseraccount())
 				.where("admin_password", WhereType.EQUALS, md5(admin.getAdminPassword()))
 				.endForList((rs, row) -> new Admin.Builder().adminId(rs.getInt("admin_id")).build());
 		if (isNotNull(theResult.getResult())) {
-			Admin result = (Admin) theResult.getResult().get(0);
+			Admin result = theResult.getResult().get(0);
 			return new DaoResult(true, result);
 		} else {
 			return new DaoResult(false, "密码错误");

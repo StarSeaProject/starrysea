@@ -19,7 +19,7 @@ public class ProvinceDaoImpl implements IProvinceDao {
 
 	public DaoResult getAllProvinceDao() {
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("province_name", "p").select("province_id", "c")
+		ListSqlResult<Area> theResult = kumaSqlDao.select("province_name", "p").select("province_id", "c")
 				.select("city_name", "c").select("city_id", "a").select("area_id", "a").select("area_name", "a")
 				.from(Province.class, "p").leftjoin(City.class, "c", "province_id", Province.class,
 						"province_id")

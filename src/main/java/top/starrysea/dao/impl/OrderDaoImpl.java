@@ -109,7 +109,7 @@ public class OrderDaoImpl implements IOrderDao {
 	@Override
 	public DaoResult getAllOrderDao(Condition condition, Orders order) {
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("order_id").select("order_num").select("order_name")
+		ListSqlResult<Orders> theResult = kumaSqlDao.select("order_id").select("order_num").select("order_name")
 				.select("order_status").select("order_time").from(Orders.class)
 				.where("order_num", WhereType.FUZZY, order.getOrderNum())
 				.where("order_status", WhereType.EQUALS, order.getOrderStatus())

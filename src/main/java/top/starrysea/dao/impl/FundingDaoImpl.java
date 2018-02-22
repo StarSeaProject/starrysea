@@ -24,8 +24,8 @@ public class FundingDaoImpl implements IFundingDao {
 	@Override
 	public DaoResult getAllFundingDao(Funding funding) {
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("funding_id").select("funding_name").select("funding_money")
-				.select("funding_message").from(Funding.class)
+		ListSqlResult<Funding> theResult = kumaSqlDao.select("funding_id").select("funding_name")
+				.select("funding_money").select("funding_message").from(Funding.class)
 				.where("activity_id", WhereType.EQUALS, funding.getActivity().getActivityId())
 				.endForList((rs, row) -> new Funding.Builder().fundingId(rs.getInt("funding_id"))
 						.fundingName(rs.getString("funding_name")).fundingMoney(rs.getDouble("funding_money"))

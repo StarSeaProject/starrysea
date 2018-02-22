@@ -19,6 +19,7 @@ import static top.starrysea.common.Common.*;
 
 @Repository("questionDao")
 public class QuestionDaoImpl implements IQuestionDao {
+	
 	@Autowired
 	private KumaSqlDao kumaSqlDao;
 	public static final int PAGE_LIMIT = 10;
@@ -26,11 +27,10 @@ public class QuestionDaoImpl implements IQuestionDao {
 	@Override
 	public DaoResult getAllQuestionDao(Condition condition, Question question) {
 		kumaSqlDao.selectMode();
-		ListSqlResult theresult = kumaSqlDao.select("question_id").select("question").select("question_create_time")
-				.select("answer").select("question_status").from(Question.class)
+		ListSqlResult<Question> theresult = kumaSqlDao.select("question_id").select("question")
+				.select("question_create_time").select("answer").select("question_status").from(Question.class)
 				.where("question_status", WhereType.EQUALS, question.getQuestionStatus())
-				.orderBy("question_status", OrderByType.ASC)
-				.orderBy("question_create_time", OrderByType.DESC)
+				.orderBy("question_status", OrderByType.ASC).orderBy("question_create_time", OrderByType.DESC)
 				.limit((condition.getPage() - 1) * PAGE_LIMIT, PAGE_LIMIT)
 				.endForList((rs, row) -> new Question.Builder().questionId(rs.getString("question_id"))
 						.question(rs.getString("question")).questionCreateTime(rs.getLong("question_create_time"))

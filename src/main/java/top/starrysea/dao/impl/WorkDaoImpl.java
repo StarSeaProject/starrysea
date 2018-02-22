@@ -31,7 +31,7 @@ public class WorkDaoImpl implements IWorkDao {
 	// 查询所有作品
 	public DaoResult getAllWorkDao(Condition condition, Work work) {
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("work_id").select("work_name").select("work_cover")
+		ListSqlResult<Work> theResult = kumaSqlDao.select("work_id").select("work_name").select("work_cover")
 				.select("work_summary").from(Work.class).where("work_name", WhereType.FUZZY, work.getWorkName())
 				.orderBy("work_uploadtime", OrderByType.DESC).limit((condition.getPage() - 1) * PAGE_LIMIT, PAGE_LIMIT)
 				.endForList((rs, row) -> new Work.Builder().workId(rs.getInt("work_id"))

@@ -25,7 +25,7 @@ public class ActivityImageDaoImpl implements IActivityImageDao {
 	@Override
 	public DaoResult getAllActivityImageDao(Activity activity) {
 		kumaSqlDao.selectMode();
-		ListSqlResult theResult = kumaSqlDao.select("activity_image_path").from(ActivityImage.class)
+		ListSqlResult<ActivityImage> theResult = kumaSqlDao.select("activity_image_path").from(ActivityImage.class)
 				.where("activity_id", WhereType.EQUALS, activity.getActivityId())
 				.endForList((rs, row) -> new ActivityImage.Builder()
 						.activityImagePath(rs.getString("activity_image_path")).build());
