@@ -1,4 +1,4 @@
-package top.starrysea.strategy;
+package top.starrysea.params.strategy;
 
 import org.springframework.validation.BindingResult;
 import static top.starrysea.common.Common.getFieldErrors;

@@ -1,4 +1,4 @@
-package top.starrysea.strategy;
+package top.starrysea.params.strategy;
 
 import top.starrysea.object.view.in.OrderForAdd;
 

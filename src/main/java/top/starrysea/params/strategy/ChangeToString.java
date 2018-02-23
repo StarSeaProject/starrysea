@@ -1,4 +1,4 @@
-package top.starrysea.strategy;
+package top.starrysea.params.strategy;
 
 /*
  * 策略接口

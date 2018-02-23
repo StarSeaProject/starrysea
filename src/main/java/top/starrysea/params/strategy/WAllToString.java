@@ -1,7 +1,7 @@
-package top.starrysea.strategy;
+package top.starrysea.params.strategy;
 
 import top.starrysea.object.view.in.WorkForAll;
-import top.starrysea.strategy.ChangeToString;
+import top.starrysea.params.strategy.ChangeToString;
 
 /*
  * 具体策略算法

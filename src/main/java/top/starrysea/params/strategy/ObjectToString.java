@@ -1,4 +1,4 @@
-package top.starrysea.strategy;
+package top.starrysea.params.strategy;
 
 import static top.starrysea.common.Common.toJson;
 

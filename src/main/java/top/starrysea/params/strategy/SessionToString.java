@@ -1,4 +1,4 @@
-package top.starrysea.strategy;
+package top.starrysea.params.strategy;
 
 import java.util.Enumeration;
 import java.util.HashMap;
