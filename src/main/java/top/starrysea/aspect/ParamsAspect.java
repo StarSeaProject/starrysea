@@ -12,7 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.strategy.ToStringContext;
+import top.starrysea.params.responsibility.HandlerFactory;
+import top.starrysea.params.responsibility.ParamsHandler;
 
 @Component
 @Aspect
@@ -25,9 +26,9 @@ public class ParamsAspect {
 		String className = pjp.getSignature().getDeclaringTypeName();
 		String methodName = pjp.getSignature().getName();
 		List<String> list = new ArrayList<>();
-		ToStringContext context = new ToStringContext();
+		ParamsHandler handler = HandlerFactory.createHandler();
 		for (Object object : pjp.getArgs()) {
-			list.add(context.toString(object));
+			list.add(handler.handleRequest(object));
 		}
 		if (logger.isDebugEnabled()) {
 			logger.debug(className + "." + methodName + "() 前端入参:" + list);
@@ -36,10 +37,10 @@ public class ParamsAspect {
 		if (logger.isDebugEnabled()) {
 			String outMessage = className + "." + methodName + "() 后台出参:";
 			if (result instanceof ModelAndView) {
-				logger.debug(outMessage + context.toString(((ModelAndView) result).getModel()));
+				logger.debug(outMessage + handler.handleRequest(((ModelAndView) result).getModel()));
 			}
 			if (result instanceof Map) {
-				logger.debug(outMessage + context.toString(result));
+				logger.debug(outMessage + handler.handleRequest(result));
 			}
 		}
 		return result;
