@@ -1,0 +1,32 @@
+logging:
+  level:
+    top:
+      starrysea: debug
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: developer
+    url: jdbc:mysql://120.79.24.63:3306/ss_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: developer
+  http:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  mail:
+    host: smtp.starrysea.top
+    password: Xingzhihai2017
+    port: '25'
+    properties:
+      mail:
+        smtp:
+          auth: 'true'
+    username: mumuzhizhi@starrysea.top
+  mvc:
+    favicon:
+      enabled: 'false'
+  thymeleaf:
+    cache: 'false'
+    content-type: text/html
+    mode: LEGACYHTML5
+ss:
+  fileroot: D:/develop/nginx-1.12.1/

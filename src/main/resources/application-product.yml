@@ -1,0 +1,39 @@
+logging:
+  file: log/debug.log
+  level:
+    top:
+      starrysea: debug
+server:
+  port: '8080'
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: root1
+    url: jdbc:mysql://127.0.0.1:3306/starrysea?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: root
+  http:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  mail:
+    host: smtp.starrysea.top
+    password: Xingzhihai2017
+    port: '465'
+    properties:
+      mail:
+        smtp:
+          auth: 'true'
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: 'false'
+            port: '465'
+          timeout: '10000'
+    username: mumuzhizhi@starrysea.top
+  mvc:
+    favicon:
+      enabled: 'false'
+  thymeleaf:
+    content-type: text/html
+    mode: LEGACYHTML5
+ss:
+  fileroot: /usr/share/nginx/
