@@ -1,5 +1,9 @@
 package top.starrysea.common;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class Condition {
 
 	private Integer page = 1;
@@ -10,12 +14,13 @@ public class Condition {
 	private String orderDir;
 	private String extraInfo;
 
-	public Condition() {}
-	
-	public Condition(Integer page) {
-		this.page=page;
+	public Condition() {
 	}
-	
+
+	public Condition(Integer page) {
+		this.page = page;
+	}
+
 	public Integer getPage() {
 		return page;
 	}
