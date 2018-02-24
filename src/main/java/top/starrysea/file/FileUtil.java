@@ -92,7 +92,6 @@ public class FileUtil implements InitializingBean {
 		if (cucu.exists()) {
 			cucuImgNames = Arrays.asList(cucu.list());
 		}
-
 	}
 
 }
