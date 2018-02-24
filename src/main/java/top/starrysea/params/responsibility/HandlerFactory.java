@@ -20,6 +20,7 @@ public class HandlerFactory {
 		conditionHandler.setNextHandler(servletRequestHandler);
 		servletRequestHandler.setNextHandler(servletResponseHandler);
 		servletResponseHandler.setNextHandler(mutipartFileHandler);
+		mutipartFileHandler.setNextHandler(mutipartFileArrayHandler);
 		mutipartFileArrayHandler.setNextHandler(defaultHandler);
 		return bResultHandler;
 	}

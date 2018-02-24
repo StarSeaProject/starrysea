@@ -16,7 +16,7 @@ public class MutipartFileArrayToString implements ChangeToString {
 			list.add(params);
 		}
 
-		return list.toString();
+		return files.getClass().getSimpleName() + list.toString();
 	}
 
 }
