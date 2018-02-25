@@ -22,13 +22,13 @@ public class ParamsHandlers {
 	private ParamsHandlers() {
 	}
 
-	public static final Function<Object,String> BINDING_RESULT = object -> {
+	static final Function<Object,String> BINDING_RESULT = object -> {
 		BindingResult bindingResult = (BindingResult) object;
 		return bindingResult.getClass().getSimpleName() + "{\"hasError:\":" + bindingResult.hasErrors()
 				+ ",\"errorsCount\":" + bindingResult.getErrorCount() + "}";
 	};
 
-	public static final Function<Object,String> DEVICE = object -> {
+	static final Function<Object,String> DEVICE = object -> {
 		Device device = (Device) object;
 		String type = "UNKNOWN";
 		if (device.isNormal()) {
@@ -41,7 +41,7 @@ public class ParamsHandlers {
 		return device.getClass().getSimpleName() + "{\"deviceType\":" + type + "}";
 	};
 
-	public static final Function<Object,String> SESSION = object -> {
+	static final Function<Object,String> SESSION = object -> {
 		HttpSession session = (HttpSession) object;
 		Map<String, Object> map = new HashMap<>();
 		Enumeration<String> enumNames = session.getAttributeNames();
@@ -52,7 +52,7 @@ public class ParamsHandlers {
 		return session.getClass().getSimpleName() + toJson(map);
 	};
 
-	public static final Function<Object,String> CONDITION = object -> {
+	static final Function<Object,String> CONDITION = object -> {
 		Condition condition = (Condition) object;
 		Map<String, Object> map = new HashMap<>();
 		if (condition.getPage() != null) {
@@ -76,17 +76,17 @@ public class ParamsHandlers {
 		return condition.getClass().getSimpleName() + Common.toJson(map);
 	};
 
-	public static final Function<Object,String> REQUEST = object -> "request对象";
+	static final Function<Object,String> REQUEST = object -> "request对象";
 
-	public static final Function<Object,String> RESPONSE = object -> "response对象";
+	static final Function<Object,String> RESPONSE = object -> "response对象";
 
-	public static final Function<Object,String> MULTIPART_FILE = object -> {
+	static final Function<Object,String> MULTIPART_FILE = object -> {
 		MultipartFile file = (MultipartFile) object;
 		return file.getClass().getSimpleName() + "{\"originalFilename\":" + file.getOriginalFilename()
 				+ ",\"contentType\":" + file.getContentType() + ",\"size\":" + file.getSize() + "}";
 	};
 
-	public static final Function<Object,String> MULTIPART_FILES = object -> {
+	static final Function<Object,String> MULTIPART_FILES = object -> {
 		ArrayList<String> list = new ArrayList<>();
 		MultipartFile[] files = (MultipartFile[]) object;
 		for (MultipartFile file : files) {
@@ -98,5 +98,5 @@ public class ParamsHandlers {
 		return files.getClass().getSimpleName() + list.toString();
 	};
 
-	public static final Function<Object,String> DEFAULT = object -> object.getClass().getSimpleName() + toJson(object);
+	static final Function<Object,String> DEFAULT = object -> object.getClass().getSimpleName() + toJson(object);
 }
