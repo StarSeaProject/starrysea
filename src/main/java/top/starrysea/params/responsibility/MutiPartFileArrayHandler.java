@@ -1,21 +1,25 @@
 package top.starrysea.params.responsibility;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.util.ArrayList;
 
-import top.starrysea.params.strategy.MutipartFileArrayToString;
+import org.springframework.web.multipart.MultipartFile;
 
 public class MutiPartFileArrayHandler extends ParamsHandler {
 
 	@Override
 	public String handleRequest(Object object) {
 		if (object instanceof MultipartFile[]) {
-			changeToString = new MutipartFileArrayToString();
-		} else {
-			if (nextHandler != null) {
-				return nextHandler.handleRequest(object);
+			ArrayList<String> list = new ArrayList<>();
+			MultipartFile[] files = (MultipartFile[]) object;
+			for (MultipartFile file : files) {
+				String params = "{\"originalFilename\":" + file.getOriginalFilename() + ",\"contentType\":"
+						+ file.getContentType() + ",\"size\"" + file.getSize() + "}";
+				list.add(params);
 			}
+
+			return files.getClass().getSimpleName() + list.toString();
 		}
-		return changeToString.paramToString(object);
+		return nextHandler.handleRequest(object);
 	}
 
 }

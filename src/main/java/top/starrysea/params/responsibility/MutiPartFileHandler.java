@@ -2,18 +2,16 @@ package top.starrysea.params.responsibility;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import top.starrysea.params.strategy.MutipartFileToString;
-
 public class MutiPartFileHandler extends ParamsHandler {
 
 	@Override
 	public String handleRequest(Object object) {
 		if (object instanceof MultipartFile) {
-			changeToString = new MutipartFileToString();
-		} else {
-			return nextHandler.handleRequest(object);
+			MultipartFile file = (MultipartFile) object;
+			return file.getClass().getSimpleName() + "{\"originalFilename\":" + file.getOriginalFilename()
+					+ ",\"contentType\":" + file.getContentType() + ",\"size\":" + file.getSize() + "}";
 		}
-		return changeToString.paramToString(object);
+		return nextHandler.handleRequest(object);
 	}
 
 }

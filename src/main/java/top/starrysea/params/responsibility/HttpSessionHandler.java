@@ -1,21 +1,28 @@
 package top.starrysea.params.responsibility;
 
-import javax.servlet.http.HttpSession;
+import static top.starrysea.common.Common.toJson;
 
-import top.starrysea.params.strategy.SessionToString;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 public class HttpSessionHandler extends ParamsHandler {
 
 	@Override
 	public String handleRequest(Object object) {
 		if (object instanceof HttpSession) {
-			changeToString = new SessionToString();
-		} else {
-			if (nextHandler != null) {
-				return nextHandler.handleRequest(object);
+			HttpSession session = (HttpSession) object;
+			Map<String, Object> map = new HashMap<>();
+			Enumeration<String> enumNames = session.getAttributeNames();
+			while (enumNames.hasMoreElements()) {
+				String key = enumNames.nextElement();
+				map.put(key, session.getAttribute(key));
 			}
+			return session.getClass().getSimpleName() + toJson(map);
 		}
-		return changeToString.paramToString(object);
+		return nextHandler.handleRequest(object);
 	}
 
 }

@@ -7,13 +7,9 @@ public class ServletRequestHandler extends ParamsHandler {
 	@Override
 	public String handleRequest(Object object) {
 		if (object instanceof HttpServletRequest) {
-
-		} else {
-			if (nextHandler != null) {
-				return nextHandler.handleRequest(object);
-			}
+			return "request对象";
 		}
-		return null;
+		return nextHandler.handleRequest(object);
 	}
 
 }
