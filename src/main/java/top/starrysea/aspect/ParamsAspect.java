@@ -3,6 +3,7 @@ package top.starrysea.aspect;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -12,8 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.params.responsibility.HandlerFactory;
-import top.starrysea.params.responsibility.ParamsHandler;
+import top.starrysea.params.handler.HandlerFactory;
 
 @Component
 @Aspect
@@ -26,9 +26,9 @@ public class ParamsAspect {
 		String className = pjp.getSignature().getDeclaringTypeName();
 		String methodName = pjp.getSignature().getName();
 		List<String> list = new ArrayList<>();
-		ParamsHandler handler = HandlerFactory.createHandler();
+		Function<Object, String> handler = HandlerFactory.createHandler();
 		for (Object object : pjp.getArgs()) {
-			list.add(handler.handleRequest(object));
+			list.add(handler.apply(object));
 		}
 		if (logger.isDebugEnabled()) {
 			logger.debug(className + "." + methodName + "() 前端入参:" + list);
@@ -37,10 +37,10 @@ public class ParamsAspect {
 		if (logger.isDebugEnabled()) {
 			String outMessage = className + "." + methodName + "() 后台出参:";
 			if (result instanceof ModelAndView) {
-				logger.debug(outMessage + handler.handleRequest(((ModelAndView) result).getModel()));
+				logger.debug(outMessage + handler.apply(((ModelAndView) result).getModel()));
 			}
 			if (result instanceof Map) {
-				logger.debug(outMessage + handler.handleRequest(result));
+				logger.debug(outMessage + handler.apply(result));
 			}
 		}
 		return result;
