@@ -11,7 +11,7 @@ public class HandlerFactory {
 	private HandlerFactory() {
 	}
 
-	public static Function<Object, String> createHandler() {
+	public static Function<Object, Object> createHandler() {
 		return BINDING_RESULT.andThen(DEVICE).andThen(SESSION).andThen(CONDITION).andThen(REQUEST).andThen(RESPONSE)
 				.andThen(MULTIPART_FILE).andThen(MULTIPART_FILES).andThen(DEFAULT);
 	}

@@ -26,9 +26,9 @@ public class ParamsAspect {
 		String className = pjp.getSignature().getDeclaringTypeName();
 		String methodName = pjp.getSignature().getName();
 		List<String> list = new ArrayList<>();
-		Function<Object, String> handler = HandlerFactory.createHandler();
+		Function<Object, Object> handler = HandlerFactory.createHandler();
 		for (Object object : pjp.getArgs()) {
-			list.add(handler.apply(object));
+			list.add((String)handler.apply(object));
 		}
 		if (logger.isDebugEnabled()) {
 			logger.debug(className + "." + methodName + "() 前端入参:" + list);
