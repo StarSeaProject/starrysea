@@ -16,7 +16,6 @@ import org.springframework.mobile.device.Device;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
-import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 
 public class ParamsHandlers {
@@ -62,32 +61,6 @@ public class ParamsHandlers {
 			map.put(key, session.getAttribute(key));
 		}
 		return session.getClass().getSimpleName() + map.toString();
-	};
-
-	static final UnaryOperator<Object> CONDITION = object -> {
-		if (!(object instanceof Condition))
-			return object;
-		Condition condition = (Condition) object;
-		Map<String, Object> map = new HashMap<>();
-		if (condition.getPage() != null) {
-			map.put("page", condition.getPage());
-		}
-		if (condition.getTimeEnd() != null) {
-			map.put("timeEnd", condition.getTimeEnd());
-		}
-		if (condition.getTokenString() != null) {
-			map.put("tokenString", condition.getTokenString());
-		}
-		if (condition.getExtraInfo() != null) {
-			map.put("extraInfo", condition.getExtraInfo());
-		}
-		if (condition.getOrderDir() != null) {
-			map.put("orderDir", condition.getOrderDir());
-		}
-		if (condition.getOrderBy() != null) {
-			map.put("orderBy", condition.getOrderBy());
-		}
-		return condition.getClass().getSimpleName() + map.toString();
 	};
 
 	static final UnaryOperator<Object> REQUEST = object -> {

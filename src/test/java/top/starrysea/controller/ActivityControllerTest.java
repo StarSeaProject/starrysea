@@ -1,9 +1,5 @@
 package top.starrysea.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +8,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.StarrtseaApplication;
-import top.starrysea.common.Condition;
-import top.starrysea.object.view.in.ActivityForAdd;
 import top.starrysea.object.view.in.ActivityForAll;
-import top.starrysea.object.view.in.ActivityForModify;
 import top.starrysea.object.view.in.ActivityForOne;
-import top.starrysea.object.view.in.ActivityImageForAdd;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = StarrtseaApplication.class)
@@ -28,10 +20,9 @@ public class ActivityControllerTest {
 
 	@Test
 	public void queryAllActivityController() {
-		Condition condition = new Condition();
-		condition.setPage(1);
 		ActivityForAll activity = new ActivityForAll();
-		ModelAndView modelAndView = controller.queryAllActivityController(condition, activity,null);
+		activity.setPage(1);
+		ModelAndView modelAndView = controller.queryAllActivityController(activity,null);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}

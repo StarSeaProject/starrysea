@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.common.Condition;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IQuestionController;
@@ -37,10 +36,9 @@ public class QuestionControllerImpl implements IQuestionController {
 
 	@Override
 	@RequestMapping(value = "/question", method = RequestMethod.GET)
-	public ModelAndView queryQuestionController(Condition condition, QuestionForAll question, Device device) {
-
+	public ModelAndView queryQuestionController(QuestionForAll question, Device device) {
 		question.setQuestionStatus((short) 2);
-		ServiceResult serviceResult = questionService.queryAllQuestionService(condition, question.toDTO());
+		ServiceResult serviceResult = questionService.queryAllQuestionService(question.getCondition(), question.toDTO());
 		List<Question> result = serviceResult.getResult(LIST_1);
 		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());

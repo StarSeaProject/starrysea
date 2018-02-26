@@ -1,6 +1,5 @@
 package top.starrysea.controller;
 
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.StarrtseaApplication;
-import top.starrysea.common.Condition;
 import top.starrysea.object.view.in.WorkForAll;
 import top.starrysea.object.view.in.WorkForOne;
 
@@ -23,11 +21,10 @@ public class WorkControllerTest {
 
 	@Test
 	public void queryAllWorkController() {
-		Condition condition = new Condition();
-		condition.setPage(1);
 		WorkForAll work = new WorkForAll();
 		Device device = null;
-		ModelAndView modelAndView = workController.queryAllWorkController(condition, work, device);
+		work.setPage(1);
+		ModelAndView modelAndView = workController.queryAllWorkController(work, device);
 		System.out.println(modelAndView.getViewName());
 		System.out.println(modelAndView.getModel());
 	}

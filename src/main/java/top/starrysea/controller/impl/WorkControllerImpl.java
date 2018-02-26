@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.common.Condition;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IWorkController;
@@ -43,8 +42,8 @@ public class WorkControllerImpl implements IWorkController {
 	@Override
 	@RequestMapping(value = "/work", method = RequestMethod.GET)
 	// 查询所有作品，此方法可用于作品管理，也可用于查看旧货
-	public ModelAndView queryAllWorkController(Condition condition, WorkForAll work, Device device) {
-		ServiceResult serviceResult = workService.queryAllWorkService(condition, work.toDTO());
+	public ModelAndView queryAllWorkController(WorkForAll work, Device device) {
+		ServiceResult serviceResult = workService.queryAllWorkService(work.getCondition(), work.toDTO());
 		List<Work> result = serviceResult.getResult(LIST_1);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());

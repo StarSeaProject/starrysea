@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.common.Condition;
 import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.controller.IActivityController;
@@ -45,8 +44,8 @@ public class ActivityControllerImpl implements IActivityController {
 	@Override
 	// 查询所有众筹活动
 	@RequestMapping(value = "/activity", method = RequestMethod.GET)
-	public ModelAndView queryAllActivityController(Condition condition, ActivityForAll activity, Device device) {
-		ServiceResult serviceResult = activityService.queryAllActivityService(condition, activity.toDTO());
+	public ModelAndView queryAllActivityController(ActivityForAll activity, Device device) {
+		ServiceResult serviceResult = activityService.queryAllActivityService(activity.getCondition(), activity.toDTO());
 		List<Activity> result = serviceResult.getResult(LIST_1);
 		Activity newestActivity = serviceResult.getResult(ACTIVITY);
 		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "all_activity" : "all_activity");
