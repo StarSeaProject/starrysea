@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +17,6 @@ import org.springframework.mobile.device.Device;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
-import top.starrysea.common.Condition;
-
 public class ParamsHandlers {
 
 	private ParamsHandlers() {
@@ -27,7 +26,7 @@ public class ParamsHandlers {
 		if (!(object instanceof BindingResult))
 			return object;
 		BindingResult bindingResult = (BindingResult) object;
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("hasError", bindingResult.hasErrors());
 		map.put("errorsCount", bindingResult.getErrorCount());
 		return bindingResult.getClass().getSimpleName() + map.toString();
@@ -108,4 +107,9 @@ public class ParamsHandlers {
 		}
 		return object;
 	};
+
+	public static Function<Object, Object> createHandler() {
+		return BINDING_RESULT.andThen(DEVICE).andThen(SESSION).andThen(REQUEST).andThen(RESPONSE)
+				.andThen(MULTIPART_FILE).andThen(MULTIPART_FILES).andThen(DEFAULT);
+	}
 }

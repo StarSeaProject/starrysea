@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.params.handler.HandlerFactory;
+import top.starrysea.params.handler.ParamsHandlers;
 
 @Component
 @Aspect
@@ -26,7 +26,7 @@ public class ParamsAspect {
 		String className = pjp.getSignature().getDeclaringTypeName();
 		String methodName = pjp.getSignature().getName();
 		List<String> list = new ArrayList<>();
-		Function<Object, Object> handler = HandlerFactory.createHandler();
+		Function<Object, Object> handler = ParamsHandlers.createHandler();
 		for (Object object : pjp.getArgs()) {
 			list.add((String)handler.apply(object));
 		}
