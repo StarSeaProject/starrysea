@@ -24,7 +24,6 @@ import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.dao.IProvinceDao;
-import top.starrysea.dao.IWorkDao;
 import top.starrysea.dao.IOrderDao;
 import top.starrysea.dao.IOrderDetailDao;
 import top.starrysea.dao.IWorkTypeDao;
@@ -50,8 +49,6 @@ public class OrderServiceImpl implements IOrderService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IOrderDao orderDao;
-	@Autowired
-	private IWorkDao workDao;
 	@Autowired
 	private IWorkTypeDao workTypeDao;
 	@Autowired
