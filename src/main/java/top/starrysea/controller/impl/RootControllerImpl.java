@@ -42,11 +42,6 @@ public class RootControllerImpl implements IRootController {
 		return new ModelAndView(device.isMobile() ? MOBILE + "index" : "index");
 	}
 
-	@RequestMapping("/intro")
-	public ModelAndView intro() {
-		return new ModelAndView("intro");
-	}
-
 	@RequestMapping("/admin")
 	public ModelAndView admin(HttpSession session, Device device) {
 		if (session.getAttribute(ADMIN_SESSION_KEY) != null) {
