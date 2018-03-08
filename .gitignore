@@ -1,7 +1,7 @@
 /.gradle
 /bin
 /.settings
-
+.factorypath
 # Compiled class file
 *.class
 

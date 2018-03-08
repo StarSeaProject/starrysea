@@ -35,7 +35,8 @@ dependencies {
 		'org.springframework.mobile:spring-mobile-device',
 		'org.springframework.boot:spring-boot-starter-aop',
 		'org.springframework.boot:spring-boot-starter-cache',
-		'org.springframework.boot:spring-boot-devtools'
+		'org.springframework.boot:spring-boot-devtools',
+		'org.springframework.boot:spring-boot-configuration-processor'
 	)
 	compile group: 'org.apache.poi', name: 'poi', version: '3.9'
 	compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
