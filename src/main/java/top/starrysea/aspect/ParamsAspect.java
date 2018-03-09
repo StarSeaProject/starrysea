@@ -28,7 +28,7 @@ public class ParamsAspect {
 		List<String> list = new ArrayList<>();
 		Function<Object, Object> handler = ParamsHandlers.createHandler();
 		for (Object object : pjp.getArgs()) {
-			list.add((String)handler.apply(object));
+			list.add((String) handler.apply(object));
 		}
 		if (logger.isDebugEnabled()) {
 			logger.debug(className + "." + methodName + "() 前端入参:" + list);

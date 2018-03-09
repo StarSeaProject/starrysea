@@ -29,30 +29,30 @@ public class EMailAspect {
 	private IMailService orderMailService;
 	@Resource(name = "sendOrderMailService")
 	private IMailService sendOrderMailService;
-	@Resource(name="deleteOrderMailService")
+	@Resource(name = "deleteOrderMailService")
 	private IMailService deleteOrderMailService;
 	@Resource
 	private IOrderDao orderDao;
 
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.WorkServiceImpl.addWorkService(..))", returning = "serviceResult")
 	public void sendWorkEmail(ServiceResult serviceResult) {
-		workMailService.sendMailService((Work)serviceResult.getResult(WORK));
+		workMailService.sendMailService((Work) serviceResult.getResult(WORK));
 	}
 
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.addOrderService(..))", returning = "serviceResult")
 	public void sendOrderEmail(ServiceResult serviceResult) {
-		if(serviceResult.isSuccessed())
-			orderMailService.sendMailService((List<OrderDetail>)serviceResult.getResult(LIST_1));
+		if (serviceResult.isSuccessed())
+			orderMailService.sendMailService((List<OrderDetail>) serviceResult.getResult(LIST_1));
 	}
 
 	@AfterReturning(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.modifyOrderService(..))", returning = "serviceResult")
 	public void sendSendOrderEmail(ServiceResult serviceResult) {
-		sendOrderMailService.sendMailService((Orders)serviceResult.getResult(ORDER));
+		sendOrderMailService.sendMailService((Orders) serviceResult.getResult(ORDER));
 	}
-	
-	@Before(value="execution(* top.starrysea.service.impl.OrderServiceImpl.removeOrderService(..))")
+
+	@Before(value = "execution(* top.starrysea.service.impl.OrderServiceImpl.removeOrderService(..))")
 	public void deleteOrderMail(JoinPoint jp) {
-		Orders order=(Orders) jp.getArgs()[0];
+		Orders order = (Orders) jp.getArgs()[0];
 		deleteOrderMailService.sendMailService(orderDao.getOrderDao(order).getResult(Orders.class));
 	}
 }

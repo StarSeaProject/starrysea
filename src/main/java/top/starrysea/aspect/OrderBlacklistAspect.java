@@ -13,7 +13,7 @@ import top.starrysea.object.dto.Orders;
 
 @Component
 @Aspect
-@EnableConfigurationProperties({Blacklist.class})
+@EnableConfigurationProperties({ Blacklist.class })
 public class OrderBlacklistAspect {
 
 	@Autowired

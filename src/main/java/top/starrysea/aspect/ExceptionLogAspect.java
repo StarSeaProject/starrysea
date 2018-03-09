@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 public class ExceptionLogAspect {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@AfterThrowing(throwing = "ex", pointcut = "execution(* top.starrysea.*.*.*(..))")
 	public void afterThrowException(JoinPoint jp, Exception ex) {
-		String msg=jp.getTarget().getClass().getName()+"发生了异常";
+		String msg = jp.getTarget().getClass().getName() + "发生了异常";
 		logger.error(msg, ex);
 	}
 }
