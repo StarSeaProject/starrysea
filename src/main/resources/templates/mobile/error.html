@@ -17,8 +17,6 @@
 
     <style>
         .heading {
-            background-image: url("/navbar.jpg");
-            height: 360px;
             background-repeat: no-repeat;
         }
 
@@ -27,7 +25,6 @@
         }
 
         .myli {
-            color: #fff;
         }
 
         .myli:hover {
@@ -38,7 +35,6 @@
             background-image: url("/wavew.png");
             background-repeat: repeat-x;
             height: 80px;
-            backgroud: #409cc3;
         }
 
         .navimg {
@@ -52,10 +48,13 @@
         #shownav {
             float: right;
         }
-
-        .abnav {
-            color: #FFFFFF;
-            font-size: 1.5em;
+        .mynavul{
+            float:right;
+            background-color: #1e93f3;
+        }
+        .anav {
+            color: #000000;
+            font-size:0.7em;
         }
 
         a:hover {
@@ -66,26 +65,30 @@
                 display: none;
             }
         }
+
     </style>
 </head>
-<body>
-<body style="">
-<div class="container"
-     style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
-    <nav class="navbar navbar-brand navbar-static-top heading"
+
+<body class="container-fluid" style="overflow:hidden">
+    <div class="row" style="overflow:hidden">
+        <img src="/navbar.jpg"  style="width:120%;transform:translateX(-5%)" alt=""></img>
+    </div>
+    <nav class="container-fluid row navbar navbar-brand navbar-static-top heading"
          role="navigation" id="mybar"
-         style="height: auto;background-size: 99%; margin: 15px; padding: 10px;">
+         style="padding: 10px;position:relative;transform:translateY(-50%)">
 
         <div class="navbar-header"
              style="padding-left: 25px; padding-top: 10px;">
-            <a href="/" class="navimg"> <img src="/starsea.png"
-                                             style="width: 70px;" class="col-sms-4 navimg"></img>
+            <a href="/" class="navimg">
+                <img src="/starsea.png"
+                     style="width: 70px;" class="navimg"></img>
             </a>
-        <button class="navbar-toggle col-sm-4" data-toggle="collapse"
+            <button class="navbar-toggle" data-toggle="collapse"
                     data-target="#shownav" id="btnnav">
                 <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </button>
+        </div>
 
-            </button></div>
         <div class="collapse navbar-collapse navbar-right" id="shownav">
             <ul class="nav navbar-nav mynavul">
                 <li class="myli"><a href="/work" class="anav">作品阅览</a></li>
@@ -93,23 +96,28 @@
                 <li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
             </ul>
         </div>
-        <img src="/navbar.jpg" style="visibility: hidden;width: 100%;height: 25vh;" alt=""></img>
-    </nav>
-</div>
-<div class="container text-center" style="background:rgba(200,200,200,0.5);width:50%">
-	<div class="col-xs-3">
-	<img class="img-reponsive" src="/bubudia.png" style="width:100%;" />
-	</div>
-	<div class="col-xs-9">
-    <h1 th:text="${errInfo}" class="h2"></h1>
-    </div>
-</div>
-<div style="height:100px;"></div>
-<div class="footbar text-center navbar-fixed-bottom">
-    <p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
-</div>
 
-<script src="/navbar.js"></script>
-</body>
+    </nav>
+
+
+    <div class="container text-center" style="width:70%;margin-left:15%;margin-top:100px;transform: translateY(-50%);">
+        <div class="row">
+            <div class="col-xs-12" style="background:rgba(200,200,200,0.5);">
+                <img style="width:70%;margin:auto;" src="/bubudia.png" />
+            </div>
+        </div>
+        <div class="row" style="background:rgba(200,200,200,0.5);">
+            <div class="col-xs-12">
+                <h3 th:text="${errInfo}" class="h3"></h3>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height:100px;"></div>
+    <div class="row footbar text-center navbar-fixed-bottom">
+        <p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
+    </div>
+
+    <script src="/navbar.js"></script>
+
 </body>
 </html>
