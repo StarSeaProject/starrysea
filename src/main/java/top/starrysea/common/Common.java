@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.mobile.device.Device;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.ModelAndView;
@@ -164,13 +165,10 @@ public class Common {
 		return clazz.cast(new Object());
 	}
 
-	public static ModelAndView handleVaildError(BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView();
+	public static ModelAndView handleVaildError(BindingResult bindingResult,Device device) {
 		String errInfo = bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
 				.collect(Collectors.joining("\n"));
-		modelAndView.addObject("errInfo", errInfo);
-		modelAndView.setViewName("error");
-		return modelAndView;
+		return ModelAndViewFactory.newErrorMav(errInfo, device);
 	}
 
 	public static Map<String, Object> handleVaildErrorForAjax(BindingResult bindingResult) {
