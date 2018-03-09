@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import top.starrysea.common.ModelAndViewFactory;
 import top.starrysea.controller.IRootController;
 import top.starrysea.file.FileCondition;
 import top.starrysea.file.FileType;
@@ -48,6 +49,16 @@ public class RootControllerImpl implements IRootController {
 			return new ModelAndView(device.isMobile() ? MOBILE + BOSS : BOSS);
 		}
 		return new ModelAndView("admin_login");
+	}
+
+	@RequestMapping("/s")
+	public ModelAndView success(Device device) {
+		return ModelAndViewFactory.newSuccessMav("这是成功页面的测试", device);
+	}
+
+	@RequestMapping("/e")
+	public ModelAndView error(Device device) {
+		return ModelAndViewFactory.newErrorMav("这是失败页面的测试", device);
 	}
 
 	@Override
