@@ -8,7 +8,7 @@ import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
 
-public class OrderDetailForAddOrder implements Serializable{
+public class OrderDetailForAddOrder implements Serializable {
 
 	/**
 	 * 
