@@ -70,6 +70,10 @@ a:hover {
 
 .formtitle {
 	padding-bottom: 40px;
+	border: 2px solid #FFFFFF;
+	border-radius: 10px;
+	display: table;
+	width:100%;
 }
 
 .formdata {
@@ -79,6 +83,7 @@ a:hover {
 	clear: both;
 	display: table;
 	margin-bottom: 20px;
+	width:100%;
 }
 
 .navimg {
@@ -89,7 +94,14 @@ a:hover {
 	transform: scale(1.4);
 }
 
-.worktype, .workname, .selectwork, .workimg, .workdel {
+ .selectwork {
+	display: table-cell;
+	vertical-align: middle;
+	height: 100%;
+	text-align:left;
+}
+
+.worktype, .workname, .workimg, .workdel {
 	display: table-cell;
 	vertical-align: middle;
 	height: 100%;
@@ -107,7 +119,12 @@ a:hover {
 
 .worktypep {
 	color: #999999;
-	font-size: 1.6em;
+	font-size: 1em;
+}
+
+.workstock {
+	color: #999999;
+	font-size: 1em;
 }
 
 .workdela {
@@ -183,12 +200,12 @@ a:hover {
 		<hr style="border-top: 2px solid #999" />
 	</div>
 	<form class="form ">
-		<div class="container " style="width: 95%;">
-			<div class="formtitle">
-				<div class="col-xs-2  " style="font-size: 1.6em;">
+		<div class="container-fluid " style="width: 95%;">
+			<div class="formtitle row">
+				<div class="col-xs-1  " style="font-size: 1.6em; ">
 					<input type="checkbox" class="selectall" /> 全选
 				</div>
-				<div class="col-xs-2 text-center">
+				<div class="col-xs-3 text-center">
 					<p style="font-size: 1.6em"></p>
 				</div>
 				<div class="col-xs-3  text-center">
@@ -201,19 +218,20 @@ a:hover {
 					<p style="font-size: 1.6em">操作</p>
 				</div>
 			</div>
-			<div class="formdata" style="width: 100%;"
+			<div class="formdata row"
 				th:each="workType,status:${workTypes}">
-				<div class="col-xs-1 selectwork text-center">
+				<div class="col-xs-1 selectwork" >
 					<input type="checkbox" class="selectallinput" />
 				</div>
 				<div class="col-xs-3 workimg text-center">
 					<img th:attr="src=${workType.workCover}" class="workimgimg" />
 				</div>
 				<div class="col-xs-3 workname text-center">
-					<p th:text="${workType.workName}" class="worknamep"></p>
+					<p th:text="${workType.workName}" class="worknamep">workName</p>
 				</div>
 				<div class="col-xs-2 worktype text-center">
-					<p th:text="${workType.workTypeName}" class="worktypep"></p>
+					<p th:text="${workType.workTypeName}" class="worktypep">workType</p>
+					<p class="workstock"><span>库存：</span><span>114514</span></p>
 				</div>
 				<div class="col-xs-2 workdel text-center">
 					<a th:href="@{'/car/remove/'+${status.index}}+'?token='+${token}"
