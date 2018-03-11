@@ -90,67 +90,87 @@ a:hover {
 	<div class="container">
 		<h1 class="h2">收货人信息</h1>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
-				<p>收货人姓名:</p>
-			</div>
-			<div class="col-xs-6" style="margin-top: 15px;" th:text="${order.orderName}">
-			</div>
+		<div class="col-xs-6" style="margin-top: 15px;">
+			<p>收货人姓名:</p>
+		</div>
+		<div class="col-xs-6" style="margin-top: 15px;"
+			th:text="${order.orderName}"></div>
 
-			<div th:each="orderDetail:${orderDetails}">
-				<div class="col-xs-6" style="margin-top: 15px;">
+		<div th:each="orderDetail:${orderDetails}">
+			<div class="col-xs-6" style="margin-top: 15px;">
 				<p>作品名称:</p>
-				</div>
-				<div class="col-xs-6" style="margin-top: 15px;" th:text="${orderDetail.workName}">
-				</div>
+			</div>
+			<div class="col-xs-6" style="margin-top: 15px;"
+				th:text="${orderDetail.workName}"></div>
 
-				<div class="col-xs-6" style="margin-top: 15px;">
-					<p>作品类型:</p>
-				</div>
-				<div class="col-xs-6" style="margin-top: 15px;" th:text="${orderDetail.workTypeName}">
-				</div>
-			</div>
-			
-			
 			<div class="col-xs-6" style="margin-top: 15px;">
-				<p>收获详细地址:</p>
+				<p>作品类型:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;" th:text="${order.orderAddress}">
-			</div>
-			
-			<div class="col-xs-6" style="margin-top: 15px;">
-				<p>发货状态:</p>
-			</div>
-			<div class="col-xs-6" style="margin-top: 15px;" th:text="${order.orderStatus}">
-			</div>
-			
-			<div class="col-xs-6" style="margin-top: 15px;">
-				<p>快递单号:</p>
-			</div>
-			<div class="col-xs-6" style="margin-top: 15px;" th:text="${order.orderExpressnum}">
-			</div>
-			
-			<div class="col-xs-6" style="margin-top: 15px;">
-				<p>下单时间</p>
-			</div>
-			<div class="col-xs-6" style="margin-top: 15px;" th:text="${order.orderTime}">
-			</div>
-			
-			<div class="col-xs-6" style="margin-top: 15px;">
-				<p>电子邮件:</p>
-			</div>
-			<div class="col-xs-6" style="margin-top: 15px;" th:text="${order.orderEMail}">
-			</div>
-			
-			<div class="col-xs-6" style="margin-top: 15px;">
-				<p>备注:</p>
-			</div>
-			<div class="col-xs-6" style="margin-top: 15px;" th:text="${order.orderRemark}">
-			</div>
+			<div class="col-xs-6" style="margin-top: 15px;"
+				th:text="${orderDetail.workTypeName}"></div>
+		</div>
+		<div class="col-xs-6" style="margin-top: 15px;">
+			<p>收获详细地址:</p>
+		</div>
+		<div class="col-xs-6" style="margin-top: 15px;"
+			th:text="${order.orderAddress}"></div>
+
+		<div class="col-xs-6" style="margin-top: 15px;">
+			<p>发货状态:</p>
+		</div>
+		<div class="col-xs-6" style="margin-top: 15px;"
+			th:text="${order.orderStatus}"></div>
+
+		<div class="col-xs-6" style="margin-top: 15px;">
+			<p>快递单号:</p>
+		</div>
+		<div class="col-xs-6" style="margin-top: 15px;"
+			th:text="${order.orderExpressnum}"></div>
+
+		<div class="col-xs-6" style="margin-top: 15px;">
+			<p>下单时间</p>
+		</div>
+		<div class="col-xs-6" style="margin-top: 15px;"
+			th:text="${order.orderTime}"></div>
+
+		<div class="col-xs-6" style="margin-top: 15px;">
+			<p>电子邮件:</p>
+		</div>
+		<div class="col-xs-6" style="margin-top: 15px;"
+			th:text="${order.orderEMail}"></div>
+
+		<div class="col-xs-6" style="margin-top: 15px;">
+			<p>备注:</p>
+		</div>
+		<div class="col-xs-6" style="margin-top: 15px;"
+			th:text="${order.orderRemark}"></div>
+		<div class="col-xs-6" style="margin-top: 15px">
+			<form id="modifySendForm" action="/order/address/send" method="post">
+				<input type="hidden" name="orderNum" th:value="${order.orderNum}" />
+			</form>
+		</div>
+		<button id="modifyAddressBtn" class="btn btn-danger">修改地址</button>
 	</div>
 	<div class="footbar text-center">
 		<p style="padding-top: 100px;">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
-
 	<script src="/navbar.js"></script>
+	<script th:inline="javascript">
+/*<![CDATA[*/
+var orderStatus=/*[[${order.orderStatus}]]*/;
+console.log(orderStatus);
+$("#modifyAddressBtn").hide();
+if(orderStatus=="未发货"){
+	$("#modifyAddressBtn").show();
+}
+/*]]>*/
+</script>
+	<script>
+	$(function(){
+		 $("#modifyAddressBtn").on("click",function(e){
+			 $("#modifySendForm").submit();
+		 });
+	});
+</script>
 </body>
 </html>
