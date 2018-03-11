@@ -35,14 +35,16 @@ public class OrderDaoImpl implements IOrderDao {
 	public DaoResult getOrderDao(Orders order) {
 		kumaSqlDao.selectMode();
 		if (isNotNull(order.getOrderNum())) {
-			EntitySqlResult<Orders> theResult = kumaSqlDao.select("order_name").select("province_name", "p")
-					.select("city_name", "c").select("area_name", "a").select("order_address").select("order_status")
-					.select("order_expressnum").select("order_time").select("order_email").select("order_remark")
-					.from(Orders.class, "o").leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
+			EntitySqlResult<Orders> theResult = kumaSqlDao.select("order_num").select("order_name")
+					.select("province_name", "p").select("city_name", "c").select("area_name", "a")
+					.select("order_address").select("order_status").select("order_expressnum").select("order_time")
+					.select("order_email").select("order_remark").from(Orders.class, "o")
+					.leftjoin(Area.class, "a", "area_id", Orders.class, "order_area")
 					.leftjoin(City.class, "c", "city_id", Area.class, "city_id")
 					.leftjoin(Province.class, "p", "province_id", City.class, "province_id")
 					.where("order_num", WhereType.EQUALS, order.getOrderNum())
-					.endForObject((rs, row) -> new Orders.Builder().orderName(rs.getString("order_name"))
+					.endForObject((rs, row) -> new Orders.Builder().orderNum(rs.getString("order_num"))
+							.orderName(rs.getString("order_name"))
 							.orderArea(new Area.Builder().areaName(rs.getString("area_name"))
 									.city(new City.Builder().cityName(rs.getString("city_name"))
 											.province(new Province(null, rs.getString("province_name"))).build())
@@ -129,6 +131,15 @@ public class OrderDaoImpl implements IOrderDao {
 				.where("order_status", WhereType.EQUALS, order.getOrderStatus())
 				.where("order_name", WhereType.FUZZY, order.getOrderName()).endForNumber();
 		return new DaoResult(true, theResult.getResult());
+	}
+
+	@Override
+	public DaoResult updateAddressDao(Orders order) {
+		kumaSqlDao.updateMode();
+		kumaSqlDao.update("order_area", UpdateSetType.ASSIGN, order.getOrderArea().getAreaId())
+				.update("order_address", UpdateSetType.ASSIGN, order.getOrderAddress()).table(Orders.class)
+				.where("order_num", WhereType.EQUALS, order.getOrderNum()).end();
+		return new DaoResult(true);
 	}
 
 }

@@ -5,6 +5,7 @@ import static top.starrysea.common.Common.toJson;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
@@ -88,7 +89,7 @@ public class ParamsHandlers {
 	static final UnaryOperator<Object> MULTIPART_FILES = object -> {
 		if (!(object instanceof MultipartFile[]))
 			return object;
-		ArrayList<String> list = new ArrayList<>();
+		List<String> list = new ArrayList<>();
 		Map<String, Object> map = new HashMap<>();
 		MultipartFile[] files = (MultipartFile[]) object;
 		for (MultipartFile file : files) {

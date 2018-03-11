@@ -18,4 +18,6 @@ public interface IOrderDao {
 
 	DaoResult deleteOrderDao(Orders order);
 
+	DaoResult updateAddressDao(Orders order);
+
 }
