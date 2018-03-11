@@ -39,6 +39,7 @@ import top.starrysea.object.view.out.CityForAddOrder;
 import top.starrysea.object.view.out.ProvinceForAddOrder;
 import top.starrysea.service.IMailService;
 import top.starrysea.service.IOrderService;
+import top.starrysea.service.mail.impl.ModifyOrderMailServiceImpl;
 
 import static top.starrysea.dao.impl.OrderDaoImpl.PAGE_LIMIT;
 import static top.starrysea.common.ResultKey.*;
@@ -57,6 +58,8 @@ public class OrderServiceImpl implements IOrderService {
 	private IMailService orderMailService;
 	@Resource(name = "sendOrderMailService")
 	private IMailService sendOrderMailService;
+	@Resource(name = "modifyOrderMailService")
+	private IMailService modifyOrderMailService;
 	@Autowired
 	private IOrderDetailDao orderDetailDao;
 
@@ -185,9 +188,9 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult queryWorkTypeStock(List<WorkType> workTypes) {
 		DaoResult daoResult;
 		try {
-			for(WorkType workType:workTypes) {
+			for (WorkType workType : workTypes) {
 				daoResult = workTypeDao.getWorkTypeStockDao(workType);
-				
+
 				Integer stock = daoResult.getResult(Integer.class);
 				if (stock <= 0)
 					throw new LogicException("库存不足");
@@ -251,7 +254,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult queryAllWorkTypeForShoppingCarService(List<WorkType> workTypes) {
-		if(workTypes.isEmpty()) {
+		if (workTypes.isEmpty()) {
 			ServiceResult sr = new ServiceResult(false);
 			sr.setResult(LIST_1, new ArrayList<>());
 			return sr;
@@ -259,6 +262,22 @@ public class OrderServiceImpl implements IOrderService {
 		ServiceResult sr = new ServiceResult(true);
 		sr.setResult(LIST_1, workTypeDao.getAllWorkTypeForShoppingCarDao(workTypes).getResult(List.class));
 		return sr;
+	}
+
+	@Override
+	public ServiceResult modifyAddressService(Orders order) {
+		orderDao.updateAddressDao(order);
+		return new ServiceResult(true);
+	}
+
+	@Override
+	public ServiceResult modifyAddressEmailService(Orders order) {
+		Orders result = orderDao.getOrderDao(order).getResult(Orders.class);
+		if (result.getOrderStatus() != 2) {
+			modifyOrderMailService.sendMailService(result);
+			return new ServiceResult(true);
+		}
+		return new ServiceResult(false);
 	}
 
 }

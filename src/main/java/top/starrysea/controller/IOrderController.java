@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
 import top.starrysea.object.view.in.OrderForAdd;
+import top.starrysea.object.view.in.OrderForAddress;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
@@ -41,9 +42,13 @@ public interface IOrderController {
 
 	ModelAndView removeWorkFromShoppingCarController(HttpSession session, WorkTypeForRemoveCar workType,
 			BindingResult bindingResult, Device device);
-	
+
 	ModelAndView removeWorksFromShoppingCarController(HttpSession session, WorkTypesForRemoveCar workTypes,
 			BindingResult bindingResult, Device device);
 
 	ModelAndView queryShoppingCarController(HttpSession session, Device device);
+
+	ModelAndView modifyAddressController(OrderForAddress order, BindingResult bindingResult, Device device);
+
+	ModelAndView modifyAddressEmailController(OrderForOne order, BindingResult bindingResult, Device device);
 }

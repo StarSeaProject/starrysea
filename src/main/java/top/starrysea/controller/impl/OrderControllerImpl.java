@@ -1,6 +1,7 @@
 package top.starrysea.controller.impl;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -33,7 +34,9 @@ import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.WorkType;
 import top.starrysea.object.view.in.OrderDetailForAddOrder;
+import top.starrysea.object.view.in.OrderDetailForModifyAddr;
 import top.starrysea.object.view.in.OrderForAdd;
+import top.starrysea.object.view.in.OrderForAddress;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
 import top.starrysea.object.view.in.OrderForOne;
@@ -189,7 +192,7 @@ public class OrderControllerImpl implements IOrderController {
 			}
 		}
 		orderDetailList.add(orderDetail);
-		session.setAttribute(SHOPPINGCAR, orderDetailList);
+		session.setAttribute(SHOPPINGCAR, (Serializable) orderDetailList);
 		theResult.put(INFO, "添加到购物车成功!");
 		return theResult;
 	}
@@ -205,7 +208,7 @@ public class OrderControllerImpl implements IOrderController {
 		session.removeAttribute(TOKEN);
 		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
 		orderDetailList.remove((int) workType.getIndex());
-		session.setAttribute(SHOPPINGCAR, orderDetailList);
+		session.setAttribute(SHOPPINGCAR, (Serializable) orderDetailList);
 		return ModelAndViewFactory.newSuccessMav("从购物车移除作品成功!", device);
 	}
 
@@ -240,7 +243,44 @@ public class OrderControllerImpl implements IOrderController {
 		for (WorkTypeForRemoveCar workType : workTypes.getWorkTypes()) {
 			orderDetailList.remove((int) workType.getIndex());
 		}
-		session.setAttribute(SHOPPINGCAR, orderDetailList);
+		session.setAttribute(SHOPPINGCAR, (Serializable) orderDetailList);
 		return ModelAndViewFactory.newSuccessMav("从购物车移除作品成功!", device);
+	}
+
+	@Override
+	@RequestMapping(value = "/order/address/modify", method = RequestMethod.POST)
+	public ModelAndView modifyAddressController(@Valid OrderForAddress order, BindingResult bindingResult,
+			Device device) {
+		orderService.modifyAddressService(order.toDTO());
+		return ModelAndViewFactory.newSuccessMav("修改地址成功", device);
+	}
+
+	@RequestMapping(value = "/order/address/toModifyAddr", method = RequestMethod.GET)
+	public ModelAndView gotoModifyAddressController(@Valid OrderDetailForModifyAddr order, BindingResult bindingResult,
+			Device device) {
+		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
+		Orders o = serviceResult.getResult(ORDER);
+		String key = Common.md5(o.getOrderArea().getAreaName() + o.getOrderAddress());
+		if (!key.equals(order.getKey())) {
+			return ModelAndViewFactory.newErrorMav("参数不正确或链接已过期", device);
+		}
+		List<OrderDetail> ods = serviceResult.getResult(LIST_1);
+		ModelAndView modelAndView = new ModelAndView(
+				device.isMobile() ? MOBILE + "orders_modify_address" : "orders_modify_address");
+		modelAndView.addObject("order", o.toVoForOne());
+		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(MAP));
+		modelAndView.addObject("orderDetails", ods.stream().map(OrderDetail::toVoForOne).collect(Collectors.toList()));
+		return modelAndView;
+	}
+
+	@Override
+	@RequestMapping(value = "/order/address/send", method = RequestMethod.POST)
+	public ModelAndView modifyAddressEmailController(@Valid OrderForOne order, BindingResult bindingResult,
+			Device device) {
+		ServiceResult result = orderService.modifyAddressEmailService(order.toDTO());
+		if (!result.isSuccessed()) {
+			return ModelAndViewFactory.newErrorMav("您的订单已发货,不能再修改收货地址!", device);
+		}
+		return ModelAndViewFactory.newSuccessMav("修改链接已发送至您的邮箱，请注意查收", device);
 	}
 }
