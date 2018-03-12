@@ -4,6 +4,8 @@ import static top.starrysea.common.Const.ERRINFO;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mobile.device.Device;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -165,7 +168,7 @@ public class Common {
 		return clazz.cast(new Object());
 	}
 
-	public static ModelAndView handleVaildError(BindingResult bindingResult,Device device) {
+	public static ModelAndView handleVaildError(BindingResult bindingResult, Device device) {
 		String errInfo = bindingResult.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
 				.collect(Collectors.joining("\n"));
 		return ModelAndViewFactory.newErrorMav(errInfo, device);
@@ -177,5 +180,15 @@ public class Common {
 				.collect(Collectors.joining("\n"));
 		theResult.put(ERRINFO, errInfo);
 		return theResult;
+	}
+
+	public static String readEmailHtml(String fileName) {
+		try {
+			return new String(Files
+					.readAllBytes(Paths.get(new ClassPathResource("email/" + fileName).getFile().getAbsolutePath())));
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return "";
 	}
 }

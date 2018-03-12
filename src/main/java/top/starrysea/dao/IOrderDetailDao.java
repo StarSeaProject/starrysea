@@ -14,4 +14,6 @@ public interface IOrderDetailDao {
 	DaoResult isOrderDetailExistDao(OrderDetail orderDetail);
 	
 	DaoResult getAllOrderDetailForXls();
+	
+	DaoResult getAllResendOrderDetailDao(OrderDetail orderDetail);
 }

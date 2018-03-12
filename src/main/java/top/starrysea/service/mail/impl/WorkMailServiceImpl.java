@@ -32,4 +32,11 @@ public class WorkMailServiceImpl extends MailServiceImpl {
 				receiver -> mailCommon.send(new Mail(receiver.getOnlineEmail(), "星之海志愿者公会", work.getWorkPdfpath())));
 	}
 
+	@Override
+	protected String getHtml() {
+		//暂时还不需要推送作品信息
+		return null;
+		//return Common.readEmailHtml("work_mail.html");
+	}
+
 }

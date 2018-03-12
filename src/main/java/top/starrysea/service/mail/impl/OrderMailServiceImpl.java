@@ -1,11 +1,13 @@
 package top.starrysea.service.mail.impl;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import top.starrysea.common.Common;
 import top.starrysea.dao.IWorkDao;
 import top.starrysea.dao.IWorkTypeDao;
 import top.starrysea.kql.entity.Entity;
@@ -44,11 +46,14 @@ public class OrderMailServiceImpl extends MailServiceImpl {
 		}
 		orderDetailsStr.append("</tbody>");
 		orderDetailsStr.append("</table>");
-		String content = "<div>" + "这是一封确认邮件</div>" + "<div>您已经下单星之海的作品,以下是您下单的详细信息:</div>" + orderDetailsStr.toString()
-				+ "<div>您的订单号为：<b>" + order.getOrderNum() + "</b></div>"
-				+ "<div>您可以根据此订单号<a href=http://www.starrysea.top/order/" + order.getOrderNum() + ">查询您的发货信息</a></div>"
-				+ "<div>我们会在发货后再发一封邮件来通知您</div>" + "<div>如有问题请联系我们的官博或者邮件联系adky8a@qq.com</div>";
+		String content = MessageFormat.format(contentTemplate, orderDetailsStr.toString(), order.getOrderNum(),
+				order.getOrderNum());
 		mailCommon.send(new Mail(order.getOrderEMail(), "星之海志愿者公会", content));
+	}
+
+	@Override
+	protected String getHtml() {
+		return Common.readEmailHtml("order_mail.html");
 	}
 
 }

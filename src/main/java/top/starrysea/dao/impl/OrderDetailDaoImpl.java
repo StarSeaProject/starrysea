@@ -114,4 +114,26 @@ public class OrderDetailDaoImpl implements IOrderDetailDao {
 		return new DaoResult(true, theResult.getResult());
 	}
 
+	@Override
+	public DaoResult getAllResendOrderDetailDao(OrderDetail orderDetail) {
+		kumaSqlDao.selectMode();
+		ListSqlResult<OrderDetail> theResult = kumaSqlDao.select("name", "wt").select("work_name", "w")
+				.select("work_type_id", "wt").select("work_id", "w").select("order_num", "o").select("order_email", "o")
+				.from(OrderDetail.class,
+						"od")
+				.innerjoin(Orders.class, "o", "order_id", OrderDetail.class, "order_id")
+				.innerjoin(WorkType.class, "wt", "work_type_id", OrderDetail.class, "work_type_id")
+				.innerjoin(Work.class, "w", "work_id", WorkType.class, "work_id")
+				.where("order_id", "od", WhereType.EQUALS, orderDetail.getOrder().getOrderId())
+				.endForList((rs, row) -> new OrderDetail.Builder()
+						.workType(new WorkType.Builder().name(rs.getString("name"))
+								.work(new Work.Builder().workId(rs.getInt("work_id"))
+										.workName(rs.getString("work_name")).build())
+								.workTypeId(rs.getInt("work_type_id")).build())
+						.order(new Orders.Builder().orderEMail(rs.getString("order_email"))
+								.orderNum(rs.getString("order_num")).build())
+						.build());
+		return new DaoResult(true, theResult.getResult());
+	}
+
 }

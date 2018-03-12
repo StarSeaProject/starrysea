@@ -245,7 +245,9 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult resendEmailService(Orders order) {
 		Orders result = orderDao.getOrderDao(order).getResult(Orders.class);
 		if (result.getOrderStatus() == 1) {
-			orderMailService.sendMailService(result);
+			List<OrderDetail> ods = orderDetailDao
+					.getAllResendOrderDetailDao(new OrderDetail.Builder().order(order).build()).getResult(List.class);
+			orderMailService.sendMailService(ods);
 		} else if (result.getOrderStatus() == 2) {
 			sendOrderMailService.sendMailService(result);
 		}
