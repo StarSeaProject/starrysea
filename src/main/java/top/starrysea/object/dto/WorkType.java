@@ -85,6 +85,6 @@ public class WorkType implements Entity {
 	}
 
 	public WorkTypeForCar toVoForCar() {
-		return new WorkTypeForCar(work.getWorkCover(), work.getWorkName(), name);
+		return new WorkTypeForCar(work.getWorkCover(), work.getWorkName(), name, stock);
 	}
 }

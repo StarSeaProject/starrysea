@@ -73,7 +73,7 @@ a:hover {
 	border: 2px solid #FFFFFF;
 	border-radius: 10px;
 	display: table;
-	width:100%;
+	width: 100%;
 }
 
 .formdata {
@@ -83,7 +83,7 @@ a:hover {
 	clear: both;
 	display: table;
 	margin-bottom: 20px;
-	width:100%;
+	width: 100%;
 }
 
 .navimg {
@@ -94,11 +94,11 @@ a:hover {
 	transform: scale(1.4);
 }
 
- .selectwork {
+.selectwork {
 	display: table-cell;
 	vertical-align: middle;
 	height: 100%;
-	text-align:left;
+	text-align: left;
 }
 
 .worktype, .workname, .workimg, .workdel {
@@ -202,7 +202,7 @@ a:hover {
 	<form class="form ">
 		<div class="container-fluid " style="width: 95%;">
 			<div class="formtitle row">
-				<div class="col-xs-1  " style="font-size: 1.6em; ">
+				<div class="col-xs-1  " style="font-size: 1.6em;">
 					<input type="checkbox" class="selectall" /> 全选
 				</div>
 				<div class="col-xs-3 text-center">
@@ -218,9 +218,8 @@ a:hover {
 					<p style="font-size: 1.6em">操作</p>
 				</div>
 			</div>
-			<div class="formdata row"
-				th:each="workType,status:${workTypes}">
-				<div class="col-xs-1 selectwork" >
+			<div class="formdata row" th:each="workType,status:${workTypes}">
+				<div class="col-xs-1 selectwork">
 					<input type="checkbox" class="selectallinput" />
 				</div>
 				<div class="col-xs-3 workimg text-center">
@@ -231,7 +230,9 @@ a:hover {
 				</div>
 				<div class="col-xs-2 worktype text-center">
 					<p th:text="${workType.workTypeName}" class="worktypep">workType</p>
-					<p class="workstock"><span>库存：</span><span>114514</span></p>
+					<p class="workstock">
+						<span>库存：</span><span th:text="${workType.stock}"></span>
+					</p>
 				</div>
 				<div class="col-xs-2 workdel text-center">
 					<a th:href="@{'/car/remove/'+${status.index}}+'?token='+${token}"
