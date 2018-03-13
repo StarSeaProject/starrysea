@@ -14,43 +14,14 @@
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/mycss.css"></link>
-
+    <link rel="stylesheet" href="/mynavbar_commonpage.css"></link>
     <style>
-        .heading {
-            background-image: url("/navbar.jpg");
-            height: 360px;
-            background-repeat: no-repeat;
-        }
-
-        #btnnav {
-            float: right;
-        }
-
-        .myli {
-            color: #fff;
-        }
-
-        .myli:hover {
-            text-decoration: underline;
-        }
 
         .footbar {
             background-image: url("/wavew.png");
             background-repeat: repeat-x;
             height: 80px;
             backgroud: #409cc3;
-        }
-
-        .navimg {
-            transition: all 0.6s;
-        }
-
-        .navimg:hover {
-            transform: scale(1.4);
-        }
-
-        #shownav {
-            float: right;
         }
 
         .abnav {
@@ -68,24 +39,22 @@
         }
     </style>
 </head>
-<body>
-<body style="">
-<div class="container"
-     style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
-    <nav class="navbar navbar-brand navbar-static-top heading"
-         role="navigation" id="mybar"
-         style="height: auto;background-size: 99%; margin: 15px; padding: 10px;">
-
-        <div class="navbar-header"
-             style="padding-left: 25px; padding-top: 10px;">
-            <a href="/" class="navimg"> <img src="/starsea.png"
-                                             style="width: 70px;" class="col-sms-4 navimg"></img>
+<body class="container-fluid">
+<div class="container-fluid common-navbar">
+    <nav class="row heading"
+         role="navigation" id="mybar">
+        <div class="navbar-header" >
+            <a href="/" class="col-sm-4">
+                <img src="/starsea.png" class="navimg"></img>
             </a>
-        <button class="navbar-toggle col-sm-4" data-toggle="collapse"
+            <span class="col-sm-4">
+				</span>
+            <button class="navbar-toggle col-sm-4" data-toggle="collapse"
                     data-target="#shownav" id="btnnav">
                 <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </button>
+        </div>
 
-            </button></div>
         <div class="collapse navbar-collapse navbar-right" id="shownav">
             <ul class="nav navbar-nav mynavul">
                 <li class="myli"><a href="/work" class="anav">作品阅览</a></li>
@@ -93,7 +62,7 @@
                 <li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
             </ul>
         </div>
-        <img src="/navbar.jpg" style="visibility: hidden;width: 100%;height: 25vh;" alt=""></img>
+
     </nav>
 </div>
 <div class="container text-center" style="background:rgba(200,200,200,0.5);width:50%">
@@ -109,7 +78,6 @@
     <p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
 
-<script src="/navbar.js"></script>
 </body>
-</body>
+
 </html>

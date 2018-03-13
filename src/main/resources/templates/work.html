@@ -14,29 +14,9 @@
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/mycss.css"></link>
+<link rel="stylesheet" href="/mynavbar_commonpage.css"></link>
 
 <style>
-.heading {
-	background-image: url("/navbar.jpg");
-	height: 360px;
-	background-repeat: no-repeat;
-}
-
-#btnnav {
-	float: right;
-}
-
-.myli {
-	color: #fff;
-}
-
-.myli:hover {
-	text-decoration: underline;
-}
-
-#shownav {
-	float: right;
-}
 
 .abnav {
 	color: #FFFFFF;
@@ -113,14 +93,6 @@ a.detailhref:link {
 	background-position: right bottom;
 }
 
-.navimg {
-	transition: all 0.6s;
-}
-
-.navimg:hover {
-	transform: scale(1.4);
-}
-
 #gotocar {
 	border: 1px solid orange;
 	border-radius: 40px;
@@ -135,34 +107,33 @@ a.detailhref:link {
 </style>
 </head>
 
-<body>
-	<div style="visibility: hidden; position: absolute;"></div>
-	<div class="container"
-		style="width: 100%; padding: 0%; margin: 0%; border: 0%;">
-		<nav class="navbar navbar-brand navbar-static-top heading"
-			role="navigation" id="mybar"
-			style="background-size: 99%; margin: 15px; padding: 10px;">
-
-			<div class="navbar-header"
-				style="padding-left: 25px; padding-top: 10px;">
-				<a href="/" class="navimg"> <img src="/starsea.png"
-					style="width: 70px;" class="col-sms-4 navimg"></img>
-				</a>
-				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
+<body class="container-fluid">
+<div class="container-fluid common-navbar">
+	<nav class="row heading"
+		 role="navigation" id="mybar">
+		<div class="navbar-header" >
+			<a href="/" class="col-sm-4">
+				<img src="/starsea.png" class="navimg"></img>
+			</a>
+			<span class="col-sm-4">
+				</span>
+			<button class="navbar-toggle col-sm-4" data-toggle="collapse"
 					data-target="#shownav" id="btnnav">
-					<span class="glyphicon glyphicon-menu-hamburger"></span>
+				<span class="glyphicon glyphicon-menu-hamburger"></span>
+			</button>
+		</div>
 
-				</button>
-			</div>
-			<div class="collapse navbar-collapse navbar-right" id="shownav">
-				<ul class="nav navbar-nav mynavul">
-					<li class="myli"><a href="/work" class="anav">作品阅览</a></li>
-					<li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
-					<li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
+		<div class="collapse navbar-collapse navbar-right" id="shownav">
+			<ul class="nav navbar-nav mynavul">
+				<li class="myli"><a href="/work" class="anav">作品阅览</a></li>
+				<li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
+				<li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
+			</ul>
+		</div>
+
+	</nav>
+</div>
+
 	<div class="pagetitle">
 		<h1 class="h1 pagetitleh1">作品展示</h1>
 		<h2 class="h2 pagetitleh2">Works Gallery</h2>
@@ -205,7 +176,6 @@ a.detailhref:link {
 		let total=[[${totalPage}]];
 	</script>
 	<script src="/read.js"></script>
-	<script src="/navbar.js"></script>
 	<script>
 	$(window).scroll(function () {
 		y = $(window).height();
