@@ -36,7 +36,6 @@ public class WorkMailServiceImpl extends MailServiceImpl {
 	protected String getHtml() {
 		//暂时还不需要推送作品信息
 		return null;
-		//return Common.readEmailHtml("work_mail.html");
 	}
 
 }
