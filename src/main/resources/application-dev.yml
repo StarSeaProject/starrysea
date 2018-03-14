@@ -1,7 +1,5 @@
-logging:
-  level:
-    top:
-      starrysea: debug
+logging: 
+  config: classpath:logback-dev.xml
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
