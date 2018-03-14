@@ -27,21 +27,21 @@ public class FundingDaoTest {
 				new Funding.Builder().activity(new Activity.Builder().activityId(190).build()).build()).getResult(List.class));
 	}
 
-//	@Test
-//	public void saveFundingDao() {
-//		Activity a = new Activity.Builder().activityId(191).build();
-//		List<Funding> list = new ArrayList<>();
-//		list.add(new Funding.Builder().activity(a).fundingName("aaa").fundingMoney(12.30).fundingMessage("aaaaaaa")
-//				.build());
-//		list.add(new Funding.Builder().activity(a).fundingName("bbb").fundingMoney(78.61).fundingMessage("bbbbbbb")
-//				.build());
-//		list.add(new Funding.Builder().activity(a).fundingName("ccc").fundingMoney(95.68).fundingMessage("ccccccc")
-//				.build());
-//		System.out.println(fundingDao.saveFundingDao(list).isSuccessed());
-//	}
-//
-//	@Test
-//	public void deleteFundingDao() {
-//		System.out.println(fundingDao.deleteFundingDao(new Funding.Builder().fundingId(126).build()).isSuccessed());
-//	}
+	@Test
+	public void saveFundingDao() {
+		Activity a = new Activity.Builder().activityId(191).build();
+		List<Funding> list = new ArrayList<>();
+		list.add(new Funding.Builder().activity(a).fundingName("aaa").fundingMoney(12.30).fundingMessage("aaaaaaa")
+				.build());
+		list.add(new Funding.Builder().activity(a).fundingName("bbb").fundingMoney(78.61).fundingMessage("bbbbbbb")
+				.build());
+		list.add(new Funding.Builder().activity(a).fundingName("ccc").fundingMoney(95.68).fundingMessage("ccccccc")
+				.build());
+		System.out.println(fundingDao.saveFundingDao(list).isSuccessed());
+	}
+
+	@Test
+	public void deleteFundingDao() {
+		System.out.println(fundingDao.deleteFundingDao(new Funding.Builder().fundingId(126).build()).isSuccessed());
+	}
 }

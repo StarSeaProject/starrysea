@@ -9,8 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import top.starrysea.StarrtseaApplication;
+import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.dao.IOrderDao;
+import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.Orders;
 
 @RunWith(SpringRunner.class)
@@ -25,21 +27,22 @@ public class OrderDaoTest {
 		System.out.println(orderDao.getOrderDao(new Orders.Builder().orderNum("123").build()).getResult(Orders.class));
 	}
 
-//	@Test
-//	public void saveOrderDao() {
-//		orderDao.saveOrderDao(new Orders.Builder().orderId(Common.getCharId("O-", 10)).orderName("xjl").orderArea(new Area.Builder().areaId(1).build())
-//				.orderAddress("asdasdasd").work(new Work.Builder().workId(6).build()).build());
-//	}
-//
-//	@Test
-//	public void updateOrderDao() {
-//		orderDao.updateOrderDao(new Orders.Builder().orderId("O-5aQh62Qk").orderStatus((short) 3).orderExpressnum("asdasd").build());
-//	}
-//
-//	@Test
-//	public void deleteOrderDao() {
-//		orderDao.deleteOrderDao(new Orders.Builder().orderId("O-5aQh62Qk").build());
-//	}
+	@Test
+	public void saveOrderDao() {
+		orderDao.saveOrderDao(new Orders.Builder().orderId(Common.getCharId("O-", 10)).orderName("xjl")
+				.orderArea(new Area.Builder().areaId(1).build()).orderAddress("asdasdasd").build());
+	}
+
+	@Test
+	public void updateOrderDao() {
+		orderDao.updateOrderDao(
+				new Orders.Builder().orderId("O-5aQh62Qk").orderStatus((short) 3).orderExpressnum("asdasd").build());
+	}
+
+	@Test
+	public void deleteOrderDao() {
+		orderDao.deleteOrderDao(new Orders.Builder().orderId("O-5aQh62Qk").build());
+	}
 
 	@Test
 	public void getAllOrderDao() {

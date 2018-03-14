@@ -53,13 +53,12 @@ public class OrderServiceTest {
 						.orderAddress("asdasdasd").orderEMail("709782571@qq.com").orderRemark("asdasdsa").orderPhone("11111111111").build(),
 				orderDetails).getTheResult());
 	}
-	//
-	// @Test
-	// public void modifyOrderService() {
-	// System.out.println(orderService.modifyOrderService(new
-	// Orders.Builder().orderId("O-095GgIDt")
-	// .orderStatus((short) 2).orderExpressnum("asdaqweqwesd").build()));
-	// }
+
+	@Test
+	public void modifyOrderService() {
+		System.out.println(orderService.modifyOrderService(new Orders.Builder().orderId("O-095GgIDt")
+				.orderStatus((short) 2).orderExpressnum("asdaqweqwesd").build()));
+	}
 
 	@Test
 	public void exportOrderToXls() {

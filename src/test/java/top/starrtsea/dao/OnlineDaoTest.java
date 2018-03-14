@@ -20,10 +20,10 @@ public class OnlineDaoTest {
 	@Autowired
 	private IOnlineDao dao;
 	
-//	@Test
-//	public void saveOnlineDao() {
-//		System.out.println(dao.saveOnlineDao(new Online.Builder().onlineId(Common.getCharId("O-", 10)).onlineEmail("111").build()).getErrInfo());
-//	}
+	@Test
+	public void saveOnlineDao() {
+		System.out.println(dao.saveOnlineDao(new Online.Builder().onlineId(Common.getCharId("O-", 10)).onlineEmail("111").build()).getErrInfo());
+	}
 
 	@Test
 	public void getAllOnlineDao() {

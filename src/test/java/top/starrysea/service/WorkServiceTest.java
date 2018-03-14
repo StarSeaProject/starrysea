@@ -42,17 +42,4 @@ public class WorkServiceTest {
 		System.out.println(wts);
 	}
 
-//	@Test
-//	public void addWorkService() {
-//		Work work = new Work.Builder().workName("a").workStock(5).workUploadTime(Common.getNowDate()).workCover("aaa")
-//				.workPdfpath("aaa").workSummary("asdasdasd").build();
-//		try {
-//			MockMultipartFile coverFile = new MockMultipartFile("1.jpg",
-//					new FileInputStream(new File("D:/develop/nginx-1.12.1/img/starsea.png")));
-//			MockMultipartFile[] array = new MockMultipartFile[1];
-//			System.out.println(workService.addWorkService(coverFile, array, work));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 }

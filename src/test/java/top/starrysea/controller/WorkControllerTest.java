@@ -36,28 +36,10 @@ public class WorkControllerTest {
 		System.out.println(modelAndView.getModel());
 	}
 
-//	@Test
-//	public void addWorkController() {
-//		HttpSession session = new MockHttpSession();
-//		session.setAttribute("adminId", 1);
-//		WorkForAdd work = new WorkForAdd();
-//		MockMultipartFile file;
-//		try {
-//			file = new MockMultipartFile("1.txt", new FileInputStream(new File("D://1.txt")));
-//			ModelAndView modelAndView = workController.addWorkController(session, file, work, null);
-//			System.out.println(modelAndView.getViewName());
-//			System.out.println(modelAndView.getModel());
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-//	@Test
-//	public void removeWorkController() {
-//		WorkForOne work = new WorkForOne();
-//		work.setWorkId(1);
-//		System.out.println(workController.removeWorkController(work, null,null));
-//	}
+	@Test
+	public void removeWorkController() {
+		WorkForOne work = new WorkForOne();
+		work.setWorkId(1);
+		System.out.println(workController.removeWorkController(work, null,null));
+	}
 }

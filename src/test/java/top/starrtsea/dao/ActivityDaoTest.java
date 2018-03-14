@@ -22,19 +22,19 @@ public class ActivityDaoTest {
 	@Autowired
 	private IActivityDao activityDao;
 
-//	@Test
-//	public void saveActivityDao() {
-//		DaoResult result = activityDao.saveActivityDao(new Activity.Builder().activityName("一起退会1")
-//				.activityContent("鱼死网破今晚就走").activityStatus((short) 0).activityCover("/aa.jpg").activitySummary("asdasdasd").build());
-//		System.out.println(result);
-//	}
-//
-//	@Test
-//	public void updateActivityDao() {
-//		DaoResult result = activityDao
-//				.updateActivityDao(new Activity.Builder().activityStatus((short) 3).activityEndtime(Common.getNowDate()).activityId(448).build());
-//		System.out.println(result);
-//	}
+	@Test
+	public void saveActivityDao() {
+		DaoResult result = activityDao.saveActivityDao(new Activity.Builder().activityName("一起退会1")
+				.activityContent("鱼死网破今晚就走").activityStatus((short) 0).activityCover("/aa.jpg").activitySummary("asdasdasd").build());
+		System.out.println(result);
+	}
+
+	@Test
+	public void updateActivityDao() {
+		DaoResult result = activityDao
+				.updateActivityDao(new Activity.Builder().activityStatus((short) 3).activityEndtime(Common.getNowDate()).activityId(448).build());
+		System.out.println(result);
+	}
 
 	@Test
 	public void getAllActivityDao() {
@@ -59,22 +59,22 @@ public class ActivityDaoTest {
 				activityDao.getActivityDao(new Activity.Builder().activityId(448).build()).getResult(Activity.class));
 	}
 
-//	@Test
-//	public void deleteActivityDao() {
-//		System.out.println(activityDao.deleteActivityDao(new Activity.Builder().activityId(448).build()));
-//	}
-//	
-//	@Test
-//	public void updateAddActivityMoneyDao() {
-//		List<Activity> list=new ArrayList<>();
-//		list.add(new Activity.Builder().activityMoney(100d).activityId(447).build());
-//		list.add(new Activity.Builder().activityMoney(100d).activityId(447).build());
-//		list.add(new Activity.Builder().activityMoney(100d).activityId(447).build());
-//		System.out.println(activityDao.updateAddActivityMoneyDao(list));
-//	}
-//	
-//	@Test
-//	public void updateReduceActivityMoneyDao() {
-//		System.out.println(activityDao.updateReduceActivityMoneyDao(new Activity.Builder().activityMoney(100d).activityId(447).build()));
-//	}
+	@Test
+	public void deleteActivityDao() {
+		System.out.println(activityDao.deleteActivityDao(new Activity.Builder().activityId(448).build()));
+	}
+	
+	@Test
+	public void updateAddActivityMoneyDao() {
+		List<Activity> list=new ArrayList<>();
+		list.add(new Activity.Builder().activityMoney(100d).activityId(447).build());
+		list.add(new Activity.Builder().activityMoney(100d).activityId(447).build());
+		list.add(new Activity.Builder().activityMoney(100d).activityId(447).build());
+		System.out.println(activityDao.updateAddActivityMoneyDao(list));
+	}
+	
+	@Test
+	public void updateReduceActivityMoneyDao() {
+		System.out.println(activityDao.updateReduceActivityMoneyDao(new Activity.Builder().activityMoney(100d).activityId(447).build()));
+	}
 }
