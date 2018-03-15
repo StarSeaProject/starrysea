@@ -35,12 +35,12 @@ public class UserControllerImpl implements IUserController {
 		if (serviceResult.isSuccessed()) {
 			Admin admin1 = serviceResult.getResult(ADMIN);
 			// 登陆成功,返回管理员的主页
-			modelAndView.addObject(ADMIN_SESSION_KEY, admin1.getAdminId());
-			modelAndView.setViewName(device.isMobile() ? MOBILE + BOSS : BOSS);
+			modelAndView.addObject(ADMIN_SESSION_KEY, admin1.getAdminId())
+					.setViewName(device.isMobile() ? MOBILE + BOSS : BOSS);
 		} else {
 			// 登陆失败,返回登陆页面
-			modelAndView.setViewName(device.isMobile() ? MOBILE + LOGIN_VIEW : LOGIN_VIEW);
-			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo());
+			modelAndView.addObject(ERRINFO, serviceResult.getErrInfo())
+					.setViewName(device.isMobile() ? MOBILE + LOGIN_VIEW : LOGIN_VIEW);
 		}
 		return modelAndView;
 	}

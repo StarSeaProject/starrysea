@@ -80,10 +80,9 @@ public class OrderControllerImpl implements IOrderController {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		Orders o = serviceResult.getResult(ORDER);
 		List<OrderDetail> ods = serviceResult.getResult(LIST_1);
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "orders_details" : "orders_details");
-		modelAndView.addObject("order", o.toVoForOne());
-		modelAndView.addObject("orderDetails", ods.stream().map(OrderDetail::toVoForOne).collect(Collectors.toList()));
-		return modelAndView;
+		return new ModelAndView(device.isMobile() ? MOBILE + "orders_details" : "orders_details")
+				.addObject("order", o.toVoForOne())
+				.addObject("orderDetails", ods.stream().map(OrderDetail::toVoForOne).collect(Collectors.toList()));
 	}
 
 	@Override
@@ -108,13 +107,11 @@ public class OrderControllerImpl implements IOrderController {
 		if (!sr.isSuccessed()) {
 			return ModelAndViewFactory.newErrorMav(sr.getErrInfo(), device);
 		}
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "add_order" : "add_order");
-		modelAndView.addObject("workTypes", workTypes);
-		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(MAP));
 		String token = Common.getCharId(10);
 		session.setAttribute(TOKEN, token);
-		modelAndView.addObject(TOKEN, token);
-		return modelAndView;
+		return new ModelAndView(device.isMobile() ? MOBILE + "add_order" : "add_order")
+				.addObject("workTypes", workTypes)
+				.addObject("provinces", orderService.queryAllProvinceService().getResult(MAP)).addObject(TOKEN, token);
 	}
 
 	@Override
@@ -222,13 +219,11 @@ public class OrderControllerImpl implements IOrderController {
 		List<WorkType> workTypes = orderService.queryAllWorkTypeForShoppingCarService(orderDetailList.stream()
 				.map(orderDetail -> new WorkType.Builder().workTypeId(orderDetail.getWorkTypeId()).build())
 				.collect(Collectors.toList())).getResult(LIST_1);
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "shopcar" : "shopcar");
-		modelAndView.addObject("workTypes", workTypes.stream().map(WorkType::toVoForCar).collect(Collectors.toList()));
-		modelAndView.addObject("orderDetails", orderDetailList);
 		String token = Common.getCharId(10);
 		session.setAttribute(TOKEN, token);
-		modelAndView.addObject(TOKEN, token);
-		return modelAndView;
+		return new ModelAndView(device.isMobile() ? MOBILE + "shopcar" : "shopcar")
+				.addObject("workTypes", workTypes.stream().map(WorkType::toVoForCar).collect(Collectors.toList()))
+				.addObject("orderDetails", orderDetailList).addObject(TOKEN, token);
 	}
 
 	@Override
@@ -265,12 +260,10 @@ public class OrderControllerImpl implements IOrderController {
 			return ModelAndViewFactory.newErrorMav("参数不正确或链接已过期", device);
 		}
 		List<OrderDetail> ods = serviceResult.getResult(LIST_1);
-		ModelAndView modelAndView = new ModelAndView(
-				device.isMobile() ? MOBILE + "orders_modify_address" : "orders_modify_address");
-		modelAndView.addObject("order", o.toVoForOne());
-		modelAndView.addObject("provinces", orderService.queryAllProvinceService().getResult(MAP));
-		modelAndView.addObject("orderDetails", ods.stream().map(OrderDetail::toVoForOne).collect(Collectors.toList()));
-		return modelAndView;
+		return new ModelAndView(device.isMobile() ? MOBILE + "orders_modify_address" : "orders_modify_address")
+				.addObject("order", o.toVoForOne())
+				.addObject("provinces", orderService.queryAllProvinceService().getResult(MAP))
+				.addObject("orderDetails", ods.stream().map(OrderDetail::toVoForOne).collect(Collectors.toList()));
 	}
 
 	@Override

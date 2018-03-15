@@ -47,11 +47,8 @@ public class WorkControllerImpl implements IWorkController {
 		List<Work> result = serviceResult.getResult(LIST_1);
 		List<top.starrysea.object.view.out.WorkForAll> voResult = result.stream().map(Work::toVoForAll)
 				.collect(Collectors.toList());
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "work" : "work");
-		modelAndView.addObject("result", voResult);
-		modelAndView.addObject("nowPage", serviceResult.getNowPage());
-		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		return modelAndView;
+		return new ModelAndView(device.isMobile() ? MOBILE + "work" : "work").addObject("result", voResult)
+				.addObject("nowPage", serviceResult.getNowPage()).addObject("totalPage", serviceResult.getTotalPage());
 	}
 
 	@Override
@@ -77,12 +74,10 @@ public class WorkControllerImpl implements IWorkController {
 	public ModelAndView queryWorkController(@Valid WorkForOne work, BindingResult bindingResult, Device device) {
 		ServiceResult serviceResult = workService.queryWorkService(work.toDTO());
 		Work w = serviceResult.getResult(WORK);
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "work_detail" : "work_detail");
-		modelAndView.addObject("work", w.toVoForOne());
-		modelAndView.addObject("workId", work.getWorkId());
-		modelAndView.addObject("workImages", serviceResult.getResult(LIST_1));
-		modelAndView.addObject("workTypes", serviceResult.getResult(LIST_2));
-		return modelAndView;
+		return new ModelAndView(device.isMobile() ? MOBILE + "work_detail" : "work_detail")
+				.addObject("work", w.toVoForOne()).addObject("workId", work.getWorkId())
+				.addObject("workImages", serviceResult.getResult(LIST_1))
+				.addObject("workTypes", serviceResult.getResult(LIST_2));
 	}
 
 	@Override

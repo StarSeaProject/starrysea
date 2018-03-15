@@ -45,15 +45,14 @@ public class ActivityControllerImpl implements IActivityController {
 	// 查询所有众筹活动
 	@RequestMapping(value = "/activity", method = RequestMethod.GET)
 	public ModelAndView queryAllActivityController(ActivityForAll activity, Device device) {
-		ServiceResult serviceResult = activityService.queryAllActivityService(activity.getCondition(), activity.toDTO());
+		ServiceResult serviceResult = activityService.queryAllActivityService(activity.getCondition(),
+				activity.toDTO());
 		List<Activity> result = serviceResult.getResult(LIST_1);
 		Activity newestActivity = serviceResult.getResult(ACTIVITY);
-		ModelAndView modelAndView = new ModelAndView(device.isMobile() ? MOBILE + "all_activity" : "all_activity");
-		modelAndView.addObject("newResult", newestActivity.toVoForAll());
-		modelAndView.addObject("result", result.stream().map(Activity::toVoForAll).collect(Collectors.toList()));
-		modelAndView.addObject("nowPage", serviceResult.getNowPage());
-		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		return modelAndView;
+		return new ModelAndView(device.isMobile() ? MOBILE + "all_activity" : "all_activity")
+				.addObject("newResult", newestActivity.toVoForAll())
+				.addObject("result", result.stream().map(Activity::toVoForAll).collect(Collectors.toList()))
+				.addObject("nowPage", serviceResult.getNowPage()).addObject("totalPage", serviceResult.getTotalPage());
 	}
 
 	@Override
@@ -79,12 +78,9 @@ public class ActivityControllerImpl implements IActivityController {
 			Device device) {
 		ServiceResult serviceResult = activityService.queryActivityService(activity.toDTO());
 		Activity a = serviceResult.getResult(ACTIVITY);
-		ModelAndView modelAndView = new ModelAndView(
-				device.isMobile() ? MOBILE + "activity_detail" : "activity_detail");
-		modelAndView.addObject("activity", a.toVoForOne());
-		modelAndView.addObject("fundings", serviceResult.getResult(LIST_1));
-		modelAndView.addObject("fundingFactor", serviceResult.getResult(DOUBLE));
-		return modelAndView;
+		return new ModelAndView(device.isMobile() ? MOBILE + "activity_detail" : "activity_detail")
+				.addObject("activity", a.toVoForOne()).addObject("fundings", serviceResult.getResult(LIST_1))
+				.addObject("fundingFactor", serviceResult.getResult(DOUBLE));
 	}
 
 	@Override

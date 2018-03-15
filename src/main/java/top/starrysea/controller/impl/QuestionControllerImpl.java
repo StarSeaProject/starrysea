@@ -38,15 +38,13 @@ public class QuestionControllerImpl implements IQuestionController {
 	@RequestMapping(value = "/question", method = RequestMethod.GET)
 	public ModelAndView queryQuestionController(QuestionForAll question, Device device) {
 		question.setQuestionStatus((short) 2);
-		ServiceResult serviceResult = questionService.queryAllQuestionService(question.getCondition(), question.toDTO());
+		ServiceResult serviceResult = questionService.queryAllQuestionService(question.getCondition(),
+				question.toDTO());
 		List<Question> result = serviceResult.getResult(LIST_1);
 		List<top.starrysea.object.view.out.QuestionForAll> voResult = result.stream().map(Question::toVoForAll)
 				.collect(Collectors.toList());
-		ModelAndView modelAndView = new ModelAndView(QUESTION + "question");
-		modelAndView.addObject("result", voResult);
-		modelAndView.addObject("nowPage", serviceResult.getNowPage());
-		modelAndView.addObject("totalPage", serviceResult.getTotalPage());
-		return modelAndView;
+		return new ModelAndView(QUESTION + "question").addObject("result", voResult)
+				.addObject("nowPage", serviceResult.getNowPage()).addObject("totalPage", serviceResult.getTotalPage());
 	}
 
 	@Override
