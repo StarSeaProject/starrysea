@@ -15,95 +15,9 @@
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/mycss.css"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.css"></link>
+<link rel="stylesheet" href="/myfootbar_commonpage.css"></link>
+<link rel="stylesheet" href="/work_detail.css"></link>
 
-<style>
-
-.footbar {
-	background-image: url("/wavew.png");
-	background-repeat: repeat-x;
-	height: 80px;
-}
-
-.abnav {
-	color: #FFFFFF;
-	font-size: 1.5em;
-}
-
-a:hover {
-	color: rgb(7, 251, 251);
-}
-
-.pagetitle {
-	color: #238acb;
-	padding-top: 35px;
-	padding-bottom: 35px;
-	margin-top: 0px;
-	margin-bottom: 10px;
-}
-
-.pagetitleh1 {
-	padding-left: 100px;
-	margin: 0px;
-}
-
-.pagetitleh2 {
-	padding-left: 100px;
-	margin: 0px;
-	color: #999999;
-}
-
-.processbar {
-	background: black;
-	height: 40px;
-	margin-bottom: 60px;
-}
-
-.processbarli {
-	display: inline-block;
-	color: white;
-	font-size: 1.6em;
-	padding-left: 15px;
-	padding-right: 15px;
-	height: 40px;
-}
-
-.nowprocess {
-	background: red;
-}
-
-.workname {
-	background-color: #eeeeee;
-	color: #23b1f7;
-	padding-top: 35px;
-	padding-bottom: 35px;
-	margin-top: 0px;
-	margin-bottom: 10px;
-}
-
-.pdfiframe {
-	width: 100%;
-	height: 700px;;
-	border: 0px;
-}
-
-.uploadtime {
-	color: #999999;
-}
-
-.orderbtn {
-	background: rgba(255, 255, 255, 0);
-}
-#gotocar{
-	border:1px solid orange;
-	border-radius:40px;
-	height:80px;
-	width:80px;
-	background:#fff;
-}
-#cardiv{
-	position:absolute;
-}
-</style>
 </head>
 <body class="container-fluid">
 	<div class="container-fluid common-navbar">
@@ -137,7 +51,7 @@ a:hover {
 		<h2 class="h2 pagetitleh2">Works Gallery</h2>
 	</div>
 	<div class="processbar">
-		<ul class="ul" style="padding-left: 100px; height: 40px;">
+		<ul class="ul" >
 			<li class="processbarli text-center nowprocess">作品信息</li>
 			<li class="processbarli text-center">></li>
 			<li class="processbarli text-center">确认订单</li>
@@ -155,14 +69,14 @@ a:hover {
 			<div class="col-xs-6">
 				<div class="detail">
 					<h2 th:text="${work.workName}"></h2>
-					<hr style="border-top: 1px solid black"></hr>
+					<hr class="border1"></hr>
 					<h3 th:text="'上架时间:'+${work.workUploadTime}"></h3>
 					<h3 th:text="'点击量:'+${work.workClick}"></h3>
 					<h3>
 						<a th:href="@{${work.workPdfpath}}"
 							th:attr="download=${work.workName}">下载链接</a>
 					</h3>
-					<hr style="border-top: 1px solid black"></hr>
+					<hr class="border1" ></hr>
 					<span>种类:</span>&nbsp;&nbsp;
 					<div id="workType" class="btn-group" data-toggle="buttons">
 						<label class="btn btn-default orderbtn"
@@ -182,14 +96,14 @@ a:hover {
 		</div>
 	</div>
 	<hr></hr>
-	<div id="workImages" style="text-align: center" class="pdfcontainer">
+	<div id="workImages" class="pdfcontainer">
 		<button id="more_image" class="btn btn-info">更多</button>
 	</div>
 	<div id="cardiv">
-		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart" style="font-size:1.6em;color:orange;"></span></button>
-	</div>s
+		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart"></span></button>
+	</div>
 	<div class="footbar text-center">
-		<p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
+		<p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
 
 	<script th:inline="javascript">
@@ -240,12 +154,6 @@ a:hover {
         });
     });
 </script>
-<script>
-	$(window).scroll(function () {
-		y = $(window).height();
-		cury = $(window).scrollTop()+y-160;
-		$('#cardiv').css("left","90%").css("top",cury+"px");
-	});
-	</script>
+<script src="/work_detail.js"></script>
 </body>
 </html>

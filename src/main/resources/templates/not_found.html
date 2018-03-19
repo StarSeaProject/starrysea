@@ -14,44 +14,15 @@
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/mycss.css"></link>
-<style>
-.navbartop{
-	width: 100%;
-	
-}
-
-.ma {
-	margin-top: 20px;
-	margin-left: 10px;
-	margin-bottom: -4px;
-	color: white;
-	display: inline-block;
-	font-size: 1.2em;
-}
-#p1{
-color:red;
-font-size:2.4em;
-padding-top:25px;
-}
-#p2{
-font-size:1.6em;
-font-style: italic;
-padding-top:25px;
-}
-#p3{
-font-size:1.6em;
-font-style: italic;
-padding-top:25px;
-}
-</style>
+<link rel="stylesheet" href="/not_found.css"></link>
 
 </head>
 <body>
-<div class="container header" style="background: #1e93f3;">
-<div class="navbartop" style="clear: both;">
+<div class="container header">
+<div class="navbartop">
 		<div class="navbar-header col-xs-3">
-			<a href="/"><img src="/starsea.png" style="width: 70px;"
-				class="img-reponsive"></img></a>
+			<a href="/"><img src="/starsea.png"
+				class="img-reponsive navimg"></img></a>
 		</div>
 		<div class="navbar-right col-xs-9 text-right">
 			<a href="/work" class="ma text-right">作品</a> <a href="/activity"
@@ -61,10 +32,10 @@ padding-top:25px;
 		
 	</div>
 </div>
-<div class="addheight container" style="height:60px;clear:both"></div>
+<div class="addheight container"></div>
 <div class="container">
 	<div class="col-md-4">
-	<img th:src="'/cucu/'+${cucuImg}" style="width:100%" id="cutu"/>
+	<img class="cucuimg" th:src="'/cucu/'+${cucuImg}" id="cutu"/>
 	</div>
 	<div class="col-md-8">
 	<p id="p1">啊哦！</p>

@@ -15,93 +15,9 @@
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/mycss.css"></link>
     <link rel="stylesheet" href="/mynavbar_commonpage.css"></link>
+    <link rel="stylesheet" href="/myfootbar_commonpage.css"></link>
+    <link rel="stylesheet" href="/all_activity.css"></link>
 
-    <style>
-
-        .abnav {
-            color: #FFFFFF;
-            font-size: 1.5em;
-        }
-
-        a:hover {
-            color: rgb(7, 251, 251);
-        }
-
-        .imagerow {
-            margin: 15px;
-        }
-
-        .nowacttitle {
-
-        }
-
-        .nowactbutton {
-            padding: 9px;
-            border: 1px solid;
-            border-radius: 12px;
-            border-color: #23b1f7;
-            text-decoration: none;
-            color: #23b1f7;
-        }
-
-        a.nowactbutton:hover {
-            text-decoration: none;
-            color: #23b1f7;
-        }
-
-        a.nowactbutton:visited {
-            text-decoration: none;
-            color: #23b1f7;
-        }
-
-        a.nowactbutton:link {
-            text-decoration: none;
-            color: #23b1f7;
-        }
-
-        .acttitle {
-
-            color: #409cc3;
-            height: 70px;
-            clear: both;
-        }
-
-        .acttitleh3 {
-            padding-top: 10px;
-            font-size: 2.6em;
-        }
-
-        .page {
-            font-size: 1.2em;
-        }
-
-        .nowpage {
-            font-size: 1.2em;
-        }
-
-        .pagebutton {
-            border: 1px solid;
-            border-radius: 2px;
-            border-color: #23b1f7;
-            margin-left: 10px;
-            height: 40px;
-        }
-
-        .footbar {
-            background-image: url("/wavew.png");
-            background-repeat: repeat-x;
-            height: 120px;
-            backgroud: #409cc3;
-        }
-
-        .right {
-            background-image: url("/002.png");
-            background-repeat: no-repeat;
-            background-position: center bottom;
-            height: 400px;
-        }
-
-    </style>
 </head>
 
 <body class="container-fluid">
@@ -186,13 +102,6 @@
         <div class="col-xs-3 pagebutton" id="frontbox">
             <a href="javascript:void(0)" class="page" id="front"
                th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"> </a>
-            <script type="text/javascript">
-                var x = document.getElementById("front");
-                if (x.innerHTML == "") {
-                    $("#frontbox").hide();
-
-                }
-            </script>
         </div>
         <div class="col-xs-3 pagebutton">
             <span class="nowpage" th:text="${nowPage}"> </span>
@@ -201,13 +110,6 @@
             <a href="javascript:void(0)" class="page" id="back"
                th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"> </a>
         </div>
-        <script type="text/javascript">
-            var x = document.getElementById("back");
-            if (x.innerHTML == "") {
-                $("#backbox").hide();
-
-            }
-        </script>
     </div>
     <div class="pagebox col-md-4 right">
 
@@ -220,8 +122,8 @@
 <br/>
 <br/>
 <br/>
-<div class="footbar text-center">
-    <p style="padding-top:100px;">互联网ICP备案：鲁ICP备17053445号</p>
+<div class="footbar text-center navbar-fixed-bottom">
+    <p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
 
 <form id="activityDetail" action="/activity/detail" method="get">
@@ -231,6 +133,7 @@
 
 <script src="/common.js"></script>
 <script src="/activity.js"></script>
+<script src="/all_activity.js"></script>
 </body>
 
 </html>

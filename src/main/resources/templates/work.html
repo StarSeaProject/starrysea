@@ -15,96 +15,8 @@
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/mycss.css"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.css"></link>
-
-<style>
-
-.abnav {
-	color: #FFFFFF;
-	font-size: 1.5em;
-}
-
-a:hover {
-	color: rgb(7, 251, 251);
-}
-
-.pagetitle {
-	color: #238acb;
-	padding-top: 35px;
-	padding-bottom: 35px;
-	margin-top: 0px;
-	margin-bottom: 10px;
-}
-
-.pagetitleh1 {
-	padding-left: 100px;
-	margin: 0px;
-}
-
-.pagetitleh2 {
-	padding-left: 100px;
-	margin: 0px;
-	color: #999999;
-}
-
-.worktitle {
-	color: #23b1f7;
-}
-
-.workdetail {
-	margin-top: 15px;
-	margin-bottom: 15px;
-	padding-bottom: 5px;
-}
-
-a.detailhref {
-	padding: 9px;
-	border: 1px solid;
-	border-radius: 12px;
-	border-color: #23b1f7;
-	text-decoration: none;
-	color: #23b1f7;
-}
-
-a.detailhref:hover {
-	text-decoration: none;
-	color: #23b1f7;
-}
-
-a.detailhref:visited {
-	text-decoration: none;
-	color: #23b1f7;
-}
-
-a.detailhref:link {
-	text-decoration: none;
-	color: #23b1f7;
-}
-
-.footbar {
-	background-image: url("/wavew.png");
-	background-repeat: repeat-x;
-	height: 80px;
-	backgroud: #409cc3;
-}
-
-.pagecontain {
-	background-image: url("/002.png");
-	background-repeat: no-repeat;
-	background-position: right bottom;
-}
-
-#gotocar {
-	border: 1px solid orange;
-	border-radius: 40px;
-	height: 80px;
-	width: 80px;
-	background: #fff;
-}
-
-#cardiv {
-	position: absolute;
-}
-</style>
+<link rel="stylesheet" href="/myfootbar_commonpage.css"></link>
+<link rel="stylesheet" href="/work.css"></link>
 </head>
 
 <body class="container-fluid">
@@ -138,15 +50,14 @@ a.detailhref:link {
 		<h1 class="h1 pagetitleh1">作品展示</h1>
 		<h2 class="h2 pagetitleh2">Works Gallery</h2>
 	</div>
-	<div class="addheight" style="height: 100px;"></div>
+	<div class="addheight1"></div>
 	<div class="container pagecontain">
 		<div class="worktable col-md-9">
 			<div id="works">
 				<div th:each="work:${result}">
 					<div class="row workbox">
 						<div class="col-xs-3 workimage">
-							<img style="cursor: pointer;"
-								th:attr="src=${work.workCover},data-workid=${work.workId}"
+							<img th:attr="src=${work.workCover},data-workid=${work.workId}"
 								class="workimg img-reponsive"></img>
 						</div>
 						<div class="col-xs-9 workdetail">
@@ -161,28 +72,21 @@ a.detailhref:link {
 			</div>
 		</div>
 	</div>
-	<div class="addheight" style="height: 140px;"></div>
+	<div class="addheight2"></div>
 	<div id="cardiv">
 		<button id="gotocar" onclick="window.location.href='/car'">
-			<span class="glyphicon glyphicon-shopping-cart"
-				style="font-size: 1.6em; color: orange;"></span>
+			<span class="glyphicon glyphicon-shopping-cart"></span>
 		</button>
 	</div>
 	<div class="footbar text-center">
-		<p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
+		<p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
 	<script src="/common.js"></script>
 	<script th:inline="javascript">
 		let total=[[${totalPage}]];
 	</script>
 	<script src="/read.js"></script>
-	<script>
-	$(window).scroll(function () {
-		y = $(window).height();
-		cury = $(window).scrollTop()+y-160;
-		$('#cardiv').css("left","90%").css("top",cury+"px");
-	});
-	</script>
+	<script src="/work.js"></script>
 
 </body>
 

@@ -16,24 +16,6 @@
 <link rel="stylesheet" href="/mycss.css"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.css"></link>
 
-<style>
-
-.footbar {
-	background-image: url("/wavew.png");
-	background-repeat: repeat-x;
-	height: 120px;
-	backgroud: #409cc3;
-}
-
-.abnav {
-	color: #FFFFFF;
-	font-size: 1.5em;
-}
-
-a:hover {
-	color: rgb(7, 251, 251);
-}
-</style>
 </head>
 <body class="container-fluid">
 <div class="container-fluid common-navbar">
@@ -66,31 +48,31 @@ a:hover {
 		<h1 class="h2">收货人信息</h1>
 		<form id="modifyAddressForm" action="/order/address/modify"
 			method="post">
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>收货人姓名:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;"
+			<div class="col-xs-6"  
 				th:text="${order.orderName}"></div>
 
 			<div th:each="orderDetail:${orderDetails}">
-				<div class="col-xs-6" style="margin-top: 15px;">
+				<div class="col-xs-6"  >
 					<p>作品名称:</p>
 				</div>
-				<div class="col-xs-6" style="margin-top: 15px;"
+				<div class="col-xs-6"  
 					th:text="${orderDetail.workName}"></div>
 
-				<div class="col-xs-6" style="margin-top: 15px;">
+				<div class="col-xs-6"  >
 					<p>作品类型:</p>
 				</div>
-				<div class="col-xs-6" style="margin-top: 15px;"
+				<div class="col-xs-6"  
 					th:text="${orderDetail.workTypeName}"></div>
 			</div>
 
 
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>收货地址</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<select id="province">
 					<option>请选择省份</option>
 					<option th:each="province:${provinces}" th:value="${province.key}"
@@ -99,82 +81,81 @@ a:hover {
 				</select> <select id="area" disabled="disabled">
 				</select> <input type="hidden" id="areasub" name="orderArea" />
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>收货详细地址</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<input type="text" name="orderAddress" id="ordadddel" />
 			</div>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>发货状态:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;"
+			<div class="col-xs-6"  
 				th:text="${order.orderStatus}"></div>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>快递单号:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;"
+			<div class="col-xs-6"  
 				th:text="${order.orderExpressnum}"></div>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>下单时间</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;"
+			<div class="col-xs-6"  
 				th:text="${order.orderTime}"></div>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>电子邮件:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;"
+			<div class="col-xs-6"  
 				th:text="${order.orderEMail}"></div>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>备注:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;"
+			<div class="col-xs-6"  
 				th:text="${order.orderRemark}"></div>
-			<div class="col-xs-6" style="margin-top: 15px;"></div>
+			<div class="col-xs-6"  ></div>
 			<input type="hidden" name="orderNum" th:value="${order.orderNum}" />
 		</form>
 		<button id="modifyAddressBtn" class="btn btn-danger">提交</button>
 	</div>
-	<div class="footbar text-center">
-		<p style="padding-top: 100px;">互联网ICP备案：鲁ICP备17053445号</p>
+	<div class="footbar text-center navbar-fixed-bottom">
+		<p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
 
 	<script src="/modify_address.js"></script>
+
 	<script th:inline="javascript">
-		$(function () {
-			let provinces = [[${provinces}]];
-		    let citys;
-		    $("#province").on("change",function(e){
-		    	let provinceId=$(e.target).val();
-		    	citys=provinces[provinceId].citys;
-		    	let str=`<option>请选择城市</option>`;
-		    	for(let city in citys){
-		    		str+=`<option value='${citys[city].cityId}'>${citys[city].cityName}</option>`;
-		    	}
-		    	$("#area").html("").attr("disabled","disabled");
-		    	$("#city").html(str);
-		    	if($("#city").attr("disabled")=="disabled"){
-		    		$("#city").removeAttr("disabled");
-		    	}
-		    });
-		    $("#city").on("change",function(e){
-		    	let cityId=$(e.target).val();
-		    	let areas=citys[cityId].areas;
-		    	let str=`<option>请选择区县</option>`;
-		    	for(let area in areas){
-		    		str+=`<option value='${areas[area].areaId}'>${areas[area].areaName}</option>`;
-		    	}
-		    	$("#area").html(str);
-		    	if($("#area").attr("disabled")=="disabled"){
-		    		$("#area").removeAttr("disabled");
-		    	}
-		    });
-		});
+        let provinces = [[${provinces}]];
+        let citys;
+        $("#province").on("change",function(e){
+            let provinceId=$(e.target).val();
+            citys=provinces[provinceId].citys;
+            let str=`<option>请选择城市</option>`;
+            for(let city in citys){
+                str+=`<option value='${citys[city].cityId}'>${citys[city].cityName}</option>`;
+            }
+            $("#area").html("").attr("disabled","disabled");
+            $("#city").html(str);
+            if($("#city").attr("disabled")=="disabled"){
+                $("#city").removeAttr("disabled");
+            }
+        });
+        $("#city").on("change",function(e){
+            let cityId=$(e.target).val();
+            let areas=citys[cityId].areas;
+            let str=`<option>请选择区县</option>`;
+            for(let area in areas){
+                str+=`<option value='${areas[area].areaId}'>${areas[area].areaName}</option>`;
+            }
+            $("#area").html(str);
+            if($("#area").attr("disabled")=="disabled"){
+                $("#area").removeAttr("disabled");
+            }
+        });
 	</script>
 </body>
 </html>

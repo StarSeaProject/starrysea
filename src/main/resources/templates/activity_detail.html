@@ -15,73 +15,9 @@
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/mycss.css"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.css"></link>
+<link rel="stylesheet" href="/myfootbar_commonpage.css"></link>
+<link rel="stylesheet" href="/activity_detail.css"></link>
 
-<style>
-
-.footbar {
-	background-image: url("/wavew.png");
-	background-repeat: repeat-x;
-	height: 120px;
-	backgroud: #409cc3;
-}
-
-.abnav {
-	color: #FFFFFF;
-	font-size: 1.5em;
-}
-
-a:hover {
-	color: rgb(7, 251, 251);
-}
-
-.head {
-	background-color: #eeeeee;
-	color: #23b1f7;
-	height: 100px;
-	clear: both;
-	padding-top: 35px;
-	padding-bottom: 35px;
-	margin-top: 0px;
-	margin-bottom: 10px;
-}
-
-.headh1 {
-	padding-left: 100px;
-	margin: 0px;
-}
-
-.leftbox {
-	border: 1px solid blue;
-	border-radius: 10px;
-	padding: 20px 10px 20px 10px;
-}
-
-.rightbox {
-	border: 1px solid blue;
-	border-radius: 10px;
-	padding: 20px 10px 20px 10px;
-}
-
-.fname {
-	font-size: 1.4em;
-}
-
-.fnamebold {
-	font-size: 1.4em;
-	font-weight: bold;
-}
-
-.fmoney {
-	
-}
-
-.fms {
-	
-}
-</style>
-<script>
-	
-</script>
 </head>
 <body class="container-fluid">
 	<div class="container-fluid common-navbar">
@@ -118,25 +54,29 @@ a:hover {
 			<p th:utext="${activity.activityContent}"></p>
 			<div th:if="${activity.activityStatus eq 2}">
 				<h4>你可以通过以下的方式参与众筹:</h4>
-				<img src="/zfb.jpg" style="width: 45%" /> <img src="/wechat.jpg"
-					style="width: 45%" />
+				<img class="fundimg" src="/zfb.jpg" />
+				<img class="fundimg" src="/wechat.jpg"  />
 			</div>
 		</div>
 		<div class="col-md-5 rightbox" id="he2">
-			<h4 th:text="'众筹总金额为:'+${activity.activityMoney}"></h4>
+			<h4 th:text="'众筹总金额为:'+${activity.activityMoney}">No data</h4>
 			<ul class="newbox" th:each="funding:${fundings}">
-				<li class="everybox"><span
-					th:if="${funding.fundingMoney} gt ${fundingFactor}"
-					th:text="${funding.fundingName}" class="fnamebold"></span><br /> <span
-					th:if="${funding.fundingMoney} le ${fundingFactor}"
-					th:text="${funding.fundingName}" class="fname"></span><br /> <span
-					th:text="${funding.fundingMoney}" class="fmoney"></span> <span
-					th:text="${funding.fundingMessage}" class="fms"></span></li>
+				<li class="everybox">
+					<span th:if="${funding.fundingMoney} gt ${fundingFactor}" th:text="${funding.fundingName}" class="fnamebold">No data</span>
+					<br />
+					<span th:if="${funding.fundingMoney} le ${fundingFactor}" th:text="${funding.fundingName}" class="fname">No data</span>
+					<br />
+					<span th:text="${funding.fundingMoney}" class="fmoney">No data</span>
+					<span th:text="${funding.fundingMessage}" class="fms">No data</span>
+				</li>
 			</ul>
 		</div>
 	</div>
+
 	<div class="footbar text-center">
-		<p style="padding-top: 100px;">互联网ICP备案：鲁ICP备17053445号</p>
+		<p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
+
 </body>
+
 </html>
