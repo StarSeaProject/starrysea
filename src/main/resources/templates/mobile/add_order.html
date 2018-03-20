@@ -14,82 +14,52 @@
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/mycss.css"></link>
+<link rel="stylesheet" href="/mynavbar_mobilepage.css"></link>
+<link rel="stylesheet" href="/myfootbar_mobilepage.css"></link>
+<link rel="stylesheet" href="/add_orderm.css"></link>
 
-<style>
-.navbartop {
-	width: 100%;
-	background: #1e93f3;
-}
-
-.ma {
-	margin-top: 20px;
-	margin-left: 10px;
-	margin-bottom: -4px;
-	color: white;
-	display: inline-block;
-	font-size: 1.2em;
-}
-
-#btnnav {
-	float: right;
-}
-
-#shownav {
-	float: right;
-}
-
-#statusinfo {
-	color: red;
-}
-
-.abnav {
-	color: #FFFFFF;
-	font-size: 1.5em;
-}
-
-a:hover {
-	color: rgb(7, 251, 251);
-}
-</style>
 </head>
-<body>
-	<div class="navbartop" style="clear: both">
+<body class="container-fluid">
+	<div class="navbartop row">
 		<div class="navbar-header col-xs-3">
-			<a href="/"><img src="/starsea.png" style="width: 70px;"
-				class="img-reponsive"></img></a>
+			<a href="/"><img src="/starsea.png" class="navimg img-responsive"></img></a>
 		</div>
 		<div class="navbar-right col-xs-9 text-right">
-			<a href="/work" class="ma text-right">作品</a> <a href="/activity"
-				class="ma text-right">活动</a> <a href="/mintro.html"
-				class="ma text-right">关于</a>
+			<a href="/work" class="ma text-right">作品</a>
+			<a href="/activity" class="ma text-right">活动</a>
+			<a href="/mintro.html" class="ma text-right">关于</a>
 		</div>
-		<img class="img-reponsive" src="/navbar.jpg"></img>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 imgbarcontainer">
+			<img class="imgbar" src="/navbar.jpg" ></img>
+		</div>
 	</div>
 
-	<div class="container">
+	<div class="container row">
 		<h1 class="h2">收货人信息</h1>
 		<div class="container">
 			<p id="statusinfo"></p>
 		</div>
 		<form id="addOrderForm" action="/order/add" method="post">
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>收货人姓名:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<input type="text" name="orderName" id="ordname" />
 			</div>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>手机号:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<input type="text" name="orderPhone" id="ordphone" />
 			</div>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>收货地址</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<select id="province">
 					<option>请选择省份</option>
 					<option th:each="province:${provinces}" th:value="${province.key}"
@@ -98,31 +68,31 @@ a:hover {
 				</select> <select id="area" disabled="disabled">
 				</select> <input type="hidden" id="areasub" name="orderArea" />
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>收货详细地址</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<input type="text" name="orderAddress" id="ordadddel" />
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>收货人电子邮箱:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<input type="text" name="orderEmail" id="ordemail" />
 			</div>
 
 
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<p>备注:</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;">
+			<div class="col-xs-6"  >
 				<input type="text" name="orderRemark" id="orderRemark"/>
 			</div>
 
-			<div class="col-xs-6" style="margin-top: 15px;">
-				<p style="font-size: 12px">(*您有什么想对我们说的？或者有什么特殊要求？请在这里告诉我们)</p>
+			<div class="col-xs-6"  >
+				<p id="advicep" >(*您有什么想对我们说的？或者有什么特殊要求？请在这里告诉我们)</p>
 			</div>
-			<div class="col-xs-6" style="margin-top: 15px;"></div>
+			<div class="col-xs-6"  ></div>
 			<div th:each="workType,status:${workTypes.workTypes}">
 				<input type="hidden" th:name="'orderDetails['+${status.index}+'].workId'" th:value="${workType.workId}"/>
 				<input type="hidden" th:name="'orderDetails['+${status.index}+'].workTypeId'" th:value="${workType.workTypeId}"/>
@@ -131,9 +101,11 @@ a:hover {
 		</form>
 		<button id="addOrderBtn" class="btn btn-danger">提交</button>
 	</div>
-	<div class="mfoot text-center navbar-fixed-bottom">
+
+	<div class="mfoot text-center row">
 		<p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
+	
 	<script src="/add_order.js"></script>
 	<script th:inline="javascript">
 		$(function () {

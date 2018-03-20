@@ -14,74 +14,20 @@
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/mycss.css"></link>
-
-    <style>
-        .heading {
-            background-repeat: no-repeat;
-        }
-
-        #btnnav {
-            float: right;
-        }
-
-        .myli {
-        }
-
-        .myli:hover {
-            text-decoration: underline;
-        }
-
-        .footbar {
-            background-image: url("/wavew.png");
-            background-repeat: repeat-x;
-            height: 80px;
-        }
-
-        .navimg {
-            transition: all 0.6s;
-        }
-
-        .navimg:hover {
-            transform: scale(1.4);
-        }
-
-        #shownav {
-            float: right;
-        }
-        .mynavul{
-            float:right;
-            background-color: #1e93f3;
-        }
-        .anav {
-            color: #000000;
-            font-size:0.7em;
-        }
-
-        a:hover {
-            color: rgb(7, 251, 251);
-        }
-        @media screen and (min-width: 991px){
-            #shownav{
-                display: none;
-            }
-        }
-
-    </style>
+    <link rel="stylesheet" href="/mynavbar_mobilepage2.css"></link>
+    <link rel="stylesheet" href="/myfootbar_mobilepage.css"></link>
+    <link rel="stylesheet" href="/sucanderrm.css"></link>
 </head>
 
-<body class="container-fluid" style="overflow:hidden">
-<div class="row" style="overflow:hidden">
-    <img src="/navbar.jpg"  style="width:120%;transform:translateX(-5%)" alt=""></img>
+<body class="container-fluid">
+<div class="row navbarrow"  style="overflow:hidden">
+    <img src="/navbar.jpg"  class="navbarimg" alt=""></img>
 </div>
 <nav class="container-fluid row navbar navbar-brand navbar-static-top heading"
-     role="navigation" id="mybar"
-     style="padding: 10px;position:relative;transform:translateY(-50%)">
-
-    <div class="navbar-header"
-         style="padding-left: 25px; padding-top: 10px;">
+     role="navigation" id="mybar">
+    <div class="navbar-header">
         <a href="/" class="navimg">
-            <img src="/starsea.png"
-                 style="width: 70px;" class="navimg"></img>
+            <img src="/starsea.png" class="navimg"></img>
         </a>
         <button class="navbar-toggle" data-toggle="collapse"
                 data-target="#shownav" id="btnnav">
@@ -96,28 +42,25 @@
             <li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
         </ul>
     </div>
-
 </nav>
 
 
-<div class="container text-center" style="width:70%;margin-left:15%;margin-top:100px;transform: translateY(-50%);">
+<div class="container text-center mainblock" >
     <div class="row">
-        <div class="col-xs-12" style="background:rgba(200,200,200,0.5);">
-            <img style="width:70%;margin:auto;" src="/ruby.png" />
+        <div class="col-xs-12 colgrey">
+            <img class="mainimg" src="/ruby.png" />
         </div>
     </div>
-    <div class="row" style="background:rgba(200,200,200,0.5);">
+    <div class="row colgrey">
         <div class="col-xs-12">
-            <h3 th:text="${info}" class="h3"></h3>
+            <h3 th:text="${info}" class="h3">No success data</h3>
         </div>
     </div>
-</div>
-<div class="row" style="height:100px;"></div>
-<div class="row footbar text-center navbar-fixed-bottom">
-    <p style="padding-top: 60px;">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
 
-<script src="/navbar.js"></script>
+<div class="row mfoot navbar-fixed-bottom text-center">
+    <p class="footp" >互联网ICP备案：鲁ICP备17053445号</p>
+</div>
 
 </body>
 </html>

@@ -13,119 +13,34 @@
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/mycss.css"/>
+	<link rel="stylesheet" href="/mynavbar_mobilepage.css"></link>
+	<link rel="stylesheet" href="/myfootbar_mobilepage.css"></link>
+	<link rel="stylesheet" href="/workm.css"></link>
 
-<style>
-.navbartop {
-	width: 100%;
-	background: #1e93f3;
-}
-
-.ma {
-	margin-top: 20px;
-	margin-left: 10px;
-	margin-bottom: -4px;
-	color: white;
-	display: inline-block;
-	font-size: 1.2em;
-}
-
-.pagetitle {
-	background-color: #f69163;
-	color: #ffffff;
-	padding-top: 20px;
-	padding-bottom: 35px;
-	margin-top: 0px;
-	margin-bottom: 10px;
-}
-
-.pagetitleh1 {
-	padding-left: 40px;
-	margin: 0px;
-	font-size: 1.7em;
-}
-
-.pagetitleh2 {
-	padding-left: 40px;
-	margin: 0px;
-	color: #000;
-	font-size: 1.3em;
-}
-
-.workbox {
-	background: #a9d6f5;
-}
-
-.worktitle {
-	color: #000;
-	font-size: 1.3em;
-}
-
-.workdetail {
-	margin-top: 15px;
-	margin-bottom: 15px;
-	padding-bottom: 5px;
-	color: #fff;
-}
-
-.workimg {
-	width: 130px;
-}
-
-a.detailhref {
-	padding: 9px;
-	border: 1px solid;
-	border-radius: 12px;
-	border-color: #23b1f7;
-	text-decoration: none;
-	color: #23b1f7;
-	background: #ffffff;
-}
-
-a.detailhref:hover {
-	text-decoration: none;
-	color: #23b1f7;
-}
-
-a.detailhref:visited {
-	text-decoration: none;
-	color: #23b1f7;
-}
-
-a.detailhref:link {
-	text-decoration: none;
-	color: #23b1f7;
-}
-#gotocar{
-	border:1px solid orange;
-	border-radius:20px;
-	height:40px;
-	width:40px;
-	background:#fff;
-}
-#cardiv{
-	position:absolute;
-}
-</style>
 </head>
 
-<body>
-	<div class="navbartop" style="clear: both">
+<body class="container-fluid">
+	<div class="navbartop row">
 		<div class="navbar-header col-xs-3">
-			<a href="/"><img src="/starsea.png" style="width: 70px;"
-				class="img-reponsive"></img></a>
+			<a href="/"><img src="/starsea.png" class="navimg img-responsive"></img></a>
 		</div>
 		<div class="navbar-right col-xs-9 text-right">
-			<a href="/work" class="ma text-right">作品</a> <a href="/activity"
-				class="ma text-right">活动</a> <a href="/mintro.html"
-				class="ma text-right">关于</a>
+			<a href="/work" class="ma text-right">作品</a>
+			<a href="/activity" class="ma text-right">活动</a>
+			<a href="/mintro.html" class="ma text-right">关于</a>
 		</div>
-		<img class="img-reponsive" src="/navbar.jpg"></img>
 	</div>
-	<div class="pagetitle">
+	<div class="row">
+		<div class="col-xs-12 imgbarcontainer">
+			<img class="imgbar" src="/navbar.jpg" ></img>
+		</div>
+	</div>
+
+	<div class="pagetitle row">
 		<h1 class="h1 pagetitleh1">作品展示</h1>
 		<h2 class="h2 pagetitleh2">Works Gallery</h2>
 	</div>
-	<div class="pagecontain">
+	<div class="pagecontain row">
 		<div class="worktable">
 			<div id="works">
 				<div th:each="work:${result}">
@@ -147,24 +62,20 @@ a.detailhref:link {
 		</div>
 	</div>
 	<div id="cardiv">
-		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart" style="font-size:1.6em;color:orange;"></span>
+		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart"></span>
           </button>
 	</div>
-	<div class="mfoot text-center">
+
+	<div class="mfoot text-center row">
 		<p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
+
 	<script src="/common.js"></script>
 	<script th:inline="javascript">
 		let total=[[${totalPage}]];
 	</script>
 	<script src="/read.js"></script>
-		<script>
-	$(window).scroll(function () {
-		y = $(window).height();
-		cury = $(window).scrollTop()+y-100;
-		$('#cardiv').css("left","90%").css("top",cury+"px");
-	});
-	</script>
+	<script src="/workm.js" ></script>
 
 </body>
 

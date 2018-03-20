@@ -14,93 +14,29 @@
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/mycss.css"></link>
+    <link rel="stylesheet" href="/mynavbar_mobilepage.css"></link>
+    <link rel="stylesheet" href="/myfootbar_mobilepage.css"></link>
+    <link rel="stylesheet" href="/work_detailm.css"></link>
 
-    <style>
-        .navbartop {
-            width: 100%;
-            background: #1e93f3;
-        }
-
-        .ma {
-            margin-top: 20px;
-            margin-left: 10px;
-            margin-bottom: -4px;
-            color: white;
-            display: inline-block;
-            font-size: 1.2em;
-        }
-
-        #btnnav {
-            float: right;
-        }
-
-        #shownav {
-            float: right;
-        }
-
-        .abnav {
-            color: #FFFFFF;
-            font-size: 1.5em;
-        }
-
-        a:hover {
-            color: rgb(7, 251, 251);
-        }
-
-        .titleh1 {
-            font-size: 0.8em;
-        }
-
-        .workname {
-            background-color: #eeeeee;
-            color: #23b1f7;
-            padding-top: 35px;
-            padding-bottom: 35px;
-            margin-top: 0px;
-            margin-bottom: 10px;
-        }
-
-        .pdfiframe {
-            width: 100%;
-            height: 700px;;
-            border: 0px;
-        }
-
-        .uploadtime {
-            color: #999999;
-        }
-        .orderbtn{
-        background:rgba(255,255,255,0);
-        }
-        .active{
-        color:#238acb;
-        }
-        #gotocar{
-	border:1px solid orange;
-	border-radius:20px;
-	height:40px;
-	width:40px;
-	background:#fff;
-}
-#cardiv{
-	position:absolute;
-}
-    </style>
 </head>
-<body>
-<div class="navbartop" style="clear: both">
+<body class="container-fluid">
+<div class="navbartop row">
     <div class="navbar-header col-xs-3">
-        <a href="/"><img src="/starsea.png" style="width: 70px;"
-                         class="img-reponsive"></img></a>
+        <a href="/"><img src="/starsea.png" class="navimg img-responsive"></img></a>
     </div>
     <div class="navbar-right col-xs-9 text-right">
         <a href="/work" class="ma text-right">作品</a>
         <a href="/activity" class="ma text-right">活动</a>
         <a href="/mintro.html" class="ma text-right">关于</a>
     </div>
-    <img class="img-reponsive" src="/navbar.jpg"></img>
 </div>
-<div class="container checklist">
+<div class="row">
+    <div class="col-xs-12 imgbarcontainer">
+        <img class="imgbar" src="/navbar.jpg" ></img>
+    </div>
+</div>
+
+<div class="container checklist row">
 
     <div class="row">
         <div class="col-xs-4">
@@ -117,7 +53,7 @@
             <div class="h6">
                 <a th:href="@{${work.workPdfpath}}" th:attr="download=${work.workName}">下载链接</a>
             </div>
-            <select id="workTypes" style="display:none">
+            <select id="workTypes">
                     <option  th:each="workType:${workTypes}" th:value="${workType.workTypeId}" th:text="${workType.name}+' '+${workType.stock}"></option>
                 </select>
 				<span>种类:</span>
@@ -139,16 +75,18 @@
     </div>
 </div>
 <hr></hr>
-<div id="workImages" style="text-align: center" class="pdfcontainer">
+<div id="workImages row" class="pdfcontainer">
     <button id="more_image" class="btn btn-info">更多</button>
 </div>
 <div id="cardiv">
-		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart" style="font-size:1.6em;color:orange;"></span>
+		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart"></span>
           </button>
-	</div>
-<div class="mfoot text-center">
+</div>
+
+<div class="mfoot text-center row">
     <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
+
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 <script th:inline="javascript">
     $(function () {
@@ -198,12 +136,6 @@
         });
     });
 </script>
-	<script>
-	$(window).scroll(function () {
-		y = $(window).height();
-		cury = $(window).scrollTop()+y-100;
-		$('#cardiv').css("left","90%").css("top",cury+"px");
-	});
-	</script>
+	<script src="/work_detailm.js" ></script>
 </body>
 </html>
