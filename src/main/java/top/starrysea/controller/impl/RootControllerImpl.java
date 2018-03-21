@@ -51,16 +51,6 @@ public class RootControllerImpl implements IRootController {
 		return new ModelAndView("admin_login");
 	}
 
-	@RequestMapping("/s")
-	public ModelAndView success(Device device) {
-		return ModelAndViewFactory.newSuccessMav("这是成功页面的测试", device);
-	}
-
-	@RequestMapping("/e")
-	public ModelAndView error(Device device) {
-		return ModelAndViewFactory.newErrorMav("这是失败页面的测试", device);
-	}
-
 	@Override
 	@RequestMapping("/uploads")
 	public void upload(HttpServletRequest request, HttpServletResponse response,
