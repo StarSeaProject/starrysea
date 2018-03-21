@@ -20,89 +20,77 @@
 
 </head>
 <body class="container-fluid">
-<div class="container-fluid common-navbar">
-	<nav class="row heading"
-		 role="navigation" id="mybar">
-		<div class="navbar-header" >
-			<a href="/" class="col-sm-4">
-				<img src="/starsea.png" class="navimg"></img>
-			</a>
-			<span class="col-sm-4">
-				</span>
-			<button class="navbar-toggle col-sm-4" data-toggle="collapse"
+	<div class="container-fluid common-navbar">
+		<nav class="row heading" role="navigation" id="mybar">
+			<div class="navbar-header">
+				<a href="/" class="col-sm-4"> <img src="/starsea.png"
+					class="navimg"></img>
+				</a> <span class="col-sm-4"> </span>
+				<button class="navbar-toggle col-sm-4" data-toggle="collapse"
 					data-target="#shownav" id="btnnav">
-				<span class="glyphicon glyphicon-menu-hamburger"></span>
-			</button>
-		</div>
+					<span class="glyphicon glyphicon-menu-hamburger"></span>
+				</button>
+			</div>
 
-		<div class="collapse navbar-collapse navbar-right" id="shownav">
-			<ul class="nav navbar-nav mynavul">
-				<li class="myli"><a href="/work" class="anav">作品阅览</a></li>
-				<li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
-				<li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
-			</ul>
-		</div>
+			<div class="collapse navbar-collapse navbar-right" id="shownav">
+				<ul class="nav navbar-nav mynavul">
+					<li class="myli"><a href="/work" class="anav">作品阅览</a></li>
+					<li class="myli"><a href="/activity" class="anav">活动众筹</a></li>
+					<li class="myli"><a href="/intro.html" class="anav">组织介绍</a></li>
+				</ul>
+			</div>
 
-	</nav>
-</div>
+		</nav>
+	</div>
 
 	<div class="container">
 		<h1 class="h2">收货人信息</h1>
 
-		<div class="col-xs-6"  >
+		<div class="col-xs-6">
 			<p>收货人姓名:</p>
 		</div>
-		<div class="col-xs-6"  
-			th:text="${order.orderName}"></div>
+		<div class="col-xs-6" th:text="${order.orderName}"></div>
 
 		<div th:each="orderDetail:${orderDetails}">
-			<div class="col-xs-6"  >
+			<div class="col-xs-6">
 				<p>作品名称:</p>
 			</div>
-			<div class="col-xs-6"  
-				th:text="${orderDetail.workName}"></div>
+			<div class="col-xs-6" th:text="${orderDetail.workName}"></div>
 
-			<div class="col-xs-6"  >
+			<div class="col-xs-6">
 				<p>作品类型:</p>
 			</div>
-			<div class="col-xs-6"  
-				th:text="${orderDetail.workTypeName}"></div>
+			<div class="col-xs-6" th:text="${orderDetail.workTypeName}"></div>
 		</div>
-		<div class="col-xs-6"  >
+		<div class="col-xs-6">
 			<p>收获详细地址:</p>
 		</div>
-		<div class="col-xs-6"  
-			th:text="${order.orderAddress}"></div>
+		<div class="col-xs-6" th:text="${order.orderAddress}"></div>
 
-		<div class="col-xs-6"  >
+		<div class="col-xs-6">
 			<p>发货状态:</p>
 		</div>
-		<div class="col-xs-6"  
-			th:text="${order.orderStatus}"></div>
+		<div class="col-xs-6" th:text="${order.orderStatus}"></div>
 
-		<div class="col-xs-6"  >
+		<div class="col-xs-6">
 			<p>快递单号:</p>
 		</div>
-		<div class="col-xs-6"  
-			th:text="${order.orderExpressnum}"></div>
+		<div class="col-xs-6" th:text="${order.orderExpressnum}"></div>
 
-		<div class="col-xs-6"  >
+		<div class="col-xs-6">
 			<p>下单时间</p>
 		</div>
-		<div class="col-xs-6"  
-			th:text="${order.orderTime}"></div>
+		<div class="col-xs-6" th:text="${order.orderTime}"></div>
 
-		<div class="col-xs-6"  >
+		<div class="col-xs-6">
 			<p>电子邮件:</p>
 		</div>
-		<div class="col-xs-6"  
-			th:text="${order.orderEMail}"></div>
+		<div class="col-xs-6" th:text="${order.orderEMail}"></div>
 
-		<div class="col-xs-6"  >
+		<div class="col-xs-6">
 			<p>备注:</p>
 		</div>
-		<div class="col-xs-6"  
-			th:text="${order.orderRemark}"></div>
+		<div class="col-xs-6" th:text="${order.orderRemark}"></div>
 		<div class="col-xs-6" style="margin-top: 15px">
 			<form id="modifySendForm" action="/order/address/send" method="post">
 				<input type="hidden" name="orderNum" th:value="${order.orderNum}" />
@@ -116,7 +104,6 @@
 	<script th:inline="javascript">
         /*<![CDATA[*/
         var orderStatus=/*[[${order.orderStatus}]]*/;
-        console.log(orderStatus);
         $("#modifyAddressBtn").hide();
         if(orderStatus=="未发货"){
             $("#modifyAddressBtn").show();
