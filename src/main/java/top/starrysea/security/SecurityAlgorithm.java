@@ -5,7 +5,4 @@ public interface SecurityAlgorithm {
 
 	String decrypt(String encryptInfo);
 
-	String getPublicKey();
-
-	void setKey(String key);
 }
