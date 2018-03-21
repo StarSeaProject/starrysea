@@ -48,7 +48,8 @@ public interface IOrderController {
 
 	ModelAndView queryShoppingCarController(HttpSession session, Device device);
 
-	ModelAndView modifyAddressController(OrderForAddress order, BindingResult bindingResult, Device device);
+	ModelAndView modifyAddressController(HttpSession session, OrderForAddress order, BindingResult bindingResult,
+			Device device);
 
 	ModelAndView modifyAddressEmailController(OrderForOne order, BindingResult bindingResult, Device device);
 }

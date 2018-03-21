@@ -5,11 +5,13 @@ import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -43,6 +45,7 @@ import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
 import top.starrysea.object.view.in.WorkTypeForToAddOrders;
 import top.starrysea.object.view.in.WorkTypesForRemoveCar;
+import top.starrysea.security.SecurityAlgorithm;
 import top.starrysea.object.view.in.WorkTypeForRemoveCar;
 import top.starrysea.service.IOrderService;
 
@@ -55,6 +58,8 @@ public class OrderControllerImpl implements IOrderController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private IOrderService orderService;
+	@Resource(name = "desede")
+	private SecurityAlgorithm desede;
 
 	@Override
 	// 查询所有的订单
@@ -244,21 +249,36 @@ public class OrderControllerImpl implements IOrderController {
 
 	@Override
 	@RequestMapping(value = "/order/address/modify", method = RequestMethod.POST)
-	public ModelAndView modifyAddressController(@Valid OrderForAddress order, BindingResult bindingResult,
-			Device device) {
+	public ModelAndView modifyAddressController(HttpSession session, @Valid OrderForAddress order,
+			BindingResult bindingResult, Device device) {
+		Orders result = orderService.queryOrderService(order.toDTO()).getResult(ORDER);
+		String key = (String) session.getAttribute(TOKEN);
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = Common.toObject(desede.decrypt(key), Map.class);
+		if (!map.get("areaName").equals(result.getOrderArea().getAreaName())
+				|| !map.get("areaAddress").equals(result.getOrderAddress())) {
+			return ModelAndViewFactory.newErrorMav("参数不正确，请重新获取链接", device);
+		} else if (map.get("limitTime") == null || (long) map.get("limitTime") < new Date().getTime()) {
+			return ModelAndViewFactory.newErrorMav("链接已过期，请重新获取链接", device);
+		}
 		orderService.modifyAddressService(order.toDTO());
 		return ModelAndViewFactory.newSuccessMav("修改地址成功", device);
 	}
 
-	@RequestMapping(value = "/order/address/toModifyAddr", method = RequestMethod.GET)
-	public ModelAndView gotoModifyAddressController(@Valid OrderDetailForModifyAddr order, BindingResult bindingResult,
-			Device device) {
+	@RequestMapping(value = "/order/address/toModifyAddr/{orderNum}", method = RequestMethod.GET)
+	public ModelAndView gotoModifyAddressController(HttpSession session, @Valid OrderDetailForModifyAddr order,
+			BindingResult bindingResult, Device device) {
 		ServiceResult serviceResult = orderService.queryOrderService(order.toDTO());
 		Orders o = serviceResult.getResult(ORDER);
-		String key = Common.md5(o.getOrderArea().getAreaName() + o.getOrderAddress());
-		if (!key.equals(order.getKey())) {
-			return ModelAndViewFactory.newErrorMav("参数不正确或链接已过期", device);
+		@SuppressWarnings("unchecked")
+		Map<String, Object> map = Common.toObject(desede.decrypt(order.getKey()), Map.class);
+		if (!map.get("areaName").equals(o.getOrderArea().getAreaName())
+				|| !map.get("areaAddress").equals(o.getOrderAddress())) {
+			return ModelAndViewFactory.newErrorMav("参数不正确，请重新获取链接", device);
+		} else if (map.get("limitTime") == null || (long) map.get("limitTime") < new Date().getTime()) {
+			return ModelAndViewFactory.newErrorMav("链接已过期，请重新获取链接", device);
 		}
+		session.setAttribute(TOKEN, order.getKey());
 		List<OrderDetail> ods = serviceResult.getResult(LIST_1);
 		return new ModelAndView(device.isMobile() ? MOBILE + "orders_modify_address" : "orders_modify_address")
 				.addObject("order", o.toVoForOne())
