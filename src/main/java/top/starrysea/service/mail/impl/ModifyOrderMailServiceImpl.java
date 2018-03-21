@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import top.starrysea.common.Common;
 import top.starrysea.kql.entity.Entity;
 import top.starrysea.mail.Mail;
+import top.starrysea.object.bo.ModifyAddressForEmail;
 import top.starrysea.object.dto.Orders;
-import top.starrysea.object.view.out.ModifyAddressForEmail;
 import top.starrysea.security.SecurityAlgorithm;
 
 @Service("modifyOrderMailService")

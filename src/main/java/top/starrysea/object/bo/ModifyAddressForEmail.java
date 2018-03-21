@@ -1,4 +1,4 @@
-package top.starrysea.object.view.out;
+package top.starrysea.object.bo;
 
 public class ModifyAddressForEmail {
 	private String areaName;
