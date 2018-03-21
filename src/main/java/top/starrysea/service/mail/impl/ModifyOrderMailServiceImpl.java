@@ -1,5 +1,6 @@
 package top.starrysea.service.mail.impl;
 
+import static top.starrysea.common.Const.CHARSET;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
@@ -36,7 +37,7 @@ public class ModifyOrderMailServiceImpl extends MailServiceImpl {
 			key = URLEncoder.encode(
 					desede.encrypt(Common.toJson(new ModifyAddressForEmail(order.getOrderArea().getAreaName(),
 							order.getOrderAddress(), calendar.getTime().getTime()))).replaceAll("\r|\n", "").trim(),
-					"UTF-8");
+					CHARSET);
 			String content = MessageFormat.format(contentTemplate, order.getOrderNum(), order.getOrderNum(), key);
 			mailCommon.send(new Mail(order.getOrderEMail(), "星之海志愿者公会", content));
 		} catch (UnsupportedEncodingException e) {

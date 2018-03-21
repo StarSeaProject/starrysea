@@ -1,5 +1,6 @@
 package top.starrysea.mail;
 
+import static top.starrysea.common.Const.CHARSET;
 import java.io.UnsupportedEncodingException;
 
 import javax.mail.MessagingException;
@@ -50,7 +51,7 @@ public class MailCommon implements InitializingBean {
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper mimeMessageHelper;
 			try {
-				mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+				mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, CHARSET);
 				mimeMessageHelper.setTo(mail.getTo());
 				String nick = MimeUtility.encodeText("星之海志愿者公会");
 				mimeMessageHelper.setFrom(new InternetAddress(nick + "<mumuzhizhi@starrysea.top>"));
