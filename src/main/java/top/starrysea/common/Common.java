@@ -1,7 +1,6 @@
 package top.starrysea.common;
 
 import static top.starrysea.common.Const.ERRINFO;
-
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.file.Files;
@@ -10,6 +9,7 @@ import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 import top.starrysea.kql.entity.Entity;
 
 public class Common {
@@ -193,17 +191,12 @@ public class Common {
 		}
 		return "";
 	}
+
 	public static byte[] base642byte(String enStr) {
-		try {
-			BASE64Decoder decoder = new BASE64Decoder();
-			return decoder.decodeBuffer(enStr);
-		} catch (IOException e) {
-			logger.error(e.getMessage(),e);
-		}
-		return new byte[0];
+		return Base64.getDecoder().decode(enStr);
 	}
+
 	public static String byte2base64(byte[] deStr) {
-		BASE64Encoder encoder = new BASE64Encoder();
-		return encoder.encode(deStr);
+		return Base64.getEncoder().encodeToString(deStr);
 	}
 }
