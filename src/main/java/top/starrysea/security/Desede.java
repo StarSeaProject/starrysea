@@ -8,6 +8,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import org.apache.log4j.Logger;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import top.starrysea.common.Common;
@@ -16,15 +17,21 @@ import top.starrysea.common.Common;
 public class Desede implements SecurityAlgorithm {
 
 	private Logger logger = Logger.getLogger(this.getClass());
-	private static final String KEY = "YeahTiger!NoTiger!iyaiyaiyaiyaYeahTiger!";
+	// 初始秘钥
+	private String key = "YeahTiger!NoTiger!iyaiyaiyaiyaYeahTiger!";
 	// 加解密向量,不要改
 	private static final String IV = "12345678";
+
+	@Scheduled(cron = "0 0 3 * * ?")
+	public void setKey() {
+		this.key = Common.getCharId(32);
+	}
 
 	@Override
 	public String encrypt(String info) {
 		try {
 			Key deskey = null;
-			DESedeKeySpec spec = new DESedeKeySpec(KEY.getBytes(CHARSET));
+			DESedeKeySpec spec = new DESedeKeySpec(key.getBytes(CHARSET));
 			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance("desede");
 			deskey = keyfactory.generateSecret(spec);
 			Cipher cipher = Cipher.getInstance("desede/CBC/PKCS5Padding");
@@ -42,7 +49,7 @@ public class Desede implements SecurityAlgorithm {
 	public String decrypt(String encryptInfo) {
 		try {
 			Key deskey = null;
-			DESedeKeySpec spec = new DESedeKeySpec(KEY.getBytes(CHARSET));
+			DESedeKeySpec spec = new DESedeKeySpec(key.getBytes(CHARSET));
 			SecretKeyFactory keyfactory = SecretKeyFactory.getInstance("desede");
 			deskey = keyfactory.generateSecret(spec);
 			Cipher cipher = Cipher.getInstance("desede/CBC/NoPadding");
