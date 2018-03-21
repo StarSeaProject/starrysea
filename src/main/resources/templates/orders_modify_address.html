@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
@@ -15,6 +15,8 @@
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/mycss.css"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.css"></link>
+<link rel="stylesheet" href="/myfootbar_commonpage.css"></link>
+<link rel="stylesheet" href="/orders_modify_address.css"></link>
 
 </head>
 <body class="container-fluid">
@@ -52,20 +54,26 @@
 				<p>收货人姓名:</p>
 			</div>
 			<div class="col-xs-6"  
-				th:text="${order.orderName}"></div>
+				th:text="${order.orderName}">
+				No data
+			</div>
 
 			<div th:each="orderDetail:${orderDetails}">
 				<div class="col-xs-6"  >
 					<p>作品名称:</p>
 				</div>
 				<div class="col-xs-6"  
-					th:text="${orderDetail.workName}"></div>
+					th:text="${orderDetail.workName}">
+					No data
+				</div>
 
 				<div class="col-xs-6"  >
 					<p>作品类型:</p>
 				</div>
 				<div class="col-xs-6"  
-					th:text="${orderDetail.workTypeName}"></div>
+					th:text="${orderDetail.workTypeName}">
+					No data
+				</div>
 			</div>
 
 
@@ -92,37 +100,47 @@
 				<p>发货状态:</p>
 			</div>
 			<div class="col-xs-6"  
-				th:text="${order.orderStatus}"></div>
+				th:text="${order.orderStatus}">
+				No data
+			</div>
 
 			<div class="col-xs-6"  >
 				<p>快递单号:</p>
 			</div>
 			<div class="col-xs-6"  
-				th:text="${order.orderExpressnum}"></div>
+				th:text="${order.orderExpressnum}">
+				No data
+			</div>
 
 			<div class="col-xs-6"  >
 				<p>下单时间</p>
 			</div>
 			<div class="col-xs-6"  
-				th:text="${order.orderTime}"></div>
+				th:text="${order.orderTime}">
+				No data
+			</div>
 
 			<div class="col-xs-6"  >
 				<p>电子邮件:</p>
 			</div>
 			<div class="col-xs-6"  
-				th:text="${order.orderEMail}"></div>
+				th:text="${order.orderEMail}">
+				No data
+			</div>
 
 			<div class="col-xs-6"  >
 				<p>备注:</p>
 			</div>
 			<div class="col-xs-6"  
-				th:text="${order.orderRemark}"></div>
+				th:text="${order.orderRemark}">
+				No data
+			</div>
 			<div class="col-xs-6"  ></div>
 			<input type="hidden" name="orderNum" th:value="${order.orderNum}" />
 		</form>
 		<button id="modifyAddressBtn" class="btn btn-danger">提交</button>
 	</div>
-	<div class="footbar text-center navbar-fixed-bottom">
+	<div class="footbar text-center">
 		<p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
 
