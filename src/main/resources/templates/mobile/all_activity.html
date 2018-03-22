@@ -11,12 +11,10 @@
           href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
     <link rel="stylesheet"
           href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/mycss.css"></link>
-    <link rel="stylesheet" href="/mynavbar_mobilepage.css"></link>
-    <link rel="stylesheet" href="/myfootbar_mobilepage.css"></link>
-    <link rel="stylesheet" href="/all_activitym.css"></link>
+    <link rel="stylesheet" href="/mobile/mynavbar_mobilepage.css"></link>
+    <link rel="stylesheet" href="/mobile/myfootbar_mobilepage.css"></link>
+    <link rel="stylesheet" href="/mobile/all_activitym.css"></link>
 
 </head>
 
@@ -89,13 +87,6 @@
         <div class="col-xs-3 pagebutton" id="frontbox">
             <a href="javascript:void(0)" class="page" id="front"
                th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"> </a>
-            <script type="text/javascript">
-                var x = document.getElementById("front");
-                if (x.innerHTML == "") {
-                    $("#frontbox").hide();
-
-                }
-            </script>
         </div>
         <div class="col-xs-3 pagebutton">
             <span class="nowpage" th:text="${nowPage}"> </span>
@@ -120,9 +111,12 @@
 <div class="mfoot text-center row">
     <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
+
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="/common.js"></script>
 <script src="/activity.js"></script>
-<script src="all_activitym.js"></script>
+<script src="/mobile/all_activitym.js"></script>
 </body>
 
 </html>
