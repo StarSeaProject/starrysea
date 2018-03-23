@@ -11,8 +11,6 @@
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
 <link rel="stylesheet"
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/mycss.css"></link>
 <link rel="stylesheet" href="/mobile/mynavbar_mobilepage.css"></link>
 <link rel="stylesheet" href="/mobile/myfootbar_mobilepage.css"></link>
@@ -26,14 +24,14 @@
 			<a href="/"><img src="/starsea.png" class="navimg img-responsive"></img></a>
 		</div>
 		<div class="navbar-right col-xs-9 text-right">
-			<a href="/work" class="ma text-right">作品</a>
-			<a href="/activity" class="ma text-right">活动</a>
-			<a href="/mintro.html" class="ma text-right">关于</a>
+			<a href="/work" class="ma text-right">作品</a> <a href="/activity"
+				class="ma text-right">活动</a> <a href="/mintro.html"
+				class="ma text-right">关于</a>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-xs-12 imgbarcontainer">
-			<img class="imgbar" src="/navbar.jpg" ></img>
+			<img class="imgbar" src="/navbar.jpg"></img>
 		</div>
 	</div>
 
@@ -45,29 +43,22 @@
 			<p th:utext="${activity.activityContent}"></p>
 			<div th:if="${activity.activityStatus eq 2}">
 				<h4>你可以通过以下的方式参与众筹:</h4>
-				<img class="mainimg" src="/zfb.jpg"/> <img class="mainimg" src="/wechat.jpg" />
+				<img class="mainimg" src="/zfb.jpg" /> <img class="mainimg"
+					src="/wechat.jpg" />
 			</div>
 		</div>
 		<div class="col-xs-12 medium"></div>
 		<div class="col-xs-12 rightbox" id="he2">
 			<h4 th:text="'众筹总金额为:'+${activity.activityMoney}"></h4>
 			<ul class="newbox" th:each="funding:${fundings}">
-				<li class="everybox">
-					<span th:if="${funding.fundingMoney} gt ${fundingFactor}" th:text="${funding.fundingName}" class="fnamebold">
-						no daota
-					</span>
-					<br />
-					<span th:if="${funding.fundingMoney} le ${fundingFactor}" th:text="${funding.fundingName}" class="fname">
-						no data
-					</span>
-					<br />
-					<span th:text="${funding.fundingMoney}" class="fmoney">
-						no data
-					</span>
-					<span th:text="${funding.fundingMessage}" class="fms">
-						no data
-					</span>
-				</li>
+				<li class="everybox"><span
+					th:if="${funding.fundingMoney} gt ${fundingFactor}"
+					th:text="${funding.fundingName}" class="fnamebold"> no daota
+				</span> <br /> <span th:if="${funding.fundingMoney} le ${fundingFactor}"
+					th:text="${funding.fundingName}" class="fname"> no data </span> <br />
+					<span th:text="${funding.fundingMoney}" class="fmoney"> no
+						data </span> <span th:text="${funding.fundingMessage}" class="fms">
+						no data </span></li>
 			</ul>
 		</div>
 	</div>
@@ -75,4 +66,6 @@
 		<p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
 	</div>
 </body>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </html>

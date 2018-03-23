@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8"></meta>
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/mycss.css"></link>
-    <title>星之海志愿者公会</title>
+<meta charset="UTF-8"></meta>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<link rel="stylesheet" href="/mycss.css"></link>
+<title>星之海志愿者公会</title>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span12">
-            <form action="/user/login" class="form" method="post">
-                <fieldset>
-                    <legend>登录</legend>
-                    <label>用户名</label>
-                    <input type="text" name="adminUseraccount" id="uname"/>
-                    <span class="help-block">请输入用户名.</span>
-                    <label>密码</label>
-                    <input type="password" name="adminPassword" id="pwd"/>
-                    <span class="help-block">请输入密码.</span>
-                    <button type="submit" class="btn btn-success btn-lg text-right" id="login">登录</button>
-                </fieldset>
-            </form>
-        </div>
-    </div>
-</div>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				<form action="/user/login" class="form" method="post">
+					<fieldset>
+						<legend>登录</legend>
+						<label>用户名</label> <input type="text" name="adminUseraccount"
+							id="uname" /> <span class="help-block">请输入用户名.</span> <label>密码</label>
+						<input type="password" name="adminPassword" id="pwd" /> <span
+							class="help-block">请输入密码.</span>
+						<button type="submit" class="btn btn-success btn-lg text-right"
+							id="login">登录</button>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </html>
 
 
