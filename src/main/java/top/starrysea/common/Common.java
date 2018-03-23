@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import top.starrysea.kql.entity.Entity;
@@ -34,6 +36,7 @@ public class Common {
 
 	private static final Logger logger = LoggerFactory.getLogger(Common.class);
 	private static final Common INSTANCE = new Common();
+	private static final ObjectMapper mapper = new ObjectMapper();
 	private SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
 	private SimpleDateFormat timeSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -42,13 +45,22 @@ public class Common {
 	}
 
 	public static String toJson(Object target) {
-		ObjectMapper mapper = new ObjectMapper();
 		try {
 			return mapper.writeValueAsString(target);
 		} catch (Exception ex) {
 			logger.error(ex.getMessage(), ex);
 		}
 		return "";
+	}
+
+	public static <T> List<T> jsonToList(String json, Class<T> clazz) {
+		JavaType javaType = mapper.getTypeFactory().constructParametricType(List.class, clazz);
+		try {
+			return mapper.readValue(json, javaType);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+		}
+		return Collections.emptyList();
 	}
 
 	public static String date2String(Date date) {
