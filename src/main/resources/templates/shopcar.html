@@ -7,10 +7,10 @@
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
 <link rel="stylesheet"
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-<link rel="stylesheet" href="/mycss.css"></link>
-<link rel="stylesheet" href="/mynavbar_commonpage.css"></link>
-<link rel="stylesheet" href="/myfootbar_commonpage.css"></link>
-<link rel="stylesheet" href="/shopcar.css"></link>
+<link rel="stylesheet" href="/mycss.min.css"></link>
+<link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
+<link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
+<link rel="stylesheet" href="/shopcar.min.css"></link>
 
 </head>
 <body class="container-fluid">
@@ -100,7 +100,7 @@
 					<input type="checkbox" class="selectall" /> 全 选
 				</div>
 				<div class="pull-right text-center">
-					<button class="btn btn-info pull-right" id="delselect">删 除</button>
+					<button class="btn btn-info pull-right" id="delselect">删除所选作品</button>
 				</div>
 			</div>
 			<div class="col-xs-2 pull-right" id="confdivv">
@@ -113,6 +113,27 @@
 
 	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="/shopcar.min.js"></script>
+	<script src="/mynavbar_commonpage.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+		    $(".selectallinput").click(function(){
+		        let count=0;
+                $(".formdata").each(function(i,div){
+                    const selected=$(div).eq(0).find("input").is(':checked');
+                    if(selected){
+                        count++;
+                    }
+                });
+                if(count==0){
+                    $("#confbut").attr("background","#aaa")
+                }
+                else{
+                    $("#confbut").attr("background","#333")
+				}
+			});
+		});
+	</script>
 	<script th:inline="javascript">
 	$(function(){
 		const orderDetails=[[${orderDetails}]];
@@ -120,6 +141,7 @@
 	    $(".selectall").click(function () {
 	        var isall = $(this).prop("checked");
 	        var status = $(".selectallinput").prop("checked", isall);
+            countchecked();
 	    });
 		$("#confbutt").on("click",function(e){
 			let gotoOrderForm=$(`<form action="/order/toAddOrder" method="post"></form>`);
@@ -177,6 +199,6 @@
 		});
 	});
 </script>
-<script src="/shopcar.js"></script>
+
 </body>
 </html>
