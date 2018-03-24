@@ -16,6 +16,7 @@ import top.starrysea.kql.clause.WhereType;
 import top.starrysea.kql.facede.EntitySqlResult;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.ListSqlResult;
+import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.Work;
 import top.starrysea.object.dto.WorkType;
@@ -105,12 +106,24 @@ public class WorkTypeDaoImpl implements IWorkTypeDao {
 	@Override
 	public DaoResult updateWorkTypeStockDao(Orders order) {
 		kumaSqlDao.selectMode();
-		EntitySqlResult<WorkType> theResult = kumaSqlDao.select("work_type_id").from(Orders.class)
-				.where("order_id", WhereType.EQUALS, order.getOrderId())
-				.endForObject((rs, row) -> new WorkType.Builder().workTypeId(rs.getInt("work_type_id")).build());
+		ListSqlResult<Integer> theResult = kumaSqlDao.select("work_type_id").from(OrderDetail.class)
+				.where("order_id", WhereType.EQUALS, order.getOrderId()).endForList(Integer.class);
+		List<Integer> workTypeIds = theResult.getResult();
 		kumaSqlDao.updateMode();
-		kumaSqlDao.update("stock", UpdateSetType.ADD, 1).table(WorkType.class)
-				.where("work_type_id", WhereType.EQUALS, theResult.getResult().getWorkTypeId()).end();
+		kumaSqlDao.update("stock", UpdateSetType.ADD).table(WorkType.class)
+				.where("work_type_id", WhereType.EQUALS, null).batchEnd(new BatchPreparedStatementSetter() {
+
+					@Override
+					public void setValues(PreparedStatement ps, int i) throws SQLException {
+						ps.setInt(1, 1);
+						ps.setInt(2, workTypeIds.get(i));
+					}
+
+					@Override
+					public int getBatchSize() {
+						return workTypeIds.size();
+					}
+				});
 		return new DaoResult(true);
 	}
 
