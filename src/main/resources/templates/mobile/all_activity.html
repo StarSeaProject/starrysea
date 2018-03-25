@@ -57,21 +57,18 @@
 </div>
 <br/> <br/> <br/>
 
-<div class="container row">
+<div class="previousact container row">
     <div class="activityclass" id="activitys">
 
         <div class="actlist" th:each="activity:${result}">
             <div class="actbox row">
-                <div class="col-xs-3 actimg">
-                    <img class="img-reponsive"></img>
+                <div class="col-xs-4 actname">
+                    <p th:text="${activity.activityName}" class="lead">活动名称</p>
                 </div>
-                <div class="col-xs-3 actname">
-                    <p th:text="${activity.activityName}" class="lead"></p>
-                </div>
-                <div class="col-xs-3 endtime">
+                <div class="col-xs-4 endtime">
                     <p th:text="${activity.activityEndtime}">活动结束日期</p>
                 </div>
-                <div class="col-xs-3 actdetail">
+                <div class="col-xs-4 actdetail">
                     <a class="detailbutton btn-lg" th:href="@{'/activity/'+${activity.activityId}}">
                         <span class="glyphicon glyphicon-circle-arrow-right"></span>
                     </a>
