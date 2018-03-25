@@ -2,11 +2,14 @@ package top.starrysea.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.WorkType;
+import top.starrysea.object.view.in.OrderDetailForAddOrder;
 
 public interface IOrderService {
 
@@ -31,6 +34,13 @@ public interface IOrderService {
 	ServiceResult queryAllWorkTypeForShoppingCarService(List<WorkType> workTypes);
 
 	ServiceResult modifyAddressService(Orders order);
-	
+
 	ServiceResult modifyAddressEmailService(Orders order);
+
+	ServiceResult queryShoppingCarListService(String redisKey);
+
+	ServiceResult addorModifyWorkToShoppingCarService(String redisKey,
+			List<OrderDetailForAddOrder> orderDetailForAddOrders);
+
+	ServiceResult removeShoppingCarListService(String redisKey);
 }
