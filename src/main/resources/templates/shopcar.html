@@ -65,6 +65,9 @@
 					<p >操作</p>
 				</div>
 			</div>
+			<div id="NoItemDiv">
+				购物车中无物品
+			</div>
 			<div class="formdata row" th:each="workType,status:${workTypes}">
 				<div class="col-xs-1 selectwork">
 					<input type="checkbox" class="selectallinput" />
@@ -115,34 +118,17 @@
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="/shopcar.min.js"></script>
 	<script src="/mynavbar_commonpage.min.js"></script>
-	<script type="text/javascript">
-		$(function(){
-		    $(".selectallinput").click(function(){
-		        let count=0;
-                $(".formdata").each(function(i,div){
-                    const selected=$(div).eq(0).find("input").is(':checked');
-                    if(selected){
-                        count++;
-                    }
-                });
-                if(count==0){
-                    $("#confbut").attr("background","#aaa")
-                }
-                else{
-                    $("#confbut").attr("background","#333")
-				}
-			});
-		});
-	</script>
 	<script th:inline="javascript">
 	$(function(){
 		const orderDetails=[[${orderDetails}]];
 		//全选功能
+
 	    $(".selectall").click(function () {
 	        var isall = $(this).prop("checked");
 	        var status = $(".selectallinput").prop("checked", isall);
             countchecked();
 	    });
+
 		$("#confbutt").on("click",function(e){
 			let gotoOrderForm=$(`<form action="/order/toAddOrder" method="post"></form>`);
 			let workTypes="";
@@ -168,6 +154,7 @@
 			document.body.removeChild(gotoOrderForm[0]);
 			return false;
 		});
+
 		$("#delselect").on("click",function(e){
 			let count=0;
 			let removeWorkTypeForm=$(`<form action="/car/removes" method="post"></form>`);
