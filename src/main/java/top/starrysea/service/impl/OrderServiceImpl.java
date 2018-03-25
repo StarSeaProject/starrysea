@@ -19,6 +19,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
@@ -34,6 +36,7 @@ import top.starrysea.object.dto.Area;
 import top.starrysea.object.dto.OrderDetail;
 import top.starrysea.object.dto.Orders;
 import top.starrysea.object.dto.WorkType;
+import top.starrysea.object.view.in.OrderDetailForAddOrder;
 import top.starrysea.object.view.out.AreaForAddOrder;
 import top.starrysea.object.view.out.CityForAddOrder;
 import top.starrysea.object.view.out.ProvinceForAddOrder;
@@ -61,6 +64,8 @@ public class OrderServiceImpl implements IOrderService {
 	private IMailService modifyOrderMailService;
 	@Autowired
 	private IOrderDetailDao orderDetailDao;
+	@Autowired
+	private JedisPool jedispool;
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
@@ -89,6 +94,7 @@ public class OrderServiceImpl implements IOrderService {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = orderDao.getOrderDao(order);
 		Orders o = daoResult.getResult(Orders.class);
+		System.out.println(Common.toJson(o));
 		List<OrderDetail> ods = orderDetailDao.getAllOrderDetailDao(new OrderDetail.Builder().order(order).build())
 				.getResult(List.class);
 		result.setSuccessed(true);
@@ -155,7 +161,7 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	@Cacheable(value = "provinces")
+	@Cacheable(value = "provinces", cacheManager = "defaultCacheManager")
 	public ServiceResult queryAllProvinceService() {
 		List<Area> areas = provinceDao.getAllProvinceDao().getResult(List.class);
 		Map<Integer, ProvinceForAddOrder> provinceVos = new HashMap<>();
@@ -281,4 +287,52 @@ public class OrderServiceImpl implements IOrderService {
 		return new ServiceResult(false);
 	}
 
+	@Override
+	public ServiceResult queryShoppingCarListService(String redisKey) {
+		ServiceResult serviceResult = new ServiceResult();
+		Jedis jedis = jedispool.getResource();
+		try {
+			if (jedis.exists(redisKey)) {
+				List<OrderDetailForAddOrder> orderDetailForAddOrders = Common.jsonToList(jedis.get(redisKey),
+						OrderDetailForAddOrder.class);
+				serviceResult.setResult(LIST_1, orderDetailForAddOrders);
+				serviceResult.setSuccessed(true);
+			} else {
+				serviceResult.setResult(LIST_1, new ArrayList<OrderDetailForAddOrder>());
+				serviceResult.setSuccessed(true);
+			}
+		} finally {
+			jedis.close();
+		}
+		return serviceResult;
+	}
+
+	@Override
+	public ServiceResult addorModifyWorkToShoppingCarService(String redisKey,
+			List<OrderDetailForAddOrder> orderDetailForAddOrders) {
+		Jedis jedis = jedispool.getResource();
+		ServiceResult serviceResult = new ServiceResult();
+		try {
+			jedis.set(redisKey, Common.toJson(orderDetailForAddOrders));
+			serviceResult.setSuccessed(true);
+		} finally {
+			jedis.close();
+		}
+		return serviceResult;
+	}
+
+	@Override
+	public ServiceResult removeShoppingCarListService(String redisKey) {
+		Jedis jedis = jedispool.getResource();
+		ServiceResult serviceResult = new ServiceResult();
+		try {
+			if (jedis.exists(redisKey)) {
+				jedis.del(redisKey);
+				serviceResult.setSuccessed(true);
+			}
+		} finally {
+			jedis.close();
+		}
+		return serviceResult;
+	}
 }
