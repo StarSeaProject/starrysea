@@ -7,10 +7,10 @@
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
 <link rel="stylesheet"
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-<link rel="stylesheet" href="/mycss.css"></link>
-<link rel="stylesheet" href="/mynavbar_commonpage.css"></link>
-<link rel="stylesheet" href="/myfootbar_commonpage.css"></link>
-<link rel="stylesheet" href="/shopcar.css"></link>
+<link rel="stylesheet" href="/mycss.min.css"></link>
+<link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
+<link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
+<link rel="stylesheet" href="/shopcar.min.css"></link>
 
 </head>
 <body class="container-fluid">
@@ -65,6 +65,9 @@
 					<p >操作</p>
 				</div>
 			</div>
+			<div id="NoItemDiv">
+				购物车中无物品
+			</div>
 			<div class="formdata row" th:each="workType,status:${workTypes}">
 				<div class="col-xs-1 selectwork">
 					<input type="checkbox" class="selectallinput" />
@@ -100,7 +103,7 @@
 					<input type="checkbox" class="selectall" /> 全 选
 				</div>
 				<div class="pull-right text-center">
-					<button class="btn btn-info pull-right" id="delselect">删 除</button>
+					<button class="btn btn-info pull-right" id="delselect">删除所选作品</button>
 				</div>
 			</div>
 			<div class="col-xs-2 pull-right" id="confdivv">
@@ -110,17 +113,38 @@
 		</div>
 	</form>
 
+	<!-- Modal -->
+	<div class="modal fade" id="Modalbox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ModalLabel">星之海志愿者公会</h5>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="/shopcar.min.js"></script>
+	<script src="/mynavbar_commonpage.min.js"></script>
+	<script src="/modalalert.min.js"></script>
 	<script th:inline="javascript">
 	$(function(){
 		const orderDetails=[[${orderDetails}]];
 		//全选功能
+
 	    $(".selectall").click(function () {
 	        var isall = $(this).prop("checked");
 	        var status = $(".selectallinput").prop("checked", isall);
+            countchecked();
 	    });
+
 		$("#confbutt").on("click",function(e){
 			let gotoOrderForm=$(`<form action="/order/toAddOrder" method="post"></form>`);
 			let workTypes="";
@@ -136,7 +160,7 @@
 				}
 			});
 			if(count==0){
-				alert("请至少选择一个作品!");
+                modalalert("请至少选择一个作品!");
 				e.stopPropagation();
 				return false;
 			}
@@ -146,6 +170,7 @@
 			document.body.removeChild(gotoOrderForm[0]);
 			return false;
 		});
+
 		$("#delselect").on("click",function(e){
 			let count=0;
 			let removeWorkTypeForm=$(`<form action="/car/removes" method="post"></form>`);
@@ -160,7 +185,7 @@
 				}
 			});
 			if(count==0){
-				alert("请至少选择一个作品!");
+				modalalert("请至少选择一个作品!");
 				e.stopPropagation();
 				return false;
 			}
@@ -177,6 +202,6 @@
 		});
 	});
 </script>
-<script src="/shopcar.js"></script>
+
 </body>
 </html>
