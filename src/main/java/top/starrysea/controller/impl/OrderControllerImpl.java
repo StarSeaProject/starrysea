@@ -132,6 +132,7 @@ public class OrderControllerImpl implements IOrderController {
 		if (!serviceResult.isSuccessed()) {
 			return ModelAndViewFactory.newErrorMav(serviceResult.getErrInfo(), device);
 		}
+		orderService.removeShoppingCarListService(session.getId());
 		return ModelAndViewFactory.newSuccessMav("您已下单成功，之后将会为您派送！", device);
 	}
 
@@ -182,11 +183,13 @@ public class OrderControllerImpl implements IOrderController {
 	@ResponseBody
 	public Map<String, Object> addWorkToShoppingCarController(HttpSession session,
 			@RequestBody @Valid OrderDetailForAddOrder orderDetail, BindingResult bindingResult, Device device) {
-		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		List<OrderDetailForAddOrder> orderDetailList = orderService.queryShoppingCarListService(session.getId())
+				.getResult(LIST_1);
 		if (orderDetailList == null) {
 			orderDetailList = new ArrayList<>();
 		}
 		Map<String, Object> theResult = new HashMap<>();
+
 		for (OrderDetailForAddOrder orderDetailForAddOrder : orderDetailList) {
 			if (orderDetailForAddOrder.getWorkId() == orderDetail.getWorkId()) {
 				theResult.put(INFO, "您已经将该作品放入购物车,不能重复放入");
@@ -194,7 +197,7 @@ public class OrderControllerImpl implements IOrderController {
 			}
 		}
 		orderDetailList.add(orderDetail);
-		session.setAttribute(SHOPPINGCAR, (Serializable) orderDetailList);
+		orderService.addorModifyWorkToShoppingCarService(session.getId(), orderDetailList);
 		theResult.put(INFO, "添加到购物车成功!");
 		return theResult;
 	}
@@ -208,16 +211,18 @@ public class OrderControllerImpl implements IOrderController {
 			return ModelAndViewFactory.newErrorMav("您已经删除该作品,请勿再次提交", device);
 		}
 		session.removeAttribute(TOKEN);
-		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		List<OrderDetailForAddOrder> orderDetailList = orderService.queryShoppingCarListService(session.getId())
+				.getResult(LIST_1);
 		orderDetailList.remove((int) workType.getIndex());
-		session.setAttribute(SHOPPINGCAR, (Serializable) orderDetailList);
+		orderService.addorModifyWorkToShoppingCarService(session.getId(), orderDetailList);
 		return ModelAndViewFactory.newSuccessMav("从购物车移除作品成功!", device);
 	}
 
 	@Override
 	@RequestMapping(value = "/car", method = RequestMethod.GET)
 	public ModelAndView queryShoppingCarController(HttpSession session, Device device) {
-		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		List<OrderDetailForAddOrder> orderDetailList = orderService.queryShoppingCarListService(session.getId())
+				.getResult(LIST_1);
 		if (orderDetailList == null) {
 			orderDetailList = new ArrayList<>();
 		}
@@ -239,11 +244,12 @@ public class OrderControllerImpl implements IOrderController {
 			return ModelAndViewFactory.newErrorMav("您已经删除过这些作品,请勿再次提交", device);
 		}
 		session.removeAttribute(TOKEN);
-		List<OrderDetailForAddOrder> orderDetailList = (List<OrderDetailForAddOrder>) session.getAttribute(SHOPPINGCAR);
+		List<OrderDetailForAddOrder> orderDetailList = orderService.queryShoppingCarListService(session.getId())
+				.getResult(LIST_1);
 		for (WorkTypeForRemoveCar workType : workTypes.getWorkTypes()) {
 			orderDetailList.remove((int) workType.getIndex());
 		}
-		session.setAttribute(SHOPPINGCAR, (Serializable) orderDetailList);
+		orderService.addorModifyWorkToShoppingCarService(session.getId(), orderDetailList);
 		return ModelAndViewFactory.newSuccessMav("从购物车移除作品成功!", device);
 	}
 
