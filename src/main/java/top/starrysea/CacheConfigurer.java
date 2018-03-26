@@ -1,4 +1,4 @@
-package top.starrysea.filter;
+package top.starrysea;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
