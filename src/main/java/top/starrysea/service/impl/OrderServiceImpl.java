@@ -94,7 +94,6 @@ public class OrderServiceImpl implements IOrderService {
 		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = orderDao.getOrderDao(order);
 		Orders o = daoResult.getResult(Orders.class);
-		System.out.println(Common.toJson(o));
 		List<OrderDetail> ods = orderDetailDao.getAllOrderDetailDao(new OrderDetail.Builder().order(order).build())
 				.getResult(List.class);
 		result.setSuccessed(true);
