@@ -1,9 +1,6 @@
 package top.starrysea.service;
 
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import top.starrysea.common.Condition;
 import top.starrysea.common.ServiceResult;
 import top.starrysea.object.dto.OrderDetail;
