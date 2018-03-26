@@ -124,54 +124,10 @@
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="/modalalert.min.js"></script>
 	<script th:inline="javascript">
-    $(function () {
-        let workImages = [[${workImages}]];
-        let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
-        $("#more_image").before(str);
-        $("#more_image").on("click", () => {
-            let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
-            $("#more_image").before(str);
-        });
-    	
-        $("#gotoOrder").on("click", function (event) {
-            $.ajax({
-            	url:"/car/add",
-            	type:"post",
-            	contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                data: '{"workId":"' + $(event.target).data("workid") + '","workTypeId":"' + $(".active").data("worktypeid") + '"}',
-                async: false,
-                success: function(data){
-                	modalalert(data.info);
-                }
-            });
-        });
-        
-        let workTypes=[[${workTypes}]];
-        let sum = 0;
-        for(let workType of workTypes){
-        	sum+=workType.stock;
-        }
-        $("#stock").data("sum",sum);
-        $("#stock").text("  共"+sum+"个");
-        $("#workType").on("click",function(e){
-        	let stock=$(e.target).data("stock");
-        	if(stock==0){
-        		$("#stock").text("没有库存啦");
-        		$("#gotoOrder").attr("disabled","disabled");
-        	}else{
-        		$("#stock").text("  还有"+stock+"个");
-        	}
-        	let isDisabled=$("#gotoOrder").attr("disabled")=="disabled";
-        	if(isDisabled){
-        		if(stock>0){
-        			$("#gotoOrder").removeAttr("disabled");
-        		}
-        	}
-        });
-    });
-</script>
-<script src="/work_detail.min.js"></script>
-<script src="/mynavbar_commonpage.min.js"></script>
+	    const workImages = [[${workImages}]];
+	    const workTypes=[[${workTypes}]];
+	</script>
+	<script src="/work_detail.min.js"></script>
+	<script src="/mynavbar_commonpage.min.js"></script>
 </body>
 </html>

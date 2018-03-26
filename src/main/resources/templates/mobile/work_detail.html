@@ -2,139 +2,97 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <meta charset="utf-8"></meta>
+<meta charset="utf-8"></meta>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
 
-    <title>星之海志愿者公会</title>
-    <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
-    <link rel="stylesheet"
-          href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-    <link rel="stylesheet" href="/mycss.min.css"></link>
-    <link rel="stylesheet" href="/mobile/mynavbar_mobilepage.min.css"></link>
-    <link rel="stylesheet" href="/mobile/myfootbar_mobilepage.min.css"></link>
-    <link rel="stylesheet" href="/mobile/work_detailm.min.css"></link>
+<title>星之海志愿者公会</title>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
+<link rel="stylesheet"
+	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
+<link rel="stylesheet" href="/mycss.min.css"></link>
+<link rel="stylesheet" href="/mobile/mynavbar_mobilepage.min.css"></link>
+<link rel="stylesheet" href="/mobile/myfootbar_mobilepage.min.css"></link>
+<link rel="stylesheet" href="/mobile/work_detailm.min.css"></link>
 
 </head>
 <body class="container-fluid">
-<div class="navbartop row">
-    <div class="navbar-header col-xs-3">
-        <a href="/"><img src="/starsea.png" class="navimg img-responsive"></img></a>
-    </div>
-    <div class="navbar-right col-xs-9 text-right">
-        <a href="/work" class="ma text-right">作品</a>
-        <a href="/activity" class="ma text-right">活动</a>
-        <a href="/mintro.html" class="ma text-right">关于</a>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 imgbarcontainer">
-        <img class="imgbar" src="/navbar.jpg" ></img>
-    </div>
-</div>
+	<div class="navbartop row">
+		<div class="navbar-header col-xs-3">
+			<a href="/"><img src="/starsea.png" class="navimg img-responsive"></img></a>
+		</div>
+		<div class="navbar-right col-xs-9 text-right">
+			<a href="/work" class="ma text-right">作品</a> <a href="/activity"
+				class="ma text-right">活动</a> <a href="/mintro.html"
+				class="ma text-right">关于</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 imgbarcontainer">
+			<img class="imgbar" src="/navbar.jpg"></img>
+		</div>
+	</div>
 
-<div class="container checklist row">
+	<div class="container checklist row">
 
-    <div class="row">
-        <div class="col-xs-4">
-            <img th:attr="src=${work.workCover}" class="img-reponsive"></img>
-        </div>
-        <div class="col-xs-1"></div>
-        <div class="col-xs-6">
-            <div class="h1">
-                <h1 th:text="${work.workName}"
-                    class="titleh1"></h1>
-            </div>
-            <div class="h6" th:text="'上架时间:'+${work.workUploadTime}"></div>
-            <div class="h6" th:text="'点击量:'+${work.workClick}"></div>
-            <div class="h6">
-                <a th:href="@{${work.workPdfpath}}" th:attr="download=${work.workName}">下载链接</a>
-            </div>
-            <select id="workTypes">
-                    <option  th:each="workType:${workTypes}" th:value="${workType.workTypeId}" th:text="${workType.name}+' '+${workType.stock}"></option>
-                </select>
-				<span>种类:</span>
-                <div id="workType" class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default orderbtn"
-							th:each="workType:${workTypes}"
-							th:attr="data-stock=${workType.stock},data-worktypeid=${workType.workTypeId}">
-							<input type="radio" th:text="${workType.name}" />
+		<div class="row">
+			<div class="col-xs-4">
+				<img th:attr="src=${work.workCover}" class="img-reponsive"></img>
+			</div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-6">
+				<div class="h1">
+					<h1 th:text="${work.workName}" class="titleh1"></h1>
+				</div>
+				<div class="h6" th:text="'上架时间:'+${work.workUploadTime}"></div>
+				<div class="h6" th:text="'点击量:'+${work.workClick}"></div>
+				<div class="h6">
+					<a th:href="@{${work.workPdfpath}}"
+						th:attr="download=${work.workName}">下载链接</a>
+				</div>
+				<select id="workTypes">
+					<option th:each="workType:${workTypes}"
+						th:value="${workType.workTypeId}"
+						th:text="${workType.name}+' '+${workType.stock}"></option>
+				</select> <span>种类:</span>
+				<div id="workType" class="btn-group" data-toggle="buttons">
+					<label class="btn btn-default orderbtn"
+						th:each="workType:${workTypes}"
+						th:attr="data-stock=${workType.stock},data-worktypeid=${workType.workTypeId}">
+						<input type="radio" th:text="${workType.name}" />
 					</label>
-                </div>
-                <div>
+				</div>
+				<div>
 					<span>库存:</span><span id="stock"></span>
 				</div>
-                <br/><br/>
-                <button  th:attr="data-workid=${workId}" id="gotoOrder"
-                         class="btn btn-info" disabled="disabled">放入购物车
-                </button>
-        </div>
-    </div>
-</div>
-<hr></hr>
-<div id="workImages row" class="pdfcontainer">
-    <button id="more_image" class="btn btn-info">更多</button>
-</div>
-<div id="cardiv">
-		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart"></span>
-          </button>
-</div>
+				<br /> <br />
+				<button th:attr="data-workid=${workId}" id="gotoOrder"
+					class="btn btn-info" disabled="disabled">放入购物车</button>
+			</div>
+		</div>
+	</div>
+	<hr></hr>
+	<div id="workImages row" class="pdfcontainer">
+		<button id="more_image" class="btn btn-info">更多</button>
+	</div>
+	<div id="cardiv">
+		<button id="gotocar" onclick="window.location.href='/car'">
+			<span class="glyphicon glyphicon-shopping-cart"></span>
+		</button>
+	</div>
 
-<div class="mfoot text-center row">
-    <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
-</div>
+	<div class="mfoot text-center row">
+		<p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
+	</div>
 
-<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script th:inline="javascript">
-    $(function () {
-        let workImages = [[${workImages}]];
-        console.log(workImages);
-        let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
-        $("#more_image").before(str);
-        $("#more_image").on("click", () => {
-            let str = `<img style="width: 70%" src="${workImages.shift().workImagePath}" /><br/>`;
-        	$("#more_image").before(str);
-    	});
-        $("#gotoOrder").on("click", function (event) {
-            $.ajax({
-            	url:"/car/add",
-            	type:"post",
-            	contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                data: '{"workId":"' + $(event.target).data("workid") + '","workTypeId":"' + $(".active").data("worktypeid") + '"}',
-                async: false,
-                success: function(data){
-                	alert(data.info);
-                }
-            });
-        });
-        
-        let workTypes=[[${workTypes}]];
-        let sum = 0;
-        for(let workType of workTypes){
-        	sum+=workType.stock;
-        }
-        $("#stock").data("sum",sum);
-        $("#stock").text("  共"+sum+"个");
-        $("#workType").on("click",function(e){
-        	let stock=$(e.target).data("stock");
-        	if(stock==0){
-        		$("#stock").text("没有库存啦");
-        		$("#gotoOrder").attr("disabled","disabled");
-        	}else{
-        		$("#stock").text("  还有"+stock+"个");
-        	}
-        	let isDisabled=$("#gotoOrder").attr("disabled")=="disabled";
-        	if(isDisabled){
-        		if(stock>0){
-        			$("#gotoOrder").removeAttr("disabled");
-        		}
-        	}
-        });
-    });
-</script>
-	<script src="/work_detailm.min.js" ></script>
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+	<script
+		src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script th:inline="javascript">
+		const workImages = [[${workImages}]];
+		const workTypes=[[${workTypes}]];
+	</script>
+	<script src="/mobile/work_detailm.min.js"></script>
 </body>
 </html>
