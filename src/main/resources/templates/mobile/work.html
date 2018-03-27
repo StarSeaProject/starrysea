@@ -18,6 +18,9 @@
 </head>
 
 <body class="container-fluid">
+
+
+
 	<div class="navbartop row">
 		<div class="navbar-header col-xs-3">
 			<a href="/"><img src="/starsea.png" class="navimg img-responsive"></img></a>
@@ -60,8 +63,9 @@
 		</div>
 	</div>
 	<div id="cardiv">
-		<button id="gotocar" onclick="window.location.href='/car'"><span class="glyphicon glyphicon-shopping-cart"></span>
-          </button>
+		<button id="gotocar" onclick="window.location.href='/car'">
+			<span class="glyphicon glyphicon-shopping-cart"></span>
+		</button>
 	</div>
 
 	<div class="mfoot text-center row">
@@ -72,11 +76,11 @@
 	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 	<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<script src="/common.min.js"></script>
+	<script src="/mobile/shopcariconm.min.js"></script>
 	<script th:inline="javascript">
 		let total=[[${totalPage}]];
 	</script>
 	<script src="/read.min.js"></script>
-	<script src="/workm.min.js" ></script>
 
 </body>
 

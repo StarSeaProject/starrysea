@@ -9,9 +9,12 @@
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
     <link rel="stylesheet" href="/mycss.min.css"></link>
-    <link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
-    <link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
     <link rel="stylesheet" href="/question.min.css"></link>
+    <link rel="stylesheet" media="screen and (min-width: 992px)" href="/mynavbar_commonpage.min.css"></link>
+    <link rel="stylesheet" media="screen and (max-width: 991px)" href="/mobile/mynavbar_mobilepage.min.css"></link>
+    <link rel="stylesheet" media="screen and (min-width: 992px)" href="/myfootbar_commonpage.min.css"></link>
+    <link rel="stylesheet" media="screen and (max-width: 991px)" href="/mobile/myfootbar_mobilepage.min.css"></link>
+
 </head>
 
 <body class="container-fluid">
@@ -43,15 +46,21 @@
 </div>
 <!--Mobile Navbar-->
 
-<div class="navbartop">
-    <div class="navbar-header col-xs-3">
-        <a href="/"><img src="/starsea.png"
-                         class="navimg"></img></a>
+<div class="navbartop container-fluid row">
+    <div class="row">
+        <div class="navbar-header col-xs-3">
+            <a href="/"><img src="/starsea.png" class="navimg"></img></a>
+        </div>
+        <div class="navbar-right col-xs-9 text-right">
+            <a href="/work" class="ma text-right">作品</a>
+            <a href="/activity"class="ma text-right">活动</a>
+            <a href="/mintro.html"class="ma text-right">关于</a>
+        </div>
     </div>
-    <div class="navbar-right col-xs-9 text-right">
-        <a href="/work" class="ma text-right">作品</a>
-        <a href="/activity" class="ma text-right">活动</a>
-        <a href="/mintro.html" class="ma text-right">关于</a>
+    <div class="row">
+        <div class="col-xs-12 imgbarcontainer">
+            <img class="imgbar" src="/navbar.jpg"></img>
+        </div>
     </div>
 </div>
 
@@ -96,14 +105,16 @@
 <div class="footbar text-center">
     <p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
 </div>
-
+<div class="mfoot text-center row">
+    <p class="footp">互联网ICP备案：鲁ICP备17053445号</p>
+</div>
 
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/question.min.js"></script>
 <script th:inline="javascript">
     let total = [[${totalPage}]];
 </script>
-<script type="text/javascript" src="/question.min.js"></script>
 <script type="text/javascript" src="/mynavbar_commonpage.min.js"></script>
 
 </body>

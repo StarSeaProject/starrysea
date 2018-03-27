@@ -65,7 +65,7 @@
 					<p >操作</p>
 				</div>
 			</div>
-			<div id="NoItemDiv">
+			<div id="NoItemDiv" class="noitem">
 				购物车中无物品
 			</div>
 			<div class="formdata row" th:each="workType,status:${workTypes}">
@@ -97,19 +97,18 @@
 			<p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
 		</div>
 
-		<div class="navbar-fixed-bottom" id="jiesuanbar">
-			<div class="col-xs-4 pull-left " id="allfunc">
-				<div class="pull-left text-center">
-					<input type="checkbox" class="selectall" /> 全 选
-				</div>
-				<div class="pull-right text-center">
-					<button class="btn btn-info pull-right" id="delselect">删除所选作品</button>
-				</div>
+		<div class="navbar-fixed-bottom container-fluid" id="jiesuanbar">
+			<div class="col-xs-3 text-center selectallc">
+				<input type="checkbox" class="selectall" /> 全 选
 			</div>
-			<div class="col-xs-2 pull-right" id="confdivv">
+			<a class="col-xs-4 text-center btncontainer">
+				<button class="btn btn-info pull-right" id="delselect">
+					删除所选作品
+				</button>
+			</a>
+			<div class="col-xs-5" id="confdivv">
 				<button id="confbutt" class="pull-right text-center">确 认</button>
 			</div>
-
 		</div>
 	</form>
 

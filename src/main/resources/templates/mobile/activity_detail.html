@@ -53,7 +53,7 @@
 			<ul class="newbox" th:each="funding:${fundings}">
 				<li class="everybox"><span
 					th:if="${funding.fundingMoney} gt ${fundingFactor}"
-					th:text="${funding.fundingName}" class="fnamebold"> no daota
+					th:text="${funding.fundingName}" class="fnamebold"> no data
 				</span> <br /> <span th:if="${funding.fundingMoney} le ${fundingFactor}"
 					th:text="${funding.fundingName}" class="fname"> no data </span> <br />
 					<span th:text="${funding.fundingMoney}" class="fmoney"> no
@@ -68,4 +68,5 @@
 </body>
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="/mobile/activity_detailm.min.js"></script>
 </html>

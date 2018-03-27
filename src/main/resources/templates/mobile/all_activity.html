@@ -79,21 +79,43 @@
     </div>
 
     <br/>
-    <div class="pagebox col-md-4"></div>
-    <div id="pages" class="pagebox row col-md-4 ">
-        <div class="col-xs-3 pagebutton" id="frontbox">
-            <a href="javascript:void(0)" class="page" id="front"
-               th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null"> </a>
+
+    <div class="row">
+        <div class="pagebox col-md-4">
+
         </div>
-        <div class="col-xs-3 pagebutton">
-            <span class="nowpage" th:text="${nowPage}"> </span>
+
+        <div id="pages" class="pagebox row col-md-4 ">
+            <div class="col-xs-4" id="frontbox">
+                <a href="javascript:void(0)" >
+                    <div class="pagebutton" id="front"
+                         th:text="${nowPage}-1 gt 0 ? ${nowPage}-1 : null">
+                        t
+                    </div>
+                </a>
+            </div>
+            <div class="col-xs-4">
+                <span  >
+                    <div class="pagebutton" th:text="${nowPage}">
+                        e
+                    </div>
+                </span>
+            </div>
+            <div class="col-xs-4" id="backbox">
+                <a href="javascript:void(0)" >
+                    <div class="pagebutton" id="back"
+                         th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null">
+                        st
+                    </div>
+                </a>
+            </div>
         </div>
-        <div class="col-xs-3 pagebutton" id="backbox">
-            <a href="javascript:void(0)" class="page" id="back"
-               th:text="${nowPage}+1 le ${totalPage}? ${nowPage}+1 : null"> </a>
+
+        <div class="pagebox col-md-4 right">
+
         </div>
     </div>
-    <div class="pagebox col-md-4"></div>
+
 </div>
 <br/>
 <br/>
