@@ -27,9 +27,9 @@ spring:
     content-type: text/html
     mode: LEGACYHTML5
   redis:
-    host: 127.0.0.1
+    host: 120.79.24.63
     port: 6379
-    password: 132258
+    password: root1
     pool:
       max-active: 8
       max-wait: 1800
