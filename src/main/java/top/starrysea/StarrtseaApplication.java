@@ -6,6 +6,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import top.starrysea.kql.facede.KumaRedisDao;
+import top.starrysea.kql.facede.KumaRedisDaoImpl;
 import top.starrysea.kql.facede.KumaSqlDao;
 import top.starrysea.kql.facede.KumaSqlDaoImpl;
 
@@ -21,5 +23,10 @@ public class StarrtseaApplication {
 	@Bean
 	public KumaSqlDao getKumaSqlDao() {
 		return new KumaSqlDaoImpl();
+	}
+	
+	@Bean
+	public KumaRedisDao getKumaRedisDao() {
+		return new KumaRedisDaoImpl();
 	}
 }
