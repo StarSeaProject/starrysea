@@ -28,6 +28,7 @@ import top.starrysea.service.IWorkService;
 
 import static top.starrysea.dao.impl.WorkDaoImpl.PAGE_LIMIT;
 import static top.starrysea.common.ResultKey.*;
+import static top.starrysea.common.ServiceResult.SUCCESS_SERVICE_RESULT;
 
 @Service("workService")
 public class WorkServiceImpl implements IWorkService {
@@ -45,7 +46,6 @@ public class WorkServiceImpl implements IWorkService {
 	@Override
 	// 查询所有作品
 	public ServiceResult queryAllWorkService(Condition condition, Work work) {
-		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = workDao.getAllWorkDao(condition, work);
 		@SuppressWarnings("unchecked")
 		List<Work> workList = daoResult.getResult(List.class);
@@ -57,20 +57,17 @@ public class WorkServiceImpl implements IWorkService {
 		} else {
 			totalPage = (count / PAGE_LIMIT) + 1;
 		}
-		result.setSuccessed(true);
-		result.setResult(LIST_1, workList);
-		result.setNowPage(condition.getPage());
-		result.setTotalPage(totalPage);
-		return result;
+
+		return ServiceResult.of(true).setResult(LIST_1, workList).setNowPage(condition.getPage())
+				.setTotalPage(totalPage);
 	}
 
 	@Override
 	// 查询一个作品的详情页
 	public ServiceResult queryWorkService(Work work) {
-		ServiceResult result = new ServiceResult();
 		workDao.addWorkClick(work);
 		DaoResult daoResult = workDao.getWorkDao(work);
-		result.setSuccessed(true);
+		ServiceResult result = ServiceResult.of(true);
 		result.setResult(WORK, daoResult.getResult(Work.class));
 		daoResult = workImageDao.getAllWorkImageDao(new WorkImage.Builder().work(work).build());
 		result.setResult(LIST_1, daoResult.getResult(List.class));
@@ -102,9 +99,7 @@ public class WorkServiceImpl implements IWorkService {
 				workType.setWork(work);
 			}
 			workTypeDao.saveWorkTypeDao(workTypes);
-			ServiceResult serviceResult = new ServiceResult(true);
-			serviceResult.setResult(WORK, work);
-			return serviceResult;
+			return ServiceResult.of(true).setResult(WORK, work);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UpdateException(e);
@@ -115,19 +110,19 @@ public class WorkServiceImpl implements IWorkService {
 	// 删除一个作品
 	public ServiceResult removeWorkService(Work work) {
 		workDao.deleteWorkDao(work);
-		return new ServiceResult(true);
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 	@Override
 	public ServiceResult removeWorkTypeService(WorkType workType) {
 		workTypeDao.deleteWorkTypeDao(workType);
-		return new ServiceResult(true);
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 	@Override
 	public ServiceResult modifyWorkTypeService(WorkType workType) {
 		workTypeDao.updateWorkTypeStockDao(workType);
-		return new ServiceResult(true);
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 }

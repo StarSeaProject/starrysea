@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import static top.starrysea.dao.impl.QuestionDaoImpl.PAGE_LIMIT;
 import static top.starrysea.common.ResultKey.LIST_1;
+import static top.starrysea.common.ServiceResult.SUCCESS_SERVICE_RESULT;
 
 import java.util.List;
 import top.starrysea.common.Condition;
@@ -16,12 +17,12 @@ import top.starrysea.service.IQuestionService;
 
 @Service("questionService")
 public class QuestionServiceImpl implements IQuestionService {
+
 	@Autowired
 	private IQuestionDao questionDao;
 
 	@Override
 	public ServiceResult queryAllQuestionService(Condition condition, Question question) {
-		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = questionDao.getAllQuestionDao(condition, question);
 		List<Question> questionsList = daoResult.getResult(List.class);
 		int totalPage = 0;
@@ -32,23 +33,21 @@ public class QuestionServiceImpl implements IQuestionService {
 		} else {
 			totalPage = (count / PAGE_LIMIT) + 1;
 		}
-		result.setSuccessed(true);
-		result.setResult(LIST_1, questionsList);
-		result.setNowPage(condition.getPage());
-		result.setTotalPage(totalPage);
-		return result;
+
+		return ServiceResult.of(true).setResult(LIST_1, questionsList).setNowPage(condition.getPage())
+				.setTotalPage(totalPage);
 	}
 
 	@Override
 	public ServiceResult askQuestionService(Question question) {
 		questionDao.saveQuestionDao(question);
-		return new ServiceResult(true);
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 	@Override
 	public ServiceResult answerQuestionService(Question question) {
 		questionDao.updateQuestionDao(question);
-		return new ServiceResult(true);
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 }

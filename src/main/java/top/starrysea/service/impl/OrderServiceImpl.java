@@ -45,6 +45,8 @@ import top.starrysea.service.IOrderService;
 
 import static top.starrysea.dao.impl.OrderDaoImpl.PAGE_LIMIT;
 import static top.starrysea.common.ResultKey.*;
+import static top.starrysea.common.ServiceResult.SUCCESS_SERVICE_RESULT;
+import static top.starrysea.common.ServiceResult.FAIL_SERVICE_RESULT;
 
 @Service("orderService")
 public class OrderServiceImpl implements IOrderService {
@@ -69,7 +71,6 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public ServiceResult queryAllOrderService(Condition condition, Orders order) {
-		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = orderDao.getAllOrderDao(condition, order);
 		@SuppressWarnings("unchecked")
 		List<Orders> ordersList = daoResult.getResult(List.class);
@@ -81,25 +82,19 @@ public class OrderServiceImpl implements IOrderService {
 		} else {
 			totalPage = (count / PAGE_LIMIT) + 1;
 		}
-		result.setSuccessed(true);
-		result.setResult(LIST_1, ordersList);
-		result.setNowPage(condition.getPage());
-		result.setTotalPage(totalPage);
-		return result;
+
+		return ServiceResult.of(true).setResult(LIST_1, ordersList).setNowPage(condition.getPage())
+				.setTotalPage(totalPage);
 	}
 
 	@Override
 	// 根据订单号查询一个订单的具体信息以及发货情况
 	public ServiceResult queryOrderService(Orders order) {
-		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = orderDao.getOrderDao(order);
 		Orders o = daoResult.getResult(Orders.class);
 		List<OrderDetail> ods = orderDetailDao.getAllOrderDetailDao(new OrderDetail.Builder().order(order).build())
 				.getResult(List.class);
-		result.setSuccessed(true);
-		result.setResult(ORDER, o);
-		result.setResult(LIST_1, ods);
-		return result;
+		return ServiceResult.of(true).setResult(ORDER, o).setResult(LIST_1, ods);
 	}
 
 	@Override
@@ -126,14 +121,10 @@ public class OrderServiceImpl implements IOrderService {
 			order.setOrderId(Common.getCharId("O-", 10));
 			orderDao.saveOrderDao(order);
 			orderDetailDao.saveOrderDetailsDao(orderDetails);
-			ServiceResult serviceResult = new ServiceResult(true);
-			serviceResult.setResult(LIST_1, orderDetails);
-			return serviceResult;
+			return ServiceResult.of(true).setResult(LIST_1, orderDetails);
 		} catch (EmptyResultException | LogicException e) {
 			logger.error(e.getMessage(), e);
-			ServiceResult serviceResult = new ServiceResult(false);
-			serviceResult.setErrInfo(e.getMessage());
-			return serviceResult;
+			return ServiceResult.of(false).setErrInfo(e.getMessage());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UpdateException(e);
@@ -145,9 +136,7 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult modifyOrderService(Orders order) {
 		order.setOrderStatus((short) 2);
 		orderDao.updateOrderDao(order);
-		ServiceResult sr = new ServiceResult(true);
-		sr.setResult(ORDER, orderDao.getOrderDao(order).getResult(Orders.class));
-		return sr;
+		return ServiceResult.of(true).setResult(ORDER, orderDao.getOrderDao(order).getResult(Orders.class));
 	}
 
 	@Override
@@ -156,7 +145,7 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult removeOrderService(Orders order) {
 		workTypeDao.updateWorkTypeStockDao(order);
 		orderDao.deleteOrderDao(order);
-		return new ServiceResult(true);
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 	@Override
@@ -183,9 +172,7 @@ public class OrderServiceImpl implements IOrderService {
 			CityForAddOrder cityVo = cityVos.get(cityId);
 			cityVo.getAreas().add(new AreaForAddOrder(area.getAreaId(), area.getAreaName()));
 		}
-		ServiceResult sr = new ServiceResult(true);
-		sr.setResult(MAP, provinceVos);
-		return sr;
+		return ServiceResult.of(true).setResult(MAP, provinceVos);
 	}
 
 	@Override
@@ -194,20 +181,15 @@ public class OrderServiceImpl implements IOrderService {
 		try {
 			for (WorkType workType : workTypes) {
 				daoResult = workTypeDao.getWorkTypeStockDao(workType);
-
 				Integer stock = daoResult.getResult(Integer.class);
 				if (stock <= 0)
 					throw new LogicException("库存不足");
 			}
-			return new ServiceResult(true);
+			return SUCCESS_SERVICE_RESULT;
 		} catch (EmptyResultDataAccessException e) {
-			ServiceResult sr = new ServiceResult(false);
-			sr.setErrInfo("该作品下没有这样的类型");
-			return sr;
+			return ServiceResult.of(false).setErrInfo("该作品下没有这样的类型");
 		} catch (Exception e) {
-			ServiceResult sr = new ServiceResult(false);
-			sr.setErrInfo(e.getMessage());
-			return sr;
+			return ServiceResult.of(false).setErrInfo(e.getMessage());
 		}
 	}
 
@@ -255,25 +237,22 @@ public class OrderServiceImpl implements IOrderService {
 		} else if (result.getOrderStatus() == 2) {
 			sendOrderMailService.sendMailService(result);
 		}
-		return new ServiceResult(true);
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 	@Override
 	public ServiceResult queryAllWorkTypeForShoppingCarService(List<WorkType> workTypes) {
 		if (workTypes.isEmpty()) {
-			ServiceResult sr = new ServiceResult(false);
-			sr.setResult(LIST_1, new ArrayList<>());
-			return sr;
+			return ServiceResult.of(false).setResult(LIST_1, new ArrayList<>());
 		}
-		ServiceResult sr = new ServiceResult(true);
-		sr.setResult(LIST_1, workTypeDao.getAllWorkTypeForShoppingCarDao(workTypes).getResult(List.class));
-		return sr;
+		return ServiceResult.of(true).setResult(LIST_1,
+				workTypeDao.getAllWorkTypeForShoppingCarDao(workTypes).getResult(List.class));
 	}
 
 	@Override
 	public ServiceResult modifyAddressService(Orders order) {
 		orderDao.updateAddressDao(order);
-		return new ServiceResult(true);
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 	@Override
@@ -281,14 +260,14 @@ public class OrderServiceImpl implements IOrderService {
 		Orders result = orderDao.getOrderDao(order).getResult(Orders.class);
 		if (result.getOrderStatus() != 2) {
 			modifyOrderMailService.sendMailService(result);
-			return new ServiceResult(true);
+			return SUCCESS_SERVICE_RESULT;
 		}
-		return new ServiceResult(false);
+		return FAIL_SERVICE_RESULT;
 	}
 
 	@Override
 	public ServiceResult queryShoppingCarListService(String redisKey) {
-		ServiceResult serviceResult = new ServiceResult();
+		ServiceResult serviceResult = ServiceResult.of();
 		Jedis jedis = jedispool.getResource();
 		try {
 			if (jedis.exists(redisKey)) {
@@ -310,7 +289,7 @@ public class OrderServiceImpl implements IOrderService {
 	public ServiceResult addorModifyWorkToShoppingCarService(String redisKey,
 			List<OrderDetailForAddOrder> orderDetailForAddOrders) {
 		Jedis jedis = jedispool.getResource();
-		ServiceResult serviceResult = new ServiceResult();
+		ServiceResult serviceResult = ServiceResult.of();
 		try {
 			jedis.set(redisKey, Common.toJson(orderDetailForAddOrders));
 			serviceResult.setSuccessed(true);
@@ -323,7 +302,7 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public ServiceResult removeShoppingCarListService(String redisKey) {
 		Jedis jedis = jedispool.getResource();
-		ServiceResult serviceResult = new ServiceResult();
+		ServiceResult serviceResult = ServiceResult.of();
 		try {
 			if (jedis.exists(redisKey)) {
 				jedis.del(redisKey);

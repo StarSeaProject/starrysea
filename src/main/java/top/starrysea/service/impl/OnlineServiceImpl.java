@@ -20,8 +20,7 @@ public class OnlineServiceImpl implements IOnlineService {
 	public ServiceResult addMailService(Online online) {
 		online.setOnlineId(Common.getCharId("O-", 10));
 		DaoResult daoResult = onlineDao.saveOnlineDao(online);
-		ServiceResult sr = new ServiceResult();
-		sr.setSuccessed(daoResult.isSuccessed());
+		ServiceResult sr = ServiceResult.of(daoResult.isSuccessed());
 		if (!daoResult.isSuccessed())
 			sr.setErrInfo(daoResult.getErrInfo());
 		return sr;

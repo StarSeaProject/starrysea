@@ -24,9 +24,7 @@ public class OrderBlacklistAspect {
 		Orders order = (Orders) pjp.getArgs()[0];
 		if (blacklist.getEmailList().contains(order.getOrderEMail())
 				|| blacklist.getPhoneList().contains(order.getOrderPhone())) {
-			ServiceResult sr = new ServiceResult(false);
-			sr.setErrInfo("下单失败，请与管理员联系");
-			return sr;
+			return ServiceResult.of(false).setErrInfo("下单失败，请与管理员联系");
 		}
 		return pjp.proceed();
 	}

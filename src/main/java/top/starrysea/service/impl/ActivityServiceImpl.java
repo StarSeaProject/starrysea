@@ -29,6 +29,7 @@ import top.starrysea.service.IActivityService;
 import static top.starrysea.dao.impl.ActivityDaoImpl.PAGE_LIMIT;
 import static top.starrysea.common.Const.FUNDING_FACTOR;
 import static top.starrysea.common.ResultKey.*;
+import static top.starrysea.common.ServiceResult.SUCCESS_SERVICE_RESULT;
 
 @Service("activityService")
 public class ActivityServiceImpl implements IActivityService {
@@ -46,7 +47,6 @@ public class ActivityServiceImpl implements IActivityService {
 	@Override
 	// 查询所有众筹活动
 	public ServiceResult queryAllActivityService(Condition condition, Activity activity) {
-		ServiceResult result = new ServiceResult();
 		DaoResult daoResult = activityDao.getNewestActivityDao();
 		Activity a = daoResult.getResult(Activity.class);
 		daoResult = activityDao.getAllActivityDao(condition, activity);
@@ -60,22 +60,17 @@ public class ActivityServiceImpl implements IActivityService {
 		else
 			totalPage = (count / PAGE_LIMIT) + 1;
 
-		result.setSuccessed(true);
-		result.setResult(LIST_1, activitylist);
-		result.setResult(ACTIVITY, a);
-		result.setNowPage(condition.getPage());
-		result.setTotalPage(totalPage);
-		return result;
+		return ServiceResult.of(true).setResult(LIST_1, activitylist).setResult(ACTIVITY, a)
+				.setNowPage(condition.getPage()).setTotalPage(totalPage);
 	}
 
 	@Override
 	// 查询一个众筹活动的详情页
 	public ServiceResult queryActivityService(Activity activity) {
-		ServiceResult result = new ServiceResult();
+		ServiceResult result = ServiceResult.of();
 		DaoResult daoResult = activityDao.getActivityDao(activity);
 		Activity a = daoResult.getResult(Activity.class);
-		result.setSuccessed(true);
-		result.setResult(ACTIVITY, a);
+		result.setSuccessed(true).setResult(ACTIVITY, a);
 		daoResult = fundingDao.getAllFundingDao(new Funding.Builder().activity(activity).build());
 		@SuppressWarnings("unchecked")
 		List<Funding> fundings = daoResult.getResult(List.class);
@@ -91,8 +86,7 @@ public class ActivityServiceImpl implements IActivityService {
 			}
 		}
 		richFundings.addAll(normalFundings);
-		result.setResult(LIST_1, richFundings);
-		result.setResult(DOUBLE, richThreshold);
+		result.setResult(LIST_1, richFundings).setResult(DOUBLE, richThreshold);
 		return result;
 	}
 
@@ -112,7 +106,7 @@ public class ActivityServiceImpl implements IActivityService {
 				activityImage.setActivity(activity);
 			}
 			activityImageDao.saveActivityImageDao(activityImages);
-			return new ServiceResult(true);
+			return SUCCESS_SERVICE_RESULT;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UpdateException(e);
@@ -123,14 +117,14 @@ public class ActivityServiceImpl implements IActivityService {
 	// 修改一个众筹活动的状态
 	public ServiceResult modifyActivityService(Activity activity) {
 		activityDao.updateActivityDao(activity);
-		return new ServiceResult(true);
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 	@Override
 	// 删除一个众筹活动
 	public ServiceResult removeActivityService(Activity activity) {
 		activityDao.deleteActivityDao(activity);
-		return new ServiceResult(true);
+		return SUCCESS_SERVICE_RESULT;
 	}
 
 	@Override
@@ -145,7 +139,7 @@ public class ActivityServiceImpl implements IActivityService {
 				activitys.add(activity);
 			}
 			activityDao.updateAddActivityMoneyDao(activitys);
-			return new ServiceResult(true);
+			return SUCCESS_SERVICE_RESULT;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UpdateException(e);
@@ -160,7 +154,7 @@ public class ActivityServiceImpl implements IActivityService {
 			Activity activity = new Activity.Builder().activityMoney(funding.getFundingMoney())
 					.activityId(funding.getActivity().getActivityId()).build();
 			activityDao.updateReduceActivityMoneyDao(activity);
-			return new ServiceResult(true);
+			return SUCCESS_SERVICE_RESULT;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new UpdateException(e);

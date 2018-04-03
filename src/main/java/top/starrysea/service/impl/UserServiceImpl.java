@@ -21,8 +21,7 @@ public class UserServiceImpl implements IUserService {
 	// 管理员登陆
 	public ServiceResult loginService(Admin admin) {
 		DaoResult daoResult = adminDao.loginDao(admin);
-		ServiceResult sr = new ServiceResult();
-		sr.setSuccessed(daoResult.isSuccessed());
+		ServiceResult sr = ServiceResult.of(daoResult.isSuccessed());
 		if (sr.isSuccessed()) {
 			sr.setResult(ADMIN, daoResult.getResult(Admin.class));
 		} else {
