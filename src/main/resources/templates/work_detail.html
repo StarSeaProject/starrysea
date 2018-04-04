@@ -11,7 +11,6 @@
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
 <link rel="stylesheet"
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-<link rel="stylesheet" href="/mycss.min.css"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
 <link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
 <link rel="stylesheet" href="/work_detail.min.css"></link>
@@ -57,11 +56,11 @@
 			<li class="processbarli text-center">处理结果</li>
 		</ul>
 	</div>
-	<div class="container checklist">
+	<div class="container-fluid checklist">
 
 		<div class="row">
 			<div class="col-xs-4">
-				<img th:attr="src=${work.workCover}" class="img-reponsive"></img>
+				<img th:attr="src=${work.workCover}" class="img-responsive"></img>
 			</div>
 			<div class="col-xs-1"></div>
 			<div class="col-xs-6">
