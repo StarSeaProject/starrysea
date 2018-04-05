@@ -1,7 +1,11 @@
 package top.starrysea.common;
 
+import static top.starrysea.common.Const.CHARSET;
 import static top.starrysea.common.Const.ERRINFO;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -196,8 +200,16 @@ public class Common {
 
 	public static String readEmailHtml(String fileName) {
 		try {
-			return new String(Files
-					.readAllBytes(Paths.get(new ClassPathResource("email/" + fileName).getFile().getAbsolutePath())));
+			InputStream inputStream = new ClassPathResource("email/" + fileName).getInputStream();
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			byte[] buffer = new byte[1024];
+			int len = -1;
+			while ((len = inputStream.read(buffer)) != -1) {
+				byteArrayOutputStream.write(buffer, 0, len);
+			}
+			inputStream.close();
+			byteArrayOutputStream.close();
+			return new String(byteArrayOutputStream.toByteArray(), CHARSET);
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}
