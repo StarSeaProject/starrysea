@@ -32,5 +32,15 @@ spring:
   thymeleaf:
     content-type: text/html
     mode: LEGACYHTML5
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: root1
+    pool:
+      max-active: 8
+      max-wait: 1800
+      max-idle: 8
+      min-idle: 0
+    timeout: 0 
 ss:
   fileroot: /usr/share/nginx/
