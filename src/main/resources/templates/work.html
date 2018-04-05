@@ -11,7 +11,6 @@
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css"></link>
 <link rel="stylesheet"
 	href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"></link>
-<link rel="stylesheet" href="/mycss.min.css"></link>
 <link rel="stylesheet" href="/mynavbar_commonpage.min.css"></link>
 <link rel="stylesheet" href="/myfootbar_commonpage.min.css"></link>
 <link rel="stylesheet" href="/work.min.css"></link>
@@ -58,7 +57,7 @@
 					<div class="row workbox">
 						<div class="col-xs-3 workimage">
 							<img th:attr="src=${work.workCover},data-workid=${work.workId}"
-								 class="workimg img-reponsive"></img>
+								 class="workimg img-responsive"></img>
 						</div>
 						<div class="col-xs-9 workdetail">
 							<a th:text="${work.workName}" class="h3 worktitle"
