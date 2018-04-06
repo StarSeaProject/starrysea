@@ -43,99 +43,127 @@
 	</nav>
 </div>
 
-	<div class="container">
-		<h1 class="h2">收货人信息</h1>
-		<form id="modifyAddressForm" action="/order/address/modify"
+	<div class="main container">
+		<h1 class="row h2">收货人信息</h1>
+		<form class="row container-fluid" id="modifyAddressForm" action="/order/address/modify"
 			method="post">
-			<div class="col-xs-6"  >
-				<p>收货人姓名:</p>
-			</div>
-			<div class="col-xs-6"  
-				th:text="${order.orderName}">
-				No data
-			</div>
 
-			<div th:each="orderDetail:${orderDetails}">
+			<div class="row">
 				<div class="col-xs-6"  >
-					<p>作品名称:</p>
+					<p>收货人姓名:</p>
 				</div>
-				<div class="col-xs-6"  
-					th:text="${orderDetail.workName}">
-					No data
-				</div>
-
-				<div class="col-xs-6"  >
-					<p>作品类型:</p>
-				</div>
-				<div class="col-xs-6"  
-					th:text="${orderDetail.workTypeName}">
+				<div class="col-xs-6"
+					 th:text="${order.orderName}">
 					No data
 				</div>
 			</div>
 
 
-			<div class="col-xs-6"  >
-				<p>收货地址</p>
+			<div class="row container inner1" th:each="orderDetail:${orderDetails}">
+
+				<div class="row">
+					<div class="col-xs-6"  >
+						<p>作品名称:</p>
+					</div>
+					<div class="col-xs-6"
+						 th:text="${orderDetail.workName}">
+						No data
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-xs-6"  >
+						<p>作品类型:</p>
+					</div>
+					<div class="col-xs-6"
+						 th:text="${orderDetail.workTypeName}">
+						No data
+					</div>
+				</div>
+
 			</div>
-			<div class="col-xs-6"  >
-				<select id="province">
-					<option>请选择省份</option>
-					<option th:each="province:${provinces}" th:value="${province.key}"
-						th:text="${province.value.provinceName}"></option>
-				</select> <select id="city" disabled="disabled">
+
+
+			<div class="row">
+				<div class="col-xs-6"  >
+					<p>收货地址</p>
+				</div>
+				<div class="col-xs-6"  >
+					<select id="province">
+						<option>请选择省份</option>
+						<option th:each="province:${provinces}" th:value="${province.key}"
+								th:text="${province.value.provinceName}"></option>
+					</select> <select id="city" disabled="disabled">
 				</select> <select id="area" disabled="disabled">
 				</select> <input type="hidden" id="areasub" name="orderArea" />
-			</div>
-			<div class="col-xs-6"  >
-				<p>收货详细地址</p>
-			</div>
-			<div class="col-xs-6"  >
-				<input type="text" name="orderAddress" id="ordadddel" />
+				</div>
 			</div>
 
-			<div class="col-xs-6"  >
-				<p>发货状态:</p>
-			</div>
-			<div class="col-xs-6"  
-				th:text="${order.orderStatus}">
-				No data
-			</div>
-
-			<div class="col-xs-6"  >
-				<p>快递单号:</p>
-			</div>
-			<div class="col-xs-6"  
-				th:text="${order.orderExpressnum}">
-				No data
+			<div class="row">
+				<div class="col-xs-6"  >
+					<p>收货详细地址</p>
+				</div>
+				<div class="col-xs-6"  >
+					<input type="text" name="orderAddress" id="ordadddel" />
+				</div>
 			</div>
 
-			<div class="col-xs-6"  >
-				<p>下单时间</p>
-			</div>
-			<div class="col-xs-6"  
-				th:text="${order.orderTime}">
-				No data
-			</div>
-
-			<div class="col-xs-6"  >
-				<p>电子邮件:</p>
-			</div>
-			<div class="col-xs-6"  
-				th:text="${order.orderEMail}">
-				No data
+			<div class="row">
+				<div class="col-xs-6"  >
+					<p>发货状态:</p>
+				</div>
+				<div class="col-xs-6"
+					 th:text="${order.orderStatus}">
+					No data
+				</div>
 			</div>
 
-			<div class="col-xs-6"  >
-				<p>备注:</p>
+			<div class="row">
+				<div class="col-xs-6"  >
+					<p>快递单号:</p>
+				</div>
+				<div class="col-xs-6"
+					 th:text="${order.orderExpressnum}">
+					No data
+				</div>
 			</div>
-			<div class="col-xs-6"  
-				th:text="${order.orderRemark}">
-				No data
+
+			<div class="row">
+				<div class="col-xs-6"  >
+					<p>下单时间</p>
+				</div>
+				<div class="col-xs-6"
+					 th:text="${order.orderTime}">
+					No data
+				</div>
 			</div>
-			<div class="col-xs-6"  ></div>
-			<input type="hidden" name="orderNum" th:value="${order.orderNum}" />
+
+			<div class="row">
+				<div class="col-xs-6"  >
+					<p>电子邮件:</p>
+				</div>
+				<div class="col-xs-6"
+					 th:text="${order.orderEMail}">
+					No data
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6"  >
+					<p>备注:</p>
+				</div>
+				<div class="col-xs-6"
+					 th:text="${order.orderRemark}">
+					No data
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-6"  ></div>
+				<input type="hidden" name="orderNum" th:value="${order.orderNum}" />
+			</div>
 		</form>
-		<button id="modifyAddressBtn" class="btn btn-danger">提交</button>
+		<button id="modifyAddressBtn" class="btn btn-danger row">提交</button>
 	</div>
 	<div class="footbar text-center">
 		<p class="footbarpara">互联网ICP备案：鲁ICP备17053445号</p>
