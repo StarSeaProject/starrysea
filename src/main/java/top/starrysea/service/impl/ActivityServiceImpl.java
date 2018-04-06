@@ -97,7 +97,7 @@ public class ActivityServiceImpl implements IActivityService {
 			List<ActivityImage> activityImages) {
 		try {
 			String originCoverFileName = fileUtil.saveFile(coverFile,
-					FileCondition.of(FileType.IMG, 1, activity.getActivityName()));
+					FileCondition.of(FileType.IMG, 1, "activity_" + activity.getActivityId() + "_"));
 			activity.setActivityCover(originCoverFileName);
 			activity.setActivityStatus((short) 1);
 			DaoResult daoResult = activityDao.saveActivityDao(activity);

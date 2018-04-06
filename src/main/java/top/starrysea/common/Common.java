@@ -1,7 +1,11 @@
 package top.starrysea.common;
 
+import static top.starrysea.common.Const.CHARSET;
 import static top.starrysea.common.Const.ERRINFO;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -23,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mobile.device.Device;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.ModelAndView;
@@ -196,8 +201,8 @@ public class Common {
 
 	public static String readEmailHtml(String fileName) {
 		try {
-			return new String(Files
-					.readAllBytes(Paths.get(new ClassPathResource("email/" + fileName).getFile().getAbsolutePath())));
+			InputStream inputStream = new ClassPathResource("email/" + fileName).getInputStream();
+			return new String(FileCopyUtils.copyToByteArray(inputStream), CHARSET);
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
 		}

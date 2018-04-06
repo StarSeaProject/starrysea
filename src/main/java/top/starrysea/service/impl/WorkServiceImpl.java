@@ -83,7 +83,7 @@ public class WorkServiceImpl implements IWorkService {
 			List<WorkType> workTypes) {
 		try {
 			String originCoverFileName = fileUtil.saveFile(coverFile,
-					FileCondition.of(FileType.IMG, 1, work.getWorkName()));
+					FileCondition.of(FileType.IMG, 1, "work_" + work.getWorkId() + "_"));
 			work.setWorkUploadTime(Common.getNowDate());
 			work.setWorkCover(originCoverFileName);
 			DaoResult daoResult = workDao.saveWorkDao(work);
