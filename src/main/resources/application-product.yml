@@ -44,3 +44,5 @@ spring:
     timeout: 0 
 ss:
   fileroot: /usr/share/nginx/
+banner:
+  charset: UTF-8

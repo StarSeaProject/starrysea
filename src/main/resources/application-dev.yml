@@ -38,3 +38,5 @@ spring:
     timeout: 0 
 ss:
   fileroot: D:/develop/nginx-1.12.1/
+banner:
+  charset: UTF-8
