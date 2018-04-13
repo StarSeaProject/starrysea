@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.StarrtseaApplication;
+import top.starrysea.StarryseaApplication;
 import top.starrysea.object.view.in.ActivityForAdd;
 import top.starrysea.object.view.in.ActivityForAll;
 import top.starrysea.object.view.in.ActivityForModify;
@@ -18,7 +18,7 @@ import top.starrysea.object.view.in.ActivityForOne;
 import top.starrysea.object.view.in.ActivityImageForAdd;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = StarrtseaApplication.class)
+@SpringBootTest(classes = StarryseaApplication.class)
 public class ActivityControllerTest {
 
 	@Autowired

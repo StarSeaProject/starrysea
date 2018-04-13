@@ -14,10 +14,10 @@ import top.starrysea.kql.facede.KumaSqlDaoImpl;
 @SpringBootApplication
 @EnableCaching
 @EnableScheduling
-public class StarrtseaApplication {
+public class StarryseaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(StarrtseaApplication.class, args);
+		SpringApplication.run(StarryseaApplication.class, args);
 	}
 
 	@Bean

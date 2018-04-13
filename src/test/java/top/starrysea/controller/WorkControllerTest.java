@@ -8,12 +8,12 @@ import org.springframework.mobile.device.Device;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.StarrtseaApplication;
+import top.starrysea.StarryseaApplication;
 import top.starrysea.object.view.in.WorkForAll;
 import top.starrysea.object.view.in.WorkForOne;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = StarrtseaApplication.class)
+@SpringBootTest(classes = StarryseaApplication.class)
 public class WorkControllerTest {
 	
 	@Autowired

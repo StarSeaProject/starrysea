@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import top.starrysea.StarrtseaApplication;
+import top.starrysea.StarryseaApplication;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
 import top.starrysea.dao.IQuestionDao;
 import top.starrysea.object.dto.Question;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = StarrtseaApplication.class)
+@SpringBootTest(classes = StarryseaApplication.class)
 public class QuestionDaoTest {
 	@Autowired
 	private IQuestionDao questionDao;

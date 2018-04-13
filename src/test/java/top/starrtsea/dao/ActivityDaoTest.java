@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import top.starrysea.StarrtseaApplication;
+import top.starrysea.StarryseaApplication;
 import top.starrysea.common.Common;
 import top.starrysea.common.Condition;
 import top.starrysea.common.DaoResult;
@@ -16,7 +16,7 @@ import top.starrysea.dao.IActivityDao;
 import top.starrysea.object.dto.Activity;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = StarrtseaApplication.class)
+@SpringBootTest(classes = StarryseaApplication.class)
 public class ActivityDaoTest {
 
 	@Autowired

@@ -8,7 +8,7 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.servlet.ModelAndView;
 
-import top.starrysea.StarrtseaApplication;
+import top.starrysea.StarryseaApplication;
 import top.starrysea.object.view.in.OrderForAdd;
 import top.starrysea.object.view.in.OrderForAll;
 import top.starrysea.object.view.in.OrderForModify;
@@ -16,7 +16,7 @@ import top.starrysea.object.view.in.OrderForOne;
 import top.starrysea.object.view.in.OrderForRemove;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = StarrtseaApplication.class)
+@SpringBootTest(classes = StarryseaApplication.class)
 public class OrderControllerTest {
 
 	@Autowired
